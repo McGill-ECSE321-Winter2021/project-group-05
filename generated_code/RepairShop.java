@@ -5,6 +5,10 @@
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.Entity;
+
 
 
 //florence was here
@@ -13,6 +17,7 @@ import java.sql.Time;
  */
 // line 4 "model.ump"
 // line 102 "model.ump"
+@Entity
 public class RepairShop
 {
 
@@ -45,12 +50,14 @@ public class RepairShop
   // INTERFACE
   //------------------------
   /* Code from template association_GetMany */
+
   public TimeSlot getTimeSlot(int index)
   {
     TimeSlot aTimeSlot = timeSlots.get(index);
     return aTimeSlot;
   }
 
+  @OneToMany(cascade={CascadeType.All})
   public List<TimeSlot> getTimeSlots()
   {
     List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
@@ -75,6 +82,7 @@ public class RepairShop
     return index;
   }
   /* Code from template association_GetOne */
+  @OneToMany(cascade={CascadeType.All})
   public Business getBusiness()
   {
     return business;
@@ -92,6 +100,7 @@ public class RepairShop
     return aPerson;
   }
 
+  @OneToMany(cascade={CascadeType.All})
   public List<Person> getPersons()
   {
     List<Person> newPersons = Collections.unmodifiableList(persons);
@@ -122,6 +131,7 @@ public class RepairShop
     return aBill;
   }
 
+  @OneToMany(cascade={CascadeType.All})
   public List<Bill> getBills()
   {
     List<Bill> newBills = Collections.unmodifiableList(bills);
@@ -152,6 +162,7 @@ public class RepairShop
     return aService;
   }
 
+  @OneToMany(cascade={CascadeType.All})
   public List<Service> getServices()
   {
     List<Service> newServices = Collections.unmodifiableList(services);
@@ -182,6 +193,7 @@ public class RepairShop
     return aAppointment;
   }
 
+  @OneToMany(cascade={CascadeType.All})
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);

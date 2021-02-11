@@ -3,9 +3,14 @@
 
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 
 // line 15 "model.ump"
 // line 110 "model.ump"
+@Entity
 public class Business
 {
 
@@ -79,6 +84,7 @@ public class Business
     return wasSet;
   }
 
+
   public boolean setId(String aId)
   {
     boolean wasSet = false;
@@ -107,6 +113,7 @@ public class Business
     return email;
   }
 
+  @Id
   public String getId()
   {
     return id;
@@ -118,6 +125,7 @@ public class Business
     return aService;
   }
 
+  @OneToMany(cascade={CascadeType.All})
   public List<TimeSlot> getService()
   {
     List<TimeSlot> newService = Collections.unmodifiableList(service);

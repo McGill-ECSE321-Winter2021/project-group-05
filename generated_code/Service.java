@@ -4,9 +4,13 @@
 
 import java.sql.Time;
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 // line 34 "model.ump"
 // line 122 "model.ump"
+@Entity
 public class Service
 {
 
@@ -93,6 +97,7 @@ public class Service
     return duration;
   }
 
+@Id
   public String getId()
   {
     return id;
@@ -109,6 +114,7 @@ public class Service
     return aAppointment;
   }
 
+  @OneToOne
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);

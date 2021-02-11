@@ -1,10 +1,13 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 // line 82 "model.ump"
 // line 158 "model.ump"
+
+@Entity
 public abstract class Person
 {
 
@@ -89,6 +92,7 @@ public abstract class Person
     return password;
   }
 
+@Id
   public String getId()
   {
     return id;
