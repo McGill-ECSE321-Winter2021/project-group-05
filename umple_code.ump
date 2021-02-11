@@ -5,7 +5,7 @@ class RepairShop
   
    1 <@>- * TimeSlot;
    1 <@>- 0..1 Business;
-  1 <@>- * User;
+  1 <@>- * Person;
   1 <@>- * Bill;
    1 <@>- * Service;
    1 <@>- * Appointment;
@@ -17,7 +17,8 @@ class Business
  phoneNumber;
  email;
  
- 0..1 -> * TimeSlot service;
+ id;
+0..1 -> * TimeSlot service;
 }
 
 class TimeSlot
@@ -26,6 +27,7 @@ class TimeSlot
   Time startTime;
  Date  endDate;
  Time  endTime;
+  id;
 }
 
 class Service
@@ -33,6 +35,7 @@ class Service
   cost;
  Time duration ;
  
+  id;
 }
 
 class Bill
@@ -40,13 +43,14 @@ class Bill
   Date date;
   float totalCost ;
   
+  id;
 }
 
 class Customer
 {
   
   
-    isA User;
+    isA Person;
 cardNumber;
   cvv;
   Date expiry;
@@ -55,12 +59,13 @@ cardNumber;
 
 class Owner
 {
-  isA User;
+  isA Person;
 }
 
 class Appointment
 {
-  * -- 1  Service;
+  id;
+* -- 1  Service;
   * -- 1 Customer;
   
   0..1 ->1 TimeSlot timeslot;
@@ -69,22 +74,23 @@ class Appointment
 
 class Technician
 {
-  isA User;
+  isA Person;
   * -- * TimeSlot;
 }
 
-class User
+class Person
 {
   abstract;
   email;
   username;
   password;
   
+  id;
 }
 
 class Administrator
 {
-  isA User;
+  isA Person;
 }
 
 

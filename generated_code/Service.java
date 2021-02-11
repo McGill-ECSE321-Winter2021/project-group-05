@@ -5,8 +5,8 @@
 import java.sql.Time;
 import java.util.*;
 
-// line 32 "model.ump"
-// line 113 "model.ump"
+// line 34 "model.ump"
+// line 122 "model.ump"
 public class Service
 {
 
@@ -18,6 +18,7 @@ public class Service
   private String name;
   private String cost;
   private Time duration;
+  private String id;
 
   //Service Associations
   private RepairShop repairShop;
@@ -27,11 +28,12 @@ public class Service
   // CONSTRUCTOR
   //------------------------
 
-  public Service(String aName, String aCost, Time aDuration, RepairShop aRepairShop)
+  public Service(String aName, String aCost, Time aDuration, String aId, RepairShop aRepairShop)
   {
     name = aName;
     cost = aCost;
     duration = aDuration;
+    id = aId;
     boolean didAddRepairShop = setRepairShop(aRepairShop);
     if (!didAddRepairShop)
     {
@@ -68,6 +70,14 @@ public class Service
     return wasSet;
   }
 
+  public boolean setId(String aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -81,6 +91,11 @@ public class Service
   public Time getDuration()
   {
     return duration;
+  }
+
+  public String getId()
+  {
+    return id;
   }
   /* Code from template association_GetOne */
   public RepairShop getRepairShop()
@@ -142,9 +157,9 @@ public class Service
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(Customer aCustomer, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
+  public Appointment addAppointment(String aId, Customer aCustomer, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
   {
-    return new Appointment(this, aCustomer, aTimeslot, aBill, aRepairShop);
+    return new Appointment(aId, this, aCustomer, aTimeslot, aBill, aRepairShop);
   }
 
   public boolean addAppointment(Appointment aAppointment)
@@ -229,7 +244,8 @@ public class Service
   {
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
-            "cost" + ":" + getCost()+ "]" + System.getProperties().getProperty("line.separator") +
+            "cost" + ":" + getCost()+ "," +
+            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "duration" + "=" + (getDuration() != null ? !getDuration().equals(this)  ? getDuration().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "repairShop = "+(getRepairShop()!=null?Integer.toHexString(System.identityHashCode(getRepairShop())):"null");
   }

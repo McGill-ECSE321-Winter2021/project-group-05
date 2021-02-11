@@ -3,36 +3,38 @@
 
 
 
-// line 77 "model.ump"
-// line 149 "model.ump"
-public abstract class User
+// line 82 "model.ump"
+// line 158 "model.ump"
+public abstract class Person
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //User Attributes
+  //Person Attributes
   private String email;
   private String username;
   private String password;
+  private String id;
 
-  //User Associations
+  //Person Associations
   private RepairShop repairShop;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aEmail, String aUsername, String aPassword, RepairShop aRepairShop)
+  public Person(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop)
   {
     email = aEmail;
     username = aUsername;
     password = aPassword;
+    id = aId;
     boolean didAddRepairShop = setRepairShop(aRepairShop);
     if (!didAddRepairShop)
     {
-      throw new RuntimeException("Unable to create user due to repairShop. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create person due to repairShop. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -64,6 +66,14 @@ public abstract class User
     return wasSet;
   }
 
+  public boolean setId(String aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getEmail()
   {
     return email;
@@ -77,6 +87,11 @@ public abstract class User
   public String getPassword()
   {
     return password;
+  }
+
+  public String getId()
+  {
+    return id;
   }
   /* Code from template association_GetOne */
   public RepairShop getRepairShop()
@@ -96,9 +111,9 @@ public abstract class User
     repairShop = aRepairShop;
     if (existingRepairShop != null && !existingRepairShop.equals(aRepairShop))
     {
-      existingRepairShop.removeUser(this);
+      existingRepairShop.removePerson(this);
     }
-    repairShop.addUser(this);
+    repairShop.addPerson(this);
     wasSet = true;
     return wasSet;
   }
@@ -109,7 +124,7 @@ public abstract class User
     this.repairShop = null;
     if(placeholderRepairShop != null)
     {
-      placeholderRepairShop.removeUser(this);
+      placeholderRepairShop.removePerson(this);
     }
   }
 
@@ -119,7 +134,8 @@ public abstract class User
     return super.toString() + "["+
             "email" + ":" + getEmail()+ "," +
             "username" + ":" + getUsername()+ "," +
-            "password" + ":" + getPassword()+ "]" + System.getProperties().getProperty("line.separator") +
+            "password" + ":" + getPassword()+ "," +
+            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "repairShop = "+(getRepairShop()!=null?Integer.toHexString(System.identityHashCode(getRepairShop())):"null");
   }
 }

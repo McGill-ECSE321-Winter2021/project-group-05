@@ -4,9 +4,9 @@
 
 import java.util.*;
 
-// line 71 "model.ump"
-// line 143 "model.ump"
-public class Technician extends User
+// line 76 "model.ump"
+// line 152 "model.ump"
+public class Technician extends Person
 {
 
   //------------------------
@@ -20,9 +20,9 @@ public class Technician extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Technician(String aEmail, String aUsername, String aPassword, RepairShop aRepairShop)
+  public Technician(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop)
   {
-    super(aEmail, aUsername, aPassword, aRepairShop);
+    super(aEmail, aUsername, aPassword, aId, aRepairShop);
     timeSlots = new ArrayList<TimeSlot>();
   }
 

@@ -5,8 +5,8 @@
 import java.sql.Date;
 import java.util.*;
 
-// line 39 "model.ump"
-// line 118 "model.ump"
+// line 42 "model.ump"
+// line 127 "model.ump"
 public class Bill
 {
 
@@ -17,6 +17,7 @@ public class Bill
   //Bill Attributes
   private Date date;
   private float totalCost;
+  private String id;
 
   //Bill Associations
   private RepairShop repairShop;
@@ -27,10 +28,11 @@ public class Bill
   // CONSTRUCTOR
   //------------------------
 
-  public Bill(Date aDate, float aTotalCost, RepairShop aRepairShop, Customer aCustomer)
+  public Bill(Date aDate, float aTotalCost, String aId, RepairShop aRepairShop, Customer aCustomer)
   {
     date = aDate;
     totalCost = aTotalCost;
+    id = aId;
     boolean didAddRepairShop = setRepairShop(aRepairShop);
     if (!didAddRepairShop)
     {
@@ -64,6 +66,14 @@ public class Bill
     return wasSet;
   }
 
+  public boolean setId(String aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
+
   public Date getDate()
   {
     return date;
@@ -72,6 +82,11 @@ public class Bill
   public float getTotalCost()
   {
     return totalCost;
+  }
+
+  public String getId()
+  {
+    return id;
   }
   /* Code from template association_GetOne */
   public RepairShop getRepairShop()
@@ -157,9 +172,9 @@ public class Bill
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(Service aService, Customer aCustomer, TimeSlot aTimeslot, RepairShop aRepairShop)
+  public Appointment addAppointment(String aId, Service aService, Customer aCustomer, TimeSlot aTimeslot, RepairShop aRepairShop)
   {
-    return new Appointment(aService, aCustomer, aTimeslot, this, aRepairShop);
+    return new Appointment(aId, aService, aCustomer, aTimeslot, this, aRepairShop);
   }
 
   public boolean addAppointment(Appointment aAppointment)
@@ -249,7 +264,8 @@ public class Bill
   public String toString()
   {
     return super.toString() + "["+
-            "totalCost" + ":" + getTotalCost()+ "]" + System.getProperties().getProperty("line.separator") +
+            "totalCost" + ":" + getTotalCost()+ "," +
+            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "repairShop = "+(getRepairShop()!=null?Integer.toHexString(System.identityHashCode(getRepairShop())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");

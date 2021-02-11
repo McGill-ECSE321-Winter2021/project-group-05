@@ -3,9 +3,9 @@
 
 
 
-// line 86 "model.ump"
-// line 154 "model.ump"
-public class Administrator extends User
+// line 92 "model.ump"
+// line 163 "model.ump"
+public class Administrator extends Person
 {
 
   //------------------------
@@ -16,9 +16,9 @@ public class Administrator extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Administrator(String aEmail, String aUsername, String aPassword, RepairShop aRepairShop)
+  public Administrator(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop)
   {
-    super(aEmail, aUsername, aPassword, aRepairShop);
+    super(aEmail, aUsername, aPassword, aId, aRepairShop);
   }
 
   //------------------------

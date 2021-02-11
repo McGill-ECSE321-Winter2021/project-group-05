@@ -3,9 +3,9 @@
 
 
 
-// line 57 "model.ump"
-// line 129 "model.ump"
-public class Owner extends User
+// line 61 "model.ump"
+// line 138 "model.ump"
+public class Owner extends Person
 {
 
   //------------------------
@@ -16,9 +16,9 @@ public class Owner extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Owner(String aEmail, String aUsername, String aPassword, RepairShop aRepairShop)
+  public Owner(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop)
   {
-    super(aEmail, aUsername, aPassword, aRepairShop);
+    super(aEmail, aUsername, aPassword, aId, aRepairShop);
   }
 
   //------------------------

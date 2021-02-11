@@ -3,14 +3,17 @@
 
 
 
-// line 62 "model.ump"
-// line 134 "model.ump"
+// line 66 "model.ump"
+// line 143 "model.ump"
 public class Appointment
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Appointment Attributes
+  private String id;
 
   //Appointment Associations
   private Service service;
@@ -23,8 +26,9 @@ public class Appointment
   // CONSTRUCTOR
   //------------------------
 
-  public Appointment(Service aService, Customer aCustomer, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
+  public Appointment(String aId, Service aService, Customer aCustomer, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
   {
+    id = aId;
     boolean didAddService = setService(aService);
     if (!didAddService)
     {
@@ -54,6 +58,19 @@ public class Appointment
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setId(String aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public String getId()
+  {
+    return id;
+  }
   /* Code from template association_GetOne */
   public Service getService()
   {
@@ -196,4 +213,15 @@ public class Appointment
     }
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "service = "+(getService()!=null?Integer.toHexString(System.identityHashCode(getService())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "timeslot = "+(getTimeslot()!=null?Integer.toHexString(System.identityHashCode(getTimeslot())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "bill = "+(getBill()!=null?Integer.toHexString(System.identityHashCode(getBill())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "repairShop = "+(getRepairShop()!=null?Integer.toHexString(System.identityHashCode(getRepairShop())):"null");
+  }
 }

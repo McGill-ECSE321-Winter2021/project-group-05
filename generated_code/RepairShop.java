@@ -10,7 +10,7 @@ import java.sql.Time;
  * ECSE 321 Domain model draft 2
  */
 // line 4 "model.ump"
-// line 96 "model.ump"
+// line 102 "model.ump"
 public class RepairShop
 {
 
@@ -21,7 +21,7 @@ public class RepairShop
   //RepairShop Associations
   private List<TimeSlot> timeSlots;
   private Business business;
-  private List<User> users;
+  private List<Person> persons;
   private List<Bill> bills;
   private List<Service> services;
   private List<Appointment> appointments;
@@ -33,7 +33,7 @@ public class RepairShop
   public RepairShop()
   {
     timeSlots = new ArrayList<TimeSlot>();
-    users = new ArrayList<User>();
+    persons = new ArrayList<Person>();
     bills = new ArrayList<Bill>();
     services = new ArrayList<Service>();
     appointments = new ArrayList<Appointment>();
@@ -84,33 +84,33 @@ public class RepairShop
     return has;
   }
   /* Code from template association_GetMany */
-  public User getUser(int index)
+  public Person getPerson(int index)
   {
-    User aUser = users.get(index);
-    return aUser;
+    Person aPerson = persons.get(index);
+    return aPerson;
   }
 
-  public List<User> getUsers()
+  public List<Person> getPersons()
   {
-    List<User> newUsers = Collections.unmodifiableList(users);
-    return newUsers;
+    List<Person> newPersons = Collections.unmodifiableList(persons);
+    return newPersons;
   }
 
-  public int numberOfUsers()
+  public int numberOfPersons()
   {
-    int number = users.size();
+    int number = persons.size();
     return number;
   }
 
-  public boolean hasUsers()
+  public boolean hasPersons()
   {
-    boolean has = users.size() > 0;
+    boolean has = persons.size() > 0;
     return has;
   }
 
-  public int indexOfUser(User aUser)
+  public int indexOfPerson(Person aPerson)
   {
-    int index = users.indexOf(aUser);
+    int index = persons.indexOf(aPerson);
     return index;
   }
   /* Code from template association_GetMany */
@@ -209,9 +209,9 @@ public class RepairShop
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public TimeSlot addTimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime)
+  public TimeSlot addTimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, String aId)
   {
-    return new TimeSlot(aStartDate, aStartTime, aEndDate, aEndTime, this);
+    return new TimeSlot(aStartDate, aStartTime, aEndDate, aEndTime, aId, this);
   }
 
   public boolean addTimeSlot(TimeSlot aTimeSlot)
@@ -303,71 +303,71 @@ public class RepairShop
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfUsers()
+  public static int minimumNumberOfPersons()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
 
 
-  public boolean addUser(User aUser)
+  public boolean addPerson(Person aPerson)
   {
     boolean wasAdded = false;
-    if (users.contains(aUser)) { return false; }
-    RepairShop existingRepairShop = aUser.getRepairShop();
+    if (persons.contains(aPerson)) { return false; }
+    RepairShop existingRepairShop = aPerson.getRepairShop();
     boolean isNewRepairShop = existingRepairShop != null && !this.equals(existingRepairShop);
     if (isNewRepairShop)
     {
-      aUser.setRepairShop(this);
+      aPerson.setRepairShop(this);
     }
     else
     {
-      users.add(aUser);
+      persons.add(aPerson);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeUser(User aUser)
+  public boolean removePerson(Person aPerson)
   {
     boolean wasRemoved = false;
-    //Unable to remove aUser, as it must always have a repairShop
-    if (!this.equals(aUser.getRepairShop()))
+    //Unable to remove aPerson, as it must always have a repairShop
+    if (!this.equals(aPerson.getRepairShop()))
     {
-      users.remove(aUser);
+      persons.remove(aPerson);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addUserAt(User aUser, int index)
+  public boolean addPersonAt(Person aPerson, int index)
   {  
     boolean wasAdded = false;
-    if(addUser(aUser))
+    if(addPerson(aPerson))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfUsers()) { index = numberOfUsers() - 1; }
-      users.remove(aUser);
-      users.add(index, aUser);
+      if(index > numberOfPersons()) { index = numberOfPersons() - 1; }
+      persons.remove(aPerson);
+      persons.add(index, aPerson);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveUserAt(User aUser, int index)
+  public boolean addOrMovePersonAt(Person aPerson, int index)
   {
     boolean wasAdded = false;
-    if(users.contains(aUser))
+    if(persons.contains(aPerson))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfUsers()) { index = numberOfUsers() - 1; }
-      users.remove(aUser);
-      users.add(index, aUser);
+      if(index > numberOfPersons()) { index = numberOfPersons() - 1; }
+      persons.remove(aPerson);
+      persons.add(index, aPerson);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addUserAt(aUser, index);
+      wasAdded = addPersonAt(aPerson, index);
     }
     return wasAdded;
   }
@@ -377,9 +377,9 @@ public class RepairShop
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Bill addBill(Date aDate, float aTotalCost, Customer aCustomer)
+  public Bill addBill(Date aDate, float aTotalCost, String aId, Customer aCustomer)
   {
-    return new Bill(aDate, aTotalCost, this, aCustomer);
+    return new Bill(aDate, aTotalCost, aId, this, aCustomer);
   }
 
   public boolean addBill(Bill aBill)
@@ -449,9 +449,9 @@ public class RepairShop
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Service addService(String aName, String aCost, Time aDuration)
+  public Service addService(String aName, String aCost, Time aDuration, String aId)
   {
-    return new Service(aName, aCost, aDuration, this);
+    return new Service(aName, aCost, aDuration, aId, this);
   }
 
   public boolean addService(Service aService)
@@ -521,9 +521,9 @@ public class RepairShop
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(Service aService, Customer aCustomer, TimeSlot aTimeslot, Bill aBill)
+  public Appointment addAppointment(String aId, Service aService, Customer aCustomer, TimeSlot aTimeslot, Bill aBill)
   {
-    return new Appointment(aService, aCustomer, aTimeslot, aBill, this);
+    return new Appointment(aId, aService, aCustomer, aTimeslot, aBill, this);
   }
 
   public boolean addAppointment(Appointment aAppointment)
@@ -604,11 +604,11 @@ public class RepairShop
       existingBusiness.delete();
       existingBusiness.setRepairShop(null);
     }
-    while (users.size() > 0)
+    while (persons.size() > 0)
     {
-      User aUser = users.get(users.size() - 1);
-      aUser.delete();
-      users.remove(aUser);
+      Person aPerson = persons.get(persons.size() - 1);
+      aPerson.delete();
+      persons.remove(aPerson);
     }
     
     while (bills.size() > 0)

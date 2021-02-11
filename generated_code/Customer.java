@@ -5,9 +5,9 @@
 import java.sql.Date;
 import java.util.*;
 
-// line 46 "model.ump"
-// line 123 "model.ump"
-public class Customer extends User
+// line 50 "model.ump"
+// line 132 "model.ump"
+public class Customer extends Person
 {
 
   //------------------------
@@ -27,9 +27,9 @@ public class Customer extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Customer(String aEmail, String aUsername, String aPassword, RepairShop aRepairShop, String aCardNumber, String aCvv, Date aExpiry)
+  public Customer(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop, String aCardNumber, String aCvv, Date aExpiry)
   {
-    super(aEmail, aUsername, aPassword, aRepairShop);
+    super(aEmail, aUsername, aPassword, aId, aRepairShop);
     cardNumber = aCardNumber;
     cvv = aCvv;
     expiry = aExpiry;
@@ -145,9 +145,9 @@ public class Customer extends User
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Bill addBill(Date aDate, float aTotalCost, RepairShop aRepairShop)
+  public Bill addBill(Date aDate, float aTotalCost, String aId, RepairShop aRepairShop)
   {
-    return new Bill(aDate, aTotalCost, aRepairShop, this);
+    return new Bill(aDate, aTotalCost, aId, aRepairShop, this);
   }
 
   public boolean addBill(Bill aBill)
@@ -217,9 +217,9 @@ public class Customer extends User
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Appointment addAppointment(Service aService, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
+  public Appointment addAppointment(String aId, Service aService, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
   {
-    return new Appointment(aService, this, aTimeslot, aBill, aRepairShop);
+    return new Appointment(aId, aService, this, aTimeslot, aBill, aRepairShop);
   }
 
   public boolean addAppointment(Appointment aAppointment)

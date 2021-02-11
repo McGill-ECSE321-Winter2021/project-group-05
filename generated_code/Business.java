@@ -5,7 +5,7 @@
 import java.util.*;
 
 // line 15 "model.ump"
-// line 102 "model.ump"
+// line 110 "model.ump"
 public class Business
 {
 
@@ -18,6 +18,7 @@ public class Business
   private String address;
   private String phoneNumber;
   private String email;
+  private String id;
 
   //Business Associations
   private List<TimeSlot> service;
@@ -27,12 +28,13 @@ public class Business
   // CONSTRUCTOR
   //------------------------
 
-  public Business(String aName, String aAddress, String aPhoneNumber, String aEmail, RepairShop aRepairShop)
+  public Business(String aName, String aAddress, String aPhoneNumber, String aEmail, String aId, RepairShop aRepairShop)
   {
     name = aName;
     address = aAddress;
     phoneNumber = aPhoneNumber;
     email = aEmail;
+    id = aId;
     service = new ArrayList<TimeSlot>();
     boolean didAddRepairShop = setRepairShop(aRepairShop);
     if (!didAddRepairShop)
@@ -77,6 +79,14 @@ public class Business
     return wasSet;
   }
 
+  public boolean setId(String aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -95,6 +105,11 @@ public class Business
   public String getEmail()
   {
     return email;
+  }
+
+  public String getId()
+  {
+    return id;
   }
   /* Code from template association_GetMany */
   public TimeSlot getService(int index)
@@ -235,7 +250,8 @@ public class Business
             "name" + ":" + getName()+ "," +
             "address" + ":" + getAddress()+ "," +
             "phoneNumber" + ":" + getPhoneNumber()+ "," +
-            "email" + ":" + getEmail()+ "]" + System.getProperties().getProperty("line.separator") +
+            "email" + ":" + getEmail()+ "," +
+            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "repairShop = "+(getRepairShop()!=null?Integer.toHexString(System.identityHashCode(getRepairShop())):"null");
   }
 }
