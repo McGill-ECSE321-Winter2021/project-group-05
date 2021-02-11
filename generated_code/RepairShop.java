@@ -6,6 +6,8 @@ import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 
+
+//florence was here
 /**
  * ECSE 321 Domain model draft 2
  */
