@@ -5,6 +5,14 @@
 
 // line 66 "model.ump"
 // line 143 "model.ump"
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+
+@Entity
 public class Appointment
 {
 
@@ -67,26 +75,35 @@ public class Appointment
     return wasSet;
   }
 
+  @Id
   public String getId()
   {
     return id;
   }
   /* Code from template association_GetOne */
+
+  @OneToOne
   public Service getService()
   {
     return service;
   }
   /* Code from template association_GetOne */
+
+  @ManyToOne
   public Customer getCustomer()
   {
     return customer;
   }
   /* Code from template association_GetOne */
+
+  @ManyToOne
   public TimeSlot getTimeslot()
   {
     return timeslot;
   }
   /* Code from template association_GetOne */
+
+  @ManyToOne
   public Bill getBill()
   {
     return bill;

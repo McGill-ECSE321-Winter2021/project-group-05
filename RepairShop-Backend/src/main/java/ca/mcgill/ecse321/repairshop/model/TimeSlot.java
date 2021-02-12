@@ -5,9 +5,13 @@
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 // line 25 "model.ump"
 // line 117 "model.ump"
+@Entity
 public class TimeSlot
 {
 
@@ -109,6 +113,7 @@ public class TimeSlot
     return endTime;
   }
 
+  @Id
   public String getId()
   {
     return id;
@@ -125,6 +130,7 @@ public class TimeSlot
     return aTechnician;
   }
 
+  @ManyToMany
   public List<Technician> getTechnicians()
   {
     List<Technician> newTechnicians = Collections.unmodifiableList(technicians);
