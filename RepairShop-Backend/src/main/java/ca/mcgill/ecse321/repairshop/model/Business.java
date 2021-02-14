@@ -1,6 +1,6 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
+package ca.mcgill.ecse321.repairshop.model;
 
 import java.util.*;
 import javax.persistence.Entity;
@@ -126,7 +126,7 @@ public class Business
     return aService;
   }
 
-  @OneToMany(cascade={CascadeType.All})
+  @OneToMany(cascade={CascadeType.ALL})
   public List<TimeSlot> getService()
   {
     List<TimeSlot> newService = Collections.unmodifiableList(service);

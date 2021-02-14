@@ -2,7 +2,7 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
 //hello
-
+package ca.mcgill.ecse321.repairshop.model;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
