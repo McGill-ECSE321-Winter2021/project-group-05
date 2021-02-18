@@ -5,11 +5,8 @@ package ca.mcgill.ecse321.repairshop.model;
 import java.sql.Date;
 import java.util.*;
 
-
 // line 50 "model.ump"
-// line 132 "model.ump"
-
-
+// line 136 "model.ump"
 public class Customer extends Person
 {
 
@@ -30,12 +27,12 @@ public class Customer extends Person
   // CONSTRUCTOR
   //------------------------
 
-  public Customer(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop, String aCardNumber, String aCvv, Date aExpiry)
+  public Customer(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop)
   {
     super(aEmail, aUsername, aPassword, aId, aRepairShop);
-    cardNumber = aCardNumber;
-    cvv = aCvv;
-    expiry = aExpiry;
+    cardNumber = null;
+    cvv = null;
+    expiry = null;
     bills = new ArrayList<Bill>();
     appointments = new ArrayList<Appointment>();
   }
@@ -184,7 +181,7 @@ public class Customer extends Person
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addBillAt(Bill aBill, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addBill(aBill))
     {
@@ -207,8 +204,8 @@ public class Customer extends Person
       bills.remove(aBill);
       bills.add(index, aBill);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addBillAt(aBill, index);
     }
@@ -256,7 +253,7 @@ public class Customer extends Person
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addAppointmentAt(Appointment aAppointment, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addAppointment(aAppointment))
     {
@@ -279,8 +276,8 @@ public class Customer extends Person
       appointments.remove(aAppointment);
       appointments.add(index, aAppointment);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addAppointmentAt(aAppointment, index);
     }

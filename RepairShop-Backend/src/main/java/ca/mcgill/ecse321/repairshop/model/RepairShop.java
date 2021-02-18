@@ -1,23 +1,16 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 package ca.mcgill.ecse321.repairshop.model;
+
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-import javax.persistence.Entity;
 
-
-
-//florence was here
 /**
  * ECSE 321 Domain model draft 2
  */
 // line 4 "model.ump"
-// line 102 "model.ump"
-@Entity
+// line 103 "model.ump"
 public class RepairShop
 {
 
@@ -50,14 +43,12 @@ public class RepairShop
   // INTERFACE
   //------------------------
   /* Code from template association_GetMany */
-
   public TimeSlot getTimeSlot(int index)
   {
     TimeSlot aTimeSlot = timeSlots.get(index);
     return aTimeSlot;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
   public List<TimeSlot> getTimeSlots()
   {
     List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
@@ -82,7 +73,6 @@ public class RepairShop
     return index;
   }
   /* Code from template association_GetOne */
-  @OneToMany(cascade={CascadeType.ALL})
   public Business getBusiness()
   {
     return business;
@@ -100,7 +90,6 @@ public class RepairShop
     return aPerson;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
   public List<Person> getPersons()
   {
     List<Person> newPersons = Collections.unmodifiableList(persons);
@@ -131,7 +120,6 @@ public class RepairShop
     return aBill;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
   public List<Bill> getBills()
   {
     List<Bill> newBills = Collections.unmodifiableList(bills);
@@ -162,7 +150,6 @@ public class RepairShop
     return aService;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
   public List<Service> getServices()
   {
     List<Service> newServices = Collections.unmodifiableList(services);
@@ -193,7 +180,6 @@ public class RepairShop
     return aAppointment;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);
@@ -259,7 +245,7 @@ public class RepairShop
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addTimeSlot(aTimeSlot))
     {
@@ -282,8 +268,8 @@ public class RepairShop
       timeSlots.remove(aTimeSlot);
       timeSlots.add(index, aTimeSlot);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addTimeSlotAt(aTimeSlot, index);
     }
@@ -355,7 +341,7 @@ public class RepairShop
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addPersonAt(Person aPerson, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addPerson(aPerson))
     {
@@ -378,8 +364,8 @@ public class RepairShop
       persons.remove(aPerson);
       persons.add(index, aPerson);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addPersonAt(aPerson, index);
     }
@@ -427,7 +413,7 @@ public class RepairShop
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addBillAt(Bill aBill, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addBill(aBill))
     {
@@ -450,8 +436,8 @@ public class RepairShop
       bills.remove(aBill);
       bills.add(index, aBill);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addBillAt(aBill, index);
     }
@@ -463,7 +449,7 @@ public class RepairShop
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Service addService(String aName, String aCost, Time aDuration, String aId)
+  public Service addService(String aName, String aCost, int aDuration, String aId)
   {
     return new Service(aName, aCost, aDuration, aId, this);
   }
@@ -499,7 +485,7 @@ public class RepairShop
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addServiceAt(Service aService, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addService(aService))
     {
@@ -522,8 +508,8 @@ public class RepairShop
       services.remove(aService);
       services.add(index, aService);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addServiceAt(aService, index);
     }
@@ -571,7 +557,7 @@ public class RepairShop
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addAppointmentAt(Appointment aAppointment, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addAppointment(aAppointment))
     {
@@ -594,8 +580,8 @@ public class RepairShop
       appointments.remove(aAppointment);
       appointments.add(index, aAppointment);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addAppointmentAt(aAppointment, index);
     }
@@ -610,7 +596,7 @@ public class RepairShop
       aTimeSlot.delete();
       timeSlots.remove(aTimeSlot);
     }
-    
+
     Business existingBusiness = business;
     business = null;
     if (existingBusiness != null)
@@ -624,28 +610,28 @@ public class RepairShop
       aPerson.delete();
       persons.remove(aPerson);
     }
-    
+
     while (bills.size() > 0)
     {
       Bill aBill = bills.get(bills.size() - 1);
       aBill.delete();
       bills.remove(aBill);
     }
-    
+
     while (services.size() > 0)
     {
       Service aService = services.get(services.size() - 1);
       aService.delete();
       services.remove(aService);
     }
-    
+
     while (appointments.size() > 0)
     {
       Appointment aAppointment = appointments.get(appointments.size() - 1);
       aAppointment.delete();
       appointments.remove(aAppointment);
     }
-    
+
   }
 
 }

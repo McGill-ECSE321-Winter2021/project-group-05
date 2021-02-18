@@ -1,16 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 package ca.mcgill.ecse321.repairshop.model;
-import java.sql.Time;
+
 import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 // line 34 "model.ump"
-// line 122 "model.ump"
-@Entity
+// line 126 "model.ump"
 public class Service
 {
 
@@ -21,7 +16,7 @@ public class Service
   //Service Attributes
   private String name;
   private String cost;
-  private Time duration;
+  private int duration;
   private String id;
 
   //Service Associations
@@ -32,7 +27,7 @@ public class Service
   // CONSTRUCTOR
   //------------------------
 
-  public Service(String aName, String aCost, Time aDuration, String aId, RepairShop aRepairShop)
+  public Service(String aName, String aCost, int aDuration, String aId, RepairShop aRepairShop)
   {
     name = aName;
     cost = aCost;
@@ -66,7 +61,7 @@ public class Service
     return wasSet;
   }
 
-  public boolean setDuration(Time aDuration)
+  public boolean setDuration(int aDuration)
   {
     boolean wasSet = false;
     duration = aDuration;
@@ -92,12 +87,11 @@ public class Service
     return cost;
   }
 
-  public Time getDuration()
+  public int getDuration()
   {
     return duration;
   }
 
-@Id
   public String getId()
   {
     return id;
@@ -114,7 +108,6 @@ public class Service
     return aAppointment;
   }
 
-  @OneToOne
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);
@@ -199,7 +192,7 @@ public class Service
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addAppointmentAt(Appointment aAppointment, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addAppointment(aAppointment))
     {
@@ -222,8 +215,8 @@ public class Service
       appointments.remove(aAppointment);
       appointments.add(index, aAppointment);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addAppointmentAt(aAppointment, index);
     }
@@ -251,8 +244,8 @@ public class Service
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "cost" + ":" + getCost()+ "," +
+            "duration" + ":" + getDuration()+ "," +
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "duration" + "=" + (getDuration() != null ? !getDuration().equals(this)  ? getDuration().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "repairShop = "+(getRepairShop()!=null?Integer.toHexString(System.identityHashCode(getRepairShop())):"null");
   }
 }

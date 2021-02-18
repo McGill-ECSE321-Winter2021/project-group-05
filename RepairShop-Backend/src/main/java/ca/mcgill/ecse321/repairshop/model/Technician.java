@@ -1,11 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 package ca.mcgill.ecse321.repairshop.model;
+
 import java.util.*;
 
 // line 76 "model.ump"
-// line 152 "model.ump"
+// line 156 "model.ump"
 public class Technician extends Person
 {
 
@@ -64,54 +64,29 @@ public class Technician extends Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addTimeSlot(TimeSlot aTimeSlot)
   {
     boolean wasAdded = false;
     if (timeSlots.contains(aTimeSlot)) { return false; }
     timeSlots.add(aTimeSlot);
-    if (aTimeSlot.indexOfTechnician(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aTimeSlot.addTechnician(this);
-      if (!wasAdded)
-      {
-        timeSlots.remove(aTimeSlot);
-      }
-    }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeTimeSlot(TimeSlot aTimeSlot)
   {
     boolean wasRemoved = false;
-    if (!timeSlots.contains(aTimeSlot))
+    if (timeSlots.contains(aTimeSlot))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = timeSlots.indexOf(aTimeSlot);
-    timeSlots.remove(oldIndex);
-    if (aTimeSlot.indexOfTechnician(this) == -1)
-    {
+      timeSlots.remove(aTimeSlot);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aTimeSlot.removeTechnician(this);
-      if (!wasRemoved)
-      {
-        timeSlots.add(oldIndex,aTimeSlot);
-      }
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addTimeSlot(aTimeSlot))
     {
@@ -134,8 +109,8 @@ public class Technician extends Person
       timeSlots.remove(aTimeSlot);
       timeSlots.add(index, aTimeSlot);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addTimeSlotAt(aTimeSlot, index);
     }
@@ -144,12 +119,7 @@ public class Technician extends Person
 
   public void delete()
   {
-    ArrayList<TimeSlot> copyOfTimeSlots = new ArrayList<TimeSlot>(timeSlots);
     timeSlots.clear();
-    for(TimeSlot aTimeSlot : copyOfTimeSlots)
-    {
-      aTimeSlot.removeTechnician(this);
-    }
     super.delete();
   }
 

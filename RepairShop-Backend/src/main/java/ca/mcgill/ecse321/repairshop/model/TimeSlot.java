@@ -1,18 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
-//hello
 package ca.mcgill.ecse321.repairshop.model;
+
 import java.sql.Date;
 import java.sql.Time;
-import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 // line 25 "model.ump"
-// line 117 "model.ump"
-@Entity
+// line 121 "model.ump"
 public class TimeSlot
 {
 
@@ -29,7 +23,6 @@ public class TimeSlot
 
   //TimeSlot Associations
   private RepairShop repairShop;
-  private List<Technician> technicians;
 
   //------------------------
   // CONSTRUCTOR
@@ -47,7 +40,6 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to repairShop. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    technicians = new ArrayList<Technician>();
   }
 
   //------------------------
@@ -114,7 +106,6 @@ public class TimeSlot
     return endTime;
   }
 
-  @Id
   public String getId()
   {
     return id;
@@ -123,37 +114,6 @@ public class TimeSlot
   public RepairShop getRepairShop()
   {
     return repairShop;
-  }
-  /* Code from template association_GetMany */
-  public Technician getTechnician(int index)
-  {
-    Technician aTechnician = technicians.get(index);
-    return aTechnician;
-  }
-
-  @ManyToMany
-  public List<Technician> getTechnicians()
-  {
-    List<Technician> newTechnicians = Collections.unmodifiableList(technicians);
-    return newTechnicians;
-  }
-
-  public int numberOfTechnicians()
-  {
-    int number = technicians.size();
-    return number;
-  }
-
-  public boolean hasTechnicians()
-  {
-    boolean has = technicians.size() > 0;
-    return has;
-  }
-
-  public int indexOfTechnician(Technician aTechnician)
-  {
-    int index = technicians.indexOf(aTechnician);
-    return index;
   }
   /* Code from template association_SetOneToMany */
   public boolean setRepairShop(RepairShop aRepairShop)
@@ -174,88 +134,6 @@ public class TimeSlot
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfTechnicians()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addTechnician(Technician aTechnician)
-  {
-    boolean wasAdded = false;
-    if (technicians.contains(aTechnician)) { return false; }
-    technicians.add(aTechnician);
-    if (aTechnician.indexOfTimeSlot(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aTechnician.addTimeSlot(this);
-      if (!wasAdded)
-      {
-        technicians.remove(aTechnician);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeTechnician(Technician aTechnician)
-  {
-    boolean wasRemoved = false;
-    if (!technicians.contains(aTechnician))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = technicians.indexOf(aTechnician);
-    technicians.remove(oldIndex);
-    if (aTechnician.indexOfTimeSlot(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aTechnician.removeTimeSlot(this);
-      if (!wasRemoved)
-      {
-        technicians.add(oldIndex,aTechnician);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTechnicianAt(Technician aTechnician, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTechnician(aTechnician))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTechnicians()) { index = numberOfTechnicians() - 1; }
-      technicians.remove(aTechnician);
-      technicians.add(index, aTechnician);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveTechnicianAt(Technician aTechnician, int index)
-  {
-    boolean wasAdded = false;
-    if(technicians.contains(aTechnician))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTechnicians()) { index = numberOfTechnicians() - 1; }
-      technicians.remove(aTechnician);
-      technicians.add(index, aTechnician);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTechnicianAt(aTechnician, index);
-    }
-    return wasAdded;
-  }
 
   public void delete()
   {
@@ -264,12 +142,6 @@ public class TimeSlot
     if(placeholderRepairShop != null)
     {
       placeholderRepairShop.removeTimeSlot(this);
-    }
-    ArrayList<Technician> copyOfTechnicians = new ArrayList<Technician>(technicians);
-    technicians.clear();
-    for(Technician aTechnician : copyOfTechnicians)
-    {
-      aTechnician.removeTimeSlot(this);
     }
   }
 

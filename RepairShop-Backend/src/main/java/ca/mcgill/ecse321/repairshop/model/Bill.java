@@ -1,18 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 package ca.mcgill.ecse321.repairshop.model;
+
 import java.sql.Date;
 import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
 
 // line 42 "model.ump"
-// line 127 "model.ump"
-@Entity
+// line 131 "model.ump"
 public class Bill
 {
 
@@ -90,7 +84,6 @@ public class Bill
     return totalCost;
   }
 
-  @Id
   public String getId()
   {
     return id;
@@ -101,8 +94,6 @@ public class Bill
     return repairShop;
   }
   /* Code from template association_GetOne */
-
-  @ManyToOne
   public Customer getCustomer()
   {
     return customer;
@@ -114,7 +105,6 @@ public class Bill
     return aAppointment;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);
@@ -218,7 +208,7 @@ public class Bill
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addAppointmentAt(Appointment aAppointment, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addAppointment(aAppointment))
     {
@@ -241,8 +231,8 @@ public class Bill
       appointments.remove(aAppointment);
       appointments.add(index, aAppointment);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addAppointmentAt(aAppointment, index);
     }

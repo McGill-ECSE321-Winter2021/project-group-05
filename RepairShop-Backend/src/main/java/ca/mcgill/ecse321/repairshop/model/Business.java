@@ -3,15 +3,9 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-
 
 // line 15 "model.ump"
-// line 110 "model.ump"
-@Entity
+// line 114 "model.ump"
 public class Business
 {
 
@@ -27,7 +21,7 @@ public class Business
   private String id;
 
   //Business Associations
-  private List<TimeSlot> service;
+  private List<TimeSlot> timeslot;
   private RepairShop repairShop;
 
   //------------------------
@@ -41,7 +35,7 @@ public class Business
     phoneNumber = aPhoneNumber;
     email = aEmail;
     id = aId;
-    service = new ArrayList<TimeSlot>();
+    timeslot = new ArrayList<TimeSlot>();
     boolean didAddRepairShop = setRepairShop(aRepairShop);
     if (!didAddRepairShop)
     {
@@ -85,7 +79,6 @@ public class Business
     return wasSet;
   }
 
-
   public boolean setId(String aId)
   {
     boolean wasSet = false;
@@ -114,40 +107,38 @@ public class Business
     return email;
   }
 
-  @Id
   public String getId()
   {
     return id;
   }
   /* Code from template association_GetMany */
-  public TimeSlot getService(int index)
+  public TimeSlot getTimeslot(int index)
   {
-    TimeSlot aService = service.get(index);
-    return aService;
+    TimeSlot aTimeslot = timeslot.get(index);
+    return aTimeslot;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
-  public List<TimeSlot> getService()
+  public List<TimeSlot> getTimeslot()
   {
-    List<TimeSlot> newService = Collections.unmodifiableList(service);
-    return newService;
+    List<TimeSlot> newTimeslot = Collections.unmodifiableList(timeslot);
+    return newTimeslot;
   }
 
-  public int numberOfService()
+  public int numberOfTimeslot()
   {
-    int number = service.size();
+    int number = timeslot.size();
     return number;
   }
 
-  public boolean hasService()
+  public boolean hasTimeslot()
   {
-    boolean has = service.size() > 0;
+    boolean has = timeslot.size() > 0;
     return has;
   }
 
-  public int indexOfService(TimeSlot aService)
+  public int indexOfTimeslot(TimeSlot aTimeslot)
   {
-    int index = service.indexOf(aService);
+    int index = timeslot.indexOf(aTimeslot);
     return index;
   }
   /* Code from template association_GetOne */
@@ -156,59 +147,59 @@ public class Business
     return repairShop;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfService()
+  public static int minimumNumberOfTimeslot()
   {
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addService(TimeSlot aService)
+  public boolean addTimeslot(TimeSlot aTimeslot)
   {
     boolean wasAdded = false;
-    if (service.contains(aService)) { return false; }
-    service.add(aService);
+    if (timeslot.contains(aTimeslot)) { return false; }
+    timeslot.add(aTimeslot);
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeService(TimeSlot aService)
+  public boolean removeTimeslot(TimeSlot aTimeslot)
   {
     boolean wasRemoved = false;
-    if (service.contains(aService))
+    if (timeslot.contains(aTimeslot))
     {
-      service.remove(aService);
+      timeslot.remove(aTimeslot);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addServiceAt(TimeSlot aService, int index)
-  {  
+  public boolean addTimeslotAt(TimeSlot aTimeslot, int index)
+  {
     boolean wasAdded = false;
-    if(addService(aService))
+    if(addTimeslot(aTimeslot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfService()) { index = numberOfService() - 1; }
-      service.remove(aService);
-      service.add(index, aService);
+      if(index > numberOfTimeslot()) { index = numberOfTimeslot() - 1; }
+      timeslot.remove(aTimeslot);
+      timeslot.add(index, aTimeslot);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveServiceAt(TimeSlot aService, int index)
+  public boolean addOrMoveTimeslotAt(TimeSlot aTimeslot, int index)
   {
     boolean wasAdded = false;
-    if(service.contains(aService))
+    if(timeslot.contains(aTimeslot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfService()) { index = numberOfService() - 1; }
-      service.remove(aService);
-      service.add(index, aService);
+      if(index > numberOfTimeslot()) { index = numberOfTimeslot() - 1; }
+      timeslot.remove(aTimeslot);
+      timeslot.add(index, aTimeslot);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
-      wasAdded = addServiceAt(aService, index);
+      wasAdded = addTimeslotAt(aTimeslot, index);
     }
     return wasAdded;
   }
@@ -221,14 +212,14 @@ public class Business
       //Unable to setRepairShop to null, as business must always be associated to a repairShop
       return wasSet;
     }
-    
+
     Business existingBusiness = aNewRepairShop.getBusiness();
     if (existingBusiness != null && !equals(existingBusiness))
     {
       //Unable to setRepairShop, the current repairShop already has a business, which would be orphaned if it were re-assigned
       return wasSet;
     }
-    
+
     RepairShop anOldRepairShop = repairShop;
     repairShop = aNewRepairShop;
     repairShop.setBusiness(this);
@@ -243,7 +234,7 @@ public class Business
 
   public void delete()
   {
-    service.clear();
+    timeslot.clear();
     RepairShop existingRepairShop = repairShop;
     repairShop = null;
     if (existingRepairShop != null)
