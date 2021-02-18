@@ -3,9 +3,15 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+
 
 // line 15 "model.ump"
 // line 114 "model.ump"
+@Entity
 public class Business
 {
 
@@ -101,7 +107,8 @@ public class Business
   {
     return phoneNumber;
   }
-
+  
+  @Id
   public String getEmail()
   {
     return email;
@@ -112,6 +119,8 @@ public class Business
     return id;
   }
   /* Code from template association_GetMany */
+  
+  @OneToMany(cascade={CascadeType.ALL})
   public TimeSlot getTimeslot(int index)
   {
     TimeSlot aTimeslot = timeslot.get(index);

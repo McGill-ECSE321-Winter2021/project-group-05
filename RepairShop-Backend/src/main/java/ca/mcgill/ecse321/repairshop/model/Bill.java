@@ -4,9 +4,15 @@ package ca.mcgill.ecse321.repairshop.model;
 
 import java.sql.Date;
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 
 // line 42 "model.ump"
 // line 131 "model.ump"
+@Entity
 public class Bill
 {
 
@@ -83,7 +89,8 @@ public class Bill
   {
     return totalCost;
   }
-
+  
+  @Id
   public String getId()
   {
     return id;
@@ -93,7 +100,9 @@ public class Bill
   {
     return repairShop;
   }
+  
   /* Code from template association_GetOne */
+  @ManyToOne
   public Customer getCustomer()
   {
     return customer;
@@ -104,7 +113,8 @@ public class Bill
     Appointment aAppointment = appointments.get(index);
     return aAppointment;
   }
-
+  
+  @OneToMany(cascade={CascadeType.ALL})
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);

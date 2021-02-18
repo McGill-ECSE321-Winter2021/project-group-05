@@ -3,9 +3,14 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 // line 34 "model.ump"
 // line 126 "model.ump"
+@Entity
 public class Service
 {
 
@@ -108,6 +113,7 @@ public class Service
     return aAppointment;
   }
 
+  @OneToMany
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);

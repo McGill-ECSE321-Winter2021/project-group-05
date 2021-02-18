@@ -5,12 +5,18 @@ package ca.mcgill.ecse321.repairshop.model;
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Entity;
+
 
 /**
  * ECSE 321 Domain model draft 2
  */
 // line 4 "model.ump"
 // line 103 "model.ump"
+@Entity
 public class RepairShop
 {
 
@@ -49,6 +55,7 @@ public class RepairShop
     return aTimeSlot;
   }
 
+  @OneToMany(cascade={CascadeType.ALL})
   public List<TimeSlot> getTimeSlots()
   {
     List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
@@ -73,6 +80,7 @@ public class RepairShop
     return index;
   }
   /* Code from template association_GetOne */
+  @OneToOne(cascade={CascadeType.ALL})
   public Business getBusiness()
   {
     return business;
@@ -90,6 +98,7 @@ public class RepairShop
     return aPerson;
   }
 
+  @OneToMany(cascade={CascadeType.ALL})
   public List<Person> getPersons()
   {
     List<Person> newPersons = Collections.unmodifiableList(persons);
@@ -120,6 +129,7 @@ public class RepairShop
     return aBill;
   }
 
+  @OneToMany(cascade={CascadeType.ALL})
   public List<Bill> getBills()
   {
     List<Bill> newBills = Collections.unmodifiableList(bills);
@@ -150,6 +160,7 @@ public class RepairShop
     return aService;
   }
 
+  @OneToMany(cascade={CascadeType.ALL})
   public List<Service> getServices()
   {
     List<Service> newServices = Collections.unmodifiableList(services);
@@ -180,6 +191,7 @@ public class RepairShop
     return aAppointment;
   }
 
+  @OneToMany(cascade={CascadeType.ALL})
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);

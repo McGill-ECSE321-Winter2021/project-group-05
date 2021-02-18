@@ -2,9 +2,17 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 package ca.mcgill.ecse321.repairshop.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+
 
 // line 66 "model.ump"
 // line 147 "model.ump"
+@Entity
 public class Appointment
 {
 
@@ -66,27 +74,33 @@ public class Appointment
     wasSet = true;
     return wasSet;
   }
-
+  
+  @Id
   public String getId()
   {
     return id;
   }
   /* Code from template association_GetOne */
+  
+  @OneToOne
   public Service getService()
   {
     return service;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public Customer getCustomer()
   {
     return customer;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public TimeSlot getTimeslot()
   {
     return timeslot;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public Bill getBill()
   {
     return bill;
