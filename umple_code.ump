@@ -32,7 +32,7 @@ class TimeSlot
 
 class Service
 {name;
-  cost;
+  float cost;
  Integer duration ;
  
   id;
@@ -94,17 +94,17 @@ class Administrator
 }
 
 
-//$?[End_of_model]$?
+
 
 namespace -;
 
 
 class RepairShop
 {
-  position 436 24 109 40;
+  position 431 23 109 40;
   position.association Appointment__RepairShop 69,40 70,0;
-  position.association Person__RepairShop 110,8 30,0;
-  position.association Bill__RepairShop 110,39 30,0;
+  position.association Person__RepairShop 110,9 30,0;
+  position.association Bill__RepairShop 110,40 30,0;
   position.association Business__RepairShop 0,7 133,0;
   position.association RepairShop__TimeSlot 0,34 114,0;
   position.association RepairShop__Service 30,40 90,0;
@@ -112,9 +112,9 @@ class RepairShop
 
 class Business
 {
-  position 50 130 109 45;
+  position 54 130 169 125;
   position.association Business__TimeSlot:service 10,125 26,0;
-  position.association Business__TimeSlot:timeslot 5,124 21,0;
+  position.association Business__TimeSlot:timeslot 5,125 25,0;
 }
 
 class TimeSlot
@@ -124,7 +124,7 @@ class TimeSlot
 
 class Service
 {
-  position 305 174 123 108;
+  position 305 174 131 108;
 }
 
 class Bill
@@ -134,7 +134,7 @@ class Bill
 
 class Customer
 {
-  position 482 451 157 91;
+  position 492 451 157 91;
   position.association Bill__Customer 118,0 52,91;
 }
 
@@ -147,8 +147,8 @@ class Appointment
 {
   position 444 301 109 57;
   position.association Appointment__TimeSlot:timeslot 0,10 132,33;
-  position.association Appointment__Service 35,0 141,49;
-  position.association Appointment__Bill 110,7 0,7;
+  position.association Appointment__Service 35,0 132,51;
+  position.association Appointment__Bill 110,6 0,7;
   position.association Appointment__Customer 95,57 19,0;
 }
 
@@ -166,4 +166,4 @@ class Person
 class Administrator
 {
   position 864 455 109 40;
-}
+}//$?[End_of_model]$?

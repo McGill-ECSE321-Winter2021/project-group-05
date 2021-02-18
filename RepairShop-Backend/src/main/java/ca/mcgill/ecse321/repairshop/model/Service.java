@@ -15,7 +15,7 @@ public class Service
 
   //Service Attributes
   private String name;
-  private String cost;
+  private float cost;
   private int duration;
   private String id;
 
@@ -27,7 +27,7 @@ public class Service
   // CONSTRUCTOR
   //------------------------
 
-  public Service(String aName, String aCost, int aDuration, String aId, RepairShop aRepairShop)
+  public Service(String aName, float aCost, int aDuration, String aId, RepairShop aRepairShop)
   {
     name = aName;
     cost = aCost;
@@ -53,7 +53,7 @@ public class Service
     return wasSet;
   }
 
-  public boolean setCost(String aCost)
+  public boolean setCost(float aCost)
   {
     boolean wasSet = false;
     cost = aCost;
@@ -82,7 +82,7 @@ public class Service
     return name;
   }
 
-  public String getCost()
+  public float getCost()
   {
     return cost;
   }

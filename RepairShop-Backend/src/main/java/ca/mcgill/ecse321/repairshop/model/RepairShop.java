@@ -449,7 +449,7 @@ public class RepairShop
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Service addService(String aName, String aCost, int aDuration, String aId)
+  public Service addService(String aName, float aCost, int aDuration, String aId)
   {
     return new Service(aName, aCost, aDuration, aId, this);
   }
