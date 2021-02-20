@@ -108,12 +108,12 @@ public class Business
     return phoneNumber;
   }
   
-  @Id
+
   public String getEmail()
   {
     return email;
   }
-
+  @Id
   public String getId()
   {
     return id;

@@ -97,6 +97,7 @@ public class Service
     return duration;
   }
 
+  @Id
   public String getId()
   {
     return id;
