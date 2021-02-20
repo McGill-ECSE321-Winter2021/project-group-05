@@ -108,19 +108,12 @@ public class Business
   {
     return phoneNumber;
   }
-<<<<<<< HEAD
-=======
-  
->>>>>>> main
 
   public String getEmail()
   {
     return email;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> main
   @Id
   public String getId()
   {
