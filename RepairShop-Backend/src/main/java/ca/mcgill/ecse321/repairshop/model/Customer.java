@@ -2,7 +2,12 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 package ca.mcgill.ecse321.repairshop.model;
 
+<<<<<<< HEAD
 import javax.persistence.Entity;
+=======
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+>>>>>>> main
 import java.sql.Date;
 import java.util.*;
 
@@ -91,7 +96,7 @@ public class Customer extends Person
     Bill aBill = bills.get(index);
     return aBill;
   }
-
+  @OneToMany
   public List<Bill> getBills()
   {
     List<Bill> newBills = Collections.unmodifiableList(bills);
@@ -121,7 +126,7 @@ public class Customer extends Person
     Appointment aAppointment = appointments.get(index);
     return aAppointment;
   }
-
+  @OneToMany
   public List<Appointment> getAppointments()
   {
     List<Appointment> newAppointments = Collections.unmodifiableList(appointments);
