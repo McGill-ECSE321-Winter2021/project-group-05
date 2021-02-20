@@ -10,43 +10,37 @@ We are 5 McGill University studenst from the Faculty of Engineering
     <td align="center">Github</td>
     <td align="center">Major</td>
     <td align="center">Year</td>
-    <td align="center">Pic</td>
   </tr>
    </tr>
    <tr>
     <td align="center">Florence Yared</td>
-    <td align="center">Role</td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
+     <td align="center"><a href='gitlink'>gitname</a></td>
+    <td align="center">Major</td>
+    <td align="center">YEAR</td>
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
-    <td align="center">Role</td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
+     <td align="center"><a href='gitlink'>gitname</a></td>
+    <td align="center">SMajor</td>
+    <td align="center">YEAR</td>
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-    <td align="center">Role</td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
+     <td align="center"><a href='gitlink'>gitname</a></td>
+    <td align="center">Major</td>
+    <td align="center">YEAR</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
-    <td align="center">Role</td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
+    <td align="center"><a href='gitlink'>gitname</a></td>
+    <td align="center">Major</td>
+    <td align="center">YEAR</td>
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
     <td align="center"><a href='https://github.com/yichenemma'>yichenemma</a></td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
+    <td align="center">Software Engineering</td>
+    <td align="center">U2</td>
   </tr>
 </table>
 
