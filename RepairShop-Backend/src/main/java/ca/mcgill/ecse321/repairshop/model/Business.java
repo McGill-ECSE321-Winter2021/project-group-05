@@ -84,7 +84,7 @@ public class Business
     wasSet = true;
     return wasSet;
   }
-
+  @Id
   public boolean setId(String aId)
   {
     boolean wasSet = false;
