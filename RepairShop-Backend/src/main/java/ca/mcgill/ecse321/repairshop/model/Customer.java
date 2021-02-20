@@ -116,7 +116,6 @@ public class Customer extends Person
     return index;
   }
   /* Code from template association_GetMany */
-  @OneToMany
   public Appointment getAppointment(int index)
   {
     Appointment aAppointment = appointments.get(index);
