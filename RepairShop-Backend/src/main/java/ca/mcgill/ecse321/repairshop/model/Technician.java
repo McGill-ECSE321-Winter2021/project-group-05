@@ -26,6 +26,7 @@ public class Technician extends Person
     timeSlots = new ArrayList<TimeSlot>();
   }
 
+  public Technician(){super();}
   //------------------------
   // INTERFACE
   //------------------------

@@ -41,6 +41,9 @@ public abstract class Person
     }
   }
 
+  // for testing
+  public Person(){}
+
   //------------------------
   // INTERFACE
   //------------------------

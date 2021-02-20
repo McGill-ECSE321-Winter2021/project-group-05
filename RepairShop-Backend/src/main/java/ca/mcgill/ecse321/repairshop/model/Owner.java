@@ -20,6 +20,7 @@ public class Owner extends Person
   {
     super(aEmail, aUsername, aPassword, aId, aRepairShop);
   }
+  public Owner(){super();}
 
   //------------------------
   // INTERFACE

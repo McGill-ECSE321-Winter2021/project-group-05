@@ -33,7 +33,7 @@ public class Business
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Business(){}
   public Business(String aName, String aAddress, String aPhoneNumber, String aEmail, String aId, RepairShop aRepairShop)
   {
     name = aName;

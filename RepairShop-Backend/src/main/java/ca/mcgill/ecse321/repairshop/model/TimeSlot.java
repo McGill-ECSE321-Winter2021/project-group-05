@@ -31,7 +31,7 @@ public class TimeSlot
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public TimeSlot(){}
   public TimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, String aId, RepairShop aRepairShop)
   {
     startDate = aStartDate;

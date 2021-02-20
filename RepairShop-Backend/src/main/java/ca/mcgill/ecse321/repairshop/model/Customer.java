@@ -37,6 +37,10 @@ public class Customer extends Person
     appointments = new ArrayList<Appointment>();
   }
 
+  // empty customer for testing
+  public Customer(){super();}
+
+
   //------------------------
   // INTERFACE
   //------------------------
