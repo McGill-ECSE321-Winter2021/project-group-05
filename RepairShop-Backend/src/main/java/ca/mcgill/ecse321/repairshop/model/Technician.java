@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 package ca.mcgill.ecse321.repairshop.model;
 
+import javax.persistence.Entity;
 import java.util.*;
 
 // line 76 "model.ump"
 // line 156 "model.ump"
+@Entity
 public class Technician extends Person
 {
 

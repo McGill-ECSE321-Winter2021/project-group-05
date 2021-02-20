@@ -85,6 +85,7 @@ public class Business
     return wasSet;
   }
 
+
   public boolean setId(String aId)
   {
     boolean wasSet = false;
@@ -107,12 +108,19 @@ public class Business
   {
     return phoneNumber;
   }
+<<<<<<< HEAD
+=======
   
+>>>>>>> main
 
   public String getEmail()
   {
     return email;
   }
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
   @Id
   public String getId()
   {

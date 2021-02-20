@@ -3,8 +3,11 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 
+import javax.persistence.Entity;
+
 // line 61 "model.ump"
 // line 142 "model.ump"
+@Entity
 public class Owner extends Person
 {
 

@@ -2,13 +2,18 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 package ca.mcgill.ecse321.repairshop.model;
 
+<<<<<<< HEAD
+import javax.persistence.Entity;
+=======
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+>>>>>>> main
 import java.sql.Date;
 import java.util.*;
 
 // line 50 "model.ump"
 // line 136 "model.ump"
+@Entity
 public class Customer extends Person
 {
 

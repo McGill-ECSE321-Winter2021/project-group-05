@@ -7,7 +7,9 @@ import javax.persistence.Id;
 
 // line 82 "model.ump"
 // line 162 "model.ump"
+
 @Entity
+
 public abstract class Person
 {
 

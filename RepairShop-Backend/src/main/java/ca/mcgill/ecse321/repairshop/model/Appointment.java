@@ -33,6 +33,7 @@ public class Appointment
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
   public Appointment(){}
   public Appointment(String aId, Service aService, Customer aCustomer, TimeSlot aTimeslot, Bill aBill, RepairShop aRepairShop)
   {

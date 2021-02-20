@@ -3,8 +3,11 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 
+import javax.persistence.Entity;
+
 // line 92 "model.ump"
 // line 167 "model.ump"
+@Entity
 public class Administrator extends Person
 {
 
