@@ -31,7 +31,7 @@ public class Service
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Service(){}
   public Service(String aName, float aCost, int aDuration, String aId, RepairShop aRepairShop)
   {
     name = aName;

@@ -13,7 +13,7 @@ public interface TimeSlotRepository extends CrudRepository<TimeSlot, String> {
 
     TimeSlot findTimeSlotByID(String id);
 
-    List<TimeSlot> findByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
+   // List<TimeSlot> findByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
 
     boolean existsByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
     

@@ -20,7 +20,7 @@ public class Administrator extends Person
   {
     super(aEmail, aUsername, aPassword, aId, aRepairShop);
   }
-
+  public Administrator(){super();}
   //------------------------
   // INTERFACE
   //------------------------

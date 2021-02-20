@@ -33,7 +33,7 @@ public class Bill
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Bill(){}
   public Bill(Date aDate, float aTotalCost, String aId, RepairShop aRepairShop, Customer aCustomer)
   {
     date = aDate;
