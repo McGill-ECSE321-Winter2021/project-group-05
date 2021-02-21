@@ -111,13 +111,13 @@ The project report for this deliverable can be found [here](https://github.com/M
 <table>
     <tr>
     <td align="center">Name</td>
-    <td>Contibutions</td>
+    <td align="center">Contibutions</td>
     <td align="center">Individual Efforts (hours)</td>
   </tr>
    </tr>
    <tr>
     <td align="center">Florence Yared</td>
-    <td align="center">Contibutions</td>
+    <td>Contibutions</td>
     <td align="center">Hours</td>
   </tr>
   <tr>
@@ -133,7 +133,7 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-    <td align="center">Contibutions</td>
+    <td>Contibutions</td>
     <td align="center">Hours</td>
   </tr>
   <tr>
