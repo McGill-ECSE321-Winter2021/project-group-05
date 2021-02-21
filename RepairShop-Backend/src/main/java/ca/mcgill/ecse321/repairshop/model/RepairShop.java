@@ -26,7 +26,7 @@ public class RepairShop
   private Long id;
 
 
-  @OneToMany(cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "repairShopSys",cascade = {CascadeType.ALL})
   public List<TimeSlot> getTimeSlots() {
     return timeSlots;
   }
@@ -35,7 +35,7 @@ public class RepairShop
     this.timeSlots = timeSlots;
   }
 
-  @OneToOne(cascade = {CascadeType.ALL})
+  @OneToOne(mappedBy = "repairShopSys",cascade = {CascadeType.ALL})
   public Business getBusiness() {
     return business;
   }
@@ -44,7 +44,7 @@ public class RepairShop
     this.business = business;
   }
 
-  @OneToMany(cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "repairShopSys",cascade = {CascadeType.ALL})
   public List<Person> getPersons() {
     return persons;
   }
@@ -52,7 +52,7 @@ public class RepairShop
   public void setPersons(List<Person> persons) {
     this.persons = persons;
   }
-  @OneToMany(cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "repairShopSys",cascade = {CascadeType.ALL})
   public List<Bill> getBills() {
     return bills;
   }
@@ -60,7 +60,7 @@ public class RepairShop
   public void setBills(List<Bill> bills) {
     this.bills = bills;
   }
-  @OneToMany(cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "repairShopSys",cascade = {CascadeType.ALL})
   public List<Service> getServices() {
     return services;
   }
@@ -69,7 +69,7 @@ public class RepairShop
     this.services = services;
   }
 
-  @OneToMany(cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "repairShopSys",cascade = {CascadeType.ALL})
   public List<Appointment> getAppointments() {
     return appointments;
   }

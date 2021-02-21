@@ -2,10 +2,7 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 package ca.mcgill.ecse321.repairshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.*;
 
@@ -60,7 +57,7 @@ public class Customer extends Person
     this.expiry = expiry;
   }
 
-  @OneToMany
+  @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
   public List<Bill> getBills() {
     return bills;
   }
@@ -69,7 +66,7 @@ public class Customer extends Person
     this.bills = bills;
   }
 
-  @OneToMany
+  @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
   public List<Appointment> getAppointments() {
     return appointments;
   }

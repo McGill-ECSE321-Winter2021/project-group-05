@@ -57,7 +57,7 @@ public class Bill
     this.customer = customer;
   }
 
-  @OneToMany
+  @OneToMany(mappedBy = "bill",cascade = {CascadeType.ALL})
   public List<Appointment> getAppointments() {
     return appointments;
   }

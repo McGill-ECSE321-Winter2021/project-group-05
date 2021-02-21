@@ -51,7 +51,7 @@ public class Business
     this.email = email;
   }
 
-  @OneToMany
+  @OneToMany()
   public List<TimeSlot> getTimeslot() {
     return timeslot;
   }

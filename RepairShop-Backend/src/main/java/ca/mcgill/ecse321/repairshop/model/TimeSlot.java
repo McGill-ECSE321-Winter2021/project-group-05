@@ -45,7 +45,7 @@ public class TimeSlot
     this.endTime = endTime;
   }
 
-  @ManyToOne()
+  @ManyToOne
   public RepairShop getRepairShop() {
     return repairShop;
   }

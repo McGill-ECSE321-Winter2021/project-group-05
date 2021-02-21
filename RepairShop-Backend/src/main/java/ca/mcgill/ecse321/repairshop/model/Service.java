@@ -57,7 +57,7 @@ public class Service
     this.repairShop = repairShop;
   }
 
-  @OneToMany
+  @OneToMany(mappedBy = "service",cascade = {CascadeType.ALL})
   public List<Appointment> getAppointments() {
     return appointments;
   }
