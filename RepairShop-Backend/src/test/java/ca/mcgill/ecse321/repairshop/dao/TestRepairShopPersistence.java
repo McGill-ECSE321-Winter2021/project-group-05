@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+
 class TestRepairShopPersistence {
+
     @Autowired
     private AdministratorRepository administratorRepository;
     @Autowired
@@ -91,12 +93,12 @@ class TestRepairShopPersistence {
 
 
         /**
-        * tesing association between timeslot and tevchnician
-        */
+         * tesing association between timeslot and tevchnician
+         */
         TimeSlot timeSlot = new TimeSlot();
 
-       //Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-     //   String timeSlotID = "t1";
+        //Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+        //   String timeSlotID = "t1";
         //TODO: only 1 date?
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
@@ -196,7 +198,7 @@ class TestRepairShopPersistence {
         owner.setUsername(name);
         owner.setPassword(password);
         owner.setEmail(email);
-       // owner.setId(id);
+        // owner.setId(id);
         ownerRepository.save(owner);
         Long id=owner.getId();
 
@@ -205,7 +207,7 @@ class TestRepairShopPersistence {
         assertNotNull(owner);
         assertEquals(email,owner.getEmail());
         assertEquals(password,owner.getPassword());
-       // assertEquals(id,owner.getId());
+        // assertEquals(id,owner.getId());
         assertEquals(name,owner.getUsername());
 
     }
@@ -334,7 +336,7 @@ class TestRepairShopPersistence {
         appointment=appointmentList.get(0);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-       // assertNotNull(appointment.getBill().getAppointment(0));
+        // assertNotNull(appointment.getBill().getAppointment(0));
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
@@ -359,7 +361,7 @@ class TestRepairShopPersistence {
         service=null;
         service=serviceRepository.findServiceByIDString(serviceId);
         assertNotNull(service);
-       // assertEquals(serviceId,service.getId());
+        // assertEquals(serviceId,service.getId());
         assertEquals(serviceName,service.getName());
         assertEquals(duration,service.getDuration());
         assertEquals(cost,service.getCost());
@@ -395,7 +397,7 @@ class TestRepairShopPersistence {
 
     @Test
     public void testPersistAndLoadTimeSlot(){
-       // Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+        // Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
 
 
         Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
