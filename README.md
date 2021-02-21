@@ -111,7 +111,7 @@ The project report for this deliverable can be found [here](https://github.com/M
 <table>
     <tr>
     <td align="center">Name</td>
-    <td align="center">Contibutions</td>
+    <td>Contibutions</td>
     <td align="center">Hours</td>
   </tr>
    </tr>
@@ -122,7 +122,7 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
-    <td align="center"><ul>
+    <td><ul>
           <li>requirements</li>
           <li>persistence layer testing</li>
           <li>detailed specification of requirements</li>
@@ -138,12 +138,12 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
-    <td align="center">Contibutions</td>
+    <td>Contibutions</td>
     <td align="center">Hours</td>
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
-    <td align="center"><ul>
+    <td ><ul>
           <li>requirements</li>
           <li>use case diagram</li>
           <li>persistence layer testing</li>
