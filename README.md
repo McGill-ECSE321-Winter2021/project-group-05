@@ -87,7 +87,17 @@ We are 5 McGill University students from the Faculty of Engineering
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-    <td align="center">Role</td>
+     <td>
+        <ul>
+          <li>requirements</li>
+          <li>UML diagram and description</li>
+          <li>detailed specification of requirements</li>
+          <li>documentation</li>
+        </ul>
+    </td>
+    
+    
+    
     <td align="center">Sprint 1</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
@@ -140,7 +150,14 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-    <td align="center">Contibutions</td>
+ <td>
+        <ul>
+          <li>requirements</li>
+          <li>UML diagram and description</li>
+          <li>detailed specification of requirements</li>
+          <li>documentation</li>
+        </ul>
+    </td>
     <td align="center">Hours</td>
   </tr>
   <tr>
