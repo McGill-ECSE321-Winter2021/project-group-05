@@ -1,7 +1,8 @@
 # Repair Shop System
 
 ## Project Overview
-(TBD)
+We are developing a website and an Android app to support the business of a local auto-repair shop . In this system, a customer can create a profile, browse available appointment slots, book and pay. The system is implemented in teams of 5. The implementation of this system requires requirements engineering, software development, validation of the system through unit testing and automation of the software delivery process.
+
 ## About Us
 We are 5 McGill University students from the Faculty of Engineering
 <table>
