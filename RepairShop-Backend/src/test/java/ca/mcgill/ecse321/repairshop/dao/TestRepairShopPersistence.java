@@ -25,37 +25,35 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class TestRepairShopPersistence {
 
     @Autowired
-    @Lazy
     private AdministratorRepository administratorRepository;
-    @Lazy
+
     @Autowired
     private TechnicianRepository technicianRepository;
+
     @Autowired
-    @Lazy
     private OwnerRepository ownerRepository;
+
     @Autowired
-    @Lazy
     private CustomerRepository customerRepository;
 
     @Autowired
-    @Lazy
     private AppointmentRepository appointmentRepository;
+
     @Autowired
-    @Lazy
     private BillRepository billRepository;
+
     @Autowired
-    @Lazy
     private BusinessRepository businessRepository;
+
     @Autowired
-    @Lazy
     private ServiceRepository serviceRepository;
+
     @Autowired
-    @Lazy
     private TimeSlotRepository timeSlotRepository;
 
     @AfterEach
     public void clearDatabase() {
-        // Fisrt, we clear business to avoid exceptions due to inconsistencies
+        // First, we clear business to avoid exceptions due to inconsistencies
         businessRepository.deleteAll();
 
         // Then we can clear the other tables
@@ -327,7 +325,8 @@ class TestRepairShopPersistence {
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
         // TODO: add getAppointment Bill
-        //assertNotNull(appointment.getBill().getAppointment(0));
+        assertNotNull(appointment.getBill());
+        assertNotNull(appointment.getBill().getAppointments());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
@@ -338,7 +337,7 @@ class TestRepairShopPersistence {
         appointment=appointmentList.get(0);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-        // assertNotNull(appointment.getBill().getAppointment(0));
+        assertNotNull(appointment.getBill().getAppointments());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
