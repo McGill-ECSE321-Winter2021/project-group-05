@@ -20,9 +20,9 @@ We are 5 McGill University studenst from the Faculty of Engineering
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
-     <td align="center"><a href='gitlink'>gitname</a></td>
-    <td align="center">SMajor</td>
-    <td align="center">YEAR</td>
+     <td align="center"><a href='https://github.com/himelsaha29'>himelsaha29</a></td>
+    <td align="center">Computer Engineering</td>
+    <td align="center">U3</td>
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
@@ -107,7 +107,7 @@ We are 5 McGill University studenst from the Faculty of Engineering
 (assign roles: project manager / software developer/tesing lead / documentation lead)
 
 ### Deliverable 1
-The project report for this deliverable can be found here. (add the link to wiki)
+The project report for this deliverable can be found [here](). 
 <table>
     <tr>
     <td align="center">Name</td>
