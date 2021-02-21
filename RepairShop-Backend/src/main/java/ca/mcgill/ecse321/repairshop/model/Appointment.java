@@ -48,7 +48,7 @@ public class Appointment
     this.bill = bill;
   }
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   public RepairShop getRepairShop() {
     return repairShop;
   }

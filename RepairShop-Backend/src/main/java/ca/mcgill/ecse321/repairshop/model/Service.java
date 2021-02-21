@@ -44,7 +44,7 @@ public class Service
     this.id = id;
   }
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   public RepairShop getRepairShop() {
     return repairShop;
   }

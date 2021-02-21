@@ -64,7 +64,7 @@ public class Business
     this.timeslot = timeslot;
   }
 
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   public RepairShop getRepairShop() {
     return repairShop;
   }
