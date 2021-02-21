@@ -112,7 +112,7 @@ The project report for this deliverable can be found [here](https://github.com/M
     <tr>
     <td align="center">Name</td>
     <td>Contibutions</td>
-    <td align="center">Hours</td>
+    <td align="center">Individual Efforts (hours)</td>
   </tr>
    </tr>
    <tr>
