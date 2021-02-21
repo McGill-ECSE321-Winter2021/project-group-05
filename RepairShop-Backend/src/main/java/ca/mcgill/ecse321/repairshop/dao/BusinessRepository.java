@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface BusinessRepository extends CrudRepository<Business, Long> {
 
-	Business findBusinessByID(Long id);
+	Business findBusinessById(Long id);
 
 	//Business findByTimeSlot(TimeSlot timeslot);
 

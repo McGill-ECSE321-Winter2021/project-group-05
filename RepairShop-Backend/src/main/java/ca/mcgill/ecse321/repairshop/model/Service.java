@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 public class Service
 {
-  private Long ID;
+  private Long id;
 
   //Service Attributes
   private String name;
@@ -45,7 +45,7 @@ public class Service
   }
 
   public void setId(long id) {
-    this.ID = id;
+    this.id = id;
   }
 
   @ManyToOne
@@ -70,6 +70,6 @@ public class Service
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 }

@@ -23,7 +23,7 @@ public class RepairShop
   private List<Bill> bills;
   private List<Service> services;
   private List<Appointment> appointments;
-  private Long ID;
+  private Long id;
 
 
   @OneToMany(cascade = {CascadeType.ALL})
@@ -34,6 +34,7 @@ public class RepairShop
   public void setTimeSlots(List<TimeSlot> timeSlots) {
     this.timeSlots = timeSlots;
   }
+
   @OneToOne(cascade = {CascadeType.ALL})
   public Business getBusiness() {
     return business;
@@ -80,12 +81,12 @@ public class RepairShop
 
 
   public void setId(Long ID) {
-    this.ID = ID;
+    this.id = ID;
   }
 
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 }

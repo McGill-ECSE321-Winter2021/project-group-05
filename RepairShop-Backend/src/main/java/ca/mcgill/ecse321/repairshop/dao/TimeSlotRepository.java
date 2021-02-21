@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface TimeSlotRepository extends CrudRepository<TimeSlot, Long> {
 
-    TimeSlot findTimeSlotByID(Long id);
+    TimeSlot findTimeSlotById(Long id);
 
    // List<TimeSlot> findByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
 

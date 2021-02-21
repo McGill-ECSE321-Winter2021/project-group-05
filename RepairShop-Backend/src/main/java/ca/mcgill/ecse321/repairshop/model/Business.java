@@ -8,8 +8,6 @@ import javax.persistence.*;
 @Entity
 public class Business
 {
-
-
   //Business Attributes
   private String name;
   private String address;
@@ -19,7 +17,7 @@ public class Business
   //Business Associations
   private List<TimeSlot> timeslot;
   private RepairShop repairShop;
-  private Long ID;
+  private Long id;
 
   public String getName() {
     return name;
@@ -72,13 +70,13 @@ public class Business
   }
 
   public void setId(Long id) {
-    this.ID = id;
+    this.id = id;
   }
 
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 
 

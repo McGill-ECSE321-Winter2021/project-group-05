@@ -16,7 +16,7 @@ public class Appointment
   private TimeSlot timeslot;
   private Bill bill;
   private RepairShop repairShop;
-  private Long ID;
+  private Long id;
 
   @ManyToOne
   public Service getService() {
@@ -64,12 +64,12 @@ public class Appointment
   }
 
   public void setId(Long id) {
-    this.ID = id;
+    this.id = id;
   }
 
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 }

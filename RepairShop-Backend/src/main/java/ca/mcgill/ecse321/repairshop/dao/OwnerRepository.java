@@ -4,7 +4,7 @@ import ca.mcgill.ecse321.repairshop.model.Owner;
 
 public interface OwnerRepository extends CrudRepository<Owner, Long>{
    
-    Owner findOwnerByid(Long id);
+    Owner findOwnerById(Long id);
 
 }
 

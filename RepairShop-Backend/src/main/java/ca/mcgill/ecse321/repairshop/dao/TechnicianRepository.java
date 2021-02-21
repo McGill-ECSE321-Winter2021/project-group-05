@@ -8,8 +8,8 @@ import ca.mcgill.ecse321.repairshop.model.Technician;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 
 public interface TechnicianRepository extends CrudRepository<Technician, Long>{
-    Technician findTechnicianByID(Long id);
-    List<Technician> findByTimeSlot(TimeSlot timeSlot);
+    Technician findTechnicianById(Long id);
+    List<Technician> findByTimeSlots(TimeSlot timeSlot);
     //boolean existsByTimeSlot(TimeSlot timeSlot);
     
 }

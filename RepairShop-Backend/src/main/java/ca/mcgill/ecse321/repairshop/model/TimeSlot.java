@@ -16,7 +16,7 @@ public class TimeSlot
 
   //TimeSlot Associations
   private RepairShop repairShop;
-  private Long ID;
+  private Long id;
 
 
   public Date getDate() {
@@ -56,12 +56,12 @@ public class TimeSlot
 
 
   public void setId(Long id) {
-    this.ID = id;
+    this.id = id;
   }
 
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 }

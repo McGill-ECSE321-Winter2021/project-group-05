@@ -89,7 +89,7 @@ class TestRepairShopPersistence {
         Long id =customer.getId();
 
         customer =null;
-        customer=customerRepository.findCustomerByID(id);
+        customer=customerRepository.findCustomerById(id);
         assertNotNull(customer);
         assertEquals(email,customer.getEmail());
         assertEquals(password,customer.getPassword());
@@ -144,7 +144,7 @@ class TestRepairShopPersistence {
 
 
         technician =null;
-        technician=technicianRepository.findTechnicianByID(id);
+        technician=technicianRepository.findTechnicianById(id);
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());
@@ -152,7 +152,7 @@ class TestRepairShopPersistence {
         assertEquals(name,technician.getUsername());
 
         technician =null;
-        List<Technician> technicianList = technicianRepository.findByTimeSlot(timeSlot);
+        List<Technician> technicianList = technicianRepository.findByTimeSlots(timeSlot);
         assertNotNull(technicianList);
         technician=technicianList.get(0);
         assertNotNull(technician);
@@ -183,7 +183,7 @@ class TestRepairShopPersistence {
         Long id=administrator.getId();
 
         administrator =null;
-        administrator=administratorRepository.findAdministratorByID(id);
+        administrator=administratorRepository.findAdministratorById(id);
         assertNotNull(administrator);
         assertEquals(email,administrator.getEmail());
         assertEquals(password,administrator.getPassword());
@@ -213,7 +213,7 @@ class TestRepairShopPersistence {
         Long id=owner.getId();
 
         owner =null;
-        owner=ownerRepository.findOwnerByid(id);
+        owner=ownerRepository.findOwnerById(id);
         assertNotNull(owner);
         assertEquals(email,owner.getEmail());
         assertEquals(password,owner.getPassword());
@@ -256,7 +256,7 @@ class TestRepairShopPersistence {
         Long billId = bill.getId();
 
         bill =null;
-        bill=billRepository.findBillByID(billId);
+        bill=billRepository.findBillById(billId);
         assertNotNull(bill);
         //assertEquals(billId,bill.getId());
         assertEquals(testCost,bill.getTotalCost());
@@ -331,7 +331,7 @@ class TestRepairShopPersistence {
         Long appointmentID= appointment.getId();
 
         appointment=null;
-        appointment=appointmentRepository.findAppointmentByID(appointmentID);
+        appointment=appointmentRepository.findAppointmentById(appointmentID);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
         // TODO: add getAppointment Bill
@@ -369,7 +369,7 @@ class TestRepairShopPersistence {
         Long serviceId = service.getId();
 
         service=null;
-        service=serviceRepository.findServiceByIDString(serviceId);
+        service=serviceRepository.findServiceById(serviceId);
         assertNotNull(service);
         // assertEquals(serviceId,service.getId());
         assertEquals(serviceName,service.getName());
@@ -395,7 +395,7 @@ class TestRepairShopPersistence {
         Long id = business.getId();
 
         business = null;
-        business=businessRepository.findBusinessByID(id);
+        business=businessRepository.findBusinessById(id);
         assertNotNull(business);
         assertEquals(address,business.getAddress());
         assertEquals(email,business.getEmail());
@@ -424,7 +424,7 @@ class TestRepairShopPersistence {
         Long timeSlotID =timeSlot.getId();
 
         timeSlot = null;
-        timeSlot = timeSlotRepository.findTimeSlotByID(timeSlotID);
+        timeSlot = timeSlotRepository.findTimeSlotById(timeSlotID);
         assertNotNull(timeSlot);
         assertEquals(timeSlotID, timeSlot.getId());
         assertEquals(endDate.toString(), timeSlot.getDate().toString());

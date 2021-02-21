@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface BillRepository extends CrudRepository<Bill, Long> {
-    Bill findBillByID(Long id);
+    Bill findBillById(Long id);
 
     //Bill findByAppointmentAndByCustomer(Appointment app, Customer customer);
     //List<Bill> findByCustomer(Customer customer);

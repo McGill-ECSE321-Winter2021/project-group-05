@@ -9,7 +9,7 @@ import ca.mcgill.ecse321.repairshop.model.Bill;
 import ca.mcgill.ecse321.repairshop.model.Customer;
 
 public interface CustomerRepository extends CrudRepository<Customer, Long>{
-    Customer findCustomerByID(Long id);
+    Customer findCustomerById(Long id);
     
     //Customer findByBill(Bill bill);
     //Customer findByAppointment(Appointment app);

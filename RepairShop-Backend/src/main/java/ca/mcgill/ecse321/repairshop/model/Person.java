@@ -19,7 +19,7 @@ public abstract class Person
 
   //Person Associations
   private RepairShop repairShop;
-  private Long ID;
+  private Long id;
 
   public String getEmail() {
     return email;
@@ -55,12 +55,12 @@ public abstract class Person
   }
 
   public void setId(Long id) {
-    this.ID = id;
+    this.id = id;
   }
 
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 }

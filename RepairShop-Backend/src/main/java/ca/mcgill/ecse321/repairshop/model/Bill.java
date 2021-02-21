@@ -21,7 +21,7 @@ public class Bill
   private RepairShop repairShop;
   private Customer customer;
   private List<Appointment> appointments;
-  private Long ID;
+  private Long id;
 
   public Date getDate() {
     return date;
@@ -67,12 +67,12 @@ public class Bill
   }
 
   public void setId(Long id) {
-    this.ID = id;
+    this.id = id;
   }
 
   @Id
   @GeneratedValue
   public Long getId() {
-    return ID;
+    return id;
   }
 }
