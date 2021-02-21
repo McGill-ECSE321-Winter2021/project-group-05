@@ -39,7 +39,7 @@ public abstract class Person
     this.password = password;
   }
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   public RepairShop getRepairShop() {
     return repairShop;
   }

@@ -25,37 +25,35 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class TestRepairShopPersistence {
 
     @Autowired
-    @Lazy
     private AdministratorRepository administratorRepository;
-    @Lazy
+
     @Autowired
     private TechnicianRepository technicianRepository;
+
     @Autowired
-    @Lazy
     private OwnerRepository ownerRepository;
+
     @Autowired
-    @Lazy
     private CustomerRepository customerRepository;
 
     @Autowired
-    @Lazy
     private AppointmentRepository appointmentRepository;
+
     @Autowired
-    @Lazy
     private BillRepository billRepository;
+
     @Autowired
-    @Lazy
     private BusinessRepository businessRepository;
+
     @Autowired
-    @Lazy
     private ServiceRepository serviceRepository;
+
     @Autowired
-    @Lazy
     private TimeSlotRepository timeSlotRepository;
 
     @AfterEach
     public void clearDatabase() {
-        // Fisrt, we clear business to avoid exceptions due to inconsistencies
+        // First, we clear business to avoid exceptions due to inconsistencies
         businessRepository.deleteAll();
 
         // Then we can clear the other tables
@@ -85,6 +83,10 @@ class TestRepairShopPersistence {
         customer.setPassword(password);
         customer.setEmail(email);
 
+        RepairShop rs = new RepairShop();
+        customer.setRepairShop(rs);
+
+
         customerRepository.save(customer);
         
         Long id = customer.getId();
@@ -97,10 +99,11 @@ class TestRepairShopPersistence {
         assertEquals(password,customer.getPassword());
         assertEquals(id,customer.getId());
         assertEquals(name,customer.getUsername());
+        assertNotNull(customer.getRepairShop());
     }
 
     /**
-     * tesing association between timeslot and tevchnician
+     * testing association between timeslot and technician
      */
     @Test
     public void testPersistAndLoadTechnician() {
@@ -116,17 +119,19 @@ class TestRepairShopPersistence {
         timeSlot.setStartTime(startTime);
         timeSlot.setEndTime(endTime);
         timeSlot.setDate(date);
+
+        RepairShop rs = new RepairShop();
         
         timeSlotRepository.save(timeSlot);
         
         Long timeSlotID = timeSlot.getId();
 
-        // First example for object save/load
         Technician technician = new Technician();
         technician.setUsername(name);
         technician.setPassword(password);
         technician.setEmail(email);
         technician.setTimeSlot(timeSlot);
+        technician.setRepairShop(rs);
 
         technicianRepository.save(technician);
         
@@ -140,6 +145,7 @@ class TestRepairShopPersistence {
         assertEquals(password,technician.getPassword());
         assertEquals(id,technician.getId());
         assertEquals(name,technician.getUsername());
+        assertNotNull(technician.getRepairShop());
 
         technician = null;
         
@@ -152,6 +158,7 @@ class TestRepairShopPersistence {
         assertEquals(password,technician.getPassword());
         assertEquals(id,technician.getId());
         assertEquals(name,technician.getUsername());
+        assertNotNull(technician.getRepairShop());
     }
     
     /**
@@ -164,12 +171,14 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Administrator administrator = new Administrator();
 
         administrator.setUsername(name);
         administrator.setPassword(password);
         administrator.setEmail(email);
+
+        RepairShop rs = new RepairShop();
+        administrator.setRepairShop(rs);
         
         administratorRepository.save(administrator);
         
@@ -182,6 +191,7 @@ class TestRepairShopPersistence {
         assertEquals(email,administrator.getEmail());
         assertEquals(password,administrator.getPassword());
         assertEquals(name,administrator.getUsername());
+        assertNotNull(administrator.getRepairShop());
 
     }
 
@@ -195,11 +205,13 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Owner owner = new Owner();
         owner.setUsername(name);
         owner.setPassword(password);
         owner.setEmail(email);
+
+        RepairShop rs = new RepairShop();
+        owner.setRepairShop(rs);
         
         ownerRepository.save(owner);
         
@@ -213,6 +225,7 @@ class TestRepairShopPersistence {
         assertEquals(password,owner.getPassword());
         assertEquals(id,owner.getId());
         assertEquals(name,owner.getUsername());
+        assertNotNull(owner.getRepairShop());
 
     }
 
@@ -226,12 +239,14 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
         customer.setEmail(email);
-        
+
+        RepairShop rs = new RepairShop();
+        customer.setRepairShop(rs);
+
         customerRepository.save(customer);
         
         Long customerId = customer.getId();
@@ -239,11 +254,11 @@ class TestRepairShopPersistence {
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
 
-        // First example for object save/load
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
+        bill.setRepairShop(rs);
 
         billRepository.save(bill);
         
@@ -260,6 +275,7 @@ class TestRepairShopPersistence {
         assertEquals(password,bill.getCustomer().getPassword());
         assertEquals(customerId,bill.getCustomer().getId());
         assertEquals(date.toString(),bill.getDate().toString());
+        assertNotNull(bill.getRepairShop());
 
     }
 
@@ -270,7 +286,6 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
@@ -281,7 +296,6 @@ class TestRepairShopPersistence {
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
 
-        // First example for object save/load
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
@@ -291,7 +305,6 @@ class TestRepairShopPersistence {
 
         TimeSlot timeSlot = new TimeSlot();
         Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-
 
         Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
         Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
@@ -317,6 +330,9 @@ class TestRepairShopPersistence {
         appointment.setBill(bill);
         appointment.setCustomer(customer);
 
+        RepairShop rs = new RepairShop();
+        appointment.setRepairShop(rs);
+
         appointment.setService(service);
         appointment.setTimeslot(timeSlot);
         appointmentRepository.save(appointment);
@@ -326,8 +342,8 @@ class TestRepairShopPersistence {
         appointment=appointmentRepository.findAppointmentById(appointmentID);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-        // TODO: add getAppointment Bill
-        //assertNotNull(appointment.getBill().getAppointment(0));
+        assertNotNull(appointment.getBill());
+        assertNotNull(appointment.getBill().getAppointments());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
@@ -338,11 +354,12 @@ class TestRepairShopPersistence {
         appointment=appointmentList.get(0);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-        // assertNotNull(appointment.getBill().getAppointment(0));
+        assertNotNull(appointment.getBill().getAppointments());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
         assertEquals(serviceID,appointment.getService().getId());
+        assertNotNull(appointment.getRepairShop());
     }
 
     /**
@@ -359,6 +376,9 @@ class TestRepairShopPersistence {
         service.setName(serviceName);
         service.setDuration(duration);
         service.setCost(cost);
+
+        RepairShop rs = new RepairShop();
+        service.setRepairShop(rs);
         serviceRepository.save(service);
         Long serviceId = service.getId();
 
@@ -369,6 +389,7 @@ class TestRepairShopPersistence {
         assertEquals(serviceName,service.getName());
         assertEquals(duration,service.getDuration());
         assertEquals(cost,service.getCost());
+        assertNotNull(service.getRepairShop());
     }
     
     /**
@@ -377,7 +398,7 @@ class TestRepairShopPersistence {
     @Test
     public void testPersistAndLoadBusiness(){
         String address = "MTL";
-        String email = "buesiness@123.com";
+        String email = "business@123.com";
         String phone = "514123456";
         String name = "testBusiness";
         Business business = new Business();
@@ -386,6 +407,9 @@ class TestRepairShopPersistence {
         business.setEmail(email);
         business.setPhoneNumber(phone);
         business.setName(name);
+
+        RepairShop rs = new RepairShop();
+        business.setRepairShop(rs);
         
         businessRepository.save(business);
         
@@ -400,6 +424,7 @@ class TestRepairShopPersistence {
         assertEquals(id,business.getId());
         assertEquals(phone,business.getPhoneNumber());
         assertEquals(name,business.getName());
+        assertNotNull(business.getRepairShop());
 
     }
     
@@ -418,6 +443,9 @@ class TestRepairShopPersistence {
         timeSlot.setStartTime(startTime);
         timeSlot.setDate(date);
 
+        RepairShop rs = new RepairShop();
+        timeSlot.setRepairShop(rs);
+
         timeSlotRepository.save(timeSlot);
         
         Long timeSlotID =timeSlot.getId();
@@ -430,6 +458,7 @@ class TestRepairShopPersistence {
         assertEquals(date.toString(), timeSlot.getDate().toString());
         assertEquals(startTime.toString(), timeSlot.getStartTime().toString());
         assertEquals(endTime.toString(), timeSlot.getEndTime().toString());
+        assertNotNull(timeSlot.getRepairShop());
     }
 
 }
