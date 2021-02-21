@@ -107,7 +107,7 @@ We are 5 McGill University studenst from the Faculty of Engineering
 (assign roles: project manager / software developer/tesing lead / documentation lead)
 
 ### Deliverable 1
-The project report for this deliverable can be found [here](). 
+The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-1-Project-Report). 
 <table>
     <tr>
     <td align="center">Name</td>
