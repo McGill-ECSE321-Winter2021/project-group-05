@@ -66,7 +66,7 @@ We are 5 McGill University students from the Faculty of Engineering
    <tr>
     <td align="center">Florence Yared</td>
     <td align="center">Software Developer</td>
-    <td align="center">Sprint 1</td>
+    <td align="center">23</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
@@ -118,8 +118,15 @@ The project report for this deliverable can be found [here](https://github.com/M
    </tr>
    <tr>
     <td align="center">Florence Yared</td>
-    <td align="center">Contibutions</td>
-    <td align="center">Hours</td>
+    <td><ul>
+          <li>requirements</li>
+          <li>persistence layer</li>
+          <li>detailed specification of requirements</li>
+          <li>documentation</li>
+          <li>use case diagram</li>
+        </ul>
+    </td>
+    <td align="center">23</td>
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
