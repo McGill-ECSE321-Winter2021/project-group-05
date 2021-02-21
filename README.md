@@ -72,7 +72,14 @@ We are 5 McGill University studenst from the Faculty of Engineering
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
-    <td align="center">Role</td>
+        <td>
+        <ul>
+          <li>requirements</li>
+          <li>persistence layer testing</li>
+          <li>detailed specification of requirements</li>
+          <li>documentation</li>
+        </ul>
+    </td>
     <td align="center">23.5</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
@@ -111,13 +118,13 @@ The project report for this deliverable can be found [here](https://github.com/M
 <table>
     <tr>
     <td align="center">Name</td>
-    <td align="center">Contibutions</td>
+    <td>Contibutions</td>
     <td align="center">Individual Efforts (hours)</td>
   </tr>
    </tr>
    <tr>
     <td align="center">Florence Yared</td>
-    <td>Contibutions</td>
+    <td align="center">Contibutions</td>
     <td align="center">Hours</td>
   </tr>
   <tr>
@@ -133,7 +140,7 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-    <td>Contibutions</td>
+    <td align="center">Contibutions</td>
     <td align="center">Hours</td>
   </tr>
   <tr>
