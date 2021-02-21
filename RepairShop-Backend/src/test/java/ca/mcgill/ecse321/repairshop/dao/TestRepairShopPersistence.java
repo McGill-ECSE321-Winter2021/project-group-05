@@ -38,14 +38,19 @@ class TestRepairShopPersistence {
     private CustomerRepository customerRepository;
 
     @Autowired
+    @Lazy
     private AppointmentRepository appointmentRepository;
     @Autowired
+    @Lazy
     private BillRepository billRepository;
     @Autowired
+    @Lazy
     private BusinessRepository businessRepository;
     @Autowired
+    @Lazy
     private ServiceRepository serviceRepository;
     @Autowired
+    @Lazy
     private TimeSlotRepository timeSlotRepository;
 
     @AfterEach
