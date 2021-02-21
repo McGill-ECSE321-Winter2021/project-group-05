@@ -14,9 +14,9 @@ We are 5 McGill University studenst from the Faculty of Engineering
    </tr>
    <tr>
     <td align="center">Florence Yared</td>
-     <td align="center"><a href='gitlink'>gitname</a></td>
-    <td align="center">Major</td>
-    <td align="center">YEAR</td>
+     <td align="center"><a href='https://github.com/flo0126'>flo0126</a></td>
+    <td align="center">Software Engineering</td>
+    <td align="center">U2</td>
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
@@ -26,15 +26,15 @@ We are 5 McGill University studenst from the Faculty of Engineering
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-     <td align="center"><a href='gitlink'>gitname</a></td>
-    <td align="center">Major</td>
-    <td align="center">YEAR</td>
+     <td align="center"><a href='https://github.com/Rakshitharavi09'>Rakshitharavi09</a></td>
+    <td align="center">Computer Engineering</td>
+    <td align="center">U3</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
-    <td align="center"><a href='gitlink'>gitname</a></td>
-    <td align="center">Major</td>
-    <td align="center">YEAR</td>
+    <td align="center"><a href='https://github.com/saikz72'>saikz72</a></td>
+    <td align="center">Software Engineering</td>
+    <td align="center">U3</td>
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
