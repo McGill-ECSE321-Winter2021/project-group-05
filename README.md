@@ -65,7 +65,7 @@ We are 5 McGill University students from the Faculty of Engineering
    </tr>
    <tr>
     <td align="center">Florence Yared</td>
-    <td align="center">Role</td>
+    <td align="center">Software Developer</td>
     <td align="center">Sprint 1</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
@@ -73,14 +73,7 @@ We are 5 McGill University students from the Faculty of Engineering
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
-        <td>
-        <ul>
-          <li>requirements</li>
-          <li>persistence layer testing</li>
-          <li>detailed specification of requirements</li>
-          <li>documentation</li>
-        </ul>
-    </td>
+    <td align="center">Testing Lead</td>
     <td align="center">23.5</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
@@ -88,25 +81,15 @@ We are 5 McGill University students from the Faculty of Engineering
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
-     <td>
-        <ul>
-          <li>requirements</li>
-          <li>UML diagram and description</li>
-          <li>detailed specification of requirements</li>
-          <li>documentation</li>
-        </ul>
-    </td>
-    
-    
-    
-   <td align="center">Sprint 1</td>
+     <td align="center">Project Manager</td>
+    <td align="center">Sprint 1</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
-    <td align="center">Role</td>
+    <td align="center">Testing Lead</td>
     <td align="center">Sprint 1</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
@@ -114,7 +97,7 @@ We are 5 McGill University students from the Faculty of Engineering
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
-    <td align="center">Role</td>
+    <td align="center">Documentation Lead</td>
     <td align="center">25</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
