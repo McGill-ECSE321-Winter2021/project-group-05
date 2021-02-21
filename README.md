@@ -98,7 +98,7 @@ We are 5 McGill University students from the Faculty of Engineering
     
     
     
-    <td align="center">Sprint 1</td>
+   <td align="center">Sprint 1</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
