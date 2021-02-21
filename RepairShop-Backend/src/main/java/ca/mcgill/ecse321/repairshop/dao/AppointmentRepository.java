@@ -6,15 +6,15 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface AppointmentRepository extends CrudRepository<Appointment, String>{
+public interface AppointmentRepository extends CrudRepository<Appointment, Long>{
     
-    Appointment findAppointmentByID(String id);
+    Appointment findAppointmentByID(Long id);
 
     //List<Appointment> findByService(Service service);
     //List<Appointment> findByBill(Bill bill);
     List<Appointment> findByServiceAndBill(Service service, Bill bill);
 
-    boolean existsByServiceAndBill(Service service,Bill bill);
+   // boolean existsByServiceAndBill(Service service,Bill bill);
 
     
 }

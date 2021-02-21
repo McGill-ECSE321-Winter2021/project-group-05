@@ -9,12 +9,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface TimeSlotRepository extends CrudRepository<TimeSlot, String> {
+public interface TimeSlotRepository extends CrudRepository<TimeSlot, Long> {
 
-    TimeSlot findTimeSlotByID(String id);
+    TimeSlot findTimeSlotByID(Long id);
 
    // List<TimeSlot> findByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
 
-    boolean existsByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
+    //boolean existsByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
     
 }

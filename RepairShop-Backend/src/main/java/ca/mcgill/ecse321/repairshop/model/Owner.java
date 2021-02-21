@@ -5,33 +5,22 @@ package ca.mcgill.ecse321.repairshop.model;
 
 import javax.persistence.Entity;
 
-// line 61 "model.ump"
-// line 142 "model.ump"
 @Entity
 public class Owner extends Person
 {
+    /*
+    private Long ID;
+    public void setId(Long id) {
+        this.ID = id;
+    }
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return ID;
+    }
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+     */
 
-  public Owner(String aEmail, String aUsername, String aPassword, String aId, RepairShop aRepairShop)
-  {
-    super(aEmail, aUsername, aPassword, aId, aRepairShop);
-  }
-  public Owner(){super();}
-
-  //------------------------
-  // INTERFACE
-  //------------------------
-
-  public void delete()
-  {
-    super.delete();
-  }
 
 }

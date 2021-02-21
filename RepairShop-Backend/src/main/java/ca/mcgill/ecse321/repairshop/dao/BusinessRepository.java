@@ -6,13 +6,13 @@ import ca.mcgill.ecse321.repairshop.model.Business;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BusinessRepository extends CrudRepository<Business, String> {
+public interface BusinessRepository extends CrudRepository<Business, Long> {
 
-	Business findBusinessByID(String id);
+	Business findBusinessByID(Long id);
 
-	Business findByTimeSlot(TimeSlot timeslot);
+	//Business findByTimeSlot(TimeSlot timeslot);
 
-	boolean existsByTimeSlot(TimeSlot timeSlot);
+	//boolean existsByTimeSlot(TimeSlot timeSlot);
 
 
 
