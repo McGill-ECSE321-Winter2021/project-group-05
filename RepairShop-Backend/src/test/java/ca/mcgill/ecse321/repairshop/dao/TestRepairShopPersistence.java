@@ -103,7 +103,7 @@ class TestRepairShopPersistence {
     }
 
     /**
-     * tesing association between timeslot and tevchnician
+     * testing association between timeslot and technician
      */
     @Test
     public void testPersistAndLoadTechnician() {
@@ -120,13 +120,12 @@ class TestRepairShopPersistence {
         timeSlot.setEndTime(endTime);
         timeSlot.setDate(date);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         
         timeSlotRepository.save(timeSlot);
         
         Long timeSlotID = timeSlot.getId();
 
-        // First example for object save/load
         Technician technician = new Technician();
         technician.setUsername(name);
         technician.setPassword(password);
@@ -154,7 +153,6 @@ class TestRepairShopPersistence {
         
         assertNotNull(technicianList);
         technician = technicianList.get(0);
-        System.out.println(technicianList.size());
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());
@@ -173,14 +171,13 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Administrator administrator = new Administrator();
 
         administrator.setUsername(name);
         administrator.setPassword(password);
         administrator.setEmail(email);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         administrator.setRepairShop(rs);
         
         administratorRepository.save(administrator);
@@ -208,13 +205,12 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Owner owner = new Owner();
         owner.setUsername(name);
         owner.setPassword(password);
         owner.setEmail(email);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         owner.setRepairShop(rs);
         
         ownerRepository.save(owner);
@@ -243,16 +239,14 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
         customer.setEmail(email);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         customer.setRepairShop(rs);
 
-        
         customerRepository.save(customer);
         
         Long customerId = customer.getId();
@@ -260,7 +254,6 @@ class TestRepairShopPersistence {
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
 
-        // First example for object save/load
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
@@ -293,7 +286,6 @@ class TestRepairShopPersistence {
         String password = "TestPassword";
         String email = "testemail@123.com";
 
-        // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
@@ -304,7 +296,6 @@ class TestRepairShopPersistence {
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
 
-        // First example for object save/load
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
@@ -314,7 +305,6 @@ class TestRepairShopPersistence {
 
         TimeSlot timeSlot = new TimeSlot();
         Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-
 
         Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
         Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
@@ -340,7 +330,7 @@ class TestRepairShopPersistence {
         appointment.setBill(bill);
         appointment.setCustomer(customer);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         appointment.setRepairShop(rs);
 
         appointment.setService(service);
@@ -387,7 +377,7 @@ class TestRepairShopPersistence {
         service.setDuration(duration);
         service.setCost(cost);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         service.setRepairShop(rs);
         serviceRepository.save(service);
         Long serviceId = service.getId();
@@ -418,7 +408,7 @@ class TestRepairShopPersistence {
         business.setPhoneNumber(phone);
         business.setName(name);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         business.setRepairShop(rs);
         
         businessRepository.save(business);
@@ -453,7 +443,7 @@ class TestRepairShopPersistence {
         timeSlot.setStartTime(startTime);
         timeSlot.setDate(date);
 
-        RepairShop rs = createRepairShop();
+        RepairShop rs = new RepairShop();
         timeSlot.setRepairShop(rs);
 
         timeSlotRepository.save(timeSlot);
@@ -469,12 +459,6 @@ class TestRepairShopPersistence {
         assertEquals(startTime.toString(), timeSlot.getStartTime().toString());
         assertEquals(endTime.toString(), timeSlot.getEndTime().toString());
         assertNotNull(timeSlot.getRepairShop());
-    }
-
-
-    public RepairShop createRepairShop(){
-        RepairShop rs = new RepairShop();
-        return rs;
     }
 
 }
