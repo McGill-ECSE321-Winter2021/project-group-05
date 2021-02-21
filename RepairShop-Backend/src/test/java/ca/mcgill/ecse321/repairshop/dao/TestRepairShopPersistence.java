@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Date;
@@ -24,12 +25,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class TestRepairShopPersistence {
 
     @Autowired
+    @Lazy
     private AdministratorRepository administratorRepository;
+    @Lazy
     @Autowired
     private TechnicianRepository technicianRepository;
     @Autowired
+    @Lazy
     private OwnerRepository ownerRepository;
     @Autowired
+    @Lazy
     private CustomerRepository customerRepository;
 
     @Autowired

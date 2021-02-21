@@ -3,7 +3,7 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.repairshop.model.Administrator;
 import org.springframework.stereotype.Repository;
 
-@Repository
+
 public interface AdministratorRepository extends CrudRepository<Administrator, Long>{
 
 
