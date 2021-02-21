@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Date;
@@ -18,27 +19,38 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class TestRepairShopPersistence {
+
     @Autowired
+    @Lazy
     private AdministratorRepository administratorRepository;
+    @Lazy
     @Autowired
     private TechnicianRepository technicianRepository;
     @Autowired
+    @Lazy
     private OwnerRepository ownerRepository;
     @Autowired
+    @Lazy
     private CustomerRepository customerRepository;
 
     @Autowired
+    @Lazy
     private AppointmentRepository appointmentRepository;
     @Autowired
+    @Lazy
     private BillRepository billRepository;
     @Autowired
+    @Lazy
     private BusinessRepository businessRepository;
     @Autowired
+    @Lazy
     private ServiceRepository serviceRepository;
     @Autowired
+    @Lazy
     private TimeSlotRepository timeSlotRepository;
 
     @AfterEach
@@ -57,26 +69,29 @@ class TestRepairShopPersistence {
         timeSlotRepository.deleteAll();
     }
 
+    /**
+     * testing customer
+     */
     @Test
     public void testPersistAndLoadCustomer() {
-        /**
-         * testing customer
-         */
+    	
         String name = "TestCustomer";
         String password = "TestPassword";
         String email = "testemail@123.com";
-        String id="c1";
 
         // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
         customer.setEmail(email);
-        customer.setId(id);
-        customerRepository.save(customer);
 
-        customer =null;
-        customer=customerRepository.findCustomerByID(id);
+        customerRepository.save(customer);
+        
+        Long id = customer.getId();
+        customer = null;
+        
+        customer = customerRepository.findCustomerById(id);
+        
         assertNotNull(customer);
         assertEquals(email,customer.getEmail());
         assertEquals(password,customer.getPassword());
@@ -84,114 +99,115 @@ class TestRepairShopPersistence {
         assertEquals(name,customer.getUsername());
     }
 
-
+    /**
+     * tesing association between timeslot and tevchnician
+     */
     @Test
     public void testPersistAndLoadTechnician() {
-
-
-        /**
-        * tesing association between timeslot and tevchnician
-        */
-        TimeSlot timeSlot = new TimeSlot();
-        Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-        String timeSlotID = "t1";
-        //TODO: only 1 date?
-        Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-        Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-        Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
-        timeSlot.setStartTime(startTime);
-        timeSlot.setStartDate(startDate);
-        timeSlot.setEndTime(endTime);
-        timeSlot.setEndDate(endDate);
-        timeSlot.setId(timeSlotID);
-        timeSlotRepository.save(timeSlot);
-
-        /**
-         * testing technician
-         */
+    	
         String name = "TestTechnician";
         String password = "TestPassword";
         String email = "testemail@123.com";
-        String id="t1";
+        
+        TimeSlot timeSlot = new TimeSlot();
+        Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+        Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+        Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+        timeSlot.setStartTime(startTime);
+        timeSlot.setEndTime(endTime);
+        timeSlot.setDate(date);
+        
+        timeSlotRepository.save(timeSlot);
+        
+        Long timeSlotID = timeSlot.getId();
 
         // First example for object save/load
         Technician technician = new Technician();
         technician.setUsername(name);
         technician.setPassword(password);
         technician.setEmail(email);
-        technician.setId(id);
-        technician.addTimeSlot(timeSlot);
+        technician.setTimeSlot(timeSlot);
+
         technicianRepository.save(technician);
-
-
-        technician =null;
-        technician=technicianRepository.findTechnicianByID(id);
+        
+        Long id = technician.getId();
+        technician = null;
+        
+        technician = technicianRepository.findTechnicianById(id);
+        
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());
         assertEquals(id,technician.getId());
         assertEquals(name,technician.getUsername());
 
-        technician =null;
-        List<Technician> technicianList = technicianRepository.findByTimeSlot(timeSlot);
+        technician = null;
+        
+        List<Technician> technicianList = technicianRepository.findByTimeSlots(timeSlot);
+        
         assertNotNull(technicianList);
-        technician=technicianList.get(0);
+        technician = technicianList.get(0);
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());
         assertEquals(id,technician.getId());
         assertEquals(name,technician.getUsername());
     }
-
+    
+    /**
+     * testing Administrator
+     */
     @Test
     public void testPersistAndLoadAdministrator() {
-        /**
-         * testing Administrator
-         */
+        
         String name = "TestAdministrator";
         String password = "TestPassword";
         String email = "testemail@123.com";
-        String id="a1";
 
         // First example for object save/load
         Administrator administrator = new Administrator();
+
         administrator.setUsername(name);
         administrator.setPassword(password);
         administrator.setEmail(email);
-        administrator.setId(id);
+        
         administratorRepository.save(administrator);
-
-        administrator =null;
-        administrator=administratorRepository.findAdministratorByID(id);
+        
+        Long id=administrator.getId();
+        administrator = null;
+        
+        administrator=administratorRepository.findAdministratorById(id);
+        
         assertNotNull(administrator);
         assertEquals(email,administrator.getEmail());
         assertEquals(password,administrator.getPassword());
-        assertEquals(id,administrator.getId());
         assertEquals(name,administrator.getUsername());
 
     }
 
-
+    /**
+     * testing Owner
+     */
     @Test
     public void testPersistAndLoadOwner() {
-        /**
-         * testing Owner
-         */
+    	
         String name = "TestOwner";
         String password = "TestPassword";
         String email = "testemail@123.com";
-        String id="o1";
 
         // First example for object save/load
         Owner owner = new Owner();
         owner.setUsername(name);
         owner.setPassword(password);
         owner.setEmail(email);
-        owner.setId(id);
+        
         ownerRepository.save(owner);
-
-        owner =null;
-        owner=ownerRepository.findOwnerByID(id);
+        
+        Long id = owner.getId();
+        owner = null;
+        
+        owner = ownerRepository.findOwnerById(id); 
+        
         assertNotNull(owner);
         assertEquals(email,owner.getEmail());
         assertEquals(password,owner.getPassword());
@@ -200,44 +216,48 @@ class TestRepairShopPersistence {
 
     }
 
+    /**
+     * testing Bill
+     */
     @Test
     public void testPersistAndLoadBill() {
 
-        /**
-         * testing Bill
-         */
         String name = "TestCustomer";
         String password = "TestPassword";
         String email = "testemail@123.com";
-        String customerId="c2";
 
         // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
         customer.setEmail(email);
-        customer.setId(customerId);
+        
         customerRepository.save(customer);
-
+        
+        Long customerId = customer.getId();
+        
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
-        String billId = "b1";
+
         // First example for object save/load
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
-        bill.setId(billId);
-        billRepository.save(bill);
 
-        bill =null;
-        bill=billRepository.findBillByID(billId);
+        billRepository.save(bill);
+        
+        Long billId = bill.getId();
+
+        bill = null;
+        bill = billRepository.findBillById(billId);
+        
         assertNotNull(bill);
         assertEquals(billId,bill.getId());
         assertEquals(testCost,bill.getTotalCost());
-        //assertEquals(name,bill.getCustomer().getUsername());
-        //assertEquals(email,bill.getCustomer().getEmail());
-        //assertEquals(password,bill.getCustomer().getPassword());
+        assertEquals(name,bill.getCustomer().getUsername());
+        assertEquals(email,bill.getCustomer().getEmail());
+        assertEquals(password,bill.getCustomer().getPassword());
         assertEquals(customerId,bill.getCustomer().getId());
         assertEquals(date.toString(),bill.getDate().toString());
 
@@ -245,70 +265,69 @@ class TestRepairShopPersistence {
 
     @Test
     public void testPersistAndLoadAppointment() {
-        String appointmentID="a1";
+
         String name = "TestCustomer";
         String password = "TestPassword";
         String email = "testemail@123.com";
-        String customerId="c2";
 
         // First example for object save/load
         Customer customer = new Customer();
         customer.setUsername(name);
         customer.setPassword(password);
         customer.setEmail(email);
-        customer.setId(customerId);
         customerRepository.save(customer);
+        Long customerId= customer.getId();
 
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
-        String billId = "b1";
+
         // First example for object save/load
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
-        bill.setId(billId);
         billRepository.save(bill);
+        Long billId = bill.getId();
 
         TimeSlot timeSlot = new TimeSlot();
         Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-        String timeSlotID = "t1";
-        //TODO: only 1 date?
-        Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+
+
         Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
         Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
         timeSlot.setStartTime(startTime);
-        timeSlot.setStartDate(startDate);
+        timeSlot.setDate(startDate);
         timeSlot.setEndTime(endTime);
-        timeSlot.setEndDate(endDate);
-        timeSlot.setId(timeSlotID);
         timeSlotRepository.save(timeSlot);
+        Long timeSlotID = timeSlot.getId();
 
         Service service = new Service();
         float serviceCost = 9;
         int serviceDuration = 45;
         String serviceName = "change tire";
-        String serviceID="s1";
+
         service.setCost(serviceCost);
         service.setDuration(serviceDuration);
         service.setName(serviceName);
-        service.setId(serviceID);
         serviceRepository.save(service);
+        Long serviceID=service.getId();
 
         Appointment appointment = new Appointment();
 
         appointment.setBill(bill);
         appointment.setCustomer(customer);
-        appointment.setId(appointmentID);
+
         appointment.setService(service);
         appointment.setTimeslot(timeSlot);
         appointmentRepository.save(appointment);
+        Long appointmentID= appointment.getId();
 
         appointment=null;
-        appointment=appointmentRepository.findAppointmentByID(appointmentID);
+        appointment=appointmentRepository.findAppointmentById(appointmentID);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-        assertNotNull(appointment.getBill().getAppointment(0));
+        // TODO: add getAppointment Bill
+        //assertNotNull(appointment.getBill().getAppointment(0));
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
@@ -319,54 +338,62 @@ class TestRepairShopPersistence {
         appointment=appointmentList.get(0);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-        assertNotNull(appointment.getBill().getAppointment(0));
+        // assertNotNull(appointment.getBill().getAppointment(0));
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
         assertEquals(serviceID,appointment.getService().getId());
     }
 
+    /**
+     * Testing persisting and loading a service
+     */
     @Test
     public void testPersistAndLoadService() {
 
-        String serviceId = "s1";
         String serviceName = "repair window";
         int duration = 30;
         float cost = 10;
         Service service = new Service();
-        service.setId(serviceId);
+
         service.setName(serviceName);
         service.setDuration(duration);
         service.setCost(cost);
         serviceRepository.save(service);
+        Long serviceId = service.getId();
 
         service=null;
-        service=serviceRepository.findServiceByIDString(serviceId);
+        service=serviceRepository.findServiceById(serviceId);
         assertNotNull(service);
         assertEquals(serviceId,service.getId());
         assertEquals(serviceName,service.getName());
         assertEquals(duration,service.getDuration());
         assertEquals(cost,service.getCost());
     }
-
+    
+    /**
+     * Testing persisting and loading business
+     */
     @Test
     public void testPersistAndLoadBusiness(){
         String address = "MTL";
         String email = "buesiness@123.com";
-        String id ="b1";
         String phone = "514123456";
         String name = "testBusiness";
         Business business = new Business();
 
         business.setAddress(address);
         business.setEmail(email);
-        business.setId(id);
         business.setPhoneNumber(phone);
         business.setName(name);
+        
         businessRepository.save(business);
-
+        
+        Long id = business.getId();
         business = null;
-        business=businessRepository.findBusinessByID(id);
+        
+        business = businessRepository.findBusinessById(id);
+        
         assertNotNull(business);
         assertEquals(address,business.getAddress());
         assertEquals(email,business.getEmail());
@@ -375,37 +402,34 @@ class TestRepairShopPersistence {
         assertEquals(name,business.getName());
 
     }
-
+    
+    /**
+     * Testing persisting and loading timeslot
+     */
     @Test
     public void testPersistAndLoadTimeSlot(){
-        Date startDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-        String timeSlotID = "t1";
-        //TODO: only 1 date?
-        Date endDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+    	
+        Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
         Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
 
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setEndTime(endTime);
         timeSlot.setStartTime(startTime);
-        timeSlot.setId(timeSlotID);
-        timeSlot.setEndDate(endDate);
-        timeSlot.setStartDate(startDate);
-        timeSlotRepository.save(timeSlot);
+        timeSlot.setDate(date);
 
+        timeSlotRepository.save(timeSlot);
+        
+        Long timeSlotID =timeSlot.getId();
         timeSlot = null;
-        timeSlot = timeSlotRepository.findTimeSlotByID(timeSlotID);
+        
+        timeSlot = timeSlotRepository.findTimeSlotById(timeSlotID);
+        
         assertNotNull(timeSlot);
         assertEquals(timeSlotID, timeSlot.getId());
-        assertEquals(endDate.toString(), timeSlot.getEndDate().toString());
-        assertEquals(startDate.toString(), timeSlot.getStartDate().toString());
+        assertEquals(date.toString(), timeSlot.getDate().toString());
         assertEquals(startTime.toString(), timeSlot.getStartTime().toString());
         assertEquals(endTime.toString(), timeSlot.getEndTime().toString());
-
-
     }
-
-
-
 
 }
