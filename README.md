@@ -153,7 +153,14 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
-    <td>Contibutions</td>
+     <td>
+        <ul>
+          <li>requirements</li>
+          <li>persistence layer testing</li>
+          <li>detailed specification of requirements</li>
+          <li>documentation</li>
+        </ul>
+      </td>    
     <td align="center">24</td>
   </tr>
   <tr>
