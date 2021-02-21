@@ -8,14 +8,8 @@ import ca.mcgill.ecse321.repairshop.model.Appointment;
 import ca.mcgill.ecse321.repairshop.model.Bill;
 import ca.mcgill.ecse321.repairshop.model.Customer;
 
-public interface CustomerRepository extends CrudRepository<Customer, String>{
-    Customer findCustomerByID(String id);
+public interface CustomerRepository extends CrudRepository<Customer, Long>{
+	
+    Customer findCustomerById(Long id);
     
-    //Customer findByBill(Bill bill);
-    //Customer findByAppointment(Appointment app);
-    Customer findByAppointmentAndBill(Bill bill, Appointment app);
-    
-    //boolean existByAppointment(Appointment app);
-    //boolean existByBill(Bill bill);
-    boolean existsByAppointmentAndBill(Appointment app, Bill bill);
 }

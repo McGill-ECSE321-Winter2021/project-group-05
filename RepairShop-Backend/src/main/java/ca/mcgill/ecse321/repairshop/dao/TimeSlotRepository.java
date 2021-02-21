@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.repairshop.dao;
 
-
 import ca.mcgill.ecse321.repairshop.model.Appointment;
 import ca.mcgill.ecse321.repairshop.model.Business;
 import ca.mcgill.ecse321.repairshop.model.Technician;
@@ -9,12 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface TimeSlotRepository extends CrudRepository<TimeSlot, String> {
+public interface TimeSlotRepository extends CrudRepository<TimeSlot, Long> {
 
-    TimeSlot findTimeSlotByID(String id);
-
-   // List<TimeSlot> findByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
-
-    boolean existsByBusinessAndAppointmentAndTechnician(Business business, Appointment app, Technician technician);
+    TimeSlot findTimeSlotById(Long id);
     
 }

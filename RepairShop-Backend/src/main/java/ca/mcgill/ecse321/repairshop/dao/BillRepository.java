@@ -7,14 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface BillRepository extends CrudRepository<Bill, String> {
-    Bill findBillByID(String id);
+public interface BillRepository extends CrudRepository<Bill, Long> {
+	
+    Bill findBillById(Long id);    
 
-    Bill findByAppointmentAndByCustomer(Appointment app, Customer customer);
-    List<Bill> findByCustomer(Customer customer);
-
-    boolean existsByAppointmentAndCustomer(Appointment app, Customer customer);
-
-
-    
 }
