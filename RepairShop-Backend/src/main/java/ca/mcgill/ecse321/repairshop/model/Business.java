@@ -40,7 +40,6 @@ public class Business
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
-   
   @OneToMany(cascade={CascadeType.ALL})
   public TimeSlot getTimeslot(int index)
   {
@@ -82,6 +81,5 @@ public class Business
   public Long getId() {
     return id;
   }
-
 
 }
