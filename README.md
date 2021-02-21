@@ -3,7 +3,7 @@
 ## Project Overview
 (TBD)
 ## About Us
-We are 5 McGill University studenst from the Faculty of Engineering
+We are 5 McGill University students from the Faculty of Engineering
 <table>
     <tr>
     <td align="center">Name</td>
