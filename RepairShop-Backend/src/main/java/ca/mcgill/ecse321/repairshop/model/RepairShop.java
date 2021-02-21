@@ -85,7 +85,7 @@ public class RepairShop
   }
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
     return id;
   }

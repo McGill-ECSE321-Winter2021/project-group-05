@@ -45,7 +45,7 @@ public class TimeSlot
     this.endTime = endTime;
   }
 
-  @ManyToOne
+  @ManyToOne()
   public RepairShop getRepairShop() {
     return repairShop;
   }
@@ -60,7 +60,7 @@ public class TimeSlot
   }
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
     return id;
   }

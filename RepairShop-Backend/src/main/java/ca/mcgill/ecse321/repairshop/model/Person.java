@@ -2,10 +2,7 @@
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 package ca.mcgill.ecse321.repairshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 
 @Entity
@@ -59,7 +56,7 @@ public abstract class Person
   }
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
     return id;
   }

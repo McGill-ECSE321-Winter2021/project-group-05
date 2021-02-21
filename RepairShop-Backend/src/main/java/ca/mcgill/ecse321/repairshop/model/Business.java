@@ -74,7 +74,7 @@ public class Business
   }
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
     return id;
   }
