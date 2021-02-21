@@ -121,7 +121,6 @@ class TestRepairShopPersistence {
         timeSlot.setDate(date);
 
         RepairShop rs = createRepairShop();
-        timeSlot.setRepairShop(rs);
         
         timeSlotRepository.save(timeSlot);
         
@@ -133,6 +132,7 @@ class TestRepairShopPersistence {
         technician.setPassword(password);
         technician.setEmail(email);
         technician.setTimeSlot(timeSlot);
+        technician.setRepairShop(rs);
 
         technicianRepository.save(technician);
         
@@ -146,6 +146,7 @@ class TestRepairShopPersistence {
         assertEquals(password,technician.getPassword());
         assertEquals(id,technician.getId());
         assertEquals(name,technician.getUsername());
+        assertNotNull(technician.getRepairShop());
 
         technician = null;
         
@@ -153,6 +154,7 @@ class TestRepairShopPersistence {
         
         assertNotNull(technicianList);
         technician = technicianList.get(0);
+        System.out.println(technicianList.size());
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());

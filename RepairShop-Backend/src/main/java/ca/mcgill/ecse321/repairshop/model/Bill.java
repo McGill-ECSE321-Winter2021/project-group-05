@@ -32,7 +32,7 @@ public class Bill
     this.totalCost = totalCost;
   }
 
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne
   public RepairShop getRepairShop() {
     return repairShop;
   }
