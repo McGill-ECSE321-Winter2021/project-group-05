@@ -90,7 +90,7 @@ We are 5 McGill University students from the Faculty of Engineering
   <tr>
     <td align="center">Saikou Ceesay</td>
     <td align="center">Testing Lead</td>
-    <td align="center">Sprint 1</td>
+    <td align="center">24</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
