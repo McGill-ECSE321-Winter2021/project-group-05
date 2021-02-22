@@ -82,7 +82,7 @@ We are 5 McGill University students from the Faculty of Engineering
  <tr>
     <td align="center">Rakshitha Ravi</td>
      <td align="center">Project Manager</td>
-    <td align="center">Sprint 1</td>
+    <td align="center">18</td>
     <td align="center">Sprint 2</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
@@ -149,7 +149,7 @@ The project report for this deliverable can be found [here](https://github.com/M
           <li>documentation</li>
         </ul>
     </td>
-    <td align="center">Hours</td>
+    <td align="center">18</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
