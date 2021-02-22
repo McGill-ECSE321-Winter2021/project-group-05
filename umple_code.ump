@@ -17,17 +17,16 @@ class Business
  phoneNumber;
  email;
  
- id;
+ Long id;
 0..1 -> * TimeSlot timeslot;
 }
 
 class TimeSlot
 {
-  Date startDate;
+  Date date;
   Time startTime;
- Date  endDate;
  Time  endTime;
-  id;
+  Long id;
 }
 
 class Service
@@ -35,7 +34,7 @@ class Service
   float cost;
  Integer duration ;
  
-  id;
+  Long id;
 }
 
 class Bill
@@ -43,7 +42,7 @@ class Bill
   Date date;
   float totalCost ;
   
-  id;
+  Long id;
 }
 
 class Customer
@@ -64,7 +63,7 @@ class Owner
 
 class Appointment
 {
-  id;
+  Long id;
 * -- 1  Service;
   * -- 1 Customer;
   
@@ -85,7 +84,7 @@ class Person
   username;
   password;
   
-  id;
+  Long id;
 }
 
 class Administrator
@@ -103,7 +102,7 @@ class RepairShop
 {
   position 431 23 109 40;
   position.association Appointment__RepairShop 69,40 70,0;
-  position.association Person__RepairShop 110,9 30,0;
+  position.association Person__RepairShop 110,11 30,0;
   position.association Bill__RepairShop 110,40 30,0;
   position.association Business__RepairShop 0,7 133,0;
   position.association RepairShop__TimeSlot 0,34 114,0;
@@ -119,12 +118,12 @@ class Business
 
 class TimeSlot
 {
-  position 35 402 132 125;
+  position 35 402 131 108;
 }
 
 class Service
 {
-  position 305 174 131 108;
+  position 305 174 139 108;
 }
 
 class Bill
@@ -147,15 +146,15 @@ class Appointment
 {
   position 444 301 109 57;
   position.association Appointment__TimeSlot:timeslot 0,10 132,33;
-  position.association Appointment__Service 35,0 132,51;
-  position.association Appointment__Bill 110,6 0,7;
+  position.association Appointment__Service 35,0 140,55;
+  position.association Appointment__Bill 110,4 0,7;
   position.association Appointment__Customer 95,57 19,0;
 }
 
 class Technician
 {
   position 326 451 109 40;
-  position.association Technician__TimeSlot 0,10 133,83;
+  position.association Technician__TimeSlot 0,10 132,83;
 }
 
 class Person
