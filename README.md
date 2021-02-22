@@ -1,5 +1,7 @@
 # Repair Shop System
 
+[![Build Status](https://www.travis-ci.com/McGill-ECSE321-Winter2021/project-group-05.svg?token=5kW4Qvq5muzHKyhiUWNU&branch=main)](https://www.travis-ci.com/McGill-ECSE321-Winter2021/project-group-05)
+
 ## Project Overview
 We are developing a website and an Android app to support the business of a local auto-repair shop . In this system, a customer can create a profile, browse available appointment slots, book and pay. The system is implemented in teams of 5. The implementation of this system requires requirements engineering, software development, validation of the system through unit testing and automation of the software delivery process.
 
@@ -130,8 +132,9 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Himel Saha</td>
     <td><ul>
           <li>requirements</li>
-          <li>persistence layer testing</li>
+          <li>UML diagram</li>
           <li>detailed specification of requirements</li>
+          <li>persistence layer testing</li>
           <li>documentation</li>
         </ul>
     </td>
