@@ -51,21 +51,21 @@ class TestRepairShopPersistence {
     @Autowired
     private TimeSlotRepository timeSlotRepository;
 
-//    @AfterEach
-//    public void clearDatabase() {
-//        // First, we clear business to avoid exceptions due to inconsistencies
-//        businessRepository.deleteAll();
-//
-//        // Then we can clear the other tables
-//        administratorRepository.deleteAll();
-//        technicianRepository.deleteAll();
-//        ownerRepository.deleteAll();
-//        customerRepository.deleteAll();
-//        appointmentRepository.deleteAll();
-//        billRepository.deleteAll();
-//        serviceRepository.deleteAll();
-//        timeSlotRepository.deleteAll();
-//    }
+    @AfterEach
+    public void clearDatabase() {
+        // First, we clear business to avoid exceptions due to inconsistencies
+        businessRepository.deleteAll();
+
+        // Then we can clear the other tables
+        administratorRepository.deleteAll();
+        technicianRepository.deleteAll();
+        ownerRepository.deleteAll();
+        customerRepository.deleteAll();
+        appointmentRepository.deleteAll();
+        billRepository.deleteAll();
+        serviceRepository.deleteAll();
+        timeSlotRepository.deleteAll();
+    }
 
     /**
      * testing customer
