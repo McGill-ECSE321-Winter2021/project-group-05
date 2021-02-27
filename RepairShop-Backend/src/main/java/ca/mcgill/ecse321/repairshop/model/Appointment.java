@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Appointment")
 public class Appointment
 {
   private Service service;

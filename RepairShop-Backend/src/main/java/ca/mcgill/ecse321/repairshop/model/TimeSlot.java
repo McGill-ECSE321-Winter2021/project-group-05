@@ -6,6 +6,7 @@ import java.sql.Time;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "TimeSlot")
 public class TimeSlot
 {
   //TimeSlot Attributes

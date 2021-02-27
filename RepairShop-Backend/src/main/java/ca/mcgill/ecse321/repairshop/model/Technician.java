@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import java.util.*;
 
 @Entity
+@Table(name = "Technician")
 public class Technician extends Person
 {
 

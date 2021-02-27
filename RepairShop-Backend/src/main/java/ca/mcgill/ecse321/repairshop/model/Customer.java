@@ -6,10 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import java.sql.Date;
 import java.util.*;
 
 @Entity
+@Table(name = "Customer")
 public class Customer extends Person
 {
   //Customer Attributes
