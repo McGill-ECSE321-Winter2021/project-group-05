@@ -3,7 +3,7 @@
 [![Build Status](https://www.travis-ci.com/McGill-ECSE321-Winter2021/project-group-05.svg?token=5kW4Qvq5muzHKyhiUWNU&branch=main)](https://www.travis-ci.com/McGill-ECSE321-Winter2021/project-group-05)
 
 ## Project Overview
-We are developing a website and an Android app to support the business of a local auto-repair shop . In this system, a customer can create a profile, browse available appointment slots, book and pay. The system is implemented in teams of 5. The implementation of this system requires requirements engineering, software development, validation of the system through unit testing and automation of the software delivery process.
+We are developing a website and an Android app to support the business of a local auto-repair shop. In this system, a customer can create a profile, browse available appointment slots, book and pay. The system is implemented in teams of 5. The implementation of this system requires requirements engineering, software development, validation of the system through unit testing and automation of the software delivery process.
 
 ## About Us
 We are 5 McGill University students from the Faculty of Engineering
