@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 public interface AdministratorRepository extends CrudRepository<Administrator, Long>{
     Administrator findAdministratorById(Long id);
+
 }
