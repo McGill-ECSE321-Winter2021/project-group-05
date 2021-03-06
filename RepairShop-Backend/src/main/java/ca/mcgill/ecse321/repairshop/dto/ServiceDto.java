@@ -7,24 +7,31 @@ public class ServiceDto {
     private String name;
     private float cost;
     private int duration;
+    private Long id;
 
     public ServiceDto(){}
 
-    public ServiceDto(String name, float cost,int duration){
+    public ServiceDto(String name, float cost,int duration, Long id){
         this.cost=cost;
         this.duration=duration;
         this.name=name;
+        this.id = id;
     }
 
     public String getName(){
         return this.name;
     }
+
     public float getCost(){
         return this.cost;
     }
+
     public float getDuration(){
         return this.duration;
     }
 
+    public Long getId(){
+        return this.id;
+    }
 
 }

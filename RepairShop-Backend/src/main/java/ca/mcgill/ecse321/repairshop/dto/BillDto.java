@@ -1,13 +1,12 @@
 package ca.mcgill.ecse321.repairshop.dto;
 
-
-
 import java.sql.Date;
 import java.util.List;
 
 public class BillDto {
     private Date date;
     private float totalCost;
+    private Long id;
 
     //Bill Associations
     private CustomerDto customer;
@@ -15,11 +14,12 @@ public class BillDto {
 
     public BillDto(){}
 
-    public BillDto(Date date,float totalCost,CustomerDto customer,List<AppointmentDto> appointments){
+    public BillDto(Date date,float totalCost,CustomerDto customer,List<AppointmentDto> appointments,Long id){
         this.date=date;
         this.totalCost=totalCost;
         this.customer=customer;
         this.appointments=appointments;
+        this.id=id;
     }
 
     public Date getDate() {
@@ -37,4 +37,9 @@ public class BillDto {
     public List<AppointmentDto> getAppointments() {
         return this.appointments;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }
