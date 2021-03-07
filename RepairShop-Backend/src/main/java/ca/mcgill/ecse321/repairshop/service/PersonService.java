@@ -49,7 +49,7 @@ public class PersonService {
         Customer customer = customerRepository.findCustomerById(id);
         return customer;
     }
-
+    
     @Transactional
     public List<Customer> getAllCustomer() {
         return ListUtil.toList(customerRepository.findAll());

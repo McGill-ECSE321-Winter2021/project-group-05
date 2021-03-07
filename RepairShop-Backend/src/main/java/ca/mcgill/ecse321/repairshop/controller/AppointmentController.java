@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -26,11 +25,6 @@ public class AppointmentController {
     private RepairShopService repairShopService;
     @Autowired
     private PersonService personService;
-
-    @GetMapping(value = { "/appointments", "/appointments/" })
-    public List<AppointmentDto> getAllAppointments() {
-        return appointmentService.getAllAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList());
-    }
 
     /**
      * edit appointment
