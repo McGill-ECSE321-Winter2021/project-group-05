@@ -35,6 +35,7 @@ public class AppointmentController {
     /**
      * edit appointment
      */
+    /* TODO: fix
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void editAppointment(@PathVariable("id") Long id,
                                 @RequestParam(name="service") ServiceDto serviceDto,
@@ -50,9 +51,12 @@ public class AppointmentController {
         throw new IllegalArgumentException("Cannot edit appointment before 24hr");
     }
 
+     */
+
     /**
      * delete appointment
      */
+    /* TODO: fix
     @DeleteMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void deleteAppointment(@PathVariable("id") Long id) throws IllegalArgumentException {
         Appointment appointment = appointmentService.getAppointment(id);
@@ -64,6 +68,8 @@ public class AppointmentController {
         }
         throw new IllegalArgumentException("Cannot delete appointment before 24hr");
     }
+
+     */
 
     /**
     * create appointment with timeslot
@@ -100,6 +106,20 @@ public class AppointmentController {
 //        Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
 //        return convertToDto(appointment);
 //    }
+/* TODO: fix
+    @GetMapping(value = { "/appointments/person", "/appointments/person/"})
+    public List<AppointmentDto> getAppointmentHistory(@PathVariable("name") CustomerDto cDto) {
+        Customer customer = personService.getCustomer(cDto.getId());
+        List<AppointmentDto> apptsCustDtos = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getAppointmentsBookedByCustomer(customer)){
+            apptsCust.add(convertToDto(appointment));
+        }
+        return apptsCustDtos;
+    }
+
+ */
+
+
 
     /**
      * helper methods
