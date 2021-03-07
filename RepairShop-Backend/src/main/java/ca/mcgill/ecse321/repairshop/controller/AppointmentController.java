@@ -26,12 +26,12 @@ public class AppointmentController {
     private RepairShopService repairShopService;
     @Autowired
     private PersonService personService;
-
+/* TODO: fix
     @GetMapping(value = { "/appointments", "/appointments/" })
     public List<AppointmentDto> getAllAppointments() {
         return appointmentService.getAllAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList());
     }
-
+*/
     /**
      * edit appointment
      */
@@ -68,6 +68,7 @@ public class AppointmentController {
     /**
     * create appointment with timeslot
     */
+    /* TODO: fix
     @PostMapping(value = { "/appointment", "/appointment/" })
     public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
                                             @RequestParam(name="service") ServiceDto serviceDto,
@@ -80,6 +81,8 @@ public class AppointmentController {
         Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
         return convertToDto(appointment);
     }
+
+     */
 //    /**
 //     * create appointment with date, time
 //     */
@@ -136,6 +139,7 @@ public class AppointmentController {
 
 
     }
+    /* TODO: fix
     private AppointmentDto convertToDto(Appointment appointment) {
         if (appointment == null) {
             throw new IllegalArgumentException("There is no such Appointment!");
@@ -144,7 +148,7 @@ public class AppointmentController {
         AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getService()), convertToDto(appointment.getCustomer()),convertToDto(appointment.getTimeslot()),convertToDto(appointment.getBill()), appointment.getId());
         return appointmentDto;
     }
-
+*/
     private TimeSlotDto convertToDto(TimeSlot timeSlot){
         if (timeSlot == null) {
             throw new IllegalArgumentException("There is no such TimeSlot!");
@@ -162,7 +166,7 @@ public class AppointmentController {
         ServiceDto serviceDto = new ServiceDto(service.getName(), service.getCost(),service.getDuration(), service.getId());
         return serviceDto;
     }
-
+/*  TODO: fix
     private CustomerDto convertToDto(Customer customer){
         if (customer == null){
             throw new IllegalArgumentException("There is no such Customer!");
@@ -170,7 +174,7 @@ public class AppointmentController {
         CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(), customer.getPassword(),customer.getId(),customer.getCardNumber(), customer.getCvv(), customer.getExpiry(),convertBillToDto(customer.getBills()),convertAppointmentToDto(customer.getAppointments()));
         return customerDto;
     }
-
+ TODO: fix
     private BillDto convertToDto(Bill bill){
         if (bill == null){
             throw new IllegalArgumentException("There is no such Bill!");
@@ -179,6 +183,8 @@ public class AppointmentController {
         return billDto;
     }
 
+
+TODO: fix
     private List<BillDto> convertBillToDto(List<Bill> bills){
         List<BillDto> billDtoList= new ArrayList<BillDto>();
         for (Bill b: bills){
@@ -186,7 +192,7 @@ public class AppointmentController {
         }
         return billDtoList;
     }
-
+TODO: fix
     private List<AppointmentDto> convertAppointmentToDto(List<Appointment> appointments) {
         List<AppointmentDto> appointmentDtoList = new ArrayList<AppointmentDto>();
         for (Appointment app : appointments) {
@@ -194,4 +200,6 @@ public class AppointmentController {
         }
         return appointmentDtoList;
     }
+
+ */
 }

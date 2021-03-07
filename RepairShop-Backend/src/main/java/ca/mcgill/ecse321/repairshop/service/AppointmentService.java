@@ -17,7 +17,7 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
     @Autowired
     TimeSlotRepository timeSlotRepository;
-
+/* TODO: fix
     @Transactional
     public Appointment createAppointment(BookableService service, Customer customer, TimeSlot timeslot, Bill bill) {
         Appointment appointment = new Appointment();
@@ -27,7 +27,7 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
         return appointment;
     }
-
+*/
     @Transactional
     public Appointment getAppointment(Long id) {
         Appointment appointment = appointmentRepository.findAppointmentById(id);
@@ -38,7 +38,8 @@ public class AppointmentService {
     public List<Appointment> getAllAppointment() {
         return ListUtil.toList(appointmentRepository.findAll());
     }
-
+/*
+TODO: fix
     @Transactional
     public void editAppointment (Appointment appointment, Bill bill,BookableService service_obj,TimeSlot timeSlot){
 
@@ -104,7 +105,7 @@ public class AppointmentService {
             }
         }
         // todo: how to save the database after deletion?
-    }
+    }*/
     @Transactional
     public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) {
         List<Appointment> appointmentsBookedByCustomer = new ArrayList<>();

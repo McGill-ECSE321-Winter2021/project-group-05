@@ -13,6 +13,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -324,6 +325,9 @@ class TestRepairShopPersistence {
         serviceRepository.save(service);
         Long serviceID=service.getId();
 
+        List<BookableService> services = new ArrayList<BookableService>();
+        services.add(service);
+
         Appointment appointment = new Appointment();
 
         appointment.setBill(bill);
@@ -332,7 +336,7 @@ class TestRepairShopPersistence {
         RepairShop rs = new RepairShop();
         appointment.setRepairShop(rs);
 
-        appointment.setService(service);
+        appointment.setServices(services);
         appointment.setTimeslot(timeSlot);
         appointmentRepository.save(appointment);
         Long appointmentID= appointment.getId();
@@ -346,7 +350,7 @@ class TestRepairShopPersistence {
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
-        assertEquals(serviceID,appointment.getService().getId());
+        assertEquals(serviceID,(appointment.getServices().get(0)).getId());
 
         appointment=null;
         List<Appointment> appointmentList=appointmentRepository.findByServiceAndBill(service,bill);
@@ -357,7 +361,7 @@ class TestRepairShopPersistence {
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
-        assertEquals(serviceID,appointment.getService().getId());
+        assertEquals(serviceID,appointment.getServices().get(0).getId());
         assertNotNull(appointment.getRepairShop());
     }
 

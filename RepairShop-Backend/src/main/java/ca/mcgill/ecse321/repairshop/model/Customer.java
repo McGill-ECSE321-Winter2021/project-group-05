@@ -22,6 +22,7 @@ public class Customer extends Person
   //Customer Associations
   private List<Bill> bills;
   private List<Appointment> appointments;
+  private int noShow;
 
   public String getCardNumber() {
     return cardNumber;
@@ -75,6 +76,10 @@ public class Customer extends Person
     int index = appointments.indexOf(aAppointment);
     return index;
   }
+
+  public void setNoShow(int noShow) {this.noShow = noShow;}
+
+  public int getNoShow() { return noShow; }
 
   public void setCardNumber(String cardNumber) {
     this.cardNumber = cardNumber;
