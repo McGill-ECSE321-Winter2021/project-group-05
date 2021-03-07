@@ -33,47 +33,10 @@ public class Customer extends Person
     return aBill;
   }
 
-
-  public int numberOfBills()
-  {
-    int number = bills.size();
-    return number;
-  }
-
-  public boolean hasBills()
-  {
-    boolean has = bills.size() > 0;
-    return has;
-  }
-
-  public int indexOfBill(Bill aBill)
-  {
-    int index = bills.indexOf(aBill);
-    return index;
-  }
-
   public Appointment getAppointment(int index)
   {
     Appointment aAppointment = appointments.get(index);
     return aAppointment;
-  }
-
-  public int numberOfAppointments()
-  {
-    int number = appointments.size();
-    return number;
-  }
-
-  public boolean hasAppointments()
-  {
-    boolean has = appointments.size() > 0;
-    return has;
-  }
-
-  public int indexOfAppointment(Appointment aAppointment)
-  {
-    int index = appointments.indexOf(aAppointment);
-    return index;
   }
 
   public void setCardNumber(String cardNumber) {
