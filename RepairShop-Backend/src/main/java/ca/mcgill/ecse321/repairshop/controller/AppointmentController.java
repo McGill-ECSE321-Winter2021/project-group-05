@@ -92,6 +92,18 @@ public class AppointmentController {
 //        return convertToDto(appointment);
 //    }
 
+    @GetMapping(value = { "/appointments/person", "/appointments/person/"})
+    public List<AppointmentDto> getAppointmentHistory(@PathVariable("name") CustomerDto cDto) {
+        Customer customer = personService.getCustomer(cDto.getId());
+        List<AppointmentDto> apptsCustDtos = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getAppointmentsBookedByCustomer(customer)){
+            apptsCust.add(convertToDto(appointment));
+        }
+        return apptsCustDtos;
+    }
+
+    
+
     /**
      * helper methods
      */
