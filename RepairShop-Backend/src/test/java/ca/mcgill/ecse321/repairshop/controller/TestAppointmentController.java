@@ -1,4 +1,4 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
-public class BillController {
+public class TestAppointmentController {
 }

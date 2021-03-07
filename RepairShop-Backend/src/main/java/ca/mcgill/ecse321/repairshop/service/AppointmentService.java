@@ -25,7 +25,6 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
         appointmentRepository.save(appointment);
-        timeSlotRepository.save(timeslot);
         return appointment;
     }
 
@@ -60,6 +59,7 @@ public class AppointmentService {
     public void deleteAppointment (Appointment appointment){
 
         //delete appointment from the service
+        appointmentRepository.deleteById(appointment.getId());
 
         List<Appointment> appointments = appointmentRepository.findByService(appointment.getService());
         for (Appointment app: appointments){

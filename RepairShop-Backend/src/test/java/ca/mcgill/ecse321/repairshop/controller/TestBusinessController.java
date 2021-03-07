@@ -1,4 +1,4 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
-public class TimeSlotController {
+public class TestBusinessController {
 }
