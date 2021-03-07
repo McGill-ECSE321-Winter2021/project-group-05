@@ -108,7 +108,10 @@ public class AppointmentController {
         return apptsCustDtos;
     }
 
-    
+    @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
+    public void enterNoShow(@PathVariable("id") Long id) throws IllegalArgumentException{
+
+    }
 
     /**
      * helper methods
