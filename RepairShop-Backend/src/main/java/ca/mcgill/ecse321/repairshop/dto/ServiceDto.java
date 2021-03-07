@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.repairshop.dto;
 
-import ca.mcgill.ecse321.repairshop.model.Service;
+import ca.mcgill.ecse321.repairshop.model.BookableService;
 
 public class ServiceDto {
     //Service Attributes

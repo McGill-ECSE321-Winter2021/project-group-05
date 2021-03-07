@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Date;
@@ -314,7 +313,7 @@ class TestRepairShopPersistence {
         timeSlotRepository.save(timeSlot);
         Long timeSlotID = timeSlot.getId();
 
-        Service service = new Service();
+        BookableService service = new BookableService();
         float serviceCost = 9;
         int serviceDuration = 45;
         String serviceName = "change tire";
@@ -371,7 +370,7 @@ class TestRepairShopPersistence {
         String serviceName = "repair window";
         int duration = 30;
         float cost = 10;
-        Service service = new Service();
+        BookableService service = new BookableService();
 
         service.setName(serviceName);
         service.setDuration(duration);

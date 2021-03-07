@@ -22,9 +22,9 @@ public class RepairShopService {
      * Service
      */
     @Transactional
-    public ca.mcgill.ecse321.repairshop.model.Service createService(String name, float cost, int duration, List<Appointment> appointments){
+    public BookableService createService(String name, float cost, int duration, List<Appointment> appointments){
         // service is a reserved keywork
-        ca.mcgill.ecse321.repairshop.model.Service service = new ca.mcgill.ecse321.repairshop.model.Service();
+       BookableService service = new BookableService();
         service.setCost(cost);
         service.setName(name);
         service.setDuration(duration);
@@ -34,13 +34,13 @@ public class RepairShopService {
     }
 
     @Transactional
-    public ca.mcgill.ecse321.repairshop.model.Service getService(Long id) {
-        ca.mcgill.ecse321.repairshop.model.Service service = serviceRepository.findServiceById(id);
+    public BookableService getService(Long id) {
+        BookableService service = serviceRepository.findServiceById(id);
         return service;
     }
 
     @Transactional
-    public List<ca.mcgill.ecse321.repairshop.model.Service> getAllService() {
+    public List<BookableService> getAllService() {
         return ListUtil.toList(serviceRepository.findAll());
     }
 }

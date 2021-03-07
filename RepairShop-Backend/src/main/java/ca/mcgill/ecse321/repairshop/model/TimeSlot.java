@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -16,7 +17,6 @@ public class TimeSlot
 
   //TimeSlot Associations
   private RepairShop repairShop;
-
 
   public Date getDate() {
     return date;
@@ -50,7 +50,6 @@ public class TimeSlot
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
   }
-
 
   public void setId(Long id) {
     this.id = id;
