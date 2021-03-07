@@ -5,7 +5,6 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Bill")
 public class Bill
 {
   private Date date;

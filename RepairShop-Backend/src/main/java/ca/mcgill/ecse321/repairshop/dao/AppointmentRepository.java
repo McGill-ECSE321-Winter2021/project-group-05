@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface AppointmentRepository extends CrudRepository<Appointment, Long>{
     Appointment findAppointmentById(Long id);
-    List<Appointment> findByServiceAndBill(Service service, Bill bill);
+    List<Appointment> findByServiceAndBill(BookableService service, Bill bill);
     List<Appointment> findByCustomer(Customer customer);
-    List<Appointment> findByService(Service service);
+    List<Appointment> findByService(BookableService service);
     List<Appointment> findByBill(Bill bill);
     //List<Appointment> findByTimeSlot(TimeSlot timeslot);
 }

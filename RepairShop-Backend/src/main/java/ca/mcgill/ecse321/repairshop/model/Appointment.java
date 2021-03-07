@@ -3,10 +3,9 @@ package ca.mcgill.ecse321.repairshop.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Appointment")
 public class Appointment
 {
-  private Service service;
+  private BookableService service;
   private Customer customer;
   private TimeSlot timeslot;
   private Bill bill;
@@ -14,11 +13,11 @@ public class Appointment
   private Long id;
 
   @ManyToOne
-  public Service getService() {
+  public BookableService getService() {
     return service;
   }
 
-  public void setService(Service service) {
+  public void setService(BookableService service) {
     this.service = service;
   }
 

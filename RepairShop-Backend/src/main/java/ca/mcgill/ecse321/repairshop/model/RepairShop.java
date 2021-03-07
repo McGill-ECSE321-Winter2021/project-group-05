@@ -1,12 +1,9 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 import java.util.*;
-import java.sql.Date;
-import java.sql.Time;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "RepairShop")
 public class RepairShop
 {
   private Long id;
@@ -16,7 +13,7 @@ public class RepairShop
   private Business business;
   private List<Person> persons;
   private List<Bill> bills;
-  private List<Service> services;
+  private List<BookableService> services;
   private List<Appointment> appointments;
 
 
@@ -55,11 +52,11 @@ public class RepairShop
     this.bills = bills;
   }
   @OneToMany(mappedBy = "repairShop",cascade = {CascadeType.ALL})
-  public List<Service> getServices() {
+  public List<BookableService> getServices() {
     return services;
   }
 
-  public void setServices(List<Service> services) {
+  public void setServices(List<BookableService> services) {
     this.services = services;
   }
 

@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import java.util.*;
 
 @Entity
-@Table(name = "Technician")
 public class Technician extends Person
 {
 

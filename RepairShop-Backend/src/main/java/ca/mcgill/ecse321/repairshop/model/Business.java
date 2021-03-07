@@ -4,7 +4,6 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Business")
 public class Business
 {
   //Business Attributes

@@ -12,7 +12,6 @@ import java.sql.Date;
 import java.util.*;
 
 @Entity
-@Table(name = "Customer")
 public class Customer extends Person
 {
   //Customer Attributes

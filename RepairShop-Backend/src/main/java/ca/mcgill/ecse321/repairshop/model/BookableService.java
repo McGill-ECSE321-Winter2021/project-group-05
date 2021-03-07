@@ -4,8 +4,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Service")
-public class Service
+public class BookableService
 {
   //Service Attributes
   private String name;

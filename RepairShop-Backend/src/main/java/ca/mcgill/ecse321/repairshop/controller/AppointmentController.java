@@ -4,11 +4,8 @@ import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -30,12 +27,6 @@ public class AppointmentController {
     @Autowired
     private PersonService personService;
 
-    //todo --> delete this
-    @GetMapping(path = "/")
-    public List<String> getNames(){
-        return List.of("Saikou", "Yichen");
-    }
-
     @GetMapping(value = { "/appointments", "/appointments/" })
     public List<AppointmentDto> getAllAppointments() {
         return appointmentService.getAllAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList());
@@ -52,7 +43,7 @@ public class AppointmentController {
         TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
         if (canCancelAndDelete(timeSlot)){
             Appointment appointment = appointmentService.getAppointment(id);
-            Service service_obj = repairShopService.getService(serviceDto.getId());
+            BookableService service_obj = repairShopService.getService(serviceDto.getId());
             Bill bill = billService.getBill(billDto.getId());
             appointmentService.editAppointment(appointment,bill,service_obj,timeSlot);
         }
@@ -84,7 +75,7 @@ public class AppointmentController {
                                             @RequestParam(name="bill") BillDto billDto,
                                             @RequestParam TimeSlotDto timeSlotDto) throws IllegalArgumentException {
         Customer customer = personService.getCustomer(customerDto.getId());
-        Service service_obj = repairShopService.getService(serviceDto.getId());
+        BookableService service_obj = repairShopService.getService(serviceDto.getId());
         Bill bill = billService.getBill(billDto.getId());
         TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
         Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
@@ -164,7 +155,7 @@ public class AppointmentController {
         return timeSlotDto;
     }
 
-    private ServiceDto convertToDto(Service service) {
+    private ServiceDto convertToDto(BookableService service) {
         if (service == null) {
             throw new IllegalArgumentException("There is no such Service!");
         }
