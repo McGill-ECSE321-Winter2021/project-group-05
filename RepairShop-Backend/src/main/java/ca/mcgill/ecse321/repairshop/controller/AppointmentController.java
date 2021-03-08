@@ -95,7 +95,7 @@ public class AppointmentController {
     @PostMapping(value = { "/appointment", "/appointment/" })
     public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
                                             @RequestParam(name="service") List<BookableServiceDto> serviceDto,
-                                            @RequestParam TimeSlotDto timeSlotDto) throws IllegalArgumentException {
+                                            @RequestParam(name="timeslot")TimeSlotDto timeSlotDto) throws IllegalArgumentException {
         Customer customer = personService.getCustomer(customerDto.getId());
         //CONVERT BOOKABLE SERVICE DTO --> DAO
         List<BookableService> service = new ArrayList<>();
