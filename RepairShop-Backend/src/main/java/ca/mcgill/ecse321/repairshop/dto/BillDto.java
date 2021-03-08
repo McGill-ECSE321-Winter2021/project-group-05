@@ -10,15 +10,15 @@ public class BillDto {
 
     //Bill Associations
     private CustomerDto customer;
-    private List<AppointmentDto> appointments;
+    private AppointmentDto appointment;
 
     public BillDto(){}
 
-    public BillDto(Date date,float totalCost,CustomerDto customer,List<AppointmentDto> appointments,Long id){
+    public BillDto(Date date,float totalCost,CustomerDto customer,AppointmentDto appointment,Long id){
         this.date=date;
         this.totalCost=totalCost;
         this.customer=customer;
-        this.appointments=appointments;
+        this.appointment=appointment;
         this.id=id;
     }
 
@@ -34,8 +34,8 @@ public class BillDto {
         return this.customer;
     }
 
-    public List<AppointmentDto> getAppointments() {
-        return this.appointments;
+    public AppointmentDto getAppointment() {
+        return this.appointment;
     }
 
     public Long getId() {
