@@ -21,7 +21,6 @@ public class RepairShopUtil {
         return resultList;
     }
 
-
     public static AppointmentDto convertToDto(Appointment appointment) {
        if (appointment == null) {
            throw new IllegalArgumentException("There is no such Appointment!");
@@ -95,5 +94,11 @@ public class RepairShopUtil {
         return appointmentDtoList;
     }
 
-
+    public static float getTotalCostOfAppointment(Appointment appointment){
+        float sum = 0L;
+        for(BookableService bookableService : appointment.getServices()){
+            sum += bookableService.getCost();
+        }
+        return sum;
+    }
 }

@@ -62,7 +62,7 @@ public class BillService {
         Bill bill = new Bill();
         Customer customer = appointment.getCustomer();
         Date date = appointment.getTimeslot().getDate();
-        float totalCost = RepairShopUtil.getTotalCost(appointment);
+        float totalCost = RepairShopUtil.getTotalCostOfAppointment(appointment);
 
         bill.setCustomer(customer);
         bill.setDate(date);
