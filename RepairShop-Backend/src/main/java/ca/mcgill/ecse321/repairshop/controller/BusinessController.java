@@ -23,9 +23,9 @@ public class BusinessController {
      * @return
      */
     @GetMapping(value = {"/business/{id}", "/business/{id}/"})
-    public BusinessDto getBusiness(@PathVariable("id") Long id){
+    public ResponseEntity<?> getBusiness(@PathVariable("id") Long id){
         Business business = businessService.getBusiness(id);
-        return RepairShopUtil.convertToDto(business);
+        return new ResponseEntity<>(business, HttpStatus.OK);
     }
 
     /**

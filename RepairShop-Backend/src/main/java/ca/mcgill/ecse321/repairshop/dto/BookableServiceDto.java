@@ -26,8 +26,24 @@ public class BookableServiceDto {
         return this.cost;
     }
 
-    public float getDuration(){
+    public int getDuration(){
         return this.duration;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId(){

@@ -12,6 +12,7 @@ public class CustomerDto {
     private String cvv;
     private Date expiry;
     private Long id;
+    private int noShow;
 
     //Customer Associations
     private List<BillDto> bills;
@@ -24,7 +25,7 @@ public class CustomerDto {
         this(email,username,password, id, null,null,null,Collections.EMPTY_LIST,Collections.EMPTY_LIST);
     }
 
-    public CustomerDto(String email,String username, String password, Long id, String cardNumber, String cvv, Date expiry, List<BillDto> bills,List<AppointmentDto> appointments){
+    public CustomerDto(String email, String username, String password, Long id, String cardNumber, String cvv, Date expiry, List<BillDto> bills, List<AppointmentDto> appointments){
         this.email=email;
         this.username=username;
         this.password=password;
@@ -91,4 +92,29 @@ public class CustomerDto {
     public Long getId(){
         return this.id;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getNoShow() {
+        return noShow;
+    }
+
+    public void setNoShow(int noShow) {
+        this.noShow = noShow;
+    }
+
 }
