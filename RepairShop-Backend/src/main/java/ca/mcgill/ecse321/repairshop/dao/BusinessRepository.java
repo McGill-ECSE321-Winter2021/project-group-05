@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface BusinessRepository extends CrudRepository<Business, Long> {
 	Business findBusinessById(Long id);
+	Business findBusinessByName(String name);
 }

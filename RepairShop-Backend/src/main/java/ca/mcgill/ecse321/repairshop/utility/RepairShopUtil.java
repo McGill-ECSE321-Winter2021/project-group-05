@@ -76,7 +76,13 @@ public class RepairShopUtil {
         return billDto;
     }
 
-
+    public static  BusinessDto convertToDto(Business business){
+        if (business == null){
+            throw new IllegalArgumentException("There is no such Bill!");
+        }
+        BusinessDto businessDto = new BusinessDto(business.getName(), business.getAddress(), business.getPhoneNumber(), business.getEmail(), business.getTimeslot());
+        return businessDto;
+    }
 
     public static  List<BillDto> convertBillToDto(List<Bill> bills){
         List<BillDto> billDtoList= new ArrayList<BillDto>();
