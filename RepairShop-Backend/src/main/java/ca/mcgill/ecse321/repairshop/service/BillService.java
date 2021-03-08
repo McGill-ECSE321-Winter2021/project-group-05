@@ -17,26 +17,57 @@ public class BillService {
     @Autowired
     BillRepository billRepository;
 
+    /**
+     * Creates a bill for a given appointment
+     * @param appointment
+     * @return
+     */
     @Transactional
-    public Bill createBill(Customer customer, Appointment appointment, float totalCost, Date date){
-        Bill bill = new Bill();
-        bill.setCustomer(customer);
-        bill.setDate(date);
-        bill.setTotalCost(totalCost);
+    public Bill createBill(Appointment appointment){
+        Bill bill = createInstanceOfBill(appointment);
         bill.setAppointment(appointment);
         billRepository.save(bill);
         return bill;
     }
 
+    /**
+     * Gets a bill with the given id
+     * @param id
+     * @return
+     */
     @Transactional
     public Bill getBill(Long id) {
         Bill bill = billRepository.findBillById(id);
         return bill;
     }
 
+    /**
+     * Gets all the bill associated with a customer
+     * @return
+     */
     @Transactional
-    public List<Bill> getAllBill() {
-        return RepairShopUtil.toList(billRepository.findAll());
+    public List<Bill> getAllBillOfCustomer(Customer customer) {
+        List<Bill> bills = billRepository.findBillByCustomer(customer);
+        return bills;
+    }
+
+    //HELPER FUNCTIONS
+
+    /**
+     * Creates an instance of a bill given an appointment
+     * @param appointment
+     * @return
+     */
+    private Bill createInstanceOfBill(Appointment appointment){
+        Bill bill = new Bill();
+        Customer customer = appointment.getCustomer();
+        Date date = appointment.getTimeslot().getDate();
+        float totalCost = RepairShopUtil.getTotalCostOfAppointment(appointment);
+
+        bill.setCustomer(customer);
+        bill.setDate(date);
+        bill.setTotalCost(totalCost);
+        return bill;
     }
 
 }

@@ -21,7 +21,6 @@ public class RepairShopUtil {
         return resultList;
     }
 
-
     public static AppointmentDto convertToDto(Appointment appointment) {
        if (appointment == null) {
            throw new IllegalArgumentException("There is no such Appointment!");
@@ -77,7 +76,13 @@ public class RepairShopUtil {
         return billDto;
     }
 
-
+    public static  BusinessDto convertToDto(Business business){
+        if (business == null){
+            throw new IllegalArgumentException("There is no such Bill!");
+        }
+        BusinessDto businessDto = new BusinessDto(business.getName(), business.getAddress(), business.getPhoneNumber(), business.getEmail(), business.getTimeslot());
+        return businessDto;
+    }
 
     public static  List<BillDto> convertBillToDto(List<Bill> bills){
         List<BillDto> billDtoList= new ArrayList<BillDto>();
@@ -95,5 +100,11 @@ public class RepairShopUtil {
         return appointmentDtoList;
     }
 
-
+    public static float getTotalCostOfAppointment(Appointment appointment){
+        float sum = 0L;
+        for(BookableService bookableService : appointment.getServices()){
+            sum += bookableService.getCost();
+        }
+        return sum;
+    }
 }
