@@ -26,6 +26,10 @@ public class AppointmentController {
     private RepairShopService repairShopService;
     @Autowired
     private PersonService personService;
+
+    @GetMapping(value = {"/"})
+    public String sayHello(){return "hello world";}
+
 /* TODO: fix
     @GetMapping(value = { "/appointments", "/appointments/" })
     public List<AppointmentDto> getAllAppointments() {

@@ -17,17 +17,17 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
     @Autowired
     TimeSlotRepository timeSlotRepository;
-/* TODO: fix
+
     @Transactional
-    public Appointment createAppointment(BookableService service, Customer customer, TimeSlot timeslot, Bill bill) {
+    public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot) {
         Appointment appointment = new Appointment();
-        appointment.setService(service);
+        appointment.setServices(services);
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
         appointmentRepository.save(appointment);
         return appointment;
     }
-*/
+
     @Transactional
     public Appointment getAppointment(Long id) {
         Appointment appointment = appointmentRepository.findAppointmentById(id);
@@ -118,7 +118,7 @@ TODO: fix
     @Transactional
     public List<Appointment> getAppointmentsOfService(BookableService service_obj) {
         List<Appointment> appointmentsOfService = new ArrayList<>();
-        for (Appointment app : appointmentRepository.findByService(service_obj)) {
+        for (Appointment app : appointmentRepository.findByServices(service_obj)) {
             appointmentsOfService.add(app);
         }
         return appointmentsOfService;

@@ -13,7 +13,7 @@ public class Appointment
   private RepairShop repairShop;
   private Long id;
 
-  @OneToMany
+  @ManyToMany
   public List<BookableService> getServices() {
     return services;
   }
@@ -40,7 +40,7 @@ public class Appointment
     this.timeslot = timeslot;
   }
 
-  @ManyToOne
+  @OneToOne
   public Bill getBill() {
     return bill;
   }

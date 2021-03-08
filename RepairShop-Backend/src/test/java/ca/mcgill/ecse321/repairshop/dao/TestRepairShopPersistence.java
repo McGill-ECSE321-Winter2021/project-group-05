@@ -346,18 +346,18 @@ class TestRepairShopPersistence {
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
         assertNotNull(appointment.getBill());
-        assertNotNull(appointment.getBill().getAppointments());
+        assertNotNull(appointment.getBill().getAppointment());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
         assertEquals(serviceID,(appointment.getServices().get(0)).getId());
 
         appointment=null;
-        List<Appointment> appointmentList=appointmentRepository.findByServiceAndBill(service,bill);
+        List<Appointment> appointmentList=appointmentRepository.findByServicesAndBill(service,bill);
         appointment=appointmentList.get(0);
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
-        assertNotNull(appointment.getBill().getAppointments());
+        assertNotNull(appointment.getBill().getAppointment());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());

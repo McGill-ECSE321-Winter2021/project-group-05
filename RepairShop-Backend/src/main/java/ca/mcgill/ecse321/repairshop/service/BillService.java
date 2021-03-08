@@ -18,12 +18,12 @@ public class BillService {
     BillRepository billRepository;
 
     @Transactional
-    public Bill createBill(Customer customer, List<Appointment> appointments, float totalCost, Date date){
+    public Bill createBill(Customer customer, Appointment appointment, float totalCost, Date date){
         Bill bill = new Bill();
         bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(totalCost);
-        bill.setAppointments(appointments);
+        bill.setAppointment(appointment);
         billRepository.save(bill);
         return bill;
     }

@@ -53,7 +53,7 @@ public class BookableService
     this.repairShop = repairShop;
   }
 
-  @OneToMany(mappedBy = "service",cascade = {CascadeType.ALL})
+  @ManyToMany
   public List<Appointment> getAppointments() {
     return appointments;
   }

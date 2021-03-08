@@ -13,7 +13,7 @@ public class Bill
   //Bill Associations
   private RepairShop repairShop;
   private Customer customer;
-  private List<Appointment> appointments;
+  private Appointment appointment;
   private Long id;
 
   public Date getDate() {
@@ -50,13 +50,13 @@ public class Bill
     this.customer = customer;
   }
 
-  @OneToMany(mappedBy = "bill",cascade = {CascadeType.ALL})
-  public List<Appointment> getAppointments() {
-    return appointments;
+  @OneToOne
+  public Appointment getAppointment() {
+    return appointment;
   }
 
-  public void setAppointments(List<Appointment> appointments) {
-    this.appointments = appointments;
+  public void setAppointment(Appointment appointment) {
+    this.appointment = appointment;
   }
 
   public void setId(Long id) {
