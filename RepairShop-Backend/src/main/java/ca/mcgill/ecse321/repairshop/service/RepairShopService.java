@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.model.*;
-import ca.mcgill.ecse321.repairshop.utility.ListUtil;
+import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +41,6 @@ public class RepairShopService {
 
     @Transactional
     public List<BookableService> getAllService() {
-        return ListUtil.toList(serviceRepository.findAll());
+        return RepairShopUtil.toList(serviceRepository.findAll());
     }
 }

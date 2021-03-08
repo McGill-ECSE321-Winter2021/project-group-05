@@ -4,7 +4,7 @@ import ca.mcgill.ecse321.repairshop.dao.BillRepository;
 import ca.mcgill.ecse321.repairshop.model.Appointment;
 import ca.mcgill.ecse321.repairshop.model.Bill;
 import ca.mcgill.ecse321.repairshop.model.Customer;
-import ca.mcgill.ecse321.repairshop.utility.ListUtil;
+import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +36,7 @@ public class BillService {
 
     @Transactional
     public List<Bill> getAllBill() {
-        return ListUtil.toList(billRepository.findAll());
+        return RepairShopUtil.toList(billRepository.findAll());
     }
 
 }

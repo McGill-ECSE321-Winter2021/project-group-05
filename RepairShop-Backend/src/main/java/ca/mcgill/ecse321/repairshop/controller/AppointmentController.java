@@ -78,21 +78,20 @@ public class AppointmentController {
     /**
     * create appointment with timeslot
     */
-    /* TODO: fix
+/*
     @PostMapping(value = { "/appointment", "/appointment/" })
     public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
                                             @RequestParam(name="service") ServiceDto serviceDto,
-                                            @RequestParam(name="bill") BillDto billDto,
                                             @RequestParam TimeSlotDto timeSlotDto) throws IllegalArgumentException {
         Customer customer = personService.getCustomer(customerDto.getId());
         BookableService service_obj = repairShopService.getService(serviceDto.getId());
-        Bill bill = billService.getBill(billDto.getId());
         TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
-        Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
+        Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot);
+
         return convertToDto(appointment);
     }
+*/
 
-     */
 //    /**
 //     * create appointment with date, time
 //     */
