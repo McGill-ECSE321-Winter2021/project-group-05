@@ -21,8 +21,8 @@ public class RepairShopUtil {
         return resultList;
     }
 
-/*  TODO: to fix
-   private AppointmentDto convertToDto(Appointment appointment) {
+
+    public static AppointmentDto convertToDto(Appointment appointment) {
        if (appointment == null) {
            throw new IllegalArgumentException("There is no such Appointment!");
        }
@@ -30,7 +30,7 @@ public class RepairShopUtil {
        AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getServices()), convertToDto(appointment.getCustomer()),convertToDto(appointment.getTimeslot()),convertToDto(appointment.getBill()), appointment.getId());
        return appointmentDto;
    }
-*/
+
     public static TimeSlotDto convertToDto(TimeSlot timeSlot){
         if (timeSlot == null) {
             throw new IllegalArgumentException("There is no such TimeSlot!");
@@ -40,48 +40,60 @@ public class RepairShopUtil {
         return timeSlotDto;
     }
 
-    public static ServiceDto convertToDto(BookableService service) {
+    public static BookableServiceDto convertToDto(BookableService service) {
         if (service == null) {
             throw new IllegalArgumentException("There is no such Service!");
         }
         //service, customer, timeslot bill
-        ServiceDto serviceDto = new ServiceDto(service.getName(), service.getCost(),service.getDuration(), service.getId());
+        BookableServiceDto serviceDto = new BookableServiceDto(service.getName(), service.getCost(),service.getDuration(), service.getId());
         return serviceDto;
     }
- /*
-    private CustomerDto convertToDto(Customer customer){
+
+    public static List<BookableServiceDto> convertToDto(List<BookableService> services) {
+        List<BookableServiceDto> serviceDtos = new ArrayList<>();
+        if (services == null) {
+            throw new IllegalArgumentException("There is no such list of ervices!");
+        }
+        for (BookableService s:services){
+            serviceDtos.add(convertToDto(s));
+        }
+        return serviceDtos;
+    }
+
+    public static  CustomerDto convertToDto(Customer customer){
         if (customer == null){
             throw new IllegalArgumentException("There is no such Customer!");
         }
-        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(), customer.getPassword(),customer.getId(),customer.getCardNumber(), customer.getCvv(), customer.getExpiry(),convertBillToDto(customer.getBills()),convertAppointmentToDto(customer.getAppointments()));
+        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(), customer.getPassword(),customer.getId(),customer.getCardNumber(), customer.getCvv(), customer.getExpiry(),convertBillToDto(customer.getBills()),convertAppointmentsToDto(customer.getAppointments()));
         return customerDto;
     }
-TODO: fix
-    private BillDto convertToDto(Bill bill){
+
+
+    public static  BillDto convertToDto(Bill bill){
         if (bill == null){
             throw new IllegalArgumentException("There is no such Bill!");
         }
-        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), convertToDto(bill.getCustomer()),convertAppointmentToDto(bill.getAppointments()), bill.getId());
+        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), convertToDto(bill.getCustomer()),convertToDto(bill.getAppointment()), bill.getId());
         return billDto;
     }
 
 
-TODO: fix
-    private List<BillDto> convertBillToDto(List<Bill> bills){
+
+    public static  List<BillDto> convertBillToDto(List<Bill> bills){
         List<BillDto> billDtoList= new ArrayList<BillDto>();
         for (Bill b: bills){
             billDtoList.add(convertToDto(b));
         }
         return billDtoList;
     }
-TODO: fix
-    private List<AppointmentDto> convertAppointmentToDto(List<Appointment> appointments) {
+
+    public static  List<AppointmentDto> convertAppointmentsToDto(List<Appointment> appointments) {
         List<AppointmentDto> appointmentDtoList = new ArrayList<AppointmentDto>();
         for (Appointment app : appointments) {
             appointmentDtoList.add(convertToDto(app));
         }
         return appointmentDtoList;
     }
-*/
+
 
 }
