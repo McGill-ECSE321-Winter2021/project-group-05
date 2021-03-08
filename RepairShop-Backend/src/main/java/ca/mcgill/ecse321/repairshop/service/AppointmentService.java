@@ -38,20 +38,44 @@ public class AppointmentService {
     public List<Appointment> getAllAppointment() {
         return RepairShopUtil.toList(appointmentRepository.findAll());
     }
-/*
-TODO: fix
-    @Transactional
-    public void editAppointment (Appointment appointment, Bill bill,BookableService service_obj,TimeSlot timeSlot){
 
-        if (bill != null) {
-            appointment.setBill(bill);
+
+    @Transactional
+    public void editAppointment (Appointment appointment,List<BookableService> service_add, List<BookableService> service_delete,TimeSlot timeSlot) throws IllegalArgumentException{
+        List<BookableService> services = appointment.getServices();
+        if (services.size() + service_add.size() - service_delete.size() <=0){
+            throw new IllegalArgumentException("Appointment must contain at least one service");
         }
-        if (service_obj != null){
-            appointment.setService(service_obj);
+        float total_cost=appointment.getBill().getTotalCost();
+        Bill new_bill = new Bill();
+        if (service_add != null){
+           for (BookableService s: service_add){
+               services.add(s);
+               total_cost += s.getCost();
+           }
         }
+
+        if (service_delete != null){
+            for (BookableService s: service_delete){
+                services.remove(s);
+                total_cost -= s.getCost();
+            }
+        }
+
+        appointment.setServices(services);
+
+
         if (timeSlot != null){
             appointment.setTimeslot(timeSlot);
         }
+
+        new_bill.setTotalCost(total_cost);
+        new_bill.setDate(appointment.getTimeslot().getDate());
+        new_bill.setCustomer(appointment.getCustomer());
+        new_bill.setAppointment(appointment);
+
+        appointment.setBill(new_bill);
+
         appointmentRepository.save(appointment);
     }
 
@@ -61,51 +85,8 @@ TODO: fix
 
         //delete appointment from the service
         appointmentRepository.deleteById(appointment.getId());
-
-        List<Appointment> appointments = appointmentRepository.findByService(appointment.getService());
-        for (Appointment app: appointments){
-            // find the target appointment
-            if ((app.getId()).equals(appointment.getId())){
-                appointments.remove(app);
-                break;
-            }
-        }
-
-
-        // delete appointment from the customer
-        appointments = appointmentRepository.findByCustomer(appointment.getCustomer());
-        for (Appointment app: appointments){
-            // find the target appointment
-            if ((app.getId()).equals(appointment.getId())){
-                appointments.remove(app);
-                break;
-            }
-        }
-
-        // delete appointment from the bill
-
-        appointments = appointmentRepository.findByBill(appointment.getBill());
-        for (Appointment app: appointments){
-            // find the target appointment
-            //todo :: check --> appointmentRepository.deleteById(appointment.getId());
-            if ((app.getId()).equals(appointment.getId())){
-                appointments.remove(app);
-                break;
-            }
-        }
-
-        //delete appointment from the repository
-
-        appointments = getAllAppointment();
-        for (Appointment app: appointments){
-            // find the target appointment
-            if ((app.getId()).equals(appointment.getId())){
-                appointments.remove(app);
-                break;
-            }
-        }
-        // todo: how to save the database after deletion?
-    }*/
+        // todo: need to delete from the customer, service as well?
+    }
     @Transactional
     public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) {
         List<Appointment> appointmentsBookedByCustomer = new ArrayList<>();

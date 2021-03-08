@@ -2,16 +2,16 @@ package ca.mcgill.ecse321.repairshop.dto;
 
 import ca.mcgill.ecse321.repairshop.model.BookableService;
 
-public class ServiceDto {
+public class BookableServiceDto {
     //Service Attributes
     private String name;
     private float cost;
     private int duration;
     private Long id;
 
-    public ServiceDto(){}
+    public BookableServiceDto(){}
 
-    public ServiceDto(String name, float cost,int duration, Long id){
+    public BookableServiceDto(String name, float cost,int duration, Long id){
         this.cost=cost;
         this.duration=duration;
         this.name=name;
