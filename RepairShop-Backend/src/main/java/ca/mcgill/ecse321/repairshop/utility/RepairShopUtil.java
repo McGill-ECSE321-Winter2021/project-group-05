@@ -80,7 +80,7 @@ public class RepairShopUtil {
         if (business == null){
             throw new IllegalArgumentException("There is no such Bill!");
         }
-        BusinessDto businessDto = new BusinessDto(business.getName(), business.getAddress(), business.getPhoneNumber(), business.getEmail(), business.getTimeslot());
+        BusinessDto businessDto = new BusinessDto(business.getName(), business.getAddress(), business.getPhoneNumber(), business.getEmail(), business.getId());
         return businessDto;
     }
 
