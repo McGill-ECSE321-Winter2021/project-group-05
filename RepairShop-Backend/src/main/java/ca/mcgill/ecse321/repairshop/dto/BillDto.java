@@ -42,4 +42,23 @@ public class BillDto {
         return id;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCustomer(CustomerDto customer) {
+        this.customer = customer;
+    }
+
+    public void setAppointment(AppointmentDto appointment) {
+        this.appointment = appointment;
+    }
 }
