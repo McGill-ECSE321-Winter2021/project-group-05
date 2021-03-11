@@ -28,7 +28,6 @@ public class RepairShopService {
         service.setCost(cost);
         service.setName(name);
         service.setDuration(duration);
-        service.setAppointments(appointments);
         serviceRepository.save(service);
         return service;
     }
