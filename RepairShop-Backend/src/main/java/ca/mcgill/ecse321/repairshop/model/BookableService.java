@@ -14,7 +14,6 @@ public class BookableService
 
   //Service Associations
   private RepairShop repairShop;
-  private List<Appointment> appointments;
 
   public String getName() {
     return name;
@@ -51,15 +50,6 @@ public class BookableService
 
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
-  }
-
-  @ManyToMany
-  public List<Appointment> getAppointments() {
-    return appointments;
-  }
-
-  public void setAppointments(List<Appointment> appointments) {
-    this.appointments = appointments;
   }
 
   @Id
