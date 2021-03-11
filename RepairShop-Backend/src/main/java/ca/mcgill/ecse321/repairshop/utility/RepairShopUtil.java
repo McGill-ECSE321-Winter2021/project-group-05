@@ -74,7 +74,7 @@ public class RepairShopUtil {
         if (bill == null){
             throw new IllegalArgumentException("There is no such Bill!");
         }
-        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(),convertToDto(bill.getAppointment()), bill.getId());
+        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), bill.getId());
         return billDto;
     }
 

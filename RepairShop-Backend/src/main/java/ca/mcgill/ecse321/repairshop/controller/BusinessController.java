@@ -47,7 +47,7 @@ public class BusinessController {
      * @param businessDto
      * @return
      */
-    @PostMapping(value = {"/business", "/businesss/"})
+    @PostMapping(value = {"/business", "/business/"})
     public ResponseEntity<?> createBusiness(@RequestBody BusinessDto businessDto) {
         try{
             Business business = businessService.createBusiness(businessDto);

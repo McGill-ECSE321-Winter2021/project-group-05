@@ -255,7 +255,6 @@ class TestRepairShopPersistence {
         float testCost = 10;
 
         Bill bill = new Bill();
-        bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
         bill.setRepairShop(rs);
@@ -270,10 +269,6 @@ class TestRepairShopPersistence {
         assertNotNull(bill);
         assertEquals(billId,bill.getId());
         assertEquals(testCost,bill.getTotalCost());
-        assertEquals(name,bill.getCustomer().getUsername());
-        assertEquals(email,bill.getCustomer().getEmail());
-        assertEquals(password,bill.getCustomer().getPassword());
-        assertEquals(customerId,bill.getCustomer().getId());
         assertEquals(date.toString(),bill.getDate().toString());
         assertNotNull(bill.getRepairShop());
 
@@ -297,7 +292,6 @@ class TestRepairShopPersistence {
         float testCost = 10;
 
         Bill bill = new Bill();
-        bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
         billRepository.save(bill);
@@ -346,23 +340,12 @@ class TestRepairShopPersistence {
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
         assertNotNull(appointment.getBill());
-        assertNotNull(appointment.getBill().getAppointment());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
         assertEquals(serviceID,(appointment.getServices().get(0)).getId());
 
-        appointment=null;
-        List<Appointment> appointmentList=appointmentRepository.findByServicesAndBill(service,bill);
-        appointment=appointmentList.get(0);
-        assertNotNull(appointment);
-        assertEquals(appointmentID,appointment.getId());
-        assertNotNull(appointment.getBill().getAppointment());
-        assertEquals(billId,appointment.getBill().getId());
-        assertEquals(customerId,appointment.getCustomer().getId());
-        assertEquals(timeSlotID,appointment.getTimeslot().getId());
-        assertEquals(serviceID,appointment.getServices().get(0).getId());
-        assertNotNull(appointment.getRepairShop());
+
     }
 
     /**

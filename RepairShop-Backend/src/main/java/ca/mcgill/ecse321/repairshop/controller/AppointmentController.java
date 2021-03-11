@@ -3,14 +3,18 @@ package ca.mcgill.ecse321.repairshop.controller;
 import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.service.*;
+import ca.mcgill.ecse321.repairshop.utility.BusinessException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
@@ -33,11 +37,6 @@ public class AppointmentController {
     public String sayHello(){return "hello world";}
 
 
-    @GetMapping(value = { "/appointments", "/appointments/" })
-    public List<AppointmentDto> getAllAppointments() {
-        return appointmentService.getAllAppointment().stream().map(a -> RepairShopUtil.convertToDto(a)).collect(Collectors.toList());
-    }
-
     @GetMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public AppointmentDto getAppointment(@PathVariable("id") Long id) {
         return RepairShopUtil.convertToDto(appointmentService.getAppointment(id));
@@ -48,23 +47,18 @@ public class AppointmentController {
      */
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void editAppointment(@PathVariable("id") Long id,
-                                @RequestParam(name="service") List<BookableServiceDto> serviceDto_add,
-                                @RequestParam(name="service") List<BookableServiceDto> serviceDto_delete,
-                                @RequestParam TimeSlotDto timeSlotDto) throws IllegalArgumentException {
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
+                               @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
         if (canCancelAndDelete(timeSlot)){
             Appointment appointment = appointmentService.getAppointment(id);
-            // converting service dto --> dao
-            List<BookableService> service_add = new ArrayList<>();
-            for (BookableServiceDto s: serviceDto_add){
-                service_add.add(repairShopService.getService(s.getId()));
-            }
-            List<BookableService> service_delete = new ArrayList<>();
-            for (BookableServiceDto s: serviceDto_delete){
-                service_delete.add(repairShopService.getService(s.getId()));
+
+            List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
+            List<BookableService> service_new = new ArrayList<>();
+            for (BookableServiceDto s:newServicesDto ){
+                service_new.add(repairShopService.getService(s.getId()));
             }
 
-            appointmentService.editAppointment(appointment,service_add,service_delete,timeSlot);
+            appointmentService.editAppointment(appointment,service_new,timeSlot);
         }
         throw new IllegalArgumentException("Cannot edit appointment before 24hr");
     }
@@ -77,13 +71,19 @@ public class AppointmentController {
     @DeleteMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void deleteAppointment(@PathVariable("id") Long id) throws IllegalArgumentException {
         Appointment appointment = appointmentService.getAppointment(id);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Cannot delete a null appointment");
+        }
+
         TimeSlot timeSlot = appointment.getTimeslot();
         // check if it's within 24 hr
         if (canCancelAndDelete(timeSlot)) {
             // find the appointment using id
             appointmentService.deleteAppointment(appointment);
         }
-        throw new IllegalArgumentException("Cannot delete appointment before 24hr");
+        else{
+            throw new IllegalArgumentException("Cannot delete appointment before 24hr");
+        }
     }
 
 
@@ -93,40 +93,26 @@ public class AppointmentController {
     */
 
     @PostMapping(value = { "/appointment", "/appointment/" })
-    public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
-                                            @RequestParam(name="service") List<BookableServiceDto> serviceDto,
-                                            @RequestParam(name="timeslot")TimeSlotDto timeSlotDto) throws IllegalArgumentException {
-        Customer customer = personService.getCustomer(customerDto.getId());
+    public ResponseEntity<?> createAppointment(@RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+        try {
+        Customer customer = personService.getCustomer(appointmentDto.getCustomer().getId());
         //CONVERT BOOKABLE SERVICE DTO --> DAO
         List<BookableService> service = new ArrayList<>();
-        for (BookableServiceDto s: serviceDto){
+        for (BookableServiceDto s: appointmentDto.getServices()){
             service.add(repairShopService.getService(s.getId()));
         }
 
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
-        Appointment appointment = appointmentService.createAppointment(service,customer,timeSlot);
+        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
 
-        return RepairShopUtil.convertToDto(appointment);
+            Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 
-//    /**
-//     * create appointment with date, time
-//     */
-//    @PostMapping(value = { "/appointment", "/appointment/" })
-//    public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
-//                                            @RequestParam(name="service") ServiceDto serviceDto,
-//                                            @RequestParam(name="bill") BillDto billDto,
-//                                            @RequestParam Date date,
-//                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-//                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime){
-//        Customer customer = personService.getCustomer(customerDto.getId());
-//        Service service_obj = repairShopService.getService(serviceDto.getId());
-//        Bill bill = billService.getBill(billDto.getId());
-//        TimeSlot timeSlot = timeSlotService.createTimeSlot(date, Time.valueOf(startTime),Time.valueOf(endTime) );
-//        Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
-//        return convertToDto(appointment);
-//    }
 
     @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
     public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) {

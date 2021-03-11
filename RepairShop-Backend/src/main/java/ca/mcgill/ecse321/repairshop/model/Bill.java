@@ -13,8 +13,6 @@ public class Bill
 
   //Bill Associations
   private RepairShop repairShop;
-  private Customer customer;
-  private Appointment appointment;
 
   public Date getDate() {
     return date;
@@ -39,24 +37,6 @@ public class Bill
 
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
-  }
-
-  @ManyToOne
-  public Customer getCustomer() {
-    return customer;
-  }
-
-  public void setCustomer(Customer customer) {
-    this.customer = customer;
-  }
-
-  @OneToOne
-  public Appointment getAppointment() {
-    return appointment;
-  }
-
-  public void setAppointment(Appointment appointment) {
-    this.appointment = appointment;
   }
 
   public void setId(Long id) {

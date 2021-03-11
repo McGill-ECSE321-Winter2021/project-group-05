@@ -31,8 +31,7 @@ public class BillController {
     @GetMapping(value = {"/bill/{customerId}", "/bill/{customerId}/"})
     public ResponseEntity<?> getAllBillsOfCustomer(@PathVariable("customerId") Long customerId){
         Customer customer = personService.getCustomer(customerId);
-        List<Bill> bills = billService.getAllBillOfCustomer(customer);
-        return new ResponseEntity<>(bills, HttpStatus.OK);
+        return null; // TODO
     }
 
     @PostMapping(value = {"/bill/", "/bill"})
