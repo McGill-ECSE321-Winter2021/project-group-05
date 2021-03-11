@@ -11,11 +11,11 @@ public class Business
   private String address;
   private String phoneNumber;
   private String email;
+  private Long id;
 
   //Business Associations
   private List<TimeSlot> timeslot;
   private RepairShop repairShop;
-  private Long id;
 
   public String getName() {
     return name;

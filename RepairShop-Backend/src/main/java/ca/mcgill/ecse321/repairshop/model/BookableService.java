@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.repairshop.model;
 
-import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -39,7 +38,7 @@ public class BookableService
     this.duration = duration;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

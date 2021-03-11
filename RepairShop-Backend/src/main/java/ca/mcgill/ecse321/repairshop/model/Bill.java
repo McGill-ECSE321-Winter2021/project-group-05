@@ -9,12 +9,12 @@ public class Bill
 {
   private Date date;
   private float totalCost;
+  private Long id;
 
   //Bill Associations
   private RepairShop repairShop;
   private Customer customer;
   private Appointment appointment;
-  private Long id;
 
   public Date getDate() {
     return date;
