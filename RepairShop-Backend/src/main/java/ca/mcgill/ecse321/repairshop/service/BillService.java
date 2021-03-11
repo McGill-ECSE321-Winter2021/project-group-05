@@ -1,8 +1,11 @@
 package ca.mcgill.ecse321.repairshop.service;
 
+import ca.mcgill.ecse321.repairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.repairshop.dao.BillRepository;
+import ca.mcgill.ecse321.repairshop.dao.CustomerRepository;
 import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.BillException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillService {
     @Autowired
     BillRepository billRepository;
+    @Autowired
+    AppointmentRepository appointmentRepository;
+    @Autowired
+    CustomerRepository customerRepository;
+
 
     /**
      * Creates a bill for a given appointment
@@ -23,8 +32,12 @@ public class BillService {
      * @return
      */
     @Transactional
-    public Bill createBill(AppointmentDto appointmentDto){
-        Appointment appointment = convertToEntity(appointmentDto);
+    public Bill createBill(AppointmentDto appointmentDto) throws BillException {
+        Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointmentDto.getId());
+        if(!appointmentOptional.isPresent()){
+            throw new BillException("Could not create a bill because no appointment was found");
+        }
+        Appointment appointment = appointmentOptional.get();
         Bill bill = createInstanceOfBill(appointment);
         billRepository.save(bill);
         return bill;
@@ -41,13 +54,31 @@ public class BillService {
         return bill;
     }
 
+    public List<Bill> getAllBillsOfCustomer(Long customerId) throws BillException{
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if(!customerOptional.isPresent()){
+            throw new BillException("Could not load all bills because customer does not exist");
+        }
+        Customer customer = customerOptional.get();
+        List<Bill> bills = getAllBills(customer.getAppointments());
+        return bills;
+    }
+
     //HELPER FUNCTIONS
+
+    private List<Bill> getAllBills(List<Appointment> appointments){
+        List<Bill> bills = new ArrayList<Bill>();
+        for(int i = 0; i < appointments.size(); ++i){
+            Bill bill = appointments.get(i).getBill();
+            bills.add(bill);
+        }
+        return bills;
+    }
 
     private Bill createInstanceOfBill(Appointment appointment){
         Bill bill = new Bill();
         Date date = appointment.getTimeslot().getDate();
         float totalCost = RepairShopUtil.getTotalCostOfAppointment(appointment);
-
 
         bill.setDate(date);
         bill.setTotalCost(totalCost);
@@ -100,4 +131,5 @@ public class BillService {
         customer.setPassword(customerDto.getPassword());
         return customer;
     }
+
 }
