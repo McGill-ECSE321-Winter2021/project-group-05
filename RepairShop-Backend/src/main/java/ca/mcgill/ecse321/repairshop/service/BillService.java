@@ -41,28 +41,16 @@ public class BillService {
         return bill;
     }
 
-    /**
-     * Gets all the bill associated with a customer
-     * @return
-     */
-    @Transactional
-    public List<Bill> getAllBillOfCustomer(Customer customer) {
-        List<Bill> bills = billRepository.findBillByCustomer(customer);
-        return bills;
-    }
-
     //HELPER FUNCTIONS
 
     private Bill createInstanceOfBill(Appointment appointment){
         Bill bill = new Bill();
-        Customer customer = appointment.getCustomer();
         Date date = appointment.getTimeslot().getDate();
         float totalCost = RepairShopUtil.getTotalCostOfAppointment(appointment);
 
-        bill.setCustomer(customer);
+
         bill.setDate(date);
         bill.setTotalCost(totalCost);
-        bill.setAppointment(appointment);
         return bill;
     }
 

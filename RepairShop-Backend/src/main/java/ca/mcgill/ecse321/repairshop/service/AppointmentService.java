@@ -1,15 +1,13 @@
 package ca.mcgill.ecse321.repairshop.service;
 
-import ca.mcgill.ecse321.repairshop.dao.AppointmentRepository;
-import ca.mcgill.ecse321.repairshop.dao.CustomerRepository;
-import ca.mcgill.ecse321.repairshop.dao.ServiceRepository;
-import ca.mcgill.ecse321.repairshop.dao.TimeSlotRepository;
+import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @Service
@@ -22,6 +20,9 @@ public class AppointmentService {
     CustomerRepository customerRepository;
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    BillRepository billRepository;
+
 
     @Transactional
     public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot) {
@@ -53,58 +54,39 @@ public class AppointmentService {
         return appointment;
     }
 
-    // TODO: is this really needed?
     @Transactional
-    public List<Appointment> getAllAppointment() {
-        return RepairShopUtil.toList(appointmentRepository.findAll());
-    }
+    public void editAppointment (Appointment appointment,List<BookableService> service_new,
+                                 TimeSlot timeSlot) throws IllegalArgumentException{
 
-
-    @Transactional
-    public void editAppointment (Appointment appointment,List<BookableService> service_add, List<BookableService> service_delete,TimeSlot timeSlot) throws IllegalArgumentException{
-        List<BookableService> services = appointment.getServices();
-        if (services.size() + service_add.size() - service_delete.size() <=0){
-            throw new IllegalArgumentException("Appointment must contain at least one service");
-        }
-        float total_cost=appointment.getBill().getTotalCost();
-        Bill new_bill = new Bill();
-        if (service_add != null){
-           for (BookableService s: service_add){
-               services.add(s);
-               total_cost += s.getCost();
-           }
-        }
-
-        if (service_delete != null){
-            for (BookableService s: service_delete){
-                services.remove(s);
-                total_cost -= s.getCost();
+        if (service_new.size() >0){
+            appointment.setServices(service_new);
+            float total_cost=0;
+            for (BookableService s: service_new){
+                total_cost+=s.getCost();
             }
+            Bill new_bill = appointment.getBill();
+            new_bill.setTotalCost(total_cost);
+            appointment.setBill(new_bill);
         }
-
-        appointment.setServices(services);
-
 
         if (timeSlot != null){
             appointment.setTimeslot(timeSlot);
         }
 
-        new_bill.setTotalCost(total_cost);
+        Bill new_bill = appointment.getBill();
         new_bill.setDate(appointment.getTimeslot().getDate());
-        new_bill.setCustomer(appointment.getCustomer());
-        new_bill.setAppointment(appointment);
-
         appointment.setBill(new_bill);
 
+        billRepository.save(new_bill);
+        timeSlotRepository.save(timeSlot);
         appointmentRepository.save(appointment);
-    }
 
+
+    }
 
     @Transactional
     public void deleteAppointment (Appointment appointment){
-        if (appointment == null) {
-            throw new IllegalArgumentException("Cannot delete a null appointment");
-        }
+
         //delete appointment from the service
         appointmentRepository.deleteById(appointment.getId());
         // todo: need to delete from the customer, service as well?
