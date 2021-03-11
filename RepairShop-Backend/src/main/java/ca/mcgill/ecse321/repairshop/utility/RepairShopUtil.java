@@ -63,7 +63,9 @@ public class RepairShopUtil {
         if (customer == null){
             throw new IllegalArgumentException("There is no such Customer!");
         }
-        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(), customer.getPassword(),customer.getId(),customer.getCardNumber(), customer.getCvv(), customer.getExpiry(),convertBillToDto(customer.getBills()),convertAppointmentsToDto(customer.getAppointments()));
+        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(),
+                customer.getPassword(),customer.getId(),customer.getCardNumber(),
+                customer.getCvv(), customer.getExpiry(),convertAppointmentsToDto(customer.getAppointments()));
         return customerDto;
     }
 
@@ -72,7 +74,7 @@ public class RepairShopUtil {
         if (bill == null){
             throw new IllegalArgumentException("There is no such Bill!");
         }
-        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), convertToDto(bill.getCustomer()),convertToDto(bill.getAppointment()), bill.getId());
+        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(),convertToDto(bill.getAppointment()), bill.getId());
         return billDto;
     }
 

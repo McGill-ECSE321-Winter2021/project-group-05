@@ -15,24 +15,24 @@ public class CustomerDto {
     private int noShow;
 
     //Customer Associations
-    private List<BillDto> bills;
     private List<AppointmentDto> appointments;
 
     public CustomerDto(){}
 
     @SuppressWarnings("unchecked")
     public CustomerDto(String email,String username, String password, Long id){
-        this(email,username,password, id, null,null,null,Collections.EMPTY_LIST,Collections.EMPTY_LIST);
+        this(email,username,password, id, null,null,null,Collections.EMPTY_LIST);
     }
 
-    public CustomerDto(String email, String username, String password, Long id, String cardNumber, String cvv, Date expiry, List<BillDto> bills, List<AppointmentDto> appointments){
+    public CustomerDto(String email, String username,
+                       String password, Long id,
+                       String cardNumber, String cvv, Date expiry, List<AppointmentDto> appointments){
         this.email=email;
         this.username=username;
         this.password=password;
         this.cardNumber=cardNumber;
         this.cvv=cvv;
         this.expiry=expiry;
-        this.bills=bills;
         this.appointments=appointments;
         this.id = id;
     }
@@ -71,14 +71,6 @@ public class CustomerDto {
 
     public void setExpiry(Date expiry){
         this.expiry=expiry;
-    }
-
-    public List<BillDto> getBills(){
-        return this.bills;
-    }
-
-    public void setBills(List<BillDto> bills){
-        this.bills=bills;
     }
 
     public List<AppointmentDto> getAppointments(){
