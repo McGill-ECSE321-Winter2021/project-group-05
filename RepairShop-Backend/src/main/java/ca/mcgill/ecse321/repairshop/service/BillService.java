@@ -53,6 +53,23 @@ public class BillService {
         Bill bill = billRepository.findBillById(id);
         return bill;
     }
+    public Bill updateBill(AppointmentDto appointmentDto) throws BillException {
+        Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointmentDto.getId());
+        if(!appointmentOptional.isPresent()){
+            throw new BillException("Could not find a bill because no appointment was found");
+        }
+        Appointment appointment = appointmentOptional.get();
+        Optional<Bill> billOptional = billRepository.findById(appointment.getBill().getId());
+        if(!billOptional.isPresent()){
+            throw new BillException("Count not find bill from appointment");
+        }
+        Bill bill = billOptional.get();
+        float totalCost = RepairShopUtil.getTotalCostOfAppointment(appointment);
+        bill.setDate(appointment.getTimeslot().getDate());
+        bill.setTotalCost(totalCost);
+        billRepository.save(bill);
+        return bill;
+    }
 
     public List<Bill> getAllBillsOfCustomer(Long customerId) throws BillException{
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
