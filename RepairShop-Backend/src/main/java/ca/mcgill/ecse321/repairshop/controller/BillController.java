@@ -53,4 +53,13 @@ public class BillController {
         }
     }
 
+    @PutMapping(value = {"/bill/{id}", "/bill/{id"})
+    public ResponseEntity<?> updateBill(@RequestBody AppointmentDto appointmentDto){
+        try{
+            Bill bill = billService.updateBill(appointmentDto);
+            return new ResponseEntity<>(bill, HttpStatus.OK);
+        }catch (BillException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
