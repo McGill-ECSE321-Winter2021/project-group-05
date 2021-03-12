@@ -63,7 +63,7 @@ public class BusinessController {
      * @param businessDto
      * @return
      */
-    @PutMapping(value = {"/business/{id}", "/business/{name}/"})
+    @PutMapping(value = {"/business/{id}", "/business/{id}/"})
     public ResponseEntity<?> updateBusiness(@PathVariable("id") Long id, @RequestBody BusinessDto businessDto){
         try {
             Business business = businessService.editBusiness(id, businessDto);
