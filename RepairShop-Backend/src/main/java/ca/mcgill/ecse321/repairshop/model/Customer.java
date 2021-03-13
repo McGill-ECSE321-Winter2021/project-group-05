@@ -18,34 +18,8 @@ public class Customer extends Person
   private Date expiry;
   private int noShow;
 
-  private List<Appointment> appointments;
-
   public String getCardNumber() {
     return cardNumber;
-  }
-
-  public Appointment getAppointment(int index)
-  {
-    Appointment aAppointment = appointments.get(index);
-    return aAppointment;
-  }
-
-  public int numberOfAppointments()
-  {
-    int number = appointments.size();
-    return number;
-  }
-
-  public boolean hasAppointments()
-  {
-    boolean has = appointments.size() > 0;
-    return has;
-  }
-
-  public int indexOfAppointment(Appointment aAppointment)
-  {
-    int index = appointments.indexOf(aAppointment);
-    return index;
   }
 
   public void setNoShow(int noShow) {this.noShow = noShow;}
@@ -72,12 +46,4 @@ public class Customer extends Person
     this.expiry = expiry;
   }
 
-  @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
-  public List<Appointment> getAppointments() {
-    return appointments;
-  }
-
-  public void setAppointments(List<Appointment> appointments) {
-    this.appointments = appointments;
-  }
 }

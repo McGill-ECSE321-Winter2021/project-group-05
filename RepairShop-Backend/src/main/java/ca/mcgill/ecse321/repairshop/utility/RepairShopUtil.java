@@ -26,7 +26,9 @@ public class RepairShopUtil {
            throw new IllegalArgumentException("There is no such Appointment!");
        }
        //service, customer, timeslot, bill
-       AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getServices()), convertToDto(appointment.getCustomer()),convertToDto(appointment.getTimeslot()),convertToDto(appointment.getBill()), appointment.getId());
+       AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getServices()),
+               convertToDto(appointment.getCustomer()),convertToDto(appointment.getTimeslot()),
+               convertToDto(appointment.getBill()), appointment.getId());
        return appointmentDto;
    }
 
@@ -65,7 +67,7 @@ public class RepairShopUtil {
         }
         CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(),
                 customer.getPassword(),customer.getId(),customer.getCardNumber(),
-                customer.getCvv(), customer.getExpiry(),convertAppointmentsToDto(customer.getAppointments()));
+                customer.getCvv(), customer.getExpiry());
         return customerDto;
     }
 

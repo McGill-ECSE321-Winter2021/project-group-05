@@ -77,8 +77,8 @@ public class BillService {
             throw new BillException("Could not load all bills because customer does not exist");
         }
         Customer customer = customerOptional.get();
-        List<Bill> bills = getAllBills(customer.getAppointments());
-        return bills;
+     //   List<Bill> bills = getAllBills(customer.getAppointments());
+        return null; //todo
     }
 
     //HELPER FUNCTIONS
@@ -101,7 +101,7 @@ public class BillService {
         bill.setTotalCost(totalCost);
         return bill;
     }
-
+/*
     private Appointment convertToEntity(AppointmentDto appointmentDto){
         Appointment appointment = new Appointment();
         appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));
@@ -110,6 +110,8 @@ public class BillService {
         appointment.setCustomer(convertToEntity(appointmentDto.getCustomer()));
         return appointment;
     }
+
+ */
 
     private BookableService convertToEntity(BookableServiceDto bookableServiceDto){
       BookableService bookableService = new BookableService();
