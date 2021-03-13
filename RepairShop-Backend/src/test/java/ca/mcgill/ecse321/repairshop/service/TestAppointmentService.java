@@ -424,8 +424,10 @@ public class TestAppointmentService {
     /**
      * test enter no-show
      */
+    @Test
+    public void testWrongEnterNoShow(){
 
-    private void testWrongEnterNoShow
+    }
 
     /**
      * PRIVATE HELPERS
