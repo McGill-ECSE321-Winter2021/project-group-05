@@ -14,26 +14,22 @@ public class CustomerDto {
     private Long id;
     private int noShow;
 
-    //Customer Associations
-    private List<AppointmentDto> appointments;
-
     public CustomerDto(){}
 
     @SuppressWarnings("unchecked")
     public CustomerDto(String email,String username, String password, Long id){
-        this(email,username,password, id, null,null,null,Collections.EMPTY_LIST);
+        this(email,username,password, id, null,null,null);
     }
 
     public CustomerDto(String email, String username,
                        String password, Long id,
-                       String cardNumber, String cvv, Date expiry, List<AppointmentDto> appointments){
+                       String cardNumber, String cvv, Date expiry){
         this.email=email;
         this.username=username;
         this.password=password;
         this.cardNumber=cardNumber;
         this.cvv=cvv;
         this.expiry=expiry;
-        this.appointments=appointments;
         this.id = id;
     }
 
@@ -71,14 +67,6 @@ public class CustomerDto {
 
     public void setExpiry(Date expiry){
         this.expiry=expiry;
-    }
-
-    public List<AppointmentDto> getAppointments(){
-        return this.appointments;
-    }
-
-    public void setAppointments(List<AppointmentDto> appointments) {
-        this.appointments = appointments;
     }
 
     public Long getId(){
