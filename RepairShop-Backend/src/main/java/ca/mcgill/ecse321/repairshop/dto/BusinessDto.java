@@ -13,7 +13,9 @@ public class BusinessDto {
     private String email;
     private Long id;
 
+    public BusinessDto (){
 
+    }
     public BusinessDto(String name, String address, String phoneNumber, String email, Long id) {
         this.name = name;
         this.address = address;

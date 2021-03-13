@@ -25,6 +25,10 @@ public class BusinessService {
      */
     @Transactional
     public Business createBusiness(BusinessDto businessDto) throws BusinessException {
+        String error = getErrorFromData(businessDto);
+        if(!error.equals("")){
+            throw new BusinessException(error);
+        }
         List<Business> businesses = RepairShopUtil.toList(businessRepository.findAll());
         if (businesses.size() != 0){
             throw new BusinessException("A business has already been created");
@@ -32,6 +36,22 @@ public class BusinessService {
         Business business = convertToEntity(businessDto);
         businessRepository.save(business);
         return business;
+    }
+
+    private String getErrorFromData(BusinessDto businessDto) {
+        if(businessDto.getName() == null || businessDto.getName().equals("")){
+            return "Business name cannot be empty";
+        }
+        if(businessDto.getAddress() == null || businessDto.getAddress().equals("")){
+            return "Business address cannot be empty";
+        }
+        if(businessDto.getEmail() == null || businessDto.getEmail().equals("")){
+            return "Business email cannot be empty";
+        }
+        if(businessDto.getPhoneNumber() == null || businessDto.getPhoneNumber().equals("")){
+            return "Business phone number cannot be empty";
+        }
+        return "";
     }
 
     /**
@@ -68,6 +88,10 @@ public class BusinessService {
      */
     @Transactional
     public Business editBusiness(Long id, BusinessDto businessDto) throws BusinessException{
+        String error = getErrorFromData(businessDto);
+        if(!error.equals("")){
+            throw new BusinessException(error);
+        }
         Optional<Business> businesses= businessRepository.findById(id);
         if(!businesses.isPresent()){
             throw new BusinessException("Business does not exist in database, Please create one");
