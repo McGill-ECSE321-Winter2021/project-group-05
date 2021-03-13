@@ -72,7 +72,7 @@ public class RepairShopUtil {
     }
 
 
-    public static  BillDto convertToDto(Bill bill){
+    public static BillDto convertToDto(Bill bill){
         if (bill == null){
             throw new IllegalArgumentException("There is no such Bill!");
         }
@@ -111,4 +111,54 @@ public class RepairShopUtil {
         }
         return sum;
     }
+
+    public static Appointment convertToEntity(AppointmentDto appointmentDto){
+        Appointment appointment = new Appointment();
+        appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));
+        appointment.setId(appointmentDto.getId());
+        appointment.setTimeslot(convertToEntity(appointmentDto.getTimeSlot()));
+        appointment.setCustomer(convertToEntity(appointmentDto.getCustomer()));
+        return appointment;
+    }
+
+
+
+    public static BookableService convertToEntity(BookableServiceDto bookableServiceDto){
+        BookableService bookableService = new BookableService();
+        bookableService.setName(bookableServiceDto.getName());
+        bookableService.setCost(bookableServiceDto.getCost());
+        bookableService.setId(bookableServiceDto.getId());
+        bookableService.setDuration(bookableServiceDto.getDuration());
+        return bookableService;
+    }
+
+    public static List<BookableService> convertToListOfEntity(List<BookableServiceDto> bookableServiceDtos){
+        List<BookableService> bookableServices = new ArrayList<>();
+        for(BookableServiceDto bookableServiceDto : bookableServiceDtos){
+            bookableServices.add(convertToEntity(bookableServiceDto));
+        }
+        return bookableServices;
+    }
+
+    public static TimeSlot convertToEntity(TimeSlotDto timeSlotDto){
+        TimeSlot timeSlot = new TimeSlot();
+        timeSlot.setDate(timeSlotDto.getDate());
+        timeSlot.setEndTime(timeSlotDto.getEndTime());
+        timeSlot.setStartTime(timeSlotDto.getStartTime());
+        timeSlot.setId(timeSlotDto.getId());
+        return timeSlot;
+    }
+
+    public static Customer convertToEntity(CustomerDto customerDto){
+        Customer customer = new Customer();
+        customer.setNoShow(customerDto.getNoShow());
+        customer.setCardNumber(customerDto.getCardNumber());
+        customer.setEmail(customerDto.getEmail());
+        customer.setId(customerDto.getId());
+        customer.setCvv(customerDto.getCvv());
+        customer.setUsername(customerDto.getUsername());
+        customer.setPassword(customerDto.getPassword());
+        return customer;
+    }
+
 }

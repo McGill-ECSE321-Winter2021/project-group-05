@@ -28,12 +28,12 @@ public class BillService {
 
     /**
      * Creates a bill for a given appointment
-     * @param appointmentDto
+     * @param appointment_arg
      * @return
      */
     @Transactional
-    public Bill createBill(AppointmentDto appointmentDto) throws BillException {
-        Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointmentDto.getId());
+    public Bill createBill(Appointment appointment_arg) throws BillException {
+        Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointment_arg.getId());
         if(!appointmentOptional.isPresent()){
             throw new BillException("Could not create a bill because no appointment was found");
         }
@@ -53,8 +53,8 @@ public class BillService {
         Bill bill = billRepository.findBillById(id);
         return bill;
     }
-    public Bill updateBill(AppointmentDto appointmentDto) throws BillException {
-        Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointmentDto.getId());
+    public Bill updateBill(Appointment appointment_arg) throws BillException {
+        Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointment_arg.getId());
         if(!appointmentOptional.isPresent()){
             throw new BillException("Could not find a bill because no appointment was found");
         }
@@ -101,54 +101,6 @@ public class BillService {
         bill.setTotalCost(totalCost);
         return bill;
     }
-/*
-    private Appointment convertToEntity(AppointmentDto appointmentDto){
-        Appointment appointment = new Appointment();
-        appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));
-        appointment.setId(appointmentDto.getId());
-        appointment.setTimeslot(convertToEntity(appointmentDto.getTimeSlot()));
-        appointment.setCustomer(convertToEntity(appointmentDto.getCustomer()));
-        return appointment;
-    }
 
- */
-
-    private BookableService convertToEntity(BookableServiceDto bookableServiceDto){
-      BookableService bookableService = new BookableService();
-      bookableService.setName(bookableServiceDto.getName());
-      bookableService.setCost(bookableServiceDto.getCost());
-      bookableService.setId(bookableServiceDto.getId());
-      bookableService.setDuration(bookableServiceDto.getDuration());
-      return bookableService;
-    }
-
-    private List<BookableService> convertToListOfEntity(List<BookableServiceDto> bookableServiceDtos){
-        List<BookableService> bookableServices = new ArrayList<>();
-        for(BookableServiceDto bookableServiceDto : bookableServiceDtos){
-            bookableServices.add(convertToEntity(bookableServiceDto));
-        }
-        return bookableServices;
-    }
-
-    private TimeSlot convertToEntity(TimeSlotDto timeSlotDto){
-        TimeSlot timeSlot = new TimeSlot();
-        timeSlot.setDate(timeSlotDto.getDate());
-        timeSlot.setEndTime(timeSlotDto.getEndTime());
-        timeSlot.setStartTime(timeSlotDto.getStartTime());
-        timeSlot.setId(timeSlotDto.getId());
-        return timeSlot;
-    }
-
-    private Customer convertToEntity(CustomerDto customerDto){
-        Customer customer = new Customer();
-        customer.setNoShow(customerDto.getNoShow());
-        customer.setCardNumber(customerDto.getCardNumber());
-        customer.setEmail(customerDto.getEmail());
-        customer.setId(customerDto.getId());
-        customer.setCvv(customerDto.getCvv());
-        customer.setUsername(customerDto.getUsername());
-        customer.setPassword(customerDto.getPassword());
-        return customer;
-    }
 
 }
