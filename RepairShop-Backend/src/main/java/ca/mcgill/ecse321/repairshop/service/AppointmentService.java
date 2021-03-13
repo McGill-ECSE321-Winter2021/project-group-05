@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.BillException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,8 @@ public class AppointmentService {
     ServiceRepository serviceRepository;
     @Autowired
     BillRepository billRepository;
+    @Autowired
+    BillService billService = new BillService();
 
 
     @Transactional
@@ -30,7 +33,7 @@ public class AppointmentService {
 
         // IF EITHER ARGUMENT IS NOT FOUND IN DATABASE
         if (customerRepository.findCustomerById(customer.getId()) == null
-                ||timeSlotRepository.findTimeSlotById(timeslot.getId()) == null){
+                || timeSlotRepository.findTimeSlotById(timeslot.getId()) == null){
             throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
         }
         for (BookableService s : services){
@@ -43,7 +46,17 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
         appointmentRepository.save(appointment);
-        return appointment;
+        //try{
+            // CREATE BILL FOR APPOINTMENT
+            //Bill bill = billService.createBill(appointment);
+            //appointment.setBill(bill);
+            appointmentRepository.save(appointment);
+            return appointment;
+        //}
+       //catch (BillException b){
+         //   throw new IllegalArgumentException("Bill cannot be created");
+       //}
+
     }
 
     @Transactional
@@ -54,7 +67,10 @@ public class AppointmentService {
 
     @Transactional
     public void editAppointment (Appointment appointment,List<BookableService> service_new,
-                                 TimeSlot timeSlot) throws IllegalArgumentException{
+                                 TimeSlot timeSlot){
+        if (service_new.size() == 0){
+            throw new IllegalArgumentException("The Appointment must have at least one services");
+        }
 
         if (service_new.size() >0){
             appointment.setServices(service_new);
@@ -84,7 +100,9 @@ public class AppointmentService {
 
     @Transactional
     public void deleteAppointment (Appointment appointment){
-
+        if (appointment == null){
+            throw new IllegalArgumentException("Cannot delete a null appointment");
+        }
         //delete appointment from the service
         appointmentRepository.deleteById(appointment.getId());
         // todo: need to delete from the customer, service as well?

@@ -22,7 +22,7 @@ public class RepairShopService {
      * Service
      */
     @Transactional
-    public BookableService createService(String name, float cost, int duration, List<Appointment> appointments){
+    public BookableService createService(String name, float cost, int duration){
         // service is a reserved keywork
        BookableService service = new BookableService();
         service.setCost(cost);
