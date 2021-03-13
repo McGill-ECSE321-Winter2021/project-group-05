@@ -424,8 +424,9 @@ public class TestAppointmentService {
     /**
      * test enter no-show
      */
-
-    private void testWrongEnterNoShow
+    private void testWrongEnterNoShow(){
+        // todo: test entering the no show
+    }
 
     /**
      * PRIVATE HELPERS

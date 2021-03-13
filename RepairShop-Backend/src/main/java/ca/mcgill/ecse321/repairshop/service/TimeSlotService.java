@@ -37,7 +37,7 @@ public class TimeSlotService {
     
     @Transactional
     public void deleteTimeSlot(TimeSlot timeslot) {
-        timeSlotRepository.deleteByID(timslot.getId()); //??????
+        timeSlotRepository.deleteById(timeslot.getId()); //??????
 
     }
 

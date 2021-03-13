@@ -5,36 +5,38 @@ import ca.mcgill.ecse321.repairshop.dto.TimeSlotDto;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import ca.mcgill.ecse321.repairshop.service.BillService;
 import ca.mcgill.ecse321.repairshop.service.TimeSlotService;
+import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @CrossOrigin(origins = "*")
 @RestController
 public class TimeSlotController {
     @Autowired
-    private TimeSlotService timSlotService;
+    private TimeSlotService timeSlotService;
 
     @PostMapping(value = {"/timeSlot", "/timeSlot/"})
-    public ResponseEntity<?> createBill createTimeSlot (@RequestParam Date date,
-                                       @RequestParam @DateTimeFormat(iso  = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime)
+    public ResponseEntity<?> createTimeSlot (@RequestParam Date date,
+                                             @RequestParam @DateTimeFormat(iso  = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
+                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime)
             throws IllegalArgumentException {
         if(canEnterTimeSlot(startTime, endTime)){
-            TimeSlot timeSlot = timSlotService.createTimeSlot(date, Time.valueOf(startTime), Time.valueOf(endTime));
-            return convertToDto(timeSlot);
+            TimeSlot timeSlot = timeSlotService.createTimeSlot(date, Time.valueOf(startTime), Time.valueOf(endTime));
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(timeSlot), HttpStatus.OK);
         }else{
             throw new IllegalArgumentException("StartTime must be before EndTime");
         }
 
     }
+
     private TimeSlotDto convertToDto(TimeSlot timeSlot){
         if (timeSlot == null){
             throw new IllegalArgumentException("There is no such TimeSlot!");
