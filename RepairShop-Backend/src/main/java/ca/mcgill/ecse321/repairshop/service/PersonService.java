@@ -8,7 +8,7 @@ import ca.mcgill.ecse321.repairshop.model.Administrator;
 import ca.mcgill.ecse321.repairshop.model.Customer;
 import ca.mcgill.ecse321.repairshop.model.Owner;
 import ca.mcgill.ecse321.repairshop.model.Technician;
-import ca.mcgill.ecse321.repairshop.utility.ListUtil;
+import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +49,10 @@ public class PersonService {
         Customer customer = customerRepository.findCustomerById(id);
         return customer;
     }
-
+    
     @Transactional
     public List<Customer> getAllCustomer() {
-        return ListUtil.toList(customerRepository.findAll());
+        return RepairShopUtil.toList(customerRepository.findAll());
     }
 
     /**
@@ -76,7 +76,7 @@ public class PersonService {
 
     @Transactional
     public List<Owner> getAllOwner() {
-        return ListUtil.toList(ownerRepository.findAll());
+        return RepairShopUtil.toList(ownerRepository.findAll());
     }
 
     /**
@@ -100,7 +100,7 @@ public class PersonService {
 
     @Transactional
     public List<Technician> getAllTechnician() {
-        return ListUtil.toList(technicianRepository.findAll());
+        return RepairShopUtil.toList(technicianRepository.findAll());
     }
 
     /**
@@ -124,6 +124,6 @@ public class PersonService {
 
     @Transactional
     public List<Administrator> getAllAdministrator() {
-        return ListUtil.toList(administratorRepository.findAll());
+        return RepairShopUtil.toList(administratorRepository.findAll());
     }
 }

@@ -4,6 +4,5 @@ import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TimeSlotRepository extends CrudRepository<TimeSlot, Long> {
-
     TimeSlot findTimeSlotById(Long id);
 }

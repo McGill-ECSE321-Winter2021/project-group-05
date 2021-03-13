@@ -11,11 +11,10 @@ public class Business
   private String address;
   private String phoneNumber;
   private String email;
+  private Long id;
 
   //Business Associations
-  private List<TimeSlot> timeslot;
   private RepairShop repairShop;
-  private Long id;
 
   public String getName() {
     return name;
@@ -40,27 +39,13 @@ public class Business
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
-  @OneToMany(cascade={CascadeType.ALL})
-  public TimeSlot getTimeslot(int index)
-  {
-    TimeSlot aTimeslot = timeslot.get(index);
-    return aTimeslot;
-  }
+
   public String getEmail() {
     return email;
   }
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  @OneToMany()
-  public List<TimeSlot> getTimeslot() {
-    return timeslot;
-  }
-
-  public void setTimeslot(List<TimeSlot> timeslot) {
-    this.timeslot = timeslot;
   }
 
   @OneToOne(cascade = {CascadeType.ALL})

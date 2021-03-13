@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.repairshop.dto;
 
+import java.util.List;
+
 public class AppointmentDto {
-    private ServiceDto service;
+    private List<BookableServiceDto> services;
     private CustomerDto customer;
     private TimeSlotDto timeslot;
     private BillDto bill;
@@ -9,16 +11,16 @@ public class AppointmentDto {
 
     public AppointmentDto(){}
 
-    public AppointmentDto(ServiceDto service,CustomerDto customer,TimeSlotDto timeslot,BillDto bill, Long id){
-        this.service = service;
+    public AppointmentDto(List<BookableServiceDto> services,CustomerDto customer,TimeSlotDto timeslot,BillDto bill, Long id){
+        this.services = services;
         this.customer = customer;
         this.timeslot = timeslot;
         this.bill = bill;
         this.id = id;
     }
 
-    public ServiceDto getService(){
-        return this.service;
+    public List<BookableServiceDto> getServices(){
+        return this.services;
     }
 
     public CustomerDto getCustomer(){

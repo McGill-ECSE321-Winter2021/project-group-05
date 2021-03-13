@@ -13,6 +13,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -254,7 +255,6 @@ class TestRepairShopPersistence {
         float testCost = 10;
 
         Bill bill = new Bill();
-        bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
         bill.setRepairShop(rs);
@@ -269,10 +269,6 @@ class TestRepairShopPersistence {
         assertNotNull(bill);
         assertEquals(billId,bill.getId());
         assertEquals(testCost,bill.getTotalCost());
-        assertEquals(name,bill.getCustomer().getUsername());
-        assertEquals(email,bill.getCustomer().getEmail());
-        assertEquals(password,bill.getCustomer().getPassword());
-        assertEquals(customerId,bill.getCustomer().getId());
         assertEquals(date.toString(),bill.getDate().toString());
         assertNotNull(bill.getRepairShop());
 
@@ -296,7 +292,6 @@ class TestRepairShopPersistence {
         float testCost = 10;
 
         Bill bill = new Bill();
-        bill.setCustomer(customer);
         bill.setDate(date);
         bill.setTotalCost(testCost);
         billRepository.save(bill);
@@ -324,6 +319,9 @@ class TestRepairShopPersistence {
         serviceRepository.save(service);
         Long serviceID=service.getId();
 
+        List<BookableService> services = new ArrayList<BookableService>();
+        services.add(service);
+
         Appointment appointment = new Appointment();
 
         appointment.setBill(bill);
@@ -332,7 +330,7 @@ class TestRepairShopPersistence {
         RepairShop rs = new RepairShop();
         appointment.setRepairShop(rs);
 
-        appointment.setService(service);
+        appointment.setServices(services);
         appointment.setTimeslot(timeSlot);
         appointmentRepository.save(appointment);
         Long appointmentID= appointment.getId();
@@ -342,23 +340,12 @@ class TestRepairShopPersistence {
         assertNotNull(appointment);
         assertEquals(appointmentID,appointment.getId());
         assertNotNull(appointment.getBill());
-        assertNotNull(appointment.getBill().getAppointments());
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
-        assertEquals(serviceID,appointment.getService().getId());
+        assertEquals(serviceID,(appointment.getServices().get(0)).getId());
 
-        appointment=null;
-        List<Appointment> appointmentList=appointmentRepository.findByServiceAndBill(service,bill);
-        appointment=appointmentList.get(0);
-        assertNotNull(appointment);
-        assertEquals(appointmentID,appointment.getId());
-        assertNotNull(appointment.getBill().getAppointments());
-        assertEquals(billId,appointment.getBill().getId());
-        assertEquals(customerId,appointment.getCustomer().getId());
-        assertEquals(timeSlotID,appointment.getTimeslot().getId());
-        assertEquals(serviceID,appointment.getService().getId());
-        assertNotNull(appointment.getRepairShop());
+
     }
 
     /**

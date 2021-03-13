@@ -1,24 +1,25 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Appointment
 {
-  private BookableService service;
+  private List<BookableService> services;
   private Customer customer;
   private TimeSlot timeslot;
   private Bill bill;
   private RepairShop repairShop;
   private Long id;
 
-  @ManyToOne
-  public BookableService getService() {
-    return service;
+  @ManyToMany
+  public List<BookableService> getServices() {
+    return services;
   }
 
-  public void setService(BookableService service) {
-    this.service = service;
+  public void setServices(List<BookableService> services) {
+    this.services = services;
   }
 
   @ManyToOne
@@ -39,7 +40,7 @@ public class Appointment
     this.timeslot = timeslot;
   }
 
-  @ManyToOne
+  @OneToOne
   public Bill getBill() {
     return bill;
   }

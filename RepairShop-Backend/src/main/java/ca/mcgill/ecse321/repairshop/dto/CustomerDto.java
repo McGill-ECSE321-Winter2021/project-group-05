@@ -12,26 +12,27 @@ public class CustomerDto {
     private String cvv;
     private Date expiry;
     private Long id;
+    private int noShow;
 
     //Customer Associations
-    private List<BillDto> bills;
     private List<AppointmentDto> appointments;
 
     public CustomerDto(){}
 
     @SuppressWarnings("unchecked")
     public CustomerDto(String email,String username, String password, Long id){
-        this(email,username,password, id, null,null,null,Collections.EMPTY_LIST,Collections.EMPTY_LIST);
+        this(email,username,password, id, null,null,null,Collections.EMPTY_LIST);
     }
 
-    public CustomerDto(String email,String username, String password, Long id, String cardNumber, String cvv, Date expiry, List<BillDto> bills,List<AppointmentDto> appointments){
+    public CustomerDto(String email, String username,
+                       String password, Long id,
+                       String cardNumber, String cvv, Date expiry, List<AppointmentDto> appointments){
         this.email=email;
         this.username=username;
         this.password=password;
         this.cardNumber=cardNumber;
         this.cvv=cvv;
         this.expiry=expiry;
-        this.bills=bills;
         this.appointments=appointments;
         this.id = id;
     }
@@ -72,14 +73,6 @@ public class CustomerDto {
         this.expiry=expiry;
     }
 
-    public List<BillDto> getBills(){
-        return this.bills;
-    }
-
-    public void setBills(List<BillDto> bills){
-        this.bills=bills;
-    }
-
     public List<AppointmentDto> getAppointments(){
         return this.appointments;
     }
@@ -91,4 +84,29 @@ public class CustomerDto {
     public Long getId(){
         return this.id;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getNoShow() {
+        return noShow;
+    }
+
+    public void setNoShow(int noShow) {
+        this.noShow = noShow;
+    }
+
 }

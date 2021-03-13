@@ -3,13 +3,18 @@ package ca.mcgill.ecse321.repairshop.controller;
 import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.service.*;
+import ca.mcgill.ecse321.repairshop.utility.BusinessException;
+import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
@@ -27,9 +32,14 @@ public class AppointmentController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping(value = { "/appointments", "/appointments/" })
-    public List<AppointmentDto> getAllAppointments() {
-        return appointmentService.getAllAppointment().stream().map(a -> convertToDto(a)).collect(Collectors.toList());
+    // todo: delete later
+    @GetMapping(value = {"/"})
+    public String sayHello(){return "hello world";}
+
+
+    @GetMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
+    public AppointmentDto getAppointment(@PathVariable("id") Long id) {
+        return RepairShopUtil.convertToDto(appointmentService.getAppointment(id));
     }
 
     /**
@@ -37,18 +47,23 @@ public class AppointmentController {
      */
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void editAppointment(@PathVariable("id") Long id,
-                                @RequestParam(name="service") ServiceDto serviceDto,
-                                @RequestParam(name="bill") BillDto billDto,
-                                @RequestParam TimeSlotDto timeSlotDto) throws IllegalArgumentException {
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
+                               @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
         if (canCancelAndDelete(timeSlot)){
             Appointment appointment = appointmentService.getAppointment(id);
-            BookableService service_obj = repairShopService.getService(serviceDto.getId());
-            Bill bill = billService.getBill(billDto.getId());
-            appointmentService.editAppointment(appointment,bill,service_obj,timeSlot);
+
+            List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
+            List<BookableService> service_new = new ArrayList<>();
+            for (BookableServiceDto s:newServicesDto ){
+                service_new.add(repairShopService.getService(s.getId()));
+            }
+
+            appointmentService.editAppointment(appointment,service_new,timeSlot);
         }
         throw new IllegalArgumentException("Cannot edit appointment before 24hr");
     }
+
+
 
     /**
      * delete appointment
@@ -56,61 +71,73 @@ public class AppointmentController {
     @DeleteMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void deleteAppointment(@PathVariable("id") Long id) throws IllegalArgumentException {
         Appointment appointment = appointmentService.getAppointment(id);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Cannot delete a null appointment");
+        }
+
         TimeSlot timeSlot = appointment.getTimeslot();
         // check if it's within 24 hr
         if (canCancelAndDelete(timeSlot)) {
             // find the appointment using id
             appointmentService.deleteAppointment(appointment);
         }
-        throw new IllegalArgumentException("Cannot delete appointment before 24hr");
+        else{
+            throw new IllegalArgumentException("Cannot delete appointment before 24hr");
+        }
     }
+
+
 
     /**
     * create appointment with timeslot
     */
-    @PostMapping(value = { "/appointment", "/appointment/" })
-    public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
-                                            @RequestParam(name="service") ServiceDto serviceDto,
-                                            @RequestParam(name="bill") BillDto billDto,
-                                            @RequestParam TimeSlotDto timeSlotDto) throws IllegalArgumentException {
-        Customer customer = personService.getCustomer(customerDto.getId());
-        BookableService service_obj = repairShopService.getService(serviceDto.getId());
-        Bill bill = billService.getBill(billDto.getId());
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotDto.getId());
-        Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
-        return convertToDto(appointment);
-    }
-//    /**
-//     * create appointment with date, time
-//     */
-//    @PostMapping(value = { "/appointment", "/appointment/" })
-//    public AppointmentDto createAppointment(@RequestParam(name="customer") CustomerDto customerDto,
-//                                            @RequestParam(name="service") ServiceDto serviceDto,
-//                                            @RequestParam(name="bill") BillDto billDto,
-//                                            @RequestParam Date date,
-//                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-//                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime){
-//        Customer customer = personService.getCustomer(customerDto.getId());
-//        Service service_obj = repairShopService.getService(serviceDto.getId());
-//        Bill bill = billService.getBill(billDto.getId());
-//        TimeSlot timeSlot = timeSlotService.createTimeSlot(date, Time.valueOf(startTime),Time.valueOf(endTime) );
-//        Appointment appointment = appointmentService.createAppointment(service_obj,customer,timeSlot,bill);
-//        return convertToDto(appointment);
-//    }
 
-    @GetMapping(value = { "/appointments/person", "/appointments/person/"})
-    public List<AppointmentDto> getAppointmentHistory(@PathVariable("name") CustomerDto cDto) {
-        Customer customer = personService.getCustomer(cDto.getId());
+    @PostMapping(value = { "/appointment", "/appointment/" })
+    public ResponseEntity<?> createAppointment(@RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+        try {
+        Customer customer = personService.getCustomer(appointmentDto.getCustomer().getId());
+        //CONVERT BOOKABLE SERVICE DTO --> DAO
+        List<BookableService> service = new ArrayList<>();
+        for (BookableServiceDto s: appointmentDto.getServices()){
+            service.add(repairShopService.getService(s.getId()));
+        }
+
+        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
+
+            Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
+
+    @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
+    public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) {
+        Customer customer = personService.getCustomer(id);
         List<AppointmentDto> apptsCustDtos = new ArrayList<>();
         for(Appointment appointment : appointmentService.getAppointmentsBookedByCustomer(customer)){
-            apptsCust.add(convertToDto(appointment));
+            apptsCustDtos.add(RepairShopUtil.convertToDto(appointment));
         }
         return apptsCustDtos;
     }
 
+
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public void enterNoShow(@PathVariable("id") Long id) throws IllegalArgumentException{
-
+        Appointment appointment = appointmentService.getAppointment(id);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Cannot enter no show for a null appointment");
+        }
+        TimeSlot timeSlot = appointment.getTimeslot();
+        if (canEnterNoShow(timeslot)){
+            appointmentService.enterNoShow(appointment);
+        }else{
+            throw new IllegalArgumentException("Cannot enter no show at this time");
+        }
+    }
     }
 
     /**
@@ -150,63 +177,20 @@ public class AppointmentController {
         }
 
 
-    }
-    private AppointmentDto convertToDto(Appointment appointment) {
-        if (appointment == null) {
-            throw new IllegalArgumentException("There is no such Appointment!");
-        }
-        //service, customer, timeslot, bill
-        AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getService()), convertToDto(appointment.getCustomer()),convertToDto(appointment.getTimeslot()),convertToDto(appointment.getBill()), appointment.getId());
-        return appointmentDto;
-    }
 
-    private TimeSlotDto convertToDto(TimeSlot timeSlot){
-        if (timeSlot == null) {
-            throw new IllegalArgumentException("There is no such TimeSlot!");
-        }
-        //service, customer, timeslot bill
-        TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getDate(),timeSlot.getStartTime(),timeSlot.getEndTime(), timeSlot.getId());
-        return timeSlotDto;
-    }
+        private boolean canEnterNoShow(TimeSlot timeslot){
+            LocalTime timeNow =  LocalTime.now();
+            LocalDate today = LocalDate.now();
 
-    private ServiceDto convertToDto(BookableService service) {
-        if (service == null) {
-            throw new IllegalArgumentException("There is no such Service!");
-        }
-        //service, customer, timeslot bill
-        ServiceDto serviceDto = new ServiceDto(service.getName(), service.getCost(),service.getDuration(), service.getId());
-        return serviceDto;
-    }
 
-    private CustomerDto convertToDto(Customer customer){
-        if (customer == null){
-            throw new IllegalArgumentException("There is no such Customer!");
-        }
-        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(), customer.getPassword(),customer.getId(),customer.getCardNumber(), customer.getCvv(), customer.getExpiry(),convertBillToDto(customer.getBills()),convertAppointmentToDto(customer.getAppointments()));
-        return customerDto;
-    }
 
-    private BillDto convertToDto(Bill bill){
-        if (bill == null){
-            throw new IllegalArgumentException("There is no such Bill!");
-        }
-        BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), convertToDto(bill.getCustomer()),convertAppointmentToDto(bill.getAppointments()), bill.getId());
-        return billDto;
-    }
+            LocalDate tsDate = timeSlot.getDate().toLocalDate();
+            LocalTime tsStartTime = timeSlot.getStartTime().toLocalTime();
+            LocalTime tsEnterTime = timeSlot.getStartTime().toLocalTime();
 
-    private List<BillDto> convertBillToDto(List<Bill> bills){
-        List<BillDto> billDtoList= new ArrayList<BillDto>();
-        for (Bill b: bills){
-            billDtoList.add(convertToDto(b));
+            if(today.equals(tsDate) && tsStartTime.isBefore(timeNow)){
+                return true;
+            }
+            return false;
         }
-        return billDtoList;
-    }
-
-    private List<AppointmentDto> convertAppointmentToDto(List<Appointment> appointments) {
-        List<AppointmentDto> appointmentDtoList = new ArrayList<AppointmentDto>();
-        for (Appointment app : appointments) {
-            appointmentDtoList.add(convertToDto(app));
-        }
-        return appointmentDtoList;
-    }
 }
