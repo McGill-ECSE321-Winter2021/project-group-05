@@ -44,8 +44,6 @@ public class TestAppointmentService {
     @Mock
     private CustomerRepository customerDao;
     @Mock
-    private OwnerRepository ownerDao;
-    @Mock
     private ServiceRepository serviceDao;
     @Mock
     private TechnicianRepository technicianDao;
@@ -173,12 +171,13 @@ public class TestAppointmentService {
         Appointment appointment = null;
         try {
             appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
+
         } catch (IllegalArgumentException e) {
             // Check that no error occurred
             fail();
         }
         checkResultAppointment(appointment,bookableServices,
-                customer.getEmail(),appointmentDate, startTime,endTime);
+                customer.getId(),appointmentDate, startTime,endTime);
     }
 
 
@@ -238,6 +237,7 @@ public class TestAppointmentService {
         Appointment appointment= null;
         try {
             appointment = appointmentService.createAppointment(services,customer,timeSlot);
+
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -326,25 +326,16 @@ public class TestAppointmentService {
         String serviceName1 = "RepairWindows";
         float serviceCost1 = 20;
         int serviceDuration1 = 120;
-        BookableService service1 = repairShopService.createService(serviceName1,serviceCost1, serviceDuration1);
+        BookableService service1 = repairShopService.createService(serviceName1,serviceCost1,serviceDuration1);
         service1.setId(1L);
 
         List<BookableService> bookableServices_new = new ArrayList<>();
         bookableServices_new.add(service1);
         try {
             appointmentService.editAppointment(appointment, bookableServices_new, timeSlot);
-            // TESTING THE SERVICE IN THE APPOINTMENT IS UPDATED
-            assertEquals(appointment.getServices().get(0).getId(),1L);
-            assertEquals(appointment.getServices().size(),1);
-            // TESTING THE TIMESLOT IS UPDATED
-            assertEquals(appointment.getTimeslot().getDate(),timeSlot_new.getDate());
-            assertEquals(appointment.getTimeslot().getStartTime(),timeSlot_new.getStartTime());
-            assertEquals(appointment.getTimeslot().getEndTime(),timeSlot_new.getEndTime());
-            // TESTING THE BILL IS UPDATED
-            assertEquals(appointment.getBill().getDate(),timeSlot_new.getDate());
-            assertEquals(appointment.getBill().getTotalCost(),20);
-            // TESTING THE CUSTOMER IS STILL THE SAME PERSON
-            assertEquals(appointment.getCustomer().getId(),customer.getId());
+            checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID, timeSlot_new.getDate(),
+                    timeSlot_new.getStartTime().toLocalTime(), timeSlot_new.getEndTime().toLocalTime());
+
         }
         catch (IllegalArgumentException e){
             fail();
@@ -353,7 +344,32 @@ public class TestAppointmentService {
     }
     // NEGATIVE TEST
     @Test
-    public void testEditAppointmentNEGATIVE(){
+    public void testEditAppointmentNegative(){
+        /**
+         * The original Appointment
+         */
+        //CREATING TIMESLOT
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+        LocalTime endTime = LocalTime.parse("10:00");
+        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(0L);
+
+        List<BookableService> bookableServices = createTestListServices();
+        Customer customer = createTestCustomer();
+        Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
+
+        String error = null;
+        try {
+            appointmentService.editAppointment(appointment,null,null);
+        }
+        catch (IllegalArgumentException e){
+            error = e.getMessage();
+            assertEquals("The Appointment must have at least one services",error);
+        }
 
     }
 
@@ -395,14 +411,14 @@ public class TestAppointmentService {
 
         try {
             appointmentService.deleteAppointment(appointment);
+            // AFTER DELETION
+            assertNull(appointmentService.getAppointment(appointment.getId()));
+
         }
         catch (IllegalArgumentException e) {
             // Check that no error occurred
             fail();
         }
-
-        // AFTER DELETION
-        assertEquals(null, appointmentService.getAppointment(appointment.getId()));
 
     }
 
@@ -410,18 +426,23 @@ public class TestAppointmentService {
      * PRIVATE HELPERS
      */
     private void checkResultAppointment(Appointment appointment, List<BookableService> bookableServices,
-                                        String customerEmail, Date appointmentDate,
+                                        Long customerID, Date appointmentDate,
                                         LocalTime startTime, LocalTime endTime) {
         assertNotNull(appointment);
         assertEquals(appointment.getServices().size(),bookableServices.size());
+        int totalCost=0;
         for (BookableService b : appointment.getServices()){
+            totalCost += b.getCost();
             assertEquals(bookableServices.contains(b),true);
         }
-        assertEquals(appointment.getCustomer().getEmail(),customerEmail);
+        assertEquals(appointment.getCustomer().getId(),customerID);
         assertEquals(appointment.getTimeslot().getDate().toString(),appointmentDate.toString());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         assertEquals(startTime.format(formatter).toString(), appointment.getTimeslot().getStartTime().toString());
         assertEquals(endTime.format(formatter).toString(), appointment.getTimeslot().getEndTime().toString());
+        assertEquals(appointment.getBill().getTotalCost(),totalCost);
+        assertEquals(appointment.getBill().getDate(),appointment.getTimeslot().getDate());
+
     }
 
     private BookableService createTestService(){

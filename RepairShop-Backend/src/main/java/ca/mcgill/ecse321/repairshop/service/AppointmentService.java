@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop.service;
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.BillException;
+import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,17 +46,15 @@ public class AppointmentService {
         appointment.setServices(services);
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
+
         appointmentRepository.save(appointment);
-        //try{
-            // CREATE BILL FOR APPOINTMENT
-            //Bill bill = billService.createBill(appointment);
-            //appointment.setBill(bill);
-            appointmentRepository.save(appointment);
-            return appointment;
-        //}
-       //catch (BillException b){
-         //   throw new IllegalArgumentException("Bill cannot be created");
-       //}
+        Bill bill = new Bill();
+        bill.setDate(timeslot.getDate());
+        bill.setTotalCost(RepairShopUtil.getTotalCostOfAppointment(appointment));
+        appointment.setBill(bill);
+        appointmentRepository.save(appointment);
+        return appointment;
+
 
     }
 
@@ -68,7 +67,7 @@ public class AppointmentService {
     @Transactional
     public void editAppointment (Appointment appointment,List<BookableService> service_new,
                                  TimeSlot timeSlot){
-        if (service_new.size() == 0){
+        if (service_new== null || service_new.size() == 0){
             throw new IllegalArgumentException("The Appointment must have at least one services");
         }
 
@@ -95,7 +94,6 @@ public class AppointmentService {
         timeSlotRepository.save(timeSlot);
         appointmentRepository.save(appointment);
 
-
     }
 
     @Transactional
@@ -103,9 +101,10 @@ public class AppointmentService {
         if (appointment == null){
             throw new IllegalArgumentException("Cannot delete a null appointment");
         }
-        //delete appointment from the service
+        Bill bill = appointment.getBill();
         appointmentRepository.deleteById(appointment.getId());
-        // todo: need to delete from the customer, service as well?
+        billRepository.deleteById(bill.getId());
+
     }
 
     @Transactional
