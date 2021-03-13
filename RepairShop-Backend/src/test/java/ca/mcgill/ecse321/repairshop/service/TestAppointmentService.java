@@ -296,10 +296,7 @@ public class TestAppointmentService {
 
         // AFTER DELETION
         assertEquals(null, appointmentService.getAppointment(appointment.getId()));
-        // appointment is also removed from the customer side
-        for (Appointment app : customer.getAppointments()){
-            assertNotEquals(app.getId(),appointment.getId());
-        }
+
     }
 
     /**
