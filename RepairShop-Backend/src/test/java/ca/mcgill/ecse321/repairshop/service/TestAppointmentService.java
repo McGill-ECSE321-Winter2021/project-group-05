@@ -32,7 +32,6 @@ import org.mockito.stubbing.Answer;
 @ExtendWith(MockitoExtension.class)
 public class TestAppointmentService {
 
-    // todo: move this to the manager test class
     @Mock
     private AppointmentRepository appointmentDao;
     @Mock
