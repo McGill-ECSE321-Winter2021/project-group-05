@@ -422,6 +422,12 @@ public class TestAppointmentService {
     }
 
     /**
+     * test enter no-show
+     */
+
+    private void testWrongEnterNoShow
+
+    /**
      * PRIVATE HELPERS
      */
     private void checkResultAppointment(Appointment appointment, List<BookableService> bookableServices,

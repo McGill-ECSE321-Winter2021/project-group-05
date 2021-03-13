@@ -124,6 +124,22 @@ public class AppointmentController {
         return apptsCustDtos;
     }
 
+
+    @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
+    public void enterNoShow(@PathVariable("id") Long id) throws IllegalArgumentException{
+        Appointment appointment = appointmentService.getAppointment(id);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Cannot enter no show for a null appointment");
+        }
+        TimeSlot timeSlot = appointment.getTimeslot();
+        if (canEnterNoShow(timeslot)){
+            appointmentService.enterNoShow(appointment);
+        }else{
+            throw new IllegalArgumentException("Cannot enter no show at this time");
+        }
+    }
+    }
+
     /**
      * helper methods
      */
@@ -161,5 +177,20 @@ public class AppointmentController {
         }
 
 
-    }
+
+        private boolean canEnterNoShow(TimeSlot timeslot){
+            LocalTime timeNow =  LocalTime.now();
+            LocalDate today = LocalDate.now();
+
+
+
+            LocalDate tsDate = timeSlot.getDate().toLocalDate();
+            LocalTime tsStartTime = timeSlot.getStartTime().toLocalTime();
+            LocalTime tsEnterTime = timeSlot.getStartTime().toLocalTime();
+
+            if(today.equals(tsDate) && tsStartTime.isBefore(timeNow)){
+                return true;
+            }
+            return false;
+        }
 }

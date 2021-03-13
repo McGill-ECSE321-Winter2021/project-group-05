@@ -113,6 +113,14 @@ public class AppointmentService {
         List<Appointment> appointmentsBookedByCustomer = appointmentRepository.findByCustomer(customer);
         return appointmentsBookedByCustomer;
     }
+    
+    @Transactional
+    public void enterNoShow(Appointment appointment){
+        int noShow = appointment.getCustomer().getNoShow();
+        noShow++;
+        appointment.getCustomer().setNoShow(noShow);
+        
+    }
 
 
 }

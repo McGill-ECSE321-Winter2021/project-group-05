@@ -46,4 +46,14 @@ public class TestTimeSlotService {
         assertEquals("TimeSlot end time cannot before start time!", error);
     }
 
+    @Test
+    public void testTimeSlotStartTimeBeforeEndTime() {
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.OCTOBER, 16, 9, 00, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2021, Calendar.OCTOBER, 16, 8, 59, 59);
+        LocalTime endTime = LocalTime.parse("08:59");
+    }
+
 }
