@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 public class AppointmentController {
 
     @Autowired
-    private BillService billService;
-    @Autowired
     private AppointmentService appointmentService;
     @Autowired
     private TimeSlotService timeSlotService;

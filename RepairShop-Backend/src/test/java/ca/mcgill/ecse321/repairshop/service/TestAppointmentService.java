@@ -187,7 +187,7 @@ public class TestAppointmentService {
         String error = null;
         Appointment appointment = null;
         Customer customer = null;
-        assertEquals(0,personService.getAllCustomer().size());
+        assertEquals(0,personService.getAllCustomers().size());
         List<BookableService> services = null;
         assertEquals(0,repairShopService.getAllService().size());
         TimeSlot timeSlot = null;
@@ -209,7 +209,7 @@ public class TestAppointmentService {
         String email = "123@mcgill.ca";
         Customer customer = new Customer();
         customer.setEmail(email);
-        assertEquals(0, personService.getAllCustomer().size());
+        assertEquals(0, personService.getAllCustomers().size());
 
         // CREATING A WORKING SERVICE
         List<BookableService> services = createTestListServices();
