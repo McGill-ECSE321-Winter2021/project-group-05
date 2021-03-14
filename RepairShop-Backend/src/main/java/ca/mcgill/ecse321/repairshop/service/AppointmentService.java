@@ -64,7 +64,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public void editAppointment (Appointment appointment,List<BookableService> service_new,
+    public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
                                  TimeSlot timeSlot){
         if (service_new== null || service_new.size() == 0){
             throw new IllegalArgumentException("The Appointment must have at least one services");
@@ -92,6 +92,7 @@ public class AppointmentService {
         billRepository.save(new_bill);
         timeSlotRepository.save(timeSlot);
         appointmentRepository.save(appointment);
+        return appointment;
 
     }
 
