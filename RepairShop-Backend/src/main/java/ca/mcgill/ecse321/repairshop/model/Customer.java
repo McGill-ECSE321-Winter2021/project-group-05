@@ -45,7 +45,5 @@ public class Customer extends Person
   public void setExpiry(Date expiry) {
     this.expiry = expiry;
   }
-  
-  public void setNoShow(int noShow){ this.noShow = noShow;}
 
 }

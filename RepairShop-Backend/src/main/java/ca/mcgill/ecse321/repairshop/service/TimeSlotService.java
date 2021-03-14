@@ -37,11 +37,15 @@ public class TimeSlotService {
     
     @Transactional
     public void deleteTimeSlot(TimeSlot timeslot) {
+<<<<<<< HEAD
 
         if(timeSlot == null){
             throw new IllegalArgumentException("Timeslot is null");
         }
         timeSlotRepository.deleteByID(timslot.getId()); //??????
+=======
+        timeSlotRepository.deleteById(timeslot.getId()); //??????
+>>>>>>> e9605a0f75d282d7b922692c54c4e9f9a7958c34
 
     }
 

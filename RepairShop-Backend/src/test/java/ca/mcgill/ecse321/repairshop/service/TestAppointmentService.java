@@ -424,9 +424,14 @@ public class TestAppointmentService {
     /**
      * test enter no-show
      */
+<<<<<<< HEAD
     @Test
     public void testWrongEnterNoShow(){
 
+=======
+    private void testWrongEnterNoShow(){
+        // todo: test entering the no show
+>>>>>>> e9605a0f75d282d7b922692c54c4e9f9a7958c34
     }
 
     /**
