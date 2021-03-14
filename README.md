@@ -101,7 +101,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Yichen Wu</td>
     <td align="center">Documentation Lead</td>
     <td align="center">25</td>
-    <td align="center">25/td>
+    <td align="center">25</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
