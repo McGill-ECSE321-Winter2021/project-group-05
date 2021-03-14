@@ -101,7 +101,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Yichen Wu</td>
     <td align="center">Documentation Lead</td>
     <td align="center">25</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">25/td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -173,6 +173,69 @@ The project report for this deliverable can be found [here](https://github.com/M
           <li>detailed specification of requirements</li>
           <li>documentation</li>
         </ul></td>
+    <td align="center">25</td>
+  </tr>
+</table>
+
+### Deliverable 2
+The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-2-Report).
+<table>
+    <tr>
+    <td align="center">Name</td>
+    <td align="center">Contibutions</td>
+    <td align="center">Hours</td>
+  </tr>
+   </tr>
+   <tr>
+    <td align="center">Florence Yared</td>
+   <td>
+        <ul>
+          <li></li>
+        </ul>
+    </td>
+    <td align="center">23</td>
+  </tr>
+  <tr>
+    <td align="center">Himel Saha</td>
+    <td>
+        <ul>
+          <li></li>
+        </ul>
+    </td>
+    <td align="center">23.5</td>
+  </tr>
+ <tr>
+    <td align="center">Rakshitha Ravi</td>
+    <td> 
+        <ul>
+          <li></li>
+        </ul></td>
+    <td align="center">18</td>
+  </tr>
+  <tr>
+    <td align="center">Saikou Ceesay</td>
+    <td>
+        <ul>
+          <li></li>
+        </ul>
+      </td>    
+ <td align="center">24</td>
+  </tr>
+  <tr>
+    <td align="center">Yichen Wu</td>
+    <td>
+        <ul>
+          <li>domain model modification</li>
+          <li>Appointment classes 
+             <ul>
+               <li>AppointmentService</li>
+               <li>AppointmentDto</li>
+               <li>AppointmentController</li>
+               <li>TestAppointmentService</li>
+             </ul>
+          <li>documentation</li>
+        </ul>
+      </td> 
     <td align="center">25</td>
   </tr>
 </table>
