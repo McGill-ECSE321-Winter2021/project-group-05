@@ -233,6 +233,11 @@ The project report for this deliverable can be found [here](https://github.com/M
                <li>AppointmentController</li>
                <li>TestAppointmentService</li>
              </ul>
+           <li>Customer classes</li>
+             <ul>
+               <li>PersonService</li>
+               <li>CustomerDto</li>
+             </ul>
           <li>documentation</li>
         </ul>
       </td> 
