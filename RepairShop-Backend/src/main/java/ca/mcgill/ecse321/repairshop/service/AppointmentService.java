@@ -64,7 +64,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public void editAppointment (Appointment appointment,List<BookableService> service_new,
+    public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
                                  TimeSlot timeSlot){
         if (service_new== null || service_new.size() == 0){
             throw new IllegalArgumentException("The Appointment must have at least one services");
@@ -92,6 +92,7 @@ public class AppointmentService {
         billRepository.save(new_bill);
         timeSlotRepository.save(timeSlot);
         appointmentRepository.save(appointment);
+        return appointment;
 
     }
 
@@ -109,13 +110,18 @@ public class AppointmentService {
 
     @Transactional
     public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) {
-
+        if (customer == null){
+            throw new IllegalArgumentException("customer cannot be null");
+        }
         List<Appointment> appointmentsBookedByCustomer = appointmentRepository.findByCustomer(customer);
         return appointmentsBookedByCustomer;
     }
     
     @Transactional
     public void enterNoShow(Appointment appointment){
+        if (appointment==null){
+            throw new IllegalArgumentException("appointment cannot be null");
+        }
         int noShow = appointment.getCustomer().getNoShow();
         noShow++;
         appointment.getCustomer().setNoShow(noShow);

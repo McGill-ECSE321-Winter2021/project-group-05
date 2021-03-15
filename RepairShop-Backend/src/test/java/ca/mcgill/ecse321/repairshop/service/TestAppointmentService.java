@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
-import java.awt.print.Book;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -313,6 +312,21 @@ public class TestAppointmentService {
 
 
     }
+    // NEGATIVE TEST
+    @Test
+    public void testGetAppointmentByNullCustomer() {
+        // CUSTOMER IS NOT SAVED
+        Customer customer = null;
+        String error = null;
+        List<Appointment> appointments=null;
+        try{appointments = appointmentService.getAppointmentsBookedByCustomer(customer);}
+        catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(appointments);
+        assertEquals(error, "customer cannot be null");
+    }
+
     // NEGATIVE TEST
     @Test
     public void testGetAppointmentByNonExistingCustomer() {
