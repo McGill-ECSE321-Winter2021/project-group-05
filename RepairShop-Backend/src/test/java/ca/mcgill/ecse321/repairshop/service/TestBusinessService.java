@@ -10,12 +10,16 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.lenient;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.stubbing.Answer;
+
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class TestBusinessService {
@@ -29,11 +33,11 @@ public class TestBusinessService {
     private static final String ADDRESS = "Montreal";
     private static final String PHONE_NUMBER = "1234567";
     private static final String EMAIL = "repairshop@mail.com";
-    private static final Long ID = 0L;
+    private static final long ID = 0L;
 
     @BeforeEach
     public void setMockOutPut(){
-        lenient().when(businessRepository.findBusinessById(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(businessRepository.findById(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(ID)){
                 Business business = new Business();
                 business.setName(NAME);
@@ -41,11 +45,17 @@ public class TestBusinessService {
                 business.setPhoneNumber(PHONE_NUMBER);
                 business.setEmail(EMAIL);
                 business.setId(ID);
-                return business;
+                return Optional.of(business);
             }else{
-                return null;
+                return Optional.empty();
             }
         });
+
+        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
+            return invocation.getArgument(0);
+        };
+        lenient().when(businessRepository.save(any(Business.class))).thenAnswer(returnParameterAsAnswer);
+        System.out.println(returnParameterAsAnswer);
     }
 
     @Test
@@ -164,8 +174,8 @@ public class TestBusinessService {
 
         Business createdBusiness = null;
         try{
-            businessService.createBusiness(businessDto);
-            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+            createdBusiness = businessService.createBusiness(businessDto);
+            createdBusiness = businessService.editBusiness(createdBusiness.getId(), businessDto);
         }catch (BusinessException e){
             e.printStackTrace();
         }
@@ -175,4 +185,85 @@ public class TestBusinessService {
         assertEquals(createdBusiness.getName(), businessDto.getName());
         assertEquals(createdBusiness.getEmail(), businessDto.getEmail());
     }
+
+    @Test
+    public void testUpdateBusinessWithNoName(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setEmail(EMAIL);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+        businessDto.setId(ID);
+        Business createdBusiness = null;
+        try{
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertEquals("Business name cannot be empty", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessWithNoEmail(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setName(NAME);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+
+        Business createdBusiness = null;
+        try{
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertEquals("Business email cannot be empty", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessWithNoPhoneNumber(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setEmail(EMAIL);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setName(NAME);
+        Business createdBusiness = null;
+        try{
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertEquals("Business phone number cannot be empty", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessWithNoAddress(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setEmail(EMAIL);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+        businessDto.setName(NAME);
+        Business createdBusiness = null;
+        try{
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertEquals("Business address cannot be empty", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDeleteBusiness(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setEmail(EMAIL);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+        businessDto.setName(NAME);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setId(ID);
+
+        Business deletedBusiness = null;
+        try{
+            deletedBusiness = businessService.deleteBusiness(businessDto.getId());
+        }catch (BusinessException e){
+            e.printStackTrace();
+        }
+        assertNotNull(deletedBusiness);
+        assertEquals(deletedBusiness.getAddress(), businessDto.getAddress());
+        assertEquals(deletedBusiness.getPhoneNumber(), businessDto.getPhoneNumber());
+        assertEquals(deletedBusiness.getName(), businessDto.getName());
+        assertEquals(deletedBusiness.getEmail(), businessDto.getEmail());
+    }
+
 }

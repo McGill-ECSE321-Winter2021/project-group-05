@@ -134,6 +134,7 @@ public class BusinessService {
         business.setPhoneNumber(businessDto.getPhoneNumber());
         business.setEmail(businessDto.getEmail());
         business.setAddress(businessDto.getAddress());
+        business.setId(businessDto.getId());
         return business;
     }
 }

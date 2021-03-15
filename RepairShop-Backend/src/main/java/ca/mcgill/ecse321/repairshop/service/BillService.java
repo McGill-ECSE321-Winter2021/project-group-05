@@ -71,14 +71,14 @@ public class BillService {
         return bill;
     }
 
-    public List<Bill> getAllBillsOfCustomer(Long customerId) throws BillException{
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-        if(!customerOptional.isPresent()){
-            throw new BillException("Could not load all bills because customer does not exist");
+    public List<Bill> getAllBillsOfCustomer(CustomerDto customerDto) throws BillException{
+        Customer customer = convertToEntity(customerDto);
+        List<Appointment> appointments = appointmentRepository.findByCustomer(customer);
+        List<Bill> bills = new ArrayList<>();
+        for(Appointment appointment : appointments){
+            bills.add(appointment.getBill());
         }
-        Customer customer = customerOptional.get();
-     //   List<Bill> bills = getAllBills(customer.getAppointments());
-        return null; //todo
+        return bills;
     }
 
     //HELPER FUNCTIONS
