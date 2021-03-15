@@ -111,7 +111,7 @@ public class AppointmentService {
     @Transactional
     public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) {
         if (customer == null){
-            throw new IllegalArgumentException("customer is invalid");
+            throw new IllegalArgumentException("customer cannot be null");
         }
         List<Appointment> appointmentsBookedByCustomer = appointmentRepository.findByCustomer(customer);
         return appointmentsBookedByCustomer;
@@ -120,7 +120,7 @@ public class AppointmentService {
     @Transactional
     public void enterNoShow(Appointment appointment){
         if (appointment==null){
-            throw new IllegalArgumentException("customer is invalid");
+            throw new IllegalArgumentException("appointment cannot be null");
         }
         int noShow = appointment.getCustomer().getNoShow();
         noShow++;
