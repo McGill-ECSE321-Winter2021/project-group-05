@@ -1,7 +1,11 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
 import ca.mcgill.ecse321.repairshop.dto.AppointmentDto;
+<<<<<<< HEAD
 import ca.mcgill.ecse321.repairshop.dto.CustomerDto;
+=======
+import ca.mcgill.ecse321.repairshop.model.Appointment;
+>>>>>>> ec8db1ecadc66ac1de84fed1333c04140940d199
 import ca.mcgill.ecse321.repairshop.model.Bill;
 import ca.mcgill.ecse321.repairshop.service.AppointmentService;
 import ca.mcgill.ecse321.repairshop.service.BillService;
@@ -48,8 +52,14 @@ public class BillController {
     @PostMapping(value = {"/bill/", "/bill"})
     public ResponseEntity<?> createBill(@RequestBody AppointmentDto appointmentDto){
         try{
+<<<<<<< HEAD
             Bill bill = billService.createBill(appointmentDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(bill), HttpStatus.OK);
+=======
+            Appointment appointment = RepairShopUtil.convertToEntity(appointmentDto);
+            Bill bill = billService.createBill(appointment);
+            return new ResponseEntity<>(bill, HttpStatus.OK);
+>>>>>>> ec8db1ecadc66ac1de84fed1333c04140940d199
         }catch (BillException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -58,8 +68,14 @@ public class BillController {
     @PutMapping(value = {"/bill/{id}", "/bill/{id"})
     public ResponseEntity<?> updateBill(@RequestBody AppointmentDto appointmentDto){
         try{
+<<<<<<< HEAD
             Bill bill = billService.updateBill(appointmentDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(bill), HttpStatus.OK);
+=======
+            Appointment appointment = RepairShopUtil.convertToEntity(appointmentDto);
+            Bill bill = billService.updateBill(appointment);
+            return new ResponseEntity<>(bill, HttpStatus.OK);
+>>>>>>> ec8db1ecadc66ac1de84fed1333c04140940d199
         }catch (BillException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

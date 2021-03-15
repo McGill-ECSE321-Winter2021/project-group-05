@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.repairshop.controller;
 import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.service.*;
-import ca.mcgill.ecse321.repairshop.utility.BusinessException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,15 +13,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @CrossOrigin(origins = "*")
 @RestController
 public class AppointmentController {
 
-    @Autowired
-    private BillService billService;
     @Autowired
     private AppointmentService appointmentService;
     @Autowired
@@ -46,21 +42,28 @@ public class AppointmentController {
      * edit appointment
      */
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
-    public void editAppointment(@PathVariable("id") Long id,
+    public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
                                @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
-        if (canCancelAndDelete(timeSlot)){
-            Appointment appointment = appointmentService.getAppointment(id);
+        try {
+            TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
+            if (canCancelAndDelete(timeSlot)) {
+                Appointment appointment = appointmentService.getAppointment(id);
 
-            List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
-            List<BookableService> service_new = new ArrayList<>();
-            for (BookableServiceDto s:newServicesDto ){
-                service_new.add(repairShopService.getService(s.getId()));
+                List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
+                List<BookableService> service_new = new ArrayList<>();
+                for (BookableServiceDto s : newServicesDto) {
+                    service_new.add(repairShopService.getService(s.getId()));
+                }
+
+                Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);
+                return new ResponseEntity<>(RepairShopUtil.convertToDto(newAppointment), HttpStatus.OK);
             }
-
-            appointmentService.editAppointment(appointment,service_new,timeSlot);
+            throw new IllegalArgumentException("Cannot edit appointment before 24hr");
         }
-        throw new IllegalArgumentException("Cannot edit appointment before 24hr");
+        catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 
@@ -124,6 +127,22 @@ public class AppointmentController {
         return apptsCustDtos;
     }
 
+
+    @PutMapping(value = { "/appointmentNoShow/{id}", "/appointmentNoShow/{id}/" })
+    public void enterNoShow(@PathVariable("id") Long id) throws IllegalArgumentException{
+        Appointment appointment = appointmentService.getAppointment(id);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Cannot enter no show for a null appointment");
+        }
+        TimeSlot timeSlot = appointment.getTimeslot();
+        if (canEnterNoShow(timeSlot)){
+            appointmentService.enterNoShow(appointment);
+        }else{
+            throw new IllegalArgumentException("Cannot enter no show at this time");
+        }
+    }
+
+
     /**
      * helper methods
      */
@@ -161,5 +180,22 @@ public class AppointmentController {
         }
 
 
+
+
+        }
+    private boolean canEnterNoShow(TimeSlot timeslot){
+        LocalTime timeNow =  LocalTime.now();
+        LocalDate today = LocalDate.now();
+
+
+
+        LocalDate tsDate = timeslot.getDate().toLocalDate();
+        LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
+        LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
+
+        if(today.equals(tsDate) && tsStartTime.isBefore(timeNow)){
+            return true;
+        }
+        return false;
     }
 }

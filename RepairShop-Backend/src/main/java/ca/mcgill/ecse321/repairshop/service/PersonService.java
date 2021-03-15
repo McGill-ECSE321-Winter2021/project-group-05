@@ -26,10 +26,6 @@ public class PersonService {
     @Autowired
     CustomerRepository customerRepository;
 
-    //todo --> delete this
-    public void createCustomer(Customer customer){
-        customerRepository.save(customer);
-    }
     /**
      * creating person
      * Customer
@@ -51,7 +47,7 @@ public class PersonService {
     }
     
     @Transactional
-    public List<Customer> getAllCustomer() {
+    public List<Customer> getAllCustomers() {
         return RepairShopUtil.toList(customerRepository.findAll());
     }
 

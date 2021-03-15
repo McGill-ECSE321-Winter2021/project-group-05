@@ -27,6 +27,19 @@ public class TimeSlotService {
         timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
+   /* @Transactional
+    public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime){
+        TimeSlot timeSlot = createInstanceOfTimeSlot(date, startTime, endTime);
+        timeSlotRepository.save(timeSlot);
+        return timeSlot;
+    }
+    */
+    
+    @Transactional
+    public void deleteTimeSlot(TimeSlot timeslot) {
+        timeSlotRepository.deleteById(timeslot.getId()); //??????
+
+    }
 
     @Transactional
     public TimeSlot getTimeSlot(Long id) {

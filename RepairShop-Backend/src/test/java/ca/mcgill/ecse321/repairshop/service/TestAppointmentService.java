@@ -6,10 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
-import java.awt.print.Book;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -31,7 +31,6 @@ import org.mockito.stubbing.Answer;
 @ExtendWith(MockitoExtension.class)
 public class TestAppointmentService {
 
-    // todo: move this to the manager test class
     @Mock
     private AppointmentRepository appointmentDao;
     @Mock
@@ -42,8 +41,6 @@ public class TestAppointmentService {
     private AdministratorRepository administratorDao;
     @Mock
     private CustomerRepository customerDao;
-    @Mock
-    private OwnerRepository ownerDao;
     @Mock
     private ServiceRepository serviceDao;
     @Mock
@@ -63,7 +60,9 @@ public class TestAppointmentService {
 
     private static final Long APPOINTMENT_KEY = 0L;
     private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
-    private static final String CUSTOMER_EMAIL = "mtl@mcgill.ca";
+    private static final Long CUSTOMER_ID = 0L;
+    private static final Long TIMESLOT_ID = 0L;
+    private static final Long Service_ID=0L;
 
     // IN ORDER TO TEST GET GETAPPOINTMENT
     @BeforeEach
@@ -81,22 +80,59 @@ public class TestAppointmentService {
             }
         });
 
+        // findCustomerById
+        lenient().when(customerDao.findCustomerById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(CUSTOMER_ID)) {
+                Customer customer = new Customer();
+                customer.setId(CUSTOMER_ID);
+                return customer;
+            }
+            else{
+                return null;
+            }
+        });
+
+        // findTimeSlotById
+        lenient().when(timeSlotDao.findTimeSlotById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(TIMESLOT_ID)) {
+                TimeSlot timeSlot = new TimeSlot();
+                timeSlot.setId(TIMESLOT_ID);
+                return timeSlot;
+            }
+            else{
+                return null;
+            }
+        });
+
+        // findServiceById
+        lenient().when(serviceDao.findServiceById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(Service_ID)) {
+                BookableService service = new BookableService();
+                service.setId(Service_ID);
+                return service;
+            }
+            else{
+                return null;
+            }
+        });
+
         // findByCustomer
         lenient().when(appointmentDao.findByCustomer(any())).thenAnswer( (InvocationOnMock invocation) -> {
                     if(invocation.getArgument(0) instanceof Customer){
                         Customer argumentCustomer = (Customer) invocation.getArgument(0);
-                        if (argumentCustomer.getEmail().equals(CUSTOMER_EMAIL)){
-                            Appointment appointment = new Appointment();
-                            appointment.setCustomer(argumentCustomer);
-                            return appointment;
+                        if (argumentCustomer.getId() != null && argumentCustomer.getId().equals(CUSTOMER_ID)){
+                            List<Appointment> appointments = new ArrayList<>();
+                            Appointment app = new Appointment();
+                            app.setCustomer(argumentCustomer);
+                            app.setId(APPOINTMENT_KEY);
+                            appointments.add(app);
+
+                            return appointments;
                         }
                     }
                     return null;
         });
 
-        // TODO: don't need to find by service/ bill
-
-        // todo: move this to manager class
         // Whenever anything is saved, just return the parameter object
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
@@ -126,18 +162,20 @@ public class TestAppointmentService {
         c.set(2021, Calendar.MAY, 1, 10, 0, 0);
         LocalTime endTime = LocalTime.parse("10:00");
         TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(0L);
 
         List<BookableService> bookableServices = createTestListServices();
         Customer customer = createTestCustomer();
         Appointment appointment = null;
         try {
             appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
+
         } catch (IllegalArgumentException e) {
             // Check that no error occurred
             fail();
         }
         checkResultAppointment(appointment,bookableServices,
-                customer.getEmail(),appointmentDate, startTime,endTime);
+                customer.getId(),appointmentDate, startTime,endTime);
     }
 
 
@@ -148,7 +186,7 @@ public class TestAppointmentService {
         String error = null;
         Appointment appointment = null;
         Customer customer = null;
-        assertEquals(0,personService.getAllCustomer().size());
+        assertEquals(0,personService.getAllCustomers().size());
         List<BookableService> services = null;
         assertEquals(0,repairShopService.getAllService().size());
         TimeSlot timeSlot = null;
@@ -165,19 +203,15 @@ public class TestAppointmentService {
 
     // NEGATIVE TEST
     @Test
-    public void testAppointmentCustomerAndServiceAndTimeSlotDoNotExist() {
+    public void testAppointmentCustomerAndTimeSlotDoNotExist() {
         // CREATING A CUSTOMER WITHOUT SAVING IT TO DATABASE
         String email = "123@mcgill.ca";
         Customer customer = new Customer();
         customer.setEmail(email);
-        assertEquals(0, personService.getAllCustomer().size());
+        assertEquals(0, personService.getAllCustomers().size());
 
-        // CREATING A SERVICE WITHOUT SAVING
-        BookableService service = new BookableService();
-        service.setName("fake service");
-        List<BookableService> services = new ArrayList<>();
-        services.add(service);
-        assertEquals(0, repairShopService.getAllService().size());
+        // CREATING A WORKING SERVICE
+        List<BookableService> services = createTestListServices();
 
         // CREATING A TIMESLOT WITHOUT SAVING
         TimeSlot timeSlot = new TimeSlot();
@@ -197,6 +231,7 @@ public class TestAppointmentService {
         Appointment appointment= null;
         try {
             appointment = appointmentService.createAppointment(services,customer,timeSlot);
+
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -204,6 +239,46 @@ public class TestAppointmentService {
         assertNull(appointment);
         // check error
         assertEquals("Bookable Service, Customer, Timeslot don't exist!", error);
+    }
+
+    // NEGATIVE TEST
+    @Test
+    public void testAppointmentServiceDoNotExist() {
+        // CREATING A WORKABLE CUSTOMER
+        Customer customer = createTestCustomer();
+
+        // CREATING A WORKABLE TIMESLOT
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+        LocalTime endTime = LocalTime.parse("10:00");
+        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate,
+                Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(0L);
+
+        // CREATING A SERVICE WITHOUT SAVING
+        BookableService service = new BookableService();
+        service.setName("fake service");
+        List<BookableService> services = new ArrayList<>();
+        services.add(service);
+        assertEquals(0, repairShopService.getAllService().size());
+
+        String error = null;
+        Appointment appointment= null;
+        try {
+            appointment = appointmentService.createAppointment(services,customer,timeSlot);
+
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(appointment);
+        // check error
+        assertEquals("Bookable Service, Customer, Timeslot don't exist!", error);
+
+
     }
 
 
@@ -227,13 +302,31 @@ public class TestAppointmentService {
     // POSITIVE TEST
     @Test
     public void testGetAppointmentByExisitingCustomer() {
-        /* todo: ... how to test this...
-        assertNotNull(appointmentService.getAppointmentsBookedByCustomer(personService.getAllCustomer().get(0))));
-        assertEquals(1, appointmentService.getAppointmentsBookedByCustomer(personService.getAllCustomer().get(0)).size());
-        assertEquals(APPOINTMENT_KEY, appointmentService.getAppointmentsBookedByCustomer(personService.getAllCustomer().get(0)).get(0).getId());
 
-         */
+        Customer customer = createTestCustomer();
+
+
+        assertNotNull(appointmentService.getAppointmentsBookedByCustomer(customer));
+        assertEquals(1, appointmentService.getAppointmentsBookedByCustomer(customer).size());
+        assertEquals(APPOINTMENT_KEY, appointmentService.getAppointmentsBookedByCustomer(customer).get(0).getId());
+
+
     }
+    // NEGATIVE TEST
+    @Test
+    public void testGetAppointmentByNullCustomer() {
+        // CUSTOMER IS NOT SAVED
+        Customer customer = null;
+        String error = null;
+        List<Appointment> appointments=null;
+        try{appointments = appointmentService.getAppointmentsBookedByCustomer(customer);}
+        catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(appointments);
+        assertEquals(error, "customer cannot be null");
+    }
+
     // NEGATIVE TEST
     @Test
     public void testGetAppointmentByNonExistingCustomer() {
@@ -246,9 +339,86 @@ public class TestAppointmentService {
     /**
      * TESTING editAppointment
      */
-        // todo!!!!!!!!!!!!!!!!!!!!!!!!!
+    // POSITIVE TEST
     @Test
     public void testEditAppointment(){
+        /**
+         * The original Appointment
+         */
+        //CREATING TIMESLOT
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+        LocalTime endTime = LocalTime.parse("10:00");
+        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(0L);
+
+        List<BookableService> bookableServices = createTestListServices();
+        Customer customer = createTestCustomer();
+        Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
+         /**
+         * Edited appointment
+         */
+        //CREATING NEW TIMESLOT
+        Calendar c_new = Calendar.getInstance();
+        c_new.set(2021, Calendar.MAY, 3, 9, 0, 0);
+        Date appointmentDate_new = new Date(c.getTimeInMillis());
+        LocalTime startTime_new = LocalTime.parse("09:00");
+        c_new.set(2021, Calendar.MAY, 3, 10, 0, 0);
+        LocalTime endTime_new = LocalTime.parse("10:00");
+        TimeSlot timeSlot_new = timeSlotService.createTimeSlot(appointmentDate_new, Time.valueOf(startTime_new),
+                Time.valueOf(endTime_new));
+        timeSlot_new.setId(0L);
+
+        String serviceName1 = "RepairWindows";
+        float serviceCost1 = 20;
+        int serviceDuration1 = 120;
+        BookableService service1 = repairShopService.createService(serviceName1,serviceCost1,serviceDuration1);
+        service1.setId(1L);
+
+        List<BookableService> bookableServices_new = new ArrayList<>();
+        bookableServices_new.add(service1);
+        try {
+            appointmentService.editAppointment(appointment, bookableServices_new, timeSlot);
+            checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID, timeSlot_new.getDate(),
+                    timeSlot_new.getStartTime().toLocalTime(), timeSlot_new.getEndTime().toLocalTime());
+
+        }
+        catch (IllegalArgumentException e){
+            fail();
+        }
+
+    }
+    // NEGATIVE TEST
+    @Test
+    public void testEditAppointmentNegative(){
+        /**
+         * The original Appointment
+         */
+        //CREATING TIMESLOT
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+        LocalTime endTime = LocalTime.parse("10:00");
+        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(0L);
+
+        List<BookableService> bookableServices = createTestListServices();
+        Customer customer = createTestCustomer();
+        Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
+
+        String error = null;
+        try {
+            appointmentService.editAppointment(appointment,null,null);
+        }
+        catch (IllegalArgumentException e){
+            error = e.getMessage();
+            assertEquals("The Appointment must have at least one services",error);
+        }
 
     }
 
@@ -265,6 +435,7 @@ public class TestAppointmentService {
             appointmentService.deleteAppointment(appointment);
         }
         catch (IllegalArgumentException e){
+            error = e.getMessage();
             assertEquals("Cannot delete a null appointment",error);
         }
     }
@@ -280,6 +451,7 @@ public class TestAppointmentService {
         LocalTime endTime = LocalTime.parse("10:00");
 
         TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(CUSTOMER_ID);
         List<BookableService> services = createTestListServices();
         Customer customer = createTestCustomer();
 
@@ -288,40 +460,54 @@ public class TestAppointmentService {
 
         try {
             appointmentService.deleteAppointment(appointment);
+            // AFTER DELETION
+            assertNull(appointmentService.getAppointment(appointment.getId()));
+
         }
         catch (IllegalArgumentException e) {
             // Check that no error occurred
             fail();
         }
 
-        // AFTER DELETION
-        assertEquals(null, appointmentService.getAppointment(appointment.getId()));
+    }
 
+    /**
+     * test enter no-show
+     */
+    private void testWrongEnterNoShow(){
+        // todo: test entering the no show
     }
 
     /**
      * PRIVATE HELPERS
      */
     private void checkResultAppointment(Appointment appointment, List<BookableService> bookableServices,
-                                        String customerEmail, Date appointmentDate,
+                                        Long customerID, Date appointmentDate,
                                         LocalTime startTime, LocalTime endTime) {
         assertNotNull(appointment);
         assertEquals(appointment.getServices().size(),bookableServices.size());
+        int totalCost=0;
         for (BookableService b : appointment.getServices()){
+            totalCost += b.getCost();
             assertEquals(bookableServices.contains(b),true);
         }
-        assertEquals(appointment.getCustomer().getEmail(),customerEmail);
+        assertEquals(appointment.getCustomer().getId(),customerID);
         assertEquals(appointment.getTimeslot().getDate().toString(),appointmentDate.toString());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         assertEquals(startTime.format(formatter).toString(), appointment.getTimeslot().getStartTime().toString());
         assertEquals(endTime.format(formatter).toString(), appointment.getTimeslot().getEndTime().toString());
+        assertEquals(appointment.getBill().getTotalCost(),totalCost);
+        assertEquals(appointment.getBill().getDate(),appointment.getTimeslot().getDate());
+
     }
 
     private BookableService createTestService(){
         String serviceName = "WashCar";
         float serviceCost = 10;
         int serviceDuration = 60;
-        return  repairShopService.createService(serviceName,serviceCost, serviceDuration, null);
+        BookableService service = repairShopService.createService(serviceName,serviceCost, serviceDuration);
+        service.setId(0L);
+        return service;
     }
 
     private List<BookableService> createTestListServices(){
@@ -335,7 +521,9 @@ public class TestAppointmentService {
         String customerEmail = "ecse321@mtl.ca";
         String customerUsername = "Bob";
         String customerPassword = "abc123";
-        return personService.createCustomer(customerEmail, customerUsername, customerPassword);
+        Customer testCustomer = personService.createCustomer(customerEmail, customerUsername, customerPassword);
+        testCustomer.setId(0L);
+        return testCustomer;
     }
 
 
