@@ -28,7 +28,8 @@ public class AppointmentService {
 
 
     @Transactional
-    public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot) {
+    public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
+            throws IllegalArgumentException {
         // IF EITHER ARGUMENT IS NULL
         if (services == null || customer == null || timeslot == null){
             throw new IllegalArgumentException("Customer, services and timeslot must all be selected for the appointment!");
@@ -127,6 +128,7 @@ public class AppointmentService {
         LocalDate today = LocalDate.now();
 
         if (appointment==null){
+
             throw new IllegalArgumentException("appointment cannot be null");
         }
       
@@ -143,6 +145,5 @@ public class AppointmentService {
         }
         
     }
-
 
 }

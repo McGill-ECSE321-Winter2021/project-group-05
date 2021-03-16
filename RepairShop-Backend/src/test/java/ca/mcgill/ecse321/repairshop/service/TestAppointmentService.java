@@ -498,13 +498,24 @@ public class TestAppointmentService {
             assertEquals(error, "Cannot enter no show at this time");
         }
 
-
-
-
     }
 
     @Test
-    public void testEnterNoShow(){
+    public void testEnterNoShowtoNullAppointment() {
+
+        Appointment appointment = null;
+        String error = null;
+
+        try {
+            appointmentService.enterNoShow(appointment);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+            assertEquals(error, "appointment cannot be null");
+        }
+    }
+
+        @Test
+        public void testEnterNoShow(){
         LocalDate dateToday = LocalDate.now();
         Date appointmentDate = Date.valueOf(dateToday);
         LocalTime startTime = LocalTime.now().minusMinutes(22);

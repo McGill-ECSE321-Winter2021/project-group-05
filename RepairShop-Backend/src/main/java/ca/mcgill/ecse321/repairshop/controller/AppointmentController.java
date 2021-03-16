@@ -95,19 +95,20 @@ public class AppointmentController {
     * create appointment with timeslot
     */
 
-    @PostMapping(value = { "/appointment/{id}", "/appointment/{id}" })
-    public ResponseEntity<?> createAppointment( @PathVariable Long customerId,
-                                                @RequestParam List<String> serivceName,
-            @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
-        try {
-        Customer customer = personService.getCustomer(appointmentDto.getCustomer().getId());
+    @PostMapping(value = { "/appointment", "/appointment/" })
+    public ResponseEntity<?> createAppointment( @RequestParam(value="customerId") Long customerId,
+                                                @RequestParam(value="serivceNames") List<String> serivceNames,
+            @RequestBody TimeSlotDto timeSlotDto) {
+       try {
+        Customer customer = personService.getCustomer(customerId);
         //CONVERT BOOKABLE SERVICE DTO --> DAO
         List<BookableService> service = new ArrayList<>();
-        for (BookableServiceDto s: appointmentDto.getServices()){
-            service.add(repairShopService.getService(s.getName()));
+        for (String name: serivceNames){
+
+            service.add(repairShopService.getService(name));
         }
 
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
+        TimeSlot timeSlot = RepairShopUtil.convertToEntity(timeSlotDto);
 
             Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
