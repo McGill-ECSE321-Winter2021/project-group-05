@@ -111,9 +111,9 @@ We are 5 McGill University students from the Faculty of Engineering
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-1-Project-Report). 
 <table>
     <tr>
-    <td align="center">Name</td>
-    <td>Contibutions</td>
-    <td align="center">Individual Efforts (hours)</td>
+    <td align="center"<strong>>Name</strong></td>
+    <td><strong>Contibutions</strong></td>
+    <td align="center"><strong>Individual Efforts (hours)</strong></td>
   </tr>
    </tr>
    <tr>
@@ -181,9 +181,9 @@ The project report for this deliverable can be found [here](https://github.com/M
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-2-Report).
 <table>
     <tr>
-    <td align="center">Name</td>
-    <td align="center">Contibutions</td>
-    <td align="center">Hours</td>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Contibutions</strong></td>
+    <td align="center"><strong>Hours</strong></td>
   </tr>
    </tr>
    <tr>
