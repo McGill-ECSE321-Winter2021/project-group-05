@@ -52,8 +52,8 @@ public class RepairShopService {
     }
 
     @Transactional
-    public BookableService getService(Long id) {
-        BookableService service = serviceRepository.findServiceById(id);
+    public BookableService getService(String name) {
+        BookableService service = serviceRepository.findServiceByName(name);
         return service;
     }
 
@@ -75,14 +75,14 @@ public class RepairShopService {
                     || app.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
                 for (BookableService b : app.getServices()){
                     // still have future appointments inside the service
-                    if (b.getId().equals(bookableService.getId())){
+                    if (b.getName().equals(bookableService.getName())){
                         throw new IllegalArgumentException("Cannot delete a service which still have future appointments");
                     }
                 }
             }
 
         }
-        serviceRepository.deleteById(bookableService.getId());
+        serviceRepository.deleteBookableServiceByName(bookableService.getName());
 
 
     }

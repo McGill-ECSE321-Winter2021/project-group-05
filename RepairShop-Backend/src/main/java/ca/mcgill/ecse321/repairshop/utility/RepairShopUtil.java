@@ -46,7 +46,7 @@ public class RepairShopUtil {
             throw new IllegalArgumentException("There is no such Service!");
         }
         //service, customer, timeslot bill
-        BookableServiceDto serviceDto = new BookableServiceDto(service.getName(), service.getCost(),service.getDuration(), service.getId());
+        BookableServiceDto serviceDto = new BookableServiceDto(service.getName(), service.getCost(),service.getDuration());
         return serviceDto;
     }
 
@@ -127,7 +127,7 @@ public class RepairShopUtil {
         BookableService bookableService = new BookableService();
         bookableService.setName(bookableServiceDto.getName());
         bookableService.setCost(bookableServiceDto.getCost());
-        bookableService.setId(bookableServiceDto.getId());
+        bookableService.setName(bookableServiceDto.getName());
         bookableService.setDuration(bookableServiceDto.getDuration());
         return bookableService;
     }

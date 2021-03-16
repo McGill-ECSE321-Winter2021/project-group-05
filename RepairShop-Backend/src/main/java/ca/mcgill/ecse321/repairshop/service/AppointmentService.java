@@ -6,6 +6,9 @@ import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -25,7 +28,8 @@ public class AppointmentService {
 
 
     @Transactional
-    public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot) {
+    public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
+            throws IllegalArgumentException {
         // IF EITHER ARGUMENT IS NULL
         if (services == null || customer == null || timeslot == null){
             throw new IllegalArgumentException("Customer, services and timeslot must all be selected for the appointment!");
@@ -37,7 +41,7 @@ public class AppointmentService {
             throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
         }
         for (BookableService s : services){
-            if (serviceRepository.findServiceById(s.getId())== null){
+            if (serviceRepository.findServiceByName(s.getName())== null){
                 throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
             }
         }
@@ -119,14 +123,27 @@ public class AppointmentService {
     
     @Transactional
     public void enterNoShow(Appointment appointment){
+
+        LocalTime timeNow =  LocalTime.now();
+        LocalDate today = LocalDate.now();
+
         if (appointment==null){
+
             throw new IllegalArgumentException("appointment cannot be null");
         }
-        int noShow = appointment.getCustomer().getNoShow();
-        noShow++;
-        appointment.getCustomer().setNoShow(noShow);
+      
+        TimeSlot timeslot = appointment.getTimeslot();
+        LocalDate tsDate = timeslot.getDate().toLocalDate();
+        LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
+        LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
+        if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
+            int noShow = appointment.getCustomer().getNoShow();
+            noShow++;
+            appointment.getCustomer().setNoShow(noShow);
+        }else{
+            throw new IllegalArgumentException("Cannot enter no show at this time");
+        }
         
     }
-
 
 }

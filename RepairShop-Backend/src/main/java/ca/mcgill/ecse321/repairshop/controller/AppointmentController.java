@@ -52,7 +52,7 @@ public class AppointmentController {
                 List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
                 List<BookableService> service_new = new ArrayList<>();
                 for (BookableServiceDto s : newServicesDto) {
-                    service_new.add(repairShopService.getService(s.getId()));
+                    service_new.add(repairShopService.getService(s.getName()));
                 }
 
                 Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);
@@ -96,16 +96,19 @@ public class AppointmentController {
     */
 
     @PostMapping(value = { "/appointment", "/appointment/" })
-    public ResponseEntity<?> createAppointment(@RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
-        try {
-        Customer customer = personService.getCustomer(appointmentDto.getCustomer().getId());
+    public ResponseEntity<?> createAppointment( @RequestParam(value="customerId") Long customerId,
+                                                @RequestParam(value="serviceNames") List<String> serivceNames,
+            @RequestBody TimeSlotDto timeSlotDto) {
+       try {
+        Customer customer = personService.getCustomer(customerId);
         //CONVERT BOOKABLE SERVICE DTO --> DAO
         List<BookableService> service = new ArrayList<>();
-        for (BookableServiceDto s: appointmentDto.getServices()){
-            service.add(repairShopService.getService(s.getId()));
+        for (String name: serivceNames){
+
+            service.add(repairShopService.getService(name));
         }
 
-        TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
+        TimeSlot timeSlot = RepairShopUtil.convertToEntity(timeSlotDto);
 
             Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
@@ -193,7 +196,7 @@ public class AppointmentController {
         LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
         LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
 
-        if(today.equals(tsDate) && tsStartTime.isBefore(timeNow)){
+        if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
             return true;
         }
         return false;

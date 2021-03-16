@@ -216,7 +216,14 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Saikou Ceesay</td>
     <td>
         <ul>
-          <li></li>
+          <li>Domain model modification</li>
+          <li>Business classes 
+              <ul>
+                <li> BusinessService </li>
+                <li>BusinessDTO </li>
+                <li>BusinessController </li>
+                <li>TestBusinessService </li>
+              </ul>
         </ul>
       </td>    
  <td align="center">24</td>
@@ -225,7 +232,7 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Yichen Wu</td>
     <td>
         <ul>
-          <li>domain model modification</li>
+          <li>Domain model modification</li>
           <li>Appointment classes 
              <ul>
                <li>AppointmentService</li>
@@ -238,7 +245,7 @@ The project report for this deliverable can be found [here](https://github.com/M
                <li>PersonService</li>
                <li>CustomerDto</li>
              </ul>
-          <li>documentation</li>
+          <li>Documentation</li>
         </ul>
       </td> 
     <td align="center">25</td>

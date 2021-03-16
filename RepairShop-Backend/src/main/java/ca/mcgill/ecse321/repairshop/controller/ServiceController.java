@@ -44,13 +44,13 @@ public class ServiceController {
     /**
      * edit service
      */
-    @PutMapping(value = { "/bookableService/{id}", "/bookableService/{id}/" })
-    public ResponseEntity<?> editBookableService(@PathVariable("id") Long id,
+    @PutMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
+    public ResponseEntity<?> editBookableService(@PathVariable("name") String name,
                                 @RequestBody BookableServiceDto bookableServiceDto)
             throws IllegalArgumentException {
 
       try{
-          BookableService originalService = repairShopService.getService(id);
+          BookableService originalService = repairShopService.getService(name);
 
            BookableService newService =  repairShopService.editService(originalService, bookableServiceDto.getName(),
                    bookableServiceDto.getCost(), bookableServiceDto.getDuration());
@@ -61,9 +61,9 @@ public class ServiceController {
         }
     }
 
-    @GetMapping(value = { "/bookableService/{id}", "/bookableService/{id}/" })
-    public BookableServiceDto getBookableService(@PathVariable("id") Long id) {
-        return RepairShopUtil.convertToDto(repairShopService.getService(id));
+    @GetMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
+    public BookableServiceDto getBookableService(@PathVariable("name") String name) {
+        return RepairShopUtil.convertToDto(repairShopService.getService(name));
     }
 
     @GetMapping(value = { "/bookableServices", "/bookableServices" })
@@ -78,9 +78,9 @@ public class ServiceController {
     /**
      * delete service
      */
-    @DeleteMapping(value = { "/bookableService/{id}", "/bookableService/{id}/" })
-    public void deleteBookableService(@PathVariable("id") Long id) throws IllegalArgumentException {
-        BookableService bookableService = repairShopService.getService(id);
+    @DeleteMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
+    public void deleteBookableService(@PathVariable("name") String name) throws IllegalArgumentException {
+        BookableService bookableService = repairShopService.getService(name);
         if (bookableService == null) {
             throw new IllegalArgumentException("Cannot delete a null service");
         }

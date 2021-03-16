@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
+import ca.mcgill.ecse321.repairshop.dto.CustomerDto;
+import ca.mcgill.ecse321.repairshop.model.Person;
 import ca.mcgill.ecse321.repairshop.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,4 +12,8 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    @PostMapping(value = {"/persons/, /persons"})
+    public Person createPerson(@RequestBody CustomerDto customerDto){
+        return personService.createCustomer(customerDto.getEmail(), customerDto.getUsername(), customerDto.getPassword());
+    }
 }
