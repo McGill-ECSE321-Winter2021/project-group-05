@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
-import java.awt.print.Book;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -188,7 +187,7 @@ public class TestAppointmentService {
         String error = null;
         Appointment appointment = null;
         Customer customer = null;
-        assertEquals(0,personService.getAllCustomer().size());
+        assertEquals(0,personService.getAllCustomers().size());
         List<BookableService> services = null;
         assertEquals(0,repairShopService.getAllService().size());
         TimeSlot timeSlot = null;
@@ -205,19 +204,15 @@ public class TestAppointmentService {
 
     // NEGATIVE TEST
     @Test
-    public void testAppointmentCustomerAndServiceAndTimeSlotDoNotExist() {
+    public void testAppointmentCustomerAndTimeSlotDoNotExist() {
         // CREATING A CUSTOMER WITHOUT SAVING IT TO DATABASE
         String email = "123@mcgill.ca";
         Customer customer = new Customer();
         customer.setEmail(email);
-        assertEquals(0, personService.getAllCustomer().size());
+        assertEquals(0, personService.getAllCustomers().size());
 
-        // CREATING A SERVICE WITHOUT SAVING
-        BookableService service = new BookableService();
-        service.setName("fake service");
-        List<BookableService> services = new ArrayList<>();
-        services.add(service);
-        assertEquals(0, repairShopService.getAllService().size());
+        // CREATING A WORKING SERVICE
+        List<BookableService> services = createTestListServices();
 
         // CREATING A TIMESLOT WITHOUT SAVING
         TimeSlot timeSlot = new TimeSlot();
@@ -245,6 +240,46 @@ public class TestAppointmentService {
         assertNull(appointment);
         // check error
         assertEquals("Bookable Service, Customer, Timeslot don't exist!", error);
+    }
+
+    // NEGATIVE TEST
+    @Test
+    public void testAppointmentServiceDoNotExist() {
+        // CREATING A WORKABLE CUSTOMER
+        Customer customer = createTestCustomer();
+
+        // CREATING A WORKABLE TIMESLOT
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+        LocalTime endTime = LocalTime.parse("10:00");
+        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate,
+                Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(0L);
+
+        // CREATING A SERVICE WITHOUT SAVING
+        BookableService service = new BookableService();
+        service.setName("fake service");
+        List<BookableService> services = new ArrayList<>();
+        services.add(service);
+        assertEquals(0, repairShopService.getAllService().size());
+
+        String error = null;
+        Appointment appointment= null;
+        try {
+            appointment = appointmentService.createAppointment(services,customer,timeSlot);
+
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(appointment);
+        // check error
+        assertEquals("Bookable Service, Customer, Timeslot don't exist!", error);
+
+
     }
 
 
@@ -278,6 +313,21 @@ public class TestAppointmentService {
 
 
     }
+    // NEGATIVE TEST
+    @Test
+    public void testGetAppointmentByNullCustomer() {
+        // CUSTOMER IS NOT SAVED
+        Customer customer = null;
+        String error = null;
+        List<Appointment> appointments=null;
+        try{appointments = appointmentService.getAppointmentsBookedByCustomer(customer);}
+        catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(appointments);
+        assertEquals(error, "customer cannot be null");
+    }
+
     // NEGATIVE TEST
     @Test
     public void testGetAppointmentByNonExistingCustomer() {
