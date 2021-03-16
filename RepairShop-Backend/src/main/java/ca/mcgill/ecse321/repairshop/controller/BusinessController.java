@@ -29,23 +29,6 @@ public class BusinessController {
     }
 
     /**
-     * Gets the busines of the system
-     * @return
-     */
-    /* todo: to delete?
-    @GetMapping(value = {"/business/", "/business"})
-    public ResponseEntity<?> getBusiness(){
-        try {
-            Business business = businessService.getBusiness();
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(business), HttpStatus.OK);
-        }catch (BusinessException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-     */
-
-    /**
      * creates a business if it does not exist
      * @param businessDto
      * @return
