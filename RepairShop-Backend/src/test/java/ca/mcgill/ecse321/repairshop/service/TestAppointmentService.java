@@ -63,7 +63,7 @@ public class TestAppointmentService {
     private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
     private static final Long CUSTOMER_ID = 0L;
     private static final Long TIMESLOT_ID = 0L;
-    private static final Long Service_ID=0L;
+    private static final String Service_ID="Test Service";
 
     // IN ORDER TO TEST GET GETAPPOINTMENT
     @BeforeEach
@@ -105,11 +105,10 @@ public class TestAppointmentService {
             }
         });
 
-        // findServiceById
-        lenient().when(serviceDao.findServiceById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+        // findServiceByName
+        lenient().when(serviceDao.findServiceByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(Service_ID)) {
                 BookableService service = new BookableService();
-                service.setId(Service_ID);
                 return service;
             }
             else{
@@ -377,7 +376,7 @@ public class TestAppointmentService {
         float serviceCost1 = 20;
         int serviceDuration1 = 120;
         BookableService service1 = repairShopService.createService(serviceName1,serviceCost1,serviceDuration1);
-        service1.setId(1L);
+
 
         List<BookableService> bookableServices_new = new ArrayList<>();
         bookableServices_new.add(service1);
