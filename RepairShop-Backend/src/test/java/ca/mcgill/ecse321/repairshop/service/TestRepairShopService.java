@@ -30,7 +30,7 @@ public class TestRepairShopService {
     @InjectMocks
     private RepairShopService repairShopService;
 
-    private static String NAME = "repairshop";
+    private static String NAME = "RepairShop";
     private static float COST = 21.3f;
     private static int DURATION = 10;
 
@@ -77,11 +77,9 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceWithNullName(){
-        //TODO:
-
         String NAME = null;
-        float COST = 55.99f;
-        int DURATION = 7;
+        float COST = 39.99f;
+        int DURATION = 17;
         String error = null;
         BookableService createdService = null;
 
@@ -94,5 +92,63 @@ public class TestRepairShopService {
         }
 
         assertEquals(error, "Service name cannot be empty");
+    }
+
+
+    @Test
+    public void testCreateServiceWithEmptyName(){
+        String NAME = "    ";
+        float COST = 79.99f;
+        int DURATION = 77;
+        String error = null;
+        BookableService createdService = null;
+
+        try {
+            createdService = repairShopService.createService(NAME, COST, DURATION);
+//        createdService = null;
+//        createdService = serviceRepository.findServiceByName(NAME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertEquals(error, "Service name cannot be empty");
+    }
+
+
+    @Test
+    public void testCreateServiceWithNegativeCost(){
+        String NAME = "TestService";
+        float COST = -85.99f;
+        int DURATION = 37;
+        String error = null;
+        BookableService createdService = null;
+
+        try {
+            createdService = repairShopService.createService(NAME, COST, DURATION);
+//        createdService = null;
+//        createdService = serviceRepository.findServiceByName(NAME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertEquals(error, "Service cost cannot be negative");
+    }
+
+
+
+    @Test
+    public void testCreateServiceWithZeroDuration(){
+        String NAME = "TestService";
+        float COST = 85.98f;
+        int DURATION = 0;
+        String error = null;
+        BookableService createdService = null;
+
+        try {
+            createdService = repairShopService.createService(NAME, COST, DURATION);
+//        createdService = null;
+//        createdService = serviceRepository.findServiceByName(NAME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertEquals(error, "Service duration cannot be 0");
     }
 }
