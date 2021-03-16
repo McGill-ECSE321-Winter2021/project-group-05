@@ -68,7 +68,7 @@ public class AppointmentService {
 
     @Transactional
     public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
-                                 TimeSlot timeSlot){
+                                        TimeSlot timeSlot){
         if (service_new== null || service_new.size() == 0){
             throw new IllegalArgumentException("The Appointment must have at least one services");
         }
@@ -119,7 +119,7 @@ public class AppointmentService {
         List<Appointment> appointmentsBookedByCustomer = appointmentRepository.findByCustomer(customer);
         return appointmentsBookedByCustomer;
     }
-    
+
     @Transactional
     public void enterNoShow(Appointment appointment){
 
@@ -130,7 +130,7 @@ public class AppointmentService {
 
             throw new IllegalArgumentException("appointment cannot be null");
         }
-      
+
         TimeSlot timeslot = appointment.getTimeslot();
         LocalDate tsDate = timeslot.getDate().toLocalDate();
         LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
@@ -142,7 +142,7 @@ public class AppointmentService {
         }else{
             throw new IllegalArgumentException("Cannot enter no show at this time");
         }
-        
+
     }
 
 }

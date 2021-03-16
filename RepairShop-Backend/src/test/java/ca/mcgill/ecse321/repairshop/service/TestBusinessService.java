@@ -208,22 +208,6 @@ public class TestBusinessService {
         }
     }
 
-    /**
-    * POSITIVE
-     */
-    @Test
-    public void testGetBusiness(){
-        BusinessDto businessDto = new BusinessDto();
-        businessDto.setName(NAME);
-        businessDto.setAddress(ADDRESS);
-        businessDto.setPhoneNumber(PHONE_NUMBER);
-        Business createdBusiness = null;
-        try{
-            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
-        }catch (BusinessException e){
-            assertEquals("Business email cannot be empty", e.getMessage());
-        }
-    }
 
     @Test
     public void testUpdateBusinessWithNoPhoneNumber(){
@@ -269,11 +253,25 @@ public class TestBusinessService {
         }
     }
 
+    @Test
+    public void testUpdateBusinessWithNoEmail(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setName(NAME);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+        Business createdBusiness = null;
+        try{
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertEquals("Business email cannot be empty", e.getMessage());
+        }
+    }
+
     /**
      * NEGATIVE
      */
     @Test
-    public void testGutBusinessWithInvalidID(){
+    public void testGetBusinessWithInvalidID(){
         Business business=null;
         try{
              business = businessService.getBusiness(NONEXISTING_ID);

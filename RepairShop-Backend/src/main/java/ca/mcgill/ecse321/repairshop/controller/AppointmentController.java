@@ -43,7 +43,7 @@ public class AppointmentController {
      */
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
-                               @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+                                             @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
         try {
             TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
             if (canCancelAndDelete(timeSlot)) {
@@ -63,9 +63,7 @@ public class AppointmentController {
         catch (IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
-
 
 
     /**
@@ -89,36 +87,31 @@ public class AppointmentController {
         }
     }
 
-
-
     /**
-    * create appointment with timeslot
-    */
+     * create appointment with timeslot
+     */
 
     @PostMapping(value = { "/appointment", "/appointment/" })
     public ResponseEntity<?> createAppointment( @RequestParam(value="customerId") Long customerId,
                                                 @RequestParam(value="serviceNames") List<String> serviceNames,
-            @RequestBody TimeSlotDto timeSlotDto) {
-       try {
-        Customer customer = personService.getCustomer(customerId);
-        //CONVERT BOOKABLE SERVICE DTO --> DAO
-        List<BookableService> service = new ArrayList<>();
-        for (String name: serviceNames){
+                                                @RequestBody TimeSlotDto timeSlotDto) {
+        try {
+            Customer customer = personService.getCustomer(customerId);
+            //CONVERT BOOKABLE SERVICE DTO --> DAO
+            List<BookableService> service = new ArrayList<>();
+            for (String name: serviceNames){
+                service.add(repairShopService.getService(name));
+            }
 
-            service.add(repairShopService.getService(name));
-        }
-
-        TimeSlot timeSlot = RepairShopUtil.convertToEntity(timeSlotDto);
-
+            TimeSlot timeSlot = RepairShopUtil.convertToEntity(timeSlotDto);
             Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
+
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
         }catch (IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
-
-
 
     @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
     public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) {
@@ -185,13 +178,10 @@ public class AppointmentController {
 
 
 
-        }
+    }
     private boolean canEnterNoShow(TimeSlot timeslot){
         LocalTime timeNow =  LocalTime.now();
         LocalDate today = LocalDate.now();
-
-
-
         LocalDate tsDate = timeslot.getDate().toLocalDate();
         LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
         LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
