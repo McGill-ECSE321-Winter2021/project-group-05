@@ -15,6 +15,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -54,14 +55,21 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceSuccessfully(){
-        BookableService bookableService = new BookableService();
-        bookableService.setName(NAME);
-        bookableService.setCost(COST);
-        bookableService.setDuration(DURATION);
-        BookableService createdService = null;
-        createdService = repairShopService.createService(NAME, COST, DURATION);
+//        BookableService bookableService = new BookableService();
+//        bookableService.setName(NAME);
+//        bookableService.setCost(COST);
+//        bookableService.setDuration(DURATION);
+        String NAME = "TestService";
+        float COST = 55.99f;
+        int DURATION = 7;
 
+        BookableService createdService = repairShopService.createService(NAME, COST, DURATION);
+        createdService = null;
+        createdService = serviceRepository.findServiceByName(NAME);
 
         assertNotNull(createdService);
+        assertEquals(createdService.getName(), NAME);
+        assertEquals(createdService.getCost(), COST);
+        assertEquals(createdService.getDuration(), DURATION);
     }
 }

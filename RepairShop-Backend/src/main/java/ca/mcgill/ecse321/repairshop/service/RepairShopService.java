@@ -49,7 +49,7 @@ public class RepairShopService {
         if (service == null){
             throw new IllegalArgumentException("Please select a service that you want to modify");
         }
-        if (newName == null || newName.trim().equalsIgnoreCase("")){
+        if (newName.trim().equalsIgnoreCase("")){
             throw new IllegalArgumentException("New service name cannot be empty");
         }
         if (newCost < 0) {
@@ -96,7 +96,7 @@ public class RepairShopService {
                 for (BookableService b : app.getServices()){
                     // still have future appointments inside the service
                     if (b.getName().equals(bookableService.getName())){
-                        throw new IllegalArgumentException("Cannot delete a service which still have future appointments");
+                        throw new IllegalArgumentException("Cannot delete a service which still has future appointments");
                     }
                 }
             }
