@@ -65,19 +65,6 @@ public class BusinessService {
         return business.get();
     }
 
-    /**
-     * gets the business
-     * @return
-     * @throws BusinessException
-     */
-    @Transactional
-    public Business getBusiness() throws BusinessException{
-        List<Business> businesses = RepairShopUtil.toList(businessRepository.findAll());
-        if(businesses.size() < 1){
-            throw new BusinessException("Business does not exist, Please create one");
-        }
-        return businesses.get(0);
-    }
 
     /**
      * edits the business given an id

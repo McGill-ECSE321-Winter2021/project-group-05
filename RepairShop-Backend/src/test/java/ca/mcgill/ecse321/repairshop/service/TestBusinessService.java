@@ -191,6 +191,29 @@ public class TestBusinessService {
         assertEquals(createdBusiness.getEmail(), businessDto.getEmail());
     }
 
+    @Test
+    public void testUpdateBusinessNotExist(){
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setName(NAME);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+        businessDto.setEmail(EMAIL);
+        businessDto.setId(NONEXISTING_ID);
+
+        Business createdBusiness = null;
+        try{
+            businessService.createBusiness(businessDto);
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertNull(createdBusiness);
+            assertEquals(e.getMessage(), "Business does not exist in database, Please create one");
+
+        }
+
+
+
+    }
+
     /**
      * TESTING getBusiness(id)
      */
@@ -240,54 +263,6 @@ public class TestBusinessService {
 
     }
 
-    /**
-     * TESTING getBusiness
-     * POSITIVE
-     */
-    @Test
-    public void testGutBusinessNoParam(){
-        BusinessDto businessDto = new BusinessDto();
-        businessDto.setName(NAME);
-        businessDto.setAddress(ADDRESS);
-        businessDto.setPhoneNumber(PHONE_NUMBER);
-        businessDto.setEmail(EMAIL);
-        businessDto.setId(ID);
-
-        Business getBusiness = null;
-        try{
-            businessService.createBusiness(businessDto);
-            getBusiness = businessService.getBusiness();
-        }
-        catch (BusinessException e){
-            e.printStackTrace();
-            fail();
-        }
-        assertNotNull(getBusiness);
-        assertEquals(getBusiness.getName(),NAME);
-        assertEquals(getBusiness.getAddress(),ADDRESS);
-        assertEquals(getBusiness.getPhoneNumber(),PHONE_NUMBER);
-        assertEquals(getBusiness.getEmail(),EMAIL);
-        assertEquals(getBusiness.getId(),ID);
-
-
-    }
-    /**
-     * NEGATIVE
-     */
-    @Test
-    public void testGutBusinessNoParamNegative(){
-        // no business has been created
-        Business business =null;
-        try {
-            business = businessService.getBusiness();
-        }
-        catch (BusinessException e){
-            assertNull(business);
-            assertEquals(e.getMessage(),"Business does not exist, Please create one");
-        }
-
-
-    }
 
     /**
      * TESTING deleteBusiness
