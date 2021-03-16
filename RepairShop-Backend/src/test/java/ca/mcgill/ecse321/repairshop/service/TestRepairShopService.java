@@ -13,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+import java.awt.print.Book;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,6 +56,7 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceSuccessfully(){
+        //TODO:
 //        BookableService bookableService = new BookableService();
 //        bookableService.setName(NAME);
 //        bookableService.setCost(COST);
@@ -64,12 +66,33 @@ public class TestRepairShopService {
         int DURATION = 7;
 
         BookableService createdService = repairShopService.createService(NAME, COST, DURATION);
-        createdService = null;
-        createdService = serviceRepository.findServiceByName(NAME);
+//        createdService = null;
+//        createdService = serviceRepository.findServiceByName(NAME);
 
         assertNotNull(createdService);
         assertEquals(createdService.getName(), NAME);
         assertEquals(createdService.getCost(), COST);
         assertEquals(createdService.getDuration(), DURATION);
+    }
+
+    @Test
+    public void testCreateServiceWithNullName(){
+        //TODO:
+
+        String NAME = null;
+        float COST = 55.99f;
+        int DURATION = 7;
+        String error = null;
+        BookableService createdService = null;
+
+        try {
+            createdService = repairShopService.createService(NAME, COST, DURATION);
+//        createdService = null;
+//        createdService = serviceRepository.findServiceByName(NAME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "Service name cannot be empty");
     }
 }
