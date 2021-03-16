@@ -70,7 +70,7 @@ public class BillService {
         billRepository.save(bill);
         return bill;
     }
-
+/*
     public List<Bill> getAllBillsOfCustomer(CustomerDto customerDto) throws BillException{
         Customer customer = convertToEntity(customerDto);
         List<Appointment> appointments = appointmentRepository.findByCustomer(customer);
@@ -80,7 +80,7 @@ public class BillService {
         }
         return bills;
     }
-
+*/
     //HELPER FUNCTIONS
 
     private List<Bill> getAllBills(List<Appointment> appointments){
