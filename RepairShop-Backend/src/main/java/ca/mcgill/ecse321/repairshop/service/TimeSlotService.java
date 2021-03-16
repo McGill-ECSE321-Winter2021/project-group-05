@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -23,29 +25,38 @@ public class TimeSlotService {
 
     @Transactional
     public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime){
+        if(startTime.toLocalTime().isAfter(endTime.toLocalTime())) {
+            throw new IllegalArgumentException("start time must be before end time");
+        }
+        LocalTime timeNow =  LocalTime.now();
+        LocalDate todayplus2 = LocalDate.now().plusDays(2);
+
+
+        if(date.toLocalDate().isBefore(todayplus2)){
+            throw new IllegalArgumentException("start time must be at least 2 days from now");
+        }
         TimeSlot timeSlot = createInstanceOfTimeSlot(date, startTime, endTime);
         timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
-   /* @Transactional
-    public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime){
+   @Transactional
+    public TimeSlot createTimeSlotforTestingNoShow(Date date, Time startTime, Time endTime){
         TimeSlot timeSlot = createInstanceOfTimeSlot(date, startTime, endTime);
         timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
-    */
+
     
     @Transactional
     public void deleteTimeSlot(TimeSlot timeslot) {
-<<<<<<< HEAD
 
-        if(timeSlot == null){
+
+        if(timeslot == null){
             throw new IllegalArgumentException("Timeslot is null");
         }
-        timeSlotRepository.deleteByID(timslot.getId()); //??????
-=======
+
         timeSlotRepository.deleteById(timeslot.getId()); //??????
->>>>>>> e9605a0f75d282d7b922692c54c4e9f9a7958c34
+
 
     }
 

@@ -6,6 +6,9 @@ import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -116,9 +119,22 @@ public class AppointmentService {
     
     @Transactional
     public void enterNoShow(Appointment appointment){
-        int noShow = appointment.getCustomer().getNoShow();
-        noShow++;
-        appointment.getCustomer().setNoShow(noShow);
+        LocalTime timeNow =  LocalTime.now();
+        LocalDate today = LocalDate.now();
+
+
+        TimeSlot timeslot = appointment.getTimeslot();
+        LocalDate tsDate = timeslot.getDate().toLocalDate();
+        LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
+        LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
+        if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
+            int noShow = appointment.getCustomer().getNoShow();
+            noShow++;
+            appointment.getCustomer().setNoShow(noShow);
+        }else{
+            throw new IllegalArgumentException("Cannot enter no show at this time");
+        }
+
         
     }
 
