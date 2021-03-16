@@ -12,6 +12,7 @@ import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class TestAppointmentService {
     private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
     private static final Long CUSTOMER_ID = 0L;
     private static final Long TIMESLOT_ID = 0L;
-    private static final String Service_ID="Test Service";
+    private static final Long Service_ID=0L;
 
     // IN ORDER TO TEST GET GETAPPOINTMENT
     @BeforeEach
@@ -105,10 +106,10 @@ public class TestAppointmentService {
         });
 
         // findServiceById
-        lenient().when(serviceDao.findServiceByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+        lenient().when(serviceDao.findServiceById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(Service_ID)) {
                 BookableService service = new BookableService();
-                service.setName(Service_ID);
+                service.setId(Service_ID);
                 return service;
             }
             else{
@@ -376,7 +377,7 @@ public class TestAppointmentService {
         float serviceCost1 = 20;
         int serviceDuration1 = 120;
         BookableService service1 = repairShopService.createService(serviceName1,serviceCost1,serviceDuration1);
-
+        service1.setId(1L);
 
         List<BookableService> bookableServices_new = new ArrayList<>();
         bookableServices_new.add(service1);
@@ -474,9 +475,64 @@ public class TestAppointmentService {
     /**
      * test enter no-show
      */
-    private void testWrongEnterNoShow(){
-        // todo: test entering the no show
+
+    @Test
+    public void testWrongEnterNoShow(){
+        LocalDate dateToday = LocalDate.now();
+        Date appointmentDate = Date.valueOf(dateToday);
+        LocalTime startTime = LocalTime.now().minusMinutes(12);
+        LocalTime endTime = LocalTime.now().plusMinutes(50);
+
+        TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(CUSTOMER_ID);
+        List<BookableService> services = createTestListServices();
+        Customer customer = createTestCustomer();
+
+
+        Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
+        String error = null;
+
+        try{
+            appointmentService.enterNoShow(appointment);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+            assertEquals(error, "Cannot enter no show at this time");
+        }
+
+
+
+
     }
+
+    @Test
+    public void testEnterNoShow(){
+        LocalDate dateToday = LocalDate.now();
+        Date appointmentDate = Date.valueOf(dateToday);
+        LocalTime startTime = LocalTime.now().minusMinutes(22);
+        LocalTime endTime = LocalTime.now().plusMinutes(50);
+
+        TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        timeSlot.setId(CUSTOMER_ID);
+        List<BookableService> services = createTestListServices();
+        Customer customer = createTestCustomer();
+
+
+        Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
+        String error = null;
+
+        try{
+            appointmentService.enterNoShow(appointment);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+            assertEquals(error, null);
+
+        }
+
+
+
+
+    }
+
 
     /**
      * PRIVATE HELPERS

@@ -195,7 +195,7 @@ public class AppointmentController {
         LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
         LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
 
-        if(today.equals(tsDate) && tsStartTime.isBefore(timeNow)){
+        if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
             return true;
         }
         return false;
