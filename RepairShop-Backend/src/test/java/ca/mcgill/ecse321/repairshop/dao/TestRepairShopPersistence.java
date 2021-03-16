@@ -317,7 +317,7 @@ class TestRepairShopPersistence {
         service.setDuration(serviceDuration);
         service.setName(serviceName);
         serviceRepository.save(service);
-        Long serviceID=service.getId();
+        String serviceID=service.getName();
 
         List<BookableService> services = new ArrayList<BookableService>();
         services.add(service);
@@ -343,7 +343,7 @@ class TestRepairShopPersistence {
         assertEquals(billId,appointment.getBill().getId());
         assertEquals(customerId,appointment.getCustomer().getId());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
-        assertEquals(serviceID,(appointment.getServices().get(0)).getId());
+        assertEquals(serviceID,(appointment.getServices().get(0)).getName());
 
 
     }
@@ -366,12 +366,12 @@ class TestRepairShopPersistence {
         RepairShop rs = new RepairShop();
         service.setRepairShop(rs);
         serviceRepository.save(service);
-        Long serviceId = service.getId();
+        String serviceId = service.getName();
 
         service=null;
-        service=serviceRepository.findServiceById(serviceId);
+        service=serviceRepository.findServiceByName(serviceId);
         assertNotNull(service);
-        assertEquals(serviceId,service.getId());
+        assertEquals(serviceId,service.getName());
         assertEquals(serviceName,service.getName());
         assertEquals(duration,service.getDuration());
         assertEquals(cost,service.getCost());

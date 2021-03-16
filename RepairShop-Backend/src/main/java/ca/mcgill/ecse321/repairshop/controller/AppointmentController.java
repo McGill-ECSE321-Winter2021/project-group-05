@@ -52,7 +52,7 @@ public class AppointmentController {
                 List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
                 List<BookableService> service_new = new ArrayList<>();
                 for (BookableServiceDto s : newServicesDto) {
-                    service_new.add(repairShopService.getService(s.getId()));
+                    service_new.add(repairShopService.getService(s.getName()));
                 }
 
                 Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);
@@ -95,14 +95,16 @@ public class AppointmentController {
     * create appointment with timeslot
     */
 
-    @PostMapping(value = { "/appointment", "/appointment/" })
-    public ResponseEntity<?> createAppointment(@RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+    @PostMapping(value = { "/appointment/{id}", "/appointment/{id}" })
+    public ResponseEntity<?> createAppointment( @PathVariable Long customerId,
+                                                @RequestParam List<String> serivceName,
+            @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
         try {
         Customer customer = personService.getCustomer(appointmentDto.getCustomer().getId());
         //CONVERT BOOKABLE SERVICE DTO --> DAO
         List<BookableService> service = new ArrayList<>();
         for (BookableServiceDto s: appointmentDto.getServices()){
-            service.add(repairShopService.getService(s.getId()));
+            service.add(repairShopService.getService(s.getName()));
         }
 
         TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());

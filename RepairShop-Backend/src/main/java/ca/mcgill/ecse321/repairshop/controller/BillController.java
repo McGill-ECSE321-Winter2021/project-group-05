@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
-import ca.mcgill.ecse321.repairshop.dto.AppointmentDto;
+import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.Appointment;
 import ca.mcgill.ecse321.repairshop.model.Bill;
 import ca.mcgill.ecse321.repairshop.service.AppointmentService;

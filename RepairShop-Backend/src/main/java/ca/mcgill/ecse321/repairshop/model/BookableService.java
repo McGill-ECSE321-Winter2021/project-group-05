@@ -3,17 +3,17 @@ package ca.mcgill.ecse321.repairshop.model;
 import javax.persistence.*;
 
 @Entity
-public class BookableService
-{
+public class BookableService {
   //Service Attributes
   private String name;
   private float cost;
   private int duration;
-  private Long id;
+
 
   //Service Associations
   private RepairShop repairShop;
 
+  @Id
   public String getName() {
     return name;
   }
@@ -38,10 +38,6 @@ public class BookableService
     this.duration = duration;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   @ManyToOne(cascade = {CascadeType.ALL})
   public RepairShop getRepairShop() {
     return repairShop;
@@ -50,10 +46,6 @@ public class BookableService
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
   }
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  public Long getId() {
-    return id;
-  }
 }
+
+

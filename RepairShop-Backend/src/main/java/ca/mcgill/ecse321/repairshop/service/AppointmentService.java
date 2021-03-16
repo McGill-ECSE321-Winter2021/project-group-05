@@ -37,7 +37,7 @@ public class AppointmentService {
             throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
         }
         for (BookableService s : services){
-            if (serviceRepository.findServiceById(s.getId())== null){
+            if (serviceRepository.findServiceByName(s.getName())== null){
                 throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
             }
         }
