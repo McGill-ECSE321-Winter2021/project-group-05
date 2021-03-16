@@ -23,8 +23,7 @@ public class AppointmentService {
     ServiceRepository serviceRepository;
     @Autowired
     BillRepository billRepository;
-    @Autowired
-    BillService billService = new BillService();
+
 
 
     @Transactional

@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop.service;
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.dto.BusinessDto;
 import ca.mcgill.ecse321.repairshop.model.Business;
+import ca.mcgill.ecse321.repairshop.model.Customer;
 import ca.mcgill.ecse321.repairshop.utility.BusinessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
 
+<<<<<<< HEAD
 import java.util.Optional;
+=======
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import static org.mockito.ArgumentMatchers.any;
+>>>>>>> 1a2f97af329d23d74d0babc62c20bdd08a72cc84
 
 @ExtendWith(MockitoExtension.class)
 public class TestBusinessService {
@@ -33,7 +41,12 @@ public class TestBusinessService {
     private static final String ADDRESS = "Montreal";
     private static final String PHONE_NUMBER = "1234567";
     private static final String EMAIL = "repairshop@mail.com";
+<<<<<<< HEAD
     private static final long ID = 0L;
+=======
+    private static final Long ID = 0L;
+    private static final Long NONEXISTING_ID=1L;
+>>>>>>> 1a2f97af329d23d74d0babc62c20bdd08a72cc84
 
     @BeforeEach
     public void setMockOutPut(){
@@ -71,6 +84,7 @@ public class TestBusinessService {
               createdBusiness = businessService.createBusiness(businessDto);
         }catch (BusinessException e){
             e.printStackTrace();
+            fail();
         }
           assertNotNull(createdBusiness);
           assertEquals(createdBusiness.getAddress(), businessDto.getAddress());
@@ -187,6 +201,7 @@ public class TestBusinessService {
     }
 
     @Test
+<<<<<<< HEAD
     public void testUpdateBusinessWithNoName(){
         BusinessDto businessDto = new BusinessDto();
         businessDto.setEmail(EMAIL);
@@ -203,10 +218,43 @@ public class TestBusinessService {
 
     @Test
     public void testUpdateBusinessWithNoEmail(){
+=======
+    public void testUpdateBusinessNotExist(){
         BusinessDto businessDto = new BusinessDto();
         businessDto.setName(NAME);
         businessDto.setAddress(ADDRESS);
         businessDto.setPhoneNumber(PHONE_NUMBER);
+        businessDto.setEmail(EMAIL);
+        businessDto.setId(NONEXISTING_ID);
+
+        Business createdBusiness = null;
+        try{
+            businessService.createBusiness(businessDto);
+            createdBusiness = businessService.editBusiness(businessDto.getId(), businessDto);
+        }catch (BusinessException e){
+            assertNull(createdBusiness);
+            assertEquals(e.getMessage(), "Business does not exist in database, Please create one");
+
+        }
+
+
+
+    }
+
+    /**
+     * TESTING getBusiness(id)
+     */
+    /**
+    * POSITIVE
+     */
+    @Test
+    public void testGetBusiness(){
+>>>>>>> 1a2f97af329d23d74d0babc62c20bdd08a72cc84
+        BusinessDto businessDto = new BusinessDto();
+        businessDto.setName(NAME);
+        businessDto.setAddress(ADDRESS);
+        businessDto.setPhoneNumber(PHONE_NUMBER);
+<<<<<<< HEAD
 
         Business createdBusiness = null;
         try{
@@ -244,6 +292,50 @@ public class TestBusinessService {
         }
     }
 
+=======
+        businessDto.setEmail(EMAIL);
+        businessDto.setId(ID);
+
+        Business getBusiness = null;
+        try{
+            businessService.createBusiness(businessDto);
+            getBusiness = businessService.getBusiness(businessDto.getId());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail();
+        }
+        assertNotNull(getBusiness);
+        assertEquals(getBusiness.getName(),NAME);
+        assertEquals(getBusiness.getAddress(),ADDRESS);
+        assertEquals(getBusiness.getPhoneNumber(),PHONE_NUMBER);
+        assertEquals(getBusiness.getEmail(),EMAIL);
+        assertEquals(getBusiness.getId(),ID);
+    }
+
+    /**
+     * NEGATIVE
+     */
+    @Test
+    public void testGutBusinessWithInvalidID(){
+        Business business=null;
+        try{
+             business = businessService.getBusiness(NONEXISTING_ID);
+        }
+        catch (NoSuchElementException e){
+            assertEquals(e.getMessage(),"No value present");
+            assertNull(business);
+        }
+
+
+    }
+
+
+    /**
+     * TESTING deleteBusiness
+     * POSITIVE
+     */
+>>>>>>> 1a2f97af329d23d74d0babc62c20bdd08a72cc84
     @Test
     public void testDeleteBusiness(){
         BusinessDto businessDto = new BusinessDto();
@@ -265,5 +357,25 @@ public class TestBusinessService {
         assertEquals(deletedBusiness.getName(), businessDto.getName());
         assertEquals(deletedBusiness.getEmail(), businessDto.getEmail());
     }
+<<<<<<< HEAD
+=======
+    /**
+     * NEGATIVE
+     */
+    @Test
+    public void testDeleteBusinessNotExist(){
+        Business deletedBusiness=null;
+        try{
+            deletedBusiness=businessService.deleteBusiness(NONEXISTING_ID); // the id doesn't exist
+        }catch (BusinessException e){
+            assertNull(deletedBusiness);
+            assertEquals(e.getMessage(),"Cannot delete because business does not exist");
+
+        }
+
+
+
+    }
+>>>>>>> 1a2f97af329d23d74d0babc62c20bdd08a72cc84
 
 }

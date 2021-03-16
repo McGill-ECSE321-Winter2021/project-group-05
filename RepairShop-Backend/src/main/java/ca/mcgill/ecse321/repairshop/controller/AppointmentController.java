@@ -97,13 +97,13 @@ public class AppointmentController {
 
     @PostMapping(value = { "/appointment", "/appointment/" })
     public ResponseEntity<?> createAppointment( @RequestParam(value="customerId") Long customerId,
-                                                @RequestParam(value="serviceNames") List<String> serivceNames,
+                                                @RequestParam(value="serviceNames") List<String> serviceNames,
             @RequestBody TimeSlotDto timeSlotDto) {
        try {
         Customer customer = personService.getCustomer(customerId);
         //CONVERT BOOKABLE SERVICE DTO --> DAO
         List<BookableService> service = new ArrayList<>();
-        for (String name: serivceNames){
+        for (String name: serviceNames){
 
             service.add(repairShopService.getService(name));
         }

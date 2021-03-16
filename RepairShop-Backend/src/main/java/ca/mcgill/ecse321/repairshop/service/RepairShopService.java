@@ -23,9 +23,16 @@ public class RepairShopService {
      */
     @Transactional
     public BookableService createService(String name, float cost, int duration){
-        if (name == null){
-            throw new IllegalArgumentException("service name cannot be empty");
+        if (name == null || name.trim().equalsIgnoreCase("")){
+            throw new IllegalArgumentException("Service name cannot be empty");
         }
+        if (cost < 0) {
+            throw new IllegalArgumentException("Service cost cannot be negative");
+        }
+        if (duration == 0) {
+            throw new IllegalArgumentException("Service duration cannot be 0");
+        }
+
         BookableService service = new BookableService();
         service.setCost(cost);
         service.setName(name);
@@ -35,13 +42,23 @@ public class RepairShopService {
     }
 
     /**
-     * edit new Service
+     * edit existing Service
      */
     @Transactional
     public BookableService editService(BookableService service, String newName, float newCost, int newDuration){
         if (service == null){
-            throw new IllegalArgumentException("please select a service that you want to modify");
+            throw new IllegalArgumentException("Please select a service that you want to modify");
         }
+        if (newName.trim().equalsIgnoreCase("")){
+            throw new IllegalArgumentException("New service name cannot be empty");
+        }
+        if (newCost < 0) {
+            throw new IllegalArgumentException("New service cost cannot be negative");
+        }
+        if (newDuration == 0) {
+            throw new IllegalArgumentException("New service duration cannot be 0");
+        }
+
         if (newName != null){
             service.setName(newName);
         }
@@ -62,10 +79,13 @@ public class RepairShopService {
         return RepairShopUtil.toList(serviceRepository.findAll());
     }
 
+    /**
+     * delete existing service
+     */
     @Transactional
     public void deleteBookableService (BookableService bookableService){
         if (bookableService == null){
-            throw new IllegalArgumentException("Cannot delete a null service");
+            throw new IllegalArgumentException("Cannot delete a service that does not exist");
         }
 
         // cannot delete a service which still have future appointment link to it
@@ -76,7 +96,7 @@ public class RepairShopService {
                 for (BookableService b : app.getServices()){
                     // still have future appointments inside the service
                     if (b.getName().equals(bookableService.getName())){
-                        throw new IllegalArgumentException("Cannot delete a service which still have future appointments");
+                        throw new IllegalArgumentException("Cannot delete a service which still has future appointments");
                     }
                 }
             }

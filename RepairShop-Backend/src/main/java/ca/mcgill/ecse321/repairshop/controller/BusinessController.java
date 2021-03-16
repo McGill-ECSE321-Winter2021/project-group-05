@@ -32,6 +32,7 @@ public class BusinessController {
      * Gets the busines of the system
      * @return
      */
+    /* todo: to delete?
     @GetMapping(value = {"/business/", "/business"})
     public ResponseEntity<?> getBusiness(){
         try {
@@ -41,6 +42,8 @@ public class BusinessController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+     */
 
     /**
      * creates a business if it does not exist

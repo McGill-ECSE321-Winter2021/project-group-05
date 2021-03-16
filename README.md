@@ -9,10 +9,10 @@ We are developing a website and an Android app to support the business of a loca
 We are 5 McGill University students from the Faculty of Engineering
 <table>
     <tr>
-    <td align="center">Name</td>
-    <td align="center">Github</td>
-    <td align="center">Major</td>
-    <td align="center">Year</td>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Github</strong></td>
+    <td align="center"><strong>Major</strong></td>
+    <td align="center"><strong>Year</strong></td>
   </tr>
    </tr>
    <tr>
@@ -54,15 +54,15 @@ We are 5 McGill University students from the Faculty of Engineering
   <tr>
     <td></td>
     <td></td>
-    <td colspan="4" align="center">Individual Efforts (hours)</td>
+    <td colspan="4" align="center"><strong>Individual Efforts (hours)<s/trong></td>
   </tr>
     <tr>
-    <td align="center">Name</td>
-    <td align="center">Role</td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
-    <td align="center">Sprint 4</td>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Role</strong></td>
+    <td align="center"><strong>Sprint 1</strong></td>
+    <td align="center"><strong>Sprint 2</strong></td>
+    <td align="center"><strong>Sprint 3<strong></td>
+    <td align="center"><strong>Sprint 4</strong></td>
   </tr>
    </tr>
    <tr>
@@ -111,9 +111,9 @@ We are 5 McGill University students from the Faculty of Engineering
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-1-Project-Report). 
 <table>
     <tr>
-    <td align="center">Name</td>
-    <td>Contibutions</td>
-    <td align="center">Individual Efforts (hours)</td>
+    <td align="center"<strong>>Name</strong></td>
+    <td><strong>Contibutions</strong></td>
+    <td align="center"><strong>Individual Efforts (hours)</strong></td>
   </tr>
    </tr>
    <tr>
@@ -181,9 +181,9 @@ The project report for this deliverable can be found [here](https://github.com/M
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-2-Report).
 <table>
     <tr>
-    <td align="center">Name</td>
-    <td align="center">Contibutions</td>
-    <td align="center">Hours</td>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Contibutions</strong></td>
+    <td align="center"><strong>Hours</strong></td>
   </tr>
    </tr>
    <tr>
