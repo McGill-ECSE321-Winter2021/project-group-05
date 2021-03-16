@@ -33,56 +33,56 @@ public class CustomerDto {
         this.id = id;
     }
 
-    public String getEmail(){
-        return this.email;
-    }
-
-    public String getUsername(){
-        return this.username;
-    }
-
-    public String getPassword(){
-        return this.getPassword();
-    }
-
-    public String getCardNumber(){
-        return this.cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber){
-        this.cardNumber=cardNumber;
-    }
-
-    public String getCvv(){
-        return this.cvv;
-    }
-
-    public void setCvv(String cvv){
-        this.cvv=cvv;
-    }
-
-    public Date getExpiry(){
-        return this.expiry;
-    }
-
-    public void setExpiry(Date expiry){
-        this.expiry=expiry;
-    }
-
-    public Long getId(){
-        return this.id;
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public Date getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(Date expiry) {
+        this.expiry = expiry;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -96,5 +96,4 @@ public class CustomerDto {
     public void setNoShow(int noShow) {
         this.noShow = noShow;
     }
-
 }

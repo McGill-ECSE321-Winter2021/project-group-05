@@ -12,8 +12,9 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @PostMapping(value = {"/persons/, /persons"})
+    @PostMapping(value = {"/persons/", "/persons"})
     public Person createPerson(@RequestBody CustomerDto customerDto){
         return personService.createCustomer(customerDto.getEmail(), customerDto.getUsername(), customerDto.getPassword());
     }
+
 }
