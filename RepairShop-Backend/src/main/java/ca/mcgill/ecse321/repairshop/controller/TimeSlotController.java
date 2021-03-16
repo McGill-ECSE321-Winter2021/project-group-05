@@ -3,7 +3,10 @@ package ca.mcgill.ecse321.repairshop.controller;
 
 import ca.mcgill.ecse321.repairshop.dto.TimeSlotDto;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
+import ca.mcgill.ecse321.repairshop.model.Appointment;
+import ca.mcgill.ecse321.repairshop.service.BillService;
 import ca.mcgill.ecse321.repairshop.service.TimeSlotService;
+import ca.mcgill.ecse321.repairshop.service.AppointmentService;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +18,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -27,11 +32,12 @@ public class TimeSlotController {
                                              @RequestParam @DateTimeFormat(iso  = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime)
             throws IllegalArgumentException {
-        if(canEnterTimeSlot(startTime, endTime)){
+        if(canEnterTimeSlot(startTime, endTime, date.toLocalDate())){
             TimeSlot timeSlot = timeSlotService.createTimeSlot(date, Time.valueOf(startTime), Time.valueOf(endTime));
             return new ResponseEntity<>(RepairShopUtil.convertToDto(timeSlot), HttpStatus.OK);
-        }else{
-            throw new IllegalArgumentException("StartTime must be before EndTime");
+        }
+        else{
+            throw new IllegalArgumentException("StartTime must be before EndTime and startDate must be at least in 2 days");
         }
 
     }
@@ -45,7 +51,7 @@ public class TimeSlotController {
     }
 
     @DeleteMapping(value = { "/timeSlot/{id}", "/timeSlot/{id}/" })
-    private void deleteTimeSlot(@PathVariable("id") Long id) throws IllegalArgumentException{
+    public void deleteTimeSlot(@PathVariable("id") Long id) throws IllegalArgumentException{
         TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
         if (timeSlot == null) {
             throw new IllegalArgumentException("Cannot delete a null timeSlot");
@@ -56,9 +62,27 @@ public class TimeSlotController {
 
     }
 
-    private boolean canEnterTimeSlot(LocalTime startTime, LocalTime endTime){
+   /* @GetMapping
+    public List<TimeSlotDto> getAvailableTimeSlots()throws IllegalArgumentException{
+        List<TimeSlotDto> availableSlots = new ArrayList<>();
+        for(TimeSlot timeSlot : timeSlotService.getAllTimeSlot()){
+            for(Appointment appointment : appointmentService.getAllAppointment
+        }
+
+    }*/
+
+
+
+    private boolean canEnterTimeSlot(LocalTime startTime, LocalTime endTime, LocalDate date){
         if(startTime.isAfter(endTime)) {
             return false;
+        }
+        LocalTime timeNow =  LocalTime.now();
+        LocalDate todayplus1 = LocalDate.now().plusDays(1);
+
+
+        if(todayplus1.isBefore(date)){
+            return true;
         }
         return true;
     }
@@ -66,10 +90,11 @@ public class TimeSlotController {
     private boolean canDeleteTimeSlot(TimeSlot timeSlot){
         LocalTime timeNow =  LocalTime.now();
         LocalTime startTime = timeSlot.getStartTime().toLocalTime();
-        LocalDate today = LocalDate.now();
+        LocalDate todayplus1 = LocalDate.now().plusDays(1);
         LocalDate tsDate = timeSlot.getDate().toLocalDate();
 
-        if(today.isBefore(tsDate)){
+
+        if(todayplus1.isBefore(tsDate)){
             return true;
         }
         return false;
