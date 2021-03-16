@@ -9,10 +9,10 @@ We are developing a website and an Android app to support the business of a loca
 We are 5 McGill University students from the Faculty of Engineering
 <table>
     <tr>
-    <td align="center">Name</td>
-    <td align="center">Github</td>
-    <td align="center">Major</td>
-    <td align="center">Year</td>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Github</strong></td>
+    <td align="center"><strong>Major</strong></td>
+    <td align="center"><strong>Year</strong></td>
   </tr>
    </tr>
    <tr>
@@ -54,15 +54,15 @@ We are 5 McGill University students from the Faculty of Engineering
   <tr>
     <td></td>
     <td></td>
-    <td colspan="4" align="center">Individual Efforts (hours)</td>
+    <td colspan="4" align="center"><strong>Individual Efforts (hours)<s/trong></td>
   </tr>
     <tr>
-    <td align="center">Name</td>
-    <td align="center">Role</td>
-    <td align="center">Sprint 1</td>
-    <td align="center">Sprint 2</td>
-    <td align="center">Sprint 3</td>
-    <td align="center">Sprint 4</td>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Role</strong></td>
+    <td align="center"><strong>Sprint 1</strong></td>
+    <td align="center"><strong>Sprint 2</strong></td>
+    <td align="center"><strong>Sprint 3<strong></td>
+    <td align="center"><strong>Sprint 4</strong></td>
   </tr>
    </tr>
    <tr>
