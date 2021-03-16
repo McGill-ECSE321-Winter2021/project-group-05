@@ -35,6 +35,7 @@ public class BusinessService {
         }
         Business business = convertToEntity(businessDto);
         businessRepository.save(business);
+        Business d = businessRepository.findByName(businessDto.getName());
         return business;
     }
 

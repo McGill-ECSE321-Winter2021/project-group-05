@@ -68,7 +68,7 @@ public class AppointmentService {
 
     @Transactional
     public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
-                                        TimeSlot timeSlot){
+                                 TimeSlot timeSlot){
         if (service_new== null || service_new.size() == 0){
             throw new IllegalArgumentException("The Appointment must have at least one services");
         }
