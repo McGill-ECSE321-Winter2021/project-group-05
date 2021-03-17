@@ -47,8 +47,9 @@ public class PersonService {
     }
 
     @Transactional
-    public Customer getCustomer(Long id) throws PersonException{
-        Optional<Customer> customerOptional = customerRepository.findById(id);
+    public Customer getCustomer(String email) throws PersonException{
+        // todo: ofNullable?????
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
             throw new PersonException("Customer with this id does not exist");
         }

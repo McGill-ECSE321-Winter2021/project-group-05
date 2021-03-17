@@ -37,13 +37,13 @@ public class PersonController {
 
     /**
      * returns a customer with the given id
-     * @param id
+     * @param email
      * @return
      */
-    @GetMapping(value = {"/person/customer/{id}", "/person/customer/{id}/"})
-    public ResponseEntity<?> getCustomer(@PathVariable Long id){
+    @GetMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    public ResponseEntity<?> getCustomer(@PathVariable String email){
         try{
-            Customer customer = personService.getCustomer(id);
+            Customer customer = personService.getCustomer(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
