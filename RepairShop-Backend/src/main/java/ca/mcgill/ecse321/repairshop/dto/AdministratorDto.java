@@ -4,7 +4,6 @@ public class AdministratorDto {
     private String email;
     private String username;
     private String password;
-    private Long id;
 
     public String getEmail() {
         return email;
@@ -30,11 +29,4 @@ public class AdministratorDto {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

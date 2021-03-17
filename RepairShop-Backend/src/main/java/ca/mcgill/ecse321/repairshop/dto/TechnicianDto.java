@@ -4,7 +4,6 @@ public class TechnicianDto {
     private String username;
     private String password;
     private String email;
-    private Long id;
 
     public String getUsername() {
         return username;
@@ -30,11 +29,4 @@ public class TechnicianDto {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

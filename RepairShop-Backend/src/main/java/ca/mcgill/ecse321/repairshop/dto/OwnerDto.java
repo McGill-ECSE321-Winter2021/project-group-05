@@ -4,7 +4,7 @@ public class OwnerDto {
     private String email;
     private String password;
     private String username;
-    private Long id;
+
 
     public String getEmail() {
         return email;
@@ -30,11 +30,4 @@ public class OwnerDto {
         this.username = username;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
