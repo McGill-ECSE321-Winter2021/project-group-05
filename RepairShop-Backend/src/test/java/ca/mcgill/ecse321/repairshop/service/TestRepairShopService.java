@@ -32,7 +32,7 @@ public class TestRepairShopService {
     @InjectMocks
     private RepairShopService repairShopService;
 
-    private static String NAME = "RepairShop";
+    private static String NAME = "TestService";
     private static float COST = 21.3f;
     private static int DURATION = 10;
 
@@ -53,19 +53,15 @@ public class TestRepairShopService {
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
-        lenient().when(serviceRepository.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
+       // lenient().when(serviceRepository.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     @Test
     public void testCreateServiceSuccessfully(){
-        //TODO:
-        String NAME = "TestService";
-        float COST = 55.99f;
-        int DURATION = 7;
 
         BookableService createdService = repairShopService.createService(NAME, COST, DURATION);
-        //createdService = null;
-        //createdService = serviceRepository.findServiceByName(NAME);
+        createdService = null;
+        createdService = serviceRepository.findServiceByName(NAME);
 
         assertNotNull(createdService);
         assertEquals(createdService.getName(), NAME);
@@ -75,16 +71,14 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceWithNullName(){
-        String NAME = null;
-        float COST = 39.99f;
-        int DURATION = 17;
+
         String error = null;
         BookableService createdService = null;
 
         try {
-            createdService = repairShopService.createService(NAME, COST, DURATION);
-//        createdService = null;
-//        createdService = serviceRepository.findServiceByName(NAME);
+            createdService = repairShopService.createService(null, COST, DURATION);
+            createdService = null;
+           createdService = serviceRepository.findServiceByName(NAME);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -95,16 +89,14 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceWithEmptyName(){
-        String NAME = "    ";
-        float COST = 79.99f;
-        int DURATION = 77;
+
         String error = null;
         BookableService createdService = null;
 
         try {
-            createdService = repairShopService.createService(NAME, COST, DURATION);
-//        createdService = null;
-//        createdService = serviceRepository.findServiceByName(NAME);
+            createdService = repairShopService.createService("    ", COST, DURATION);
+        createdService = null;
+        createdService = serviceRepository.findServiceByName(NAME);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -114,16 +106,14 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceWithNegativeCost(){
-        String NAME = "TestService";
-        float COST = -85.99f;
-        int DURATION = 37;
+
         String error = null;
         BookableService createdService = null;
 
         try {
-            createdService = repairShopService.createService(NAME, COST, DURATION);
-//        createdService = null;
-//        createdService = serviceRepository.findServiceByName(NAME);
+            createdService = repairShopService.createService(NAME, -85.99f, DURATION);
+        createdService = null;
+        createdService = serviceRepository.findServiceByName(NAME);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -142,8 +132,8 @@ public class TestRepairShopService {
 
         try {
             createdService = repairShopService.createService(NAME, COST, DURATION);
-//        createdService = null;
-//        createdService = serviceRepository.findServiceByName(NAME);
+            createdService = null;
+            createdService = serviceRepository.findServiceByName(NAME);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
