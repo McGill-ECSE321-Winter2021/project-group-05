@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -171,7 +172,7 @@ public class TestAppointmentService {
         try {
             appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
 
-        } catch (IllegalArgumentException e) {
+        } catch (AppointmentException e) {
             // Check that no error occurred
             fail();
         }
@@ -194,7 +195,7 @@ public class TestAppointmentService {
         assertEquals(0,timeSlotService.getAllTimeSlot().size());
         try {
             appointment = appointmentService.createAppointment(services,customer,timeSlot);
-        } catch (IllegalArgumentException e) {
+        } catch (AppointmentException e) {
             error = e.getMessage();
         }
         assertNull(appointment);
@@ -233,7 +234,7 @@ public class TestAppointmentService {
         try {
             appointment = appointmentService.createAppointment(services,customer,timeSlot);
 
-        } catch (IllegalArgumentException e) {
+        } catch (AppointmentException e) {
             error = e.getMessage();
         }
 
@@ -271,7 +272,7 @@ public class TestAppointmentService {
         try {
             appointment = appointmentService.createAppointment(services,customer,timeSlot);
 
-        } catch (IllegalArgumentException e) {
+        } catch (AppointmentException e) {
             error = e.getMessage();
         }
 
@@ -306,10 +307,15 @@ public class TestAppointmentService {
 
         Customer customer = createTestCustomer();
 
-
-        assertNotNull(appointmentService.getAppointmentsBookedByCustomer(customer));
-        assertEquals(1, appointmentService.getAppointmentsBookedByCustomer(customer).size());
-        assertEquals(APPOINTMENT_KEY, appointmentService.getAppointmentsBookedByCustomer(customer).get(0).getId());
+        try {
+            assertNotNull(appointmentService.getAppointmentsBookedByCustomer(customer));
+            assertEquals(1, appointmentService.getAppointmentsBookedByCustomer(customer).size());
+            assertEquals(APPOINTMENT_KEY, appointmentService.getAppointmentsBookedByCustomer(customer).get(0).getId());
+        }
+        catch (AppointmentException e){
+            e.printStackTrace();
+            fail();
+        }
 
 
     }
@@ -321,7 +327,7 @@ public class TestAppointmentService {
         String error = null;
         List<Appointment> appointments=null;
         try{appointments = appointmentService.getAppointmentsBookedByCustomer(customer);}
-        catch (IllegalArgumentException e){
+        catch (AppointmentException e){
             error = e.getMessage();
         }
         assertNull(appointments);
@@ -331,10 +337,15 @@ public class TestAppointmentService {
     // NEGATIVE TEST
     @Test
     public void testGetAppointmentByNonExistingCustomer() {
-        // CUSTOMER IS NOT SAVED
-        Customer customer = new Customer();
-        customer.setEmail("mcgill@ca.com");
-        assertNull(appointmentService.getAppointmentsBookedByCustomer(customer));
+       try {
+           // CUSTOMER IS NOT SAVED
+           Customer customer = new Customer();
+           customer.setEmail("mcgill@ca.com");
+           assertNull(appointmentService.getAppointmentsBookedByCustomer(customer));
+       }
+       catch (AppointmentException e){
+          fail();
+       }
     }
 
     /**
@@ -358,7 +369,6 @@ public class TestAppointmentService {
 
         List<BookableService> bookableServices = createTestListServices();
         Customer customer = createTestCustomer();
-        Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
          /**
          * Edited appointment
          */
@@ -382,12 +392,14 @@ public class TestAppointmentService {
         List<BookableService> bookableServices_new = new ArrayList<>();
         bookableServices_new.add(service1);
         try {
+            Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
             appointmentService.editAppointment(appointment, bookableServices_new, timeSlot);
             checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID, timeSlot_new.getDate(),
                     timeSlot_new.getStartTime().toLocalTime(), timeSlot_new.getEndTime().toLocalTime());
 
         }
-        catch (IllegalArgumentException e){
+        catch (AppointmentException e){
+            e.printStackTrace();
             fail();
         }
 
@@ -410,13 +422,13 @@ public class TestAppointmentService {
 
         List<BookableService> bookableServices = createTestListServices();
         Customer customer = createTestCustomer();
-        Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
 
         String error = null;
         try {
+            Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
             appointmentService.editAppointment(appointment,null,null);
         }
-        catch (IllegalArgumentException e){
+        catch (AppointmentException e){
             error = e.getMessage();
             assertEquals("The Appointment must have at least one services",error);
         }
@@ -435,7 +447,7 @@ public class TestAppointmentService {
         try {
             appointmentService.deleteAppointment(appointment);
         }
-        catch (IllegalArgumentException e){
+        catch (AppointmentException e){
             error = e.getMessage();
             assertEquals("Cannot delete a null appointment",error);
         }
@@ -456,16 +468,14 @@ public class TestAppointmentService {
         List<BookableService> services = createTestListServices();
         Customer customer = createTestCustomer();
 
-
-        Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
-
         try {
+            Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
             appointmentService.deleteAppointment(appointment);
             // AFTER DELETION
             assertNull(appointmentService.getAppointment(appointment.getId()));
 
         }
-        catch (IllegalArgumentException e) {
+        catch (AppointmentException e) {
             // Check that no error occurred
             fail();
         }
@@ -489,12 +499,13 @@ public class TestAppointmentService {
         Customer customer = createTestCustomer();
 
 
-        Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
+
         String error = null;
 
         try{
+            Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
             appointmentService.enterNoShow(appointment);
-        }catch (IllegalArgumentException e){
+        }catch (AppointmentException e){
             error = e.getMessage();
             assertEquals(error, "Cannot enter no show at this time");
         }
@@ -509,7 +520,7 @@ public class TestAppointmentService {
 
         try {
             appointmentService.enterNoShow(appointment);
-        } catch (IllegalArgumentException e) {
+        } catch (AppointmentException e) {
             error = e.getMessage();
             assertEquals(error, "appointment cannot be null");
         }
@@ -527,13 +538,12 @@ public class TestAppointmentService {
         List<BookableService> services = createTestListServices();
         Customer customer = createTestCustomer();
 
-
-        Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
         String error = null;
 
         try{
+            Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
             appointmentService.enterNoShow(appointment);
-        }catch (IllegalArgumentException e){
+        }catch (AppointmentException e){
             error = e.getMessage();
             assertEquals(error, null);
 

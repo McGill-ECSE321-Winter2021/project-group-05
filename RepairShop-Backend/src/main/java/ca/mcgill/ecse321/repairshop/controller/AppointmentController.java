@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop.controller;
 import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.service.*;
+import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class AppointmentController {
      */
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
-                                             @RequestBody AppointmentDto appointmentDto) throws IllegalArgumentException {
+                                             @RequestBody AppointmentDto appointmentDto) {
         try {
             TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
             if (canCancelAndDelete(timeSlot)) {
@@ -59,9 +60,9 @@ public class AppointmentController {
                 Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);
                 return new ResponseEntity<>(RepairShopUtil.convertToDto(newAppointment), HttpStatus.OK);
             }
-            throw new IllegalArgumentException("Cannot edit appointment before 24hr");
+            throw new AppointmentException("Cannot edit appointment before 24hr");
         }
-        catch (IllegalArgumentException e){
+        catch (AppointmentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -71,10 +72,10 @@ public class AppointmentController {
      * delete appointment
      */
     @DeleteMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
-    public void deleteAppointment(@PathVariable("id") Long id) throws IllegalArgumentException {
+    public void deleteAppointment(@PathVariable("id") Long id) throws AppointmentException {
         Appointment appointment = appointmentService.getAppointment(id);
         if (appointment == null) {
-            throw new IllegalArgumentException("Cannot delete a null appointment");
+            throw new AppointmentException("Cannot delete a null appointment");
         }
 
         TimeSlot timeSlot = appointment.getTimeslot();
@@ -84,7 +85,7 @@ public class AppointmentController {
             appointmentService.deleteAppointment(appointment);
         }
         else{
-            throw new IllegalArgumentException("Cannot delete appointment before 24hr");
+            throw new AppointmentException("Cannot delete appointment before 24hr");
         }
     }
 
@@ -108,7 +109,7 @@ public class AppointmentController {
             Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
 
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
-        }catch (IllegalArgumentException e){
+        }catch (AppointmentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -117,7 +118,7 @@ public class AppointmentController {
     }
 
     @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
-    public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) {
+    public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) throws AppointmentException {
         Customer customer = null;
         try {
             customer = personService.getCustomer(id);
@@ -133,16 +134,16 @@ public class AppointmentController {
 
 
     @PutMapping(value = { "/appointmentNoShow/{id}", "/appointmentNoShow/{id}/" })
-    public void enterNoShow(@PathVariable("id") Long id) throws IllegalArgumentException{
+    public void enterNoShow(@PathVariable("id") Long id) throws AppointmentException{
         Appointment appointment = appointmentService.getAppointment(id);
         if (appointment == null) {
-            throw new IllegalArgumentException("Cannot enter no show for a null appointment");
+            throw new AppointmentException("Cannot enter no show for a null appointment");
         }
         TimeSlot timeSlot = appointment.getTimeslot();
         if (canEnterNoShow(timeSlot)){
             appointmentService.enterNoShow(appointment);
         }else{
-            throw new IllegalArgumentException("Cannot enter no show at this time");
+            throw new AppointmentException("Cannot enter no show at this time");
         }
     }
 

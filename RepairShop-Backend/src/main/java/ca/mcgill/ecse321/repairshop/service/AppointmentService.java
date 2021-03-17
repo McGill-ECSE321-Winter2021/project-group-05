@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,20 +29,20 @@ public class AppointmentService {
 
     @Transactional
     public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
-            throws IllegalArgumentException {
+            throws AppointmentException {
         // IF EITHER ARGUMENT IS NULL
         if (services == null || customer == null || timeslot == null){
-            throw new IllegalArgumentException("Customer, services and timeslot must all be selected for the appointment!");
+            throw new AppointmentException("Customer, services and timeslot must all be selected for the appointment!");
         }
 
         // IF EITHER ARGUMENT IS NOT FOUND IN DATABASE
         if (customerRepository.findCustomerById(customer.getId()) == null
                 || timeSlotRepository.findTimeSlotById(timeslot.getId()) == null){
-            throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
+            throw new AppointmentException("Bookable Service, Customer, Timeslot don't exist!");
         }
         for (BookableService s : services){
             if (serviceRepository.findServiceByName(s.getName())== null){
-                throw new IllegalArgumentException("Bookable Service, Customer, Timeslot don't exist!");
+                throw new AppointmentException("Bookable Service, Customer, Timeslot don't exist!");
             }
         }
         Appointment appointment = new Appointment();
@@ -68,9 +69,9 @@ public class AppointmentService {
 
     @Transactional
     public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
-                                 TimeSlot timeSlot){
+                                 TimeSlot timeSlot) throws AppointmentException {
         if (service_new== null || service_new.size() == 0){
-            throw new IllegalArgumentException("The Appointment must have at least one services");
+            throw new AppointmentException("The Appointment must have at least one services");
         }
 
         if (service_new.size() >0){
@@ -101,9 +102,9 @@ public class AppointmentService {
 
 
     @Transactional
-    public void deleteAppointment (Appointment appointment){
+    public void deleteAppointment (Appointment appointment) throws AppointmentException {
         if (appointment == null){
-            throw new IllegalArgumentException("Cannot delete a null appointment");
+            throw new AppointmentException("Cannot delete a null appointment");
         }
         Bill bill = appointment.getBill();
         appointmentRepository.deleteById(appointment.getId());
@@ -112,23 +113,23 @@ public class AppointmentService {
     }
 
     @Transactional
-    public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) {
+    public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) throws AppointmentException {
         if (customer == null){
-            throw new IllegalArgumentException("customer cannot be null");
+            throw new AppointmentException("customer cannot be null");
         }
         List<Appointment> appointmentsBookedByCustomer = appointmentRepository.findByCustomer(customer);
         return appointmentsBookedByCustomer;
     }
 
     @Transactional
-    public void enterNoShow(Appointment appointment){
+    public void enterNoShow(Appointment appointment) throws AppointmentException {
 
         LocalTime timeNow =  LocalTime.now();
         LocalDate today = LocalDate.now();
 
         if (appointment==null){
 
-            throw new IllegalArgumentException("appointment cannot be null");
+            throw new AppointmentException("appointment cannot be null");
         }
 
         TimeSlot timeslot = appointment.getTimeslot();
@@ -140,7 +141,7 @@ public class AppointmentService {
             noShow++;
             appointment.getCustomer().setNoShow(noShow);
         }else{
-            throw new IllegalArgumentException("Cannot enter no show at this time");
+            throw new AppointmentException("Cannot enter no show at this time");
         }
 
     }
