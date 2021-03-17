@@ -13,6 +13,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+import java.awt.print.Book;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -48,6 +49,17 @@ public class TestRepairShopService {
             }else{
                 return null;
             }
+        });
+
+        // getAllService
+        lenient().when(serviceRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+                    List<BookableService> services = new ArrayList<>();
+                    BookableService bookableService = new BookableService();
+                    bookableService.setName(NAME);
+                    bookableService.setCost(COST);
+                    bookableService.setDuration(DURATION);
+                    services.add(bookableService);
+                    return services;
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
@@ -721,14 +733,32 @@ public class TestRepairShopService {
         assertNull(repairShopService.getService(NONEXISTING_SERVICE));
     }
 
-
+    /**
+     * test getAllService()
+     */
     @Test
     public void testGetAllService() {
-
+        try {
+            BookableService service = repairShopService.createService(NAME, COST, DURATION);
+        } catch(BookableServiceException e) {
+            e.getMessage();
+        }
         assertNotNull(repairShopService.getAllService());
         assertEquals(1, repairShopService.getAllService().size());
         assertEquals(NAME, repairShopService.getAllService().get(0).getName());
-
+    }
+    @Test
+    public void testGetAllServiceForNonExistingService() {
+        try {
+            BookableService bookableService = new BookableService();
+            bookableService.setName("Change tire rims");
+            bookableService.setCost(55.97f);
+            bookableService.setDuration(55);
+            assertNotEquals(bookableService.getName(), repairShopService.getAllService().get(0).getName());
+        }
+        catch (IllegalArgumentException e){
+            fail();
+        }
     }
 
 }
