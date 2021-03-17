@@ -5,4 +5,5 @@ import ca.mcgill.ecse321.repairshop.model.Administrator;
 
 public interface AdministratorRepository extends CrudRepository<Administrator, Long>{
     Administrator findAdministratorById(Long id);
+    Administrator findAdministratorByEmail(String email);
 }

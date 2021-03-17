@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -586,7 +587,12 @@ public class TestAppointmentService {
         String customerEmail = "ecse321@mtl.ca";
         String customerUsername = "Bob";
         String customerPassword = "abc123";
-        Customer testCustomer = personService.createCustomer(customerEmail, customerUsername, customerPassword);
+        Customer testCustomer = null;
+        try {
+            testCustomer = personService.createCustomer(customerEmail, customerUsername, customerPassword);
+        } catch (PersonException e) {
+            e.printStackTrace();
+        }
         testCustomer.setId(0L);
         return testCustomer;
     }

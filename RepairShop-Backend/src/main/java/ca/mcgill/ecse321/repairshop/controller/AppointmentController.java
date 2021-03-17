@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop.controller;
 import ca.mcgill.ecse321.repairshop.dto.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.service.*;
+import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -109,13 +110,20 @@ public class AppointmentController {
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
         }catch (IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
     public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) {
-        Customer customer = personService.getCustomer(id);
+        Customer customer = null;
+        try {
+            customer = personService.getCustomer(id);
+        } catch (PersonException e) {
+            e.printStackTrace();
+        }
         List<AppointmentDto> apptsCustDtos = new ArrayList<>();
         for(Appointment appointment : appointmentService.getAppointmentsBookedByCustomer(customer)){
             apptsCustDtos.add(RepairShopUtil.convertToDto(appointment));
