@@ -112,6 +112,33 @@ public class RepairShopUtil {
         return sum;
     }
 
+    public static TechnicianDto convertToDto(Technician technician){
+        TechnicianDto technicianDto = new TechnicianDto();
+        technicianDto.setEmail(technician.getEmail());
+        technicianDto.setPassword(technician.getPassword());
+        technicianDto.setUsername(technician.getUsername());
+        technicianDto.setId(technician.getId());
+        return technicianDto;
+    }
+
+    public static AdministratorDto convertToDto(Administrator administrator){
+        AdministratorDto administratorDto = new AdministratorDto();
+        administratorDto.setEmail(administrator.getEmail());
+        administratorDto.setPassword(administrator.getPassword());
+        administratorDto.setUsername(administrator.getUsername());
+        administratorDto.setId(administrator.getId());
+        return administratorDto;
+    }
+    public static OwnerDto convertToDto(Owner owner){
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setEmail(owner.getEmail());
+        ownerDto.setPassword(owner.getPassword());
+        ownerDto.setUsername(owner.getUsername());
+        ownerDto.setId(owner.getId());
+        return ownerDto;
+    }
+
+
     public static Appointment convertToEntity(AppointmentDto appointmentDto){
         Appointment appointment = new Appointment();
         appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));

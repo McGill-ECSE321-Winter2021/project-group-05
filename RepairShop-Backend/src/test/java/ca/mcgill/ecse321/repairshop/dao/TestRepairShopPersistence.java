@@ -130,7 +130,6 @@ class TestRepairShopPersistence {
         technician.setUsername(name);
         technician.setPassword(password);
         technician.setEmail(email);
-        technician.setTimeSlot(timeSlot);
         technician.setRepairShop(rs);
 
         technicianRepository.save(technician);
