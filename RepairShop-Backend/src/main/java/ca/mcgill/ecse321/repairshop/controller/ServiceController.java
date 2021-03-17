@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.repairshop.model.BookableService;
 import ca.mcgill.ecse321.repairshop.model.Customer;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import ca.mcgill.ecse321.repairshop.service.RepairShopService;
+import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,13 @@ public class ServiceController {
      * create new service
      */
     @PostMapping(value = { "/bookableService", "/bookableService/" })
-    public ResponseEntity<?> createBookableService(@RequestBody BookableServiceDto bookableServiceDto)
-            throws IllegalArgumentException {
+    public ResponseEntity<?> createBookableService(@RequestBody BookableServiceDto bookableServiceDto) {
         try {
 
            BookableService bookableService = repairShopService.createService(bookableServiceDto.getName(), bookableServiceDto.getCost(),
                    bookableServiceDto.getDuration());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(bookableService), HttpStatus.OK);
-        }catch (IllegalArgumentException e){
+        }catch (BookableServiceException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
@@ -47,7 +47,7 @@ public class ServiceController {
     @PutMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
     public ResponseEntity<?> editBookableService(@PathVariable("name") String name,
                                 @RequestBody BookableServiceDto bookableServiceDto)
-            throws IllegalArgumentException {
+            throws IllegalArgumentException, BookableServiceException {
 
       try{
           BookableService originalService = repairShopService.getService(name);
@@ -56,8 +56,8 @@ public class ServiceController {
                    bookableServiceDto.getCost(), bookableServiceDto.getDuration());
            return new ResponseEntity<>(RepairShopUtil.convertToDto(newService), HttpStatus.OK);
         }
-      catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Cannot edit appointment before 24hr");
+      catch (BookableServiceException e) {
+            throw new BookableServiceException("Cannot edit appointment before 24hr");
         }
     }
 
@@ -79,10 +79,10 @@ public class ServiceController {
      * delete service
      */
     @DeleteMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
-    public void deleteBookableService(@PathVariable("name") String name) throws IllegalArgumentException {
+    public void deleteBookableService(@PathVariable("name") String name) throws BookableServiceException {
         BookableService bookableService = repairShopService.getService(name);
         if (bookableService == null) {
-            throw new IllegalArgumentException("Cannot delete a null service");
+            throw new BookableServiceException("Cannot delete a null service");
         }
         // find the appointment using id
         repairShopService.deleteBookableService(bookableService);

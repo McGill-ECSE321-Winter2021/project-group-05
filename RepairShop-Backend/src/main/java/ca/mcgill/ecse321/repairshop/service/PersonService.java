@@ -239,7 +239,7 @@ public class PersonService {
             return "Password cannot be empty";
         }
         // EMAIL VALIDATION: there must be @
-        if (email.contains("@")){
+        if (!email.contains("@")){
             return "Email is not valid";
         }
         return "";

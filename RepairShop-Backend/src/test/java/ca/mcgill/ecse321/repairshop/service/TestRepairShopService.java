@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.ServiceRepository;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,15 +56,21 @@ public class TestRepairShopService {
 
     @Test
     public void testCreateServiceSuccessfully(){
+        try{
+            BookableService createdService = repairShopService.createService(NAME, COST, DURATION);
+            createdService = null;
+            createdService = serviceRepository.findServiceByName(NAME);
 
-        BookableService createdService = repairShopService.createService(NAME, COST, DURATION);
-        createdService = null;
-        createdService = serviceRepository.findServiceByName(NAME);
+            assertNotNull(createdService);
+            assertEquals(createdService.getName(), NAME);
+            assertEquals(createdService.getCost(), COST);
+            assertEquals(createdService.getDuration(), DURATION);
+        }
+        catch (BookableServiceException e){
+            e.printStackTrace();
+            fail();
+        }
 
-        assertNotNull(createdService);
-        assertEquals(createdService.getName(), NAME);
-        assertEquals(createdService.getCost(), COST);
-        assertEquals(createdService.getDuration(), DURATION);
     }
 
     @Test
@@ -76,7 +83,7 @@ public class TestRepairShopService {
             createdService = repairShopService.createService(null, COST, DURATION);
             createdService = null;
            createdService = serviceRepository.findServiceByName(NAME);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
 
@@ -94,7 +101,7 @@ public class TestRepairShopService {
             createdService = repairShopService.createService("    ", COST, DURATION);
         createdService = null;
         createdService = serviceRepository.findServiceByName(NAME);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
         assertEquals(error, "Service name cannot be empty");
@@ -111,7 +118,7 @@ public class TestRepairShopService {
             createdService = repairShopService.createService(NAME, -85.99f, DURATION);
         createdService = null;
         createdService = serviceRepository.findServiceByName(NAME);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
         assertEquals(error, "Service cost cannot be negative");
@@ -131,7 +138,7 @@ public class TestRepairShopService {
             createdService = repairShopService.createService(NAME, COST, DURATION);
             createdService = null;
             createdService = serviceRepository.findServiceByName(NAME);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
         assertEquals(error, "Service duration cannot be 0");
@@ -140,25 +147,31 @@ public class TestRepairShopService {
 
     @Test
     public void testEditServiceSuccessfully() {
-        //TODO: change this later, doesnt work if removed
-        String OLD_NAME = "Old service name";
-        float OLD_COST = 29.79f;
-        int OLD_DURATION = 12;
-        BookableService service = new BookableService();
-        service.setName(OLD_NAME);
-        service.setCost(OLD_COST);
-        service.setDuration(OLD_DURATION);
+        try {
+            //TODO: change this later, doesnt work if removed
+            String OLD_NAME = "Old service name";
+            float OLD_COST = 29.79f;
+            int OLD_DURATION = 12;
+            BookableService service = new BookableService();
+            service.setName(OLD_NAME);
+            service.setCost(OLD_COST);
+            service.setDuration(OLD_DURATION);
 
-        String NEW_NAME = "New service name";
-        float NEW_COST = 19.79f;
-        int NEW_DURATION = 14;
+            String NEW_NAME = "New service name";
+            float NEW_COST = 19.79f;
+            int NEW_DURATION = 14;
 
-        BookableService editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
+            BookableService editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
 
-        assertNotNull(editedService);
-        assertEquals(editedService.getName(), NEW_NAME);
-        assertEquals(editedService.getCost(), NEW_COST);
-        assertEquals(editedService.getDuration(), NEW_DURATION);
+            assertNotNull(editedService);
+            assertEquals(editedService.getName(), NEW_NAME);
+            assertEquals(editedService.getCost(), NEW_COST);
+            assertEquals(editedService.getDuration(), NEW_DURATION);
+        }
+        catch (BookableServiceException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
 
@@ -184,7 +197,7 @@ public class TestRepairShopService {
 
         try {
             editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
 
@@ -213,7 +226,7 @@ public class TestRepairShopService {
 
         try {
             editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
 
@@ -241,7 +254,7 @@ public class TestRepairShopService {
 
         try {
             editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
 
@@ -269,7 +282,7 @@ public class TestRepairShopService {
 
         try {
             editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             error = e.getMessage();
         }
 
@@ -279,7 +292,7 @@ public class TestRepairShopService {
 
     @Test
     public void testDeleteServiceSuccessfully() {
-
+        try{
         RepairShop repairShop = new RepairShop();
 
         TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
@@ -358,14 +371,14 @@ public class TestRepairShopService {
         repairShop.setId(6l);
         repairShop.setBusiness(business);
 
-        try{
+
             repairShopService.deleteBookableService(service1);
 
 
             service1 = repairShopService.getService(NAME);
             assertNull(service1);
         }
-        catch (IllegalArgumentException e){
+        catch (BookableServiceException e){
             e.printStackTrace();
             fail();
         }
@@ -373,6 +386,7 @@ public class TestRepairShopService {
 
     @Test
     public void testDeleteServiceThatDoesNotExist() {
+        try{
         RepairShop repairShop = new RepairShop();
 
         TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
@@ -459,9 +473,9 @@ public class TestRepairShopService {
 
         service1.setRepairShop(repairShop);
 
-        try {
+
             repairShopService.deleteBookableService(service1);
-        } catch(IllegalArgumentException e) {
+        } catch(BookableServiceException e) {
             assertEquals(e.getMessage(), "Cannot delete a service that does not exist");
         }
 
@@ -473,7 +487,7 @@ public class TestRepairShopService {
 
         try {
             repairShopService.deleteBookableService(bookableService);
-        } catch (IllegalArgumentException e) {
+        } catch (BookableServiceException e) {
             assertEquals(e.getMessage(), "Cannot delete a service that does not exist");
         }
 

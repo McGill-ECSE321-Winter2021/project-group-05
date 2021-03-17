@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop.service;
 import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
+import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -354,6 +355,7 @@ public class TestAppointmentService {
     // POSITIVE TEST
     @Test
     public void testEditAppointment(){
+        try {
         /**
          * The original Appointment
          */
@@ -391,7 +393,7 @@ public class TestAppointmentService {
 
         List<BookableService> bookableServices_new = new ArrayList<>();
         bookableServices_new.add(service1);
-        try {
+
             Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
             appointmentService.editAppointment(appointment, bookableServices_new, timeSlot);
             checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID, timeSlot_new.getDate(),
@@ -399,6 +401,10 @@ public class TestAppointmentService {
 
         }
         catch (AppointmentException e){
+            e.printStackTrace();
+            fail();
+        }
+        catch (BookableServiceException e){
             e.printStackTrace();
             fail();
         }
@@ -579,11 +585,17 @@ public class TestAppointmentService {
     }
 
     private BookableService createTestService(){
-        float serviceCost = 10;
-        int serviceDuration = 60;
-        BookableService service = repairShopService.createService(Service_ID,serviceCost, serviceDuration);
+        try {
+            float serviceCost = 10;
+            int serviceDuration = 60;
+            BookableService service = repairShopService.createService(Service_ID, serviceCost, serviceDuration);
 
-        return service;
+            return service;
+        }
+        catch (BookableServiceException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private List<BookableService> createTestListServices(){
