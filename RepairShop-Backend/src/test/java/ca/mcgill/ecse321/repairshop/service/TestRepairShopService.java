@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.ServiceRepository;
 import ca.mcgill.ecse321.repairshop.model.*;
+import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ public class TestRepairShopService {
     private static String NAME = "TestService";
     private static float COST = 21.3f;
     private static int DURATION = 10;
+    private static String NONEXISTING_SERVICE = "Non existing service";
 
     @BeforeEach
     public void setMockOutPut(){
@@ -51,7 +53,7 @@ public class TestRepairShopService {
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
-       // lenient().when(serviceRepository.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(serviceRepository.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     @Test
@@ -116,8 +118,8 @@ public class TestRepairShopService {
 
         try {
             createdService = repairShopService.createService(NAME, -85.99f, DURATION);
-        createdService = null;
-        createdService = serviceRepository.findServiceByName(NAME);
+            createdService = null;
+            createdService = serviceRepository.findServiceByName(NAME);
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
@@ -342,7 +344,9 @@ public class TestRepairShopService {
         // create service
 
         BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
+        BookableService service2 = repairShopService.createService("Fix dashboard", 59.99f, 60);
         service1.setRepairShop(repairShop);
+        service2.setRepairShop(repairShop);
 
 
         Appointment appointment1 = new Appointment();           // create appointment
@@ -372,11 +376,21 @@ public class TestRepairShopService {
         repairShop.setBusiness(business);
 
 
-            repairShopService.deleteBookableService(service1);
+        repairShopService.deleteBookableService(service1);
+        for(BookableService bookableService : repairShopService.getAllService()) {
+            System.out.println("inside loop");
+            if (bookableService.getName().equals(NAME)) {
+                service1 = bookableService;
+                System.out.println("inside if");
+                break;
+            } else {
+                System.out.println("inside else");
+                service1 = null;
+            }
+        }
 
 
-            service1 = repairShopService.getService(NAME);
-            assertNull(service1);
+        assertNull(service1);
         }
         catch (BookableServiceException e){
             e.printStackTrace();
@@ -692,6 +706,29 @@ public class TestRepairShopService {
         catch (BookableServiceException e){
             fail();
         }
+    }
+
+
+    /**
+     * test getService(String name)
+     */
+    @Test
+    public void testGetExistingService() {
+        assertEquals(NAME, repairShopService.getService(NAME).getName());
+    }
+    @Test
+    public void testGetNonExistingService() {
+        assertNull(repairShopService.getService(NONEXISTING_SERVICE));
+    }
+
+
+    @Test
+    public void testGetAllService() {
+
+        assertNotNull(repairShopService.getAllService());
+        assertEquals(1, repairShopService.getAllService().size());
+        assertEquals(NAME, repairShopService.getAllService().get(0).getName());
+
     }
 
 }
