@@ -51,6 +51,19 @@ public class PersonService {
     }
 
     @Transactional
+    public Customer loginCustomer(String email, String password) throws PersonException{
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
+        if(!customerOptional.isPresent()){
+            throw new PersonException("Customer does not exist");
+        }
+        Customer customer = customerOptional.get();
+        if(!customer.getPassword().equals(password)){
+            throw new PersonException("Incorrect password");
+        }
+        return customer;
+    }
+
+    @Transactional
     public Customer getCustomer(String email) throws PersonException{
         // todo: ofNullable?????
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
@@ -120,6 +133,19 @@ public class PersonService {
     }
 
     @Transactional
+    public Owner loginOwner(String email, String password) throws PersonException{
+        Optional<Owner> customerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
+        if(!customerOptional.isPresent()){
+            throw new PersonException("Customer does not exist");
+        }
+        Owner owner = customerOptional.get();
+        if(!owner.getPassword().equals(password)){
+            throw new PersonException("Incorrect password");
+        }
+        return owner;
+    }
+
+    @Transactional
     public Owner getOwner(String email) throws PersonException{
         Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
         if(!ownerOptional.isPresent()){
@@ -167,6 +193,19 @@ public class PersonService {
     }
 
     @Transactional
+    public Technician loginTechnician(String email, String password) throws PersonException{
+        Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
+        if(!technicianOptional.isPresent()){
+            throw new PersonException("Customer does not exist");
+        }
+        Technician technician = technicianOptional.get();
+        if(!technician.getPassword().equals(password)){
+            throw new PersonException("Incorrect password");
+        }
+        return technician;
+    }
+
+    @Transactional
     public Technician getTechnician(String email) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
@@ -209,6 +248,19 @@ public class PersonService {
         administrator.setPassword(password);
         administrator.setUsername(username);
         administratorRepository.save(administrator);
+        return administrator;
+    }
+
+    @Transactional
+    public Administrator loginAdministrator(String email, String password) throws PersonException{
+        Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
+        if(!administratorOptional.isPresent()){
+            throw new PersonException("Administrator does not exist");
+        }
+        Administrator administrator = administratorOptional.get();
+        if(!administrator.getPassword().equals(password)){
+            throw new PersonException("Incorrect password");
+        }
         return administrator;
     }
 

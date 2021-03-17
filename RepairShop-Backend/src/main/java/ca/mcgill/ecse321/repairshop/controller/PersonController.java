@@ -21,14 +21,29 @@ public class PersonController {
 
     //CUSTOMER
     /**
-     * creates a customer
+     * Registers a new customer
      * @param customerDto
      * @return
      */
-    @PostMapping(value = {"/person/customer/", "/person/customer"})
+    @PostMapping(value = {"/person/customer/register", "/person/customer/register/"})
     public ResponseEntity<?> createCustomer(@RequestBody CustomerDto customerDto){
         try {
             Customer customer =  personService.createCustomer(customerDto.getEmail(), customerDto.getUsername(), customerDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Login customer
+     * @param customerDto
+     * @return
+     */
+    @PostMapping(value = {"/person/customer/login", "/person/customer/login/"})
+    public ResponseEntity<?> loginCustomer(@RequestBody CustomerDto customerDto){
+        try {
+            Customer customer =  personService.loginCustomer(customerDto.getEmail(), customerDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -57,7 +72,7 @@ public class PersonController {
      * @return
      */
     @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
-    public ResponseEntity<?> updateCustomer(@PathVariable String email,  CustomerDto customerDto){
+    public ResponseEntity<?> updateCustomer(@PathVariable String email,  @RequestBody CustomerDto customerDto){
         try {
             Customer customer = personService.updateCustomer(email, customerDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
@@ -84,14 +99,29 @@ public class PersonController {
     //TECHINICIAN
 
     /**
-     * creates a technician
+     * Register a new technician
      * @param technicianDto
      * @return
      */
-    @PostMapping(value = {"/person/technician", "/person/technician/"})
-    public ResponseEntity<?> createTechnician(TechnicianDto technicianDto){
+    @PostMapping(value = {"/person/technician/register", "/person/technician/register/"})
+    public ResponseEntity<?> createTechnician(@RequestBody TechnicianDto technicianDto){
         try {
             Technician technician =  personService.createTechnician(technicianDto.getEmail(), technicianDto.getUsername(), technicianDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Login technician
+     * @param technicianDto
+     * @return
+     */
+    @PostMapping(value = {"/person/technician/login", "/person/technician/login/"})
+    public ResponseEntity<?> loginTechnician(@RequestBody TechnicianDto technicianDto){
+        try {
+            Technician technician =  personService.loginTechnician(technicianDto.getEmail(), technicianDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -131,12 +161,12 @@ public class PersonController {
     //ADMINISTRATOR
 
     /**
-     * creates an administrator
+     * Registers a new administrator
      * @param administratorDto
      * @return
      */
-    @PostMapping(value = {"/person/administrator/", "/person/administrator"})
-    public ResponseEntity<?> createAdministrator(AdministratorDto administratorDto){
+    @PostMapping(value = {"/person/administrator/register", "/person/administrator/register/"})
+    public ResponseEntity<?> createAdministrator(@RequestBody AdministratorDto administratorDto){
         try{
             Administrator administrator = personService.createAdministrator(administratorDto.getEmail(), administratorDto.getUsername(), administratorDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
@@ -146,12 +176,26 @@ public class PersonController {
     }
 
     /**
-     * gets an administrator
-     * @param email
+     * Login administrator
+     * @param administratorDto
      * @return
      */
+    @PostMapping(value = {"/person/administrator/login", "/person/administrator/login/"})
+    public ResponseEntity<?> loginAdministrator(@RequestBody AdministratorDto administratorDto) {
+        try {
+            Administrator administrator = personService.loginAdministrator(administratorDto.getEmail(), administratorDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
+    }
+        /**
+         * gets an administrator
+         * @param email
+         * @return
+         */
     @GetMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
-    public ResponseEntity<?> getAdministrator(String email){
+    public ResponseEntity<?> getAdministrator(@PathVariable String email){
         try {
             Administrator administrator = personService.getAdministrator(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
@@ -175,18 +219,32 @@ public class PersonController {
         }
     }
 
-
     //Owner
 
     /**
-     * creates the owner
+     * Register the owner
      * @param ownerDto
      * @return
      */
-    @PostMapping(value = {"/person/owner/", "/person/owner"})
-    public ResponseEntity<?> createOwner(OwnerDto ownerDto){
+    @PostMapping(value = {"/person/owner/register", "/person/owner/register/"})
+    public ResponseEntity<?> createOwner(@RequestBody OwnerDto ownerDto){
         try{
             Owner owner = personService.createOwner(ownerDto.getEmail(), ownerDto.getUsername(), ownerDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Login Owner
+     * @param ownerDto
+     * @return
+     */
+    @PostMapping(value = {"/person/owner/login", "/person/owner/login/"})
+    public ResponseEntity<?> loginOwner(@RequestBody OwnerDto ownerDto) {
+        try {
+            Owner owner = personService.loginOwner(ownerDto.getEmail(), ownerDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
