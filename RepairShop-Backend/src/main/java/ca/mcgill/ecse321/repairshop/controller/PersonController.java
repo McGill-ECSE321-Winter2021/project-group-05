@@ -36,7 +36,7 @@ public class PersonController {
     }
 
     /**
-     * returns a customer with the given id
+     * returns a customer with the given email
      * @param email
      * @return
      */
@@ -71,7 +71,7 @@ public class PersonController {
      * @param email
      * @return
      */
-    @DeleteMapping(value = {"/person/customer/{id}", "/person/customer/{id}/"})
+    @DeleteMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
     public ResponseEntity<?> deleteCustomer(@PathVariable String email){
         try {
             Customer customer = personService.deleteCustomer(email);
@@ -99,7 +99,7 @@ public class PersonController {
     }
 
     /**
-     * gets a technician with the given id
+     * gets a technician with the given email
      * @param email
      * @return
      */
@@ -114,7 +114,7 @@ public class PersonController {
     }
 
     /**
-     * deletes a technician with the given id
+     * deletes a technician with the given email
      * @param email
      * @return
      */
