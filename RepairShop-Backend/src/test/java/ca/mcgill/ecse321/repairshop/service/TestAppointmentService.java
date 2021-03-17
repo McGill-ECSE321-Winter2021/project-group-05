@@ -63,7 +63,7 @@ public class TestAppointmentService {
 
     private static final Long APPOINTMENT_KEY = 0L;
     private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
-    private static final Long CUSTOMER_ID = 0L;
+    private static final String CUSTOMER_ID = "mtl@mcgill.ca";
     private static final Long TIMESLOT_ID = 0L;
     private static final String Service_ID="Test Service";
 
@@ -84,10 +84,10 @@ public class TestAppointmentService {
         });
 
         // findCustomerById
-        lenient().when(customerDao.findCustomerById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+        lenient().when(customerDao.findCustomerByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(CUSTOMER_ID)) {
                 Customer customer = new Customer();
-                customer.setId(CUSTOMER_ID);
+                customer.setEmail(CUSTOMER_ID);
                 return customer;
             }
             else{
@@ -122,7 +122,7 @@ public class TestAppointmentService {
         lenient().when(appointmentDao.findByCustomer(any())).thenAnswer( (InvocationOnMock invocation) -> {
                     if(invocation.getArgument(0) instanceof Customer){
                         Customer argumentCustomer = (Customer) invocation.getArgument(0);
-                        if (argumentCustomer.getId() != null && argumentCustomer.getId().equals(CUSTOMER_ID)){
+                        if (argumentCustomer.getEmail() != null && argumentCustomer.getEmail().equals(CUSTOMER_ID)){
                             List<Appointment> appointments = new ArrayList<>();
                             Appointment app = new Appointment();
                             app.setCustomer(argumentCustomer);
@@ -177,7 +177,7 @@ public class TestAppointmentService {
             fail();
         }
         checkResultAppointment(appointment,bookableServices,
-                customer.getId(),appointmentDate, startTime,endTime);
+                customer.getEmail(),appointmentDate, startTime,endTime);
     }
 
 
@@ -464,7 +464,7 @@ public class TestAppointmentService {
         LocalTime endTime = LocalTime.parse("10:00");
 
         TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(CUSTOMER_ID);
+        timeSlot.setId(TIMESLOT_ID);
         List<BookableService> services = createTestListServices();
         Customer customer = createTestCustomer();
 
@@ -494,7 +494,7 @@ public class TestAppointmentService {
         LocalTime endTime = LocalTime.now().plusMinutes(50);
 
         TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(CUSTOMER_ID);
+        timeSlot.setId(TIMESLOT_ID);
         List<BookableService> services = createTestListServices();
         Customer customer = createTestCustomer();
 
@@ -534,7 +534,7 @@ public class TestAppointmentService {
         LocalTime endTime = LocalTime.now().plusMinutes(50);
 
         TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(CUSTOMER_ID);
+        timeSlot.setId(TIMESLOT_ID);
         List<BookableService> services = createTestListServices();
         Customer customer = createTestCustomer();
 
@@ -559,7 +559,7 @@ public class TestAppointmentService {
      * PRIVATE HELPERS
      */
     private void checkResultAppointment(Appointment appointment, List<BookableService> bookableServices,
-                                        Long customerID, Date appointmentDate,
+                                        String customerID, Date appointmentDate,
                                         LocalTime startTime, LocalTime endTime) {
         assertNotNull(appointment);
         assertEquals(appointment.getServices().size(),bookableServices.size());
@@ -568,7 +568,7 @@ public class TestAppointmentService {
             totalCost += b.getCost();
             assertEquals(bookableServices.contains(b),true);
         }
-        assertEquals(appointment.getCustomer().getId(),customerID);
+        assertEquals(appointment.getCustomer().getEmail(),customerID);
         assertEquals(appointment.getTimeslot().getDate().toString(),appointmentDate.toString());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         assertEquals(startTime.format(formatter).toString(), appointment.getTimeslot().getStartTime().toString());
@@ -594,16 +594,15 @@ public class TestAppointmentService {
 
     private Customer createTestCustomer(){
         // CREATING CUSTOMER
-        String customerEmail = "ecse321@mtl.ca";
         String customerUsername = "Bob";
         String customerPassword = "abc123";
         Customer testCustomer = null;
         try {
-            testCustomer = personService.createCustomer(customerEmail, customerUsername, customerPassword);
+            testCustomer = personService.createCustomer(CUSTOMER_ID, customerUsername, customerPassword);
         } catch (PersonException e) {
             e.printStackTrace();
         }
-        testCustomer.setId(0L);
+        testCustomer.setEmail(CUSTOMER_ID);
         return testCustomer;
     }
 

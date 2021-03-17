@@ -11,18 +11,17 @@ public class CustomerDto {
     private String cardNumber;
     private String cvv;
     private Date expiry;
-    private Long id;
     private int noShow;
 
     public CustomerDto(){}
 
     @SuppressWarnings("unchecked")
-    public CustomerDto(String email,String username, String password, Long id){
-        this(email,username,password, id, null,null,null);
+    public CustomerDto(String email,String username, String password){
+        this(email,username,password, null,null,null);
     }
 
     public CustomerDto(String email, String username,
-                       String password, Long id,
+                       String password,
                        String cardNumber, String cvv, Date expiry){
         this.email=email;
         this.username=username;
@@ -30,7 +29,7 @@ public class CustomerDto {
         this.cardNumber=cardNumber;
         this.cvv=cvv;
         this.expiry=expiry;
-        this.id = id;
+
     }
 
     public String getEmail() {
@@ -79,14 +78,6 @@ public class CustomerDto {
 
     public void setExpiry(Date expiry) {
         this.expiry = expiry;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public int getNoShow() {

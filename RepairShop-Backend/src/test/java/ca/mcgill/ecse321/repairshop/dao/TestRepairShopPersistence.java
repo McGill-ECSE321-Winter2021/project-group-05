@@ -89,15 +89,15 @@ class TestRepairShopPersistence {
 
         customerRepository.save(customer);
         
-        Long id = customer.getId();
+        String id = customer.getEmail();
         customer = null;
         
-        customer = customerRepository.findCustomerById(id);
+        customer = customerRepository.findCustomerByEmail(id);
         
         assertNotNull(customer);
         assertEquals(email,customer.getEmail());
         assertEquals(password,customer.getPassword());
-        assertEquals(id,customer.getId());
+        assertEquals(id,customer.getEmail());
         assertEquals(name,customer.getUsername());
         assertNotNull(customer.getRepairShop());
     }
@@ -134,15 +134,15 @@ class TestRepairShopPersistence {
 
         technicianRepository.save(technician);
         
-        Long id = technician.getId();
+        String id = technician.getEmail();
         technician = null;
         
-        technician = technicianRepository.findTechnicianById(id);
+        technician = technicianRepository.findTechnicianByEmail(id);
         
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());
-        assertEquals(id,technician.getId());
+        assertEquals(id,technician.getEmail());
         assertEquals(name,technician.getUsername());
         assertNotNull(technician.getRepairShop());
 
@@ -155,7 +155,7 @@ class TestRepairShopPersistence {
         assertNotNull(technician);
         assertEquals(email,technician.getEmail());
         assertEquals(password,technician.getPassword());
-        assertEquals(id,technician.getId());
+        assertEquals(id,technician.getEmail());
         assertEquals(name,technician.getUsername());
         assertNotNull(technician.getRepairShop());
     }
@@ -181,10 +181,10 @@ class TestRepairShopPersistence {
         
         administratorRepository.save(administrator);
         
-        Long id=administrator.getId();
+        String id=administrator.getEmail();
         administrator = null;
         
-        administrator=administratorRepository.findAdministratorById(id);
+        administrator=administratorRepository.findAdministratorByEmail(id);
         
         assertNotNull(administrator);
         assertEquals(email,administrator.getEmail());
@@ -214,15 +214,15 @@ class TestRepairShopPersistence {
         
         ownerRepository.save(owner);
         
-        Long id = owner.getId();
+        String id = owner.getEmail();
         owner = null;
         
-        owner = ownerRepository.findOwnerById(id); 
+        owner = ownerRepository.findOwnerByEmail(id);
         
         assertNotNull(owner);
         assertEquals(email,owner.getEmail());
         assertEquals(password,owner.getPassword());
-        assertEquals(id,owner.getId());
+        assertEquals(id,owner.getEmail());
         assertEquals(name,owner.getUsername());
         assertNotNull(owner.getRepairShop());
 
@@ -248,7 +248,7 @@ class TestRepairShopPersistence {
 
         customerRepository.save(customer);
         
-        Long customerId = customer.getId();
+        String customerId = customer.getEmail();
         
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
@@ -285,7 +285,7 @@ class TestRepairShopPersistence {
         customer.setPassword(password);
         customer.setEmail(email);
         customerRepository.save(customer);
-        Long customerId= customer.getId();
+        String customerId= customer.getEmail();
 
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
         float testCost = 10;
@@ -340,7 +340,7 @@ class TestRepairShopPersistence {
         assertEquals(appointmentID,appointment.getId());
         assertNotNull(appointment.getBill());
         assertEquals(billId,appointment.getBill().getId());
-        assertEquals(customerId,appointment.getCustomer().getId());
+        assertEquals(customerId,appointment.getCustomer().getEmail());
         assertEquals(timeSlotID,appointment.getTimeslot().getId());
         assertEquals(serviceID,(appointment.getServices().get(0)).getName());
 

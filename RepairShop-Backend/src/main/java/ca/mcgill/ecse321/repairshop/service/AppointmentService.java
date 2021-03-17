@@ -36,7 +36,7 @@ public class AppointmentService {
         }
 
         // IF EITHER ARGUMENT IS NOT FOUND IN DATABASE
-        if (customerRepository.findCustomerById(customer.getId()) == null
+        if (customerRepository.findCustomerByEmail(customer.getEmail()) == null
                 || timeSlotRepository.findTimeSlotById(timeslot.getId()) == null){
             throw new AppointmentException("Bookable Service, Customer, Timeslot don't exist!");
         }

@@ -78,7 +78,7 @@ public class RepairShopUtil {
             throw new IllegalArgumentException("There is no such Customer!");
         }
         CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(),
-                customer.getPassword(),customer.getId(),customer.getCardNumber(),
+                customer.getPassword(),customer.getCardNumber(),
                 customer.getCvv(), customer.getExpiry());
         return customerDto;
     }
@@ -129,7 +129,7 @@ public class RepairShopUtil {
         technicianDto.setEmail(technician.getEmail());
         technicianDto.setPassword(technician.getPassword());
         technicianDto.setUsername(technician.getUsername());
-        technicianDto.setId(technician.getId());
+        technicianDto.setEmail(technician.getEmail());
         return technicianDto;
     }
 
@@ -138,7 +138,7 @@ public class RepairShopUtil {
         administratorDto.setEmail(administrator.getEmail());
         administratorDto.setPassword(administrator.getPassword());
         administratorDto.setUsername(administrator.getUsername());
-        administratorDto.setId(administrator.getId());
+        administratorDto.setEmail(administrator.getEmail());
         return administratorDto;
     }
     public static OwnerDto convertToDto(Owner owner){
@@ -146,7 +146,7 @@ public class RepairShopUtil {
         ownerDto.setEmail(owner.getEmail());
         ownerDto.setPassword(owner.getPassword());
         ownerDto.setUsername(owner.getUsername());
-        ownerDto.setId(owner.getId());
+        ownerDto.setEmail(owner.getEmail());
         return ownerDto;
     }
 
@@ -193,7 +193,7 @@ public class RepairShopUtil {
         customer.setNoShow(customerDto.getNoShow());
         customer.setCardNumber(customerDto.getCardNumber());
         customer.setEmail(customerDto.getEmail());
-        customer.setId(customerDto.getId());
+        customer.setEmail(customerDto.getEmail());
         customer.setCvv(customerDto.getCvv());
         customer.setUsername(customerDto.getUsername());
         customer.setPassword(customerDto.getPassword());

@@ -325,7 +325,7 @@ public class TestRepairShopService {
         customer.setNoShow(noShow);
         customer.setPassword(password);
         customer.setExpiry(expiry);
-        customer.setId(personId);
+
         customer.setRepairShop(repairShop);
 
 
@@ -417,7 +417,7 @@ public class TestRepairShopService {
         customer.setNoShow(noShow);
         customer.setPassword(password);
         customer.setExpiry(expiry);
-        customer.setId(personId);
+
         customer.setRepairShop(repairShop);
 
 
