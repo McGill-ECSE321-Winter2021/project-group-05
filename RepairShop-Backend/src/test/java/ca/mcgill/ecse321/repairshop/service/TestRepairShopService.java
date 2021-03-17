@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.ServiceRepository;
-import ca.mcgill.ecse321.repairshop.model.BookableService;
+import ca.mcgill.ecse321.repairshop.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,12 +14,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import java.awt.print.Book;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,19 +35,18 @@ public class TestRepairShopService {
     private static String NAME = "RepairShop";
     private static float COST = 21.3f;
     private static int DURATION = 10;
-    private static BookableService bookableService = null;
 
     @BeforeEach
     public void setMockOutPut(){
-        lenient().when(serviceRepository.findById(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(serviceRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(NAME)){
-                bookableService = new BookableService();
+                BookableService bookableService = new BookableService();
                 bookableService.setName(NAME);
                 bookableService.setCost(COST);
                 bookableService.setDuration(DURATION);
-                return Optional.of(bookableService);
+                return bookableService;
             }else{
-                return Optional.empty();
+                return null;
             }
         });
 
@@ -63,8 +64,8 @@ public class TestRepairShopService {
         int DURATION = 7;
 
         BookableService createdService = repairShopService.createService(NAME, COST, DURATION);
-//        createdService = null;
-//        createdService = serviceRepository.findServiceByName(NAME);
+        //createdService = null;
+        //createdService = serviceRepository.findServiceByName(NAME);
 
         assertNotNull(createdService);
         assertEquals(createdService.getName(), NAME);
@@ -286,5 +287,98 @@ public class TestRepairShopService {
         }
 
         assertEquals(error, "New service duration cannot be 0");
+    }
+
+
+    @Test
+    public void testDeleteServiceSuccessfully() {
+
+        RepairShop repairShop = new RepairShop();
+
+        TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
+        Date date = Date.valueOf("2021-03-14");
+        Time startTime = Time.valueOf("10:00:00");
+        Time endTime = Time.valueOf("12:00:00");
+        Long timeSlotId = 1L;
+        timeSlot.setDate(date);
+        timeSlot.setStartTime(startTime);
+        timeSlot.setEndTime(endTime);
+        timeSlot.setId(timeSlotId);
+        timeSlot.setRepairShop(repairShop);
+
+        Business business = new Business();                 // create business
+        String name = "Demo business";
+        String address = "365 Sherbrooke";
+        String phoneNumber = "514-123-4567";
+        String businessEmail = "123@repairshop.ca";
+        Long businessId = 2L;
+        business.setName(name);
+        business.setAddress(address);
+        business.setEmail(businessEmail);
+        business.setPhoneNumber(phoneNumber);
+        business.setId(businessId);
+        business.setRepairShop(repairShop);
+
+        Customer customer = new Customer();                 // create customer
+        String customerEmail = "johndoe@mail.mcgill.ca";
+        String username = "johndoe007";
+        String password = "password" ;
+        String cardNumber = "1234567890123456";
+        String cvv = "123";
+        Long personId = 3L;
+        Date expiry = Date.valueOf("2023-06-27");
+        int noShow = 1;
+        customer.setEmail(customerEmail);
+        customer.setCardNumber(cardNumber);
+        customer.setCvv(cvv);
+        customer.setUsername(username);
+        customer.setNoShow(noShow);
+        customer.setPassword(password);
+        customer.setExpiry(expiry);
+        customer.setId(personId);
+        customer.setRepairShop(repairShop);
+
+
+        // create service
+        String serviceName = "TestService1";
+        float serviceCost = 55.89f;
+        int serviceDuration = 18;
+        BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
+        service1.setName(serviceName);
+        service1.setCost(serviceCost);
+        service1.setDuration(serviceDuration);
+        service1.setRepairShop(repairShop);
+
+
+        Appointment appointment1 = new Appointment();           // create appointment
+        List<BookableService> services = new ArrayList<>();
+        services.add(service1);
+        appointment1.setServices(services);
+        appointment1.setCustomer(customer);
+        appointment1.setTimeslot(timeSlot);
+        appointment1.setId(4L);
+        appointment1.setRepairShop(repairShop);
+
+
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        timeSlots.add(timeSlot);
+
+        List<Person> persons = new ArrayList<>();
+        persons.add(customer);
+
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(appointment1);
+
+        repairShop.setAppointments(appointments);
+        repairShop.setPersons(persons);
+        repairShop.setServices(services);
+        repairShop.setTimeSlots(timeSlots);
+        repairShop.setId(6l);
+        repairShop.setBusiness(business);
+
+        repairShopService.deleteBookableService(service1);
+
+        service1 = serviceRepository.findServiceByName(NAME);
+        assertNull(service1);
     }
 }
