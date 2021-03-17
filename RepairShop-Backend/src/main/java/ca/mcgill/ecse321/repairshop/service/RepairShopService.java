@@ -102,6 +102,7 @@ public class RepairShopService {
             }
         }
         serviceRepository.deleteById(bookableService.getName());
+
     }
 
 

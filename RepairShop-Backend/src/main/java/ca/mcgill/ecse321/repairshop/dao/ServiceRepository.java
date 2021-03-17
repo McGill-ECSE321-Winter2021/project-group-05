@@ -7,7 +7,6 @@ import ca.mcgill.ecse321.repairshop.model.BookableService;
 public interface ServiceRepository extends CrudRepository<BookableService, String>{
     BookableService findServiceByName(String name);
 
-
 }
 
 

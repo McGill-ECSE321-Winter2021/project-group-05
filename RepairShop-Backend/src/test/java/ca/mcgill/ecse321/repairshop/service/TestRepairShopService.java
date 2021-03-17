@@ -8,17 +8,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-import java.awt.print.Book;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -330,13 +327,8 @@ public class TestRepairShopService {
 
 
         // create service
-        String serviceName = "TestService1";
-        float serviceCost = 55.89f;
-        int serviceDuration = 18;
+
         BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
-        service1.setName(serviceName);
-        service1.setCost(serviceCost);
-        service1.setDuration(serviceDuration);
         service1.setRepairShop(repairShop);
 
 
@@ -366,11 +358,17 @@ public class TestRepairShopService {
         repairShop.setId(6l);
         repairShop.setBusiness(business);
 
-        repairShopService.deleteBookableService(service1);
+        try{
+            repairShopService.deleteBookableService(service1);
 
-        //service1 = serviceRepository.findServiceByName(NAME);
-        service1 = repairShopService.getService(NAME);
-        assertNull(service1);
+
+            service1 = repairShopService.getService(NAME);
+            assertNull(service1);
+        }
+        catch (IllegalArgumentException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
@@ -457,10 +455,9 @@ public class TestRepairShopService {
         repairShop.setTimeSlots(timeSlots);
         repairShop.setId(6l);
         repairShop.setBusiness(business);
+        System.out.println(service1.getRepairShop());
 
-        repairShopService.deleteBookableService(service1);
-        service1 = repairShopService.getService(NAME);
-        //service1 = serviceRepository.findServiceByName(NAME);
+        service1.setRepairShop(repairShop);
 
         try {
             repairShopService.deleteBookableService(service1);
