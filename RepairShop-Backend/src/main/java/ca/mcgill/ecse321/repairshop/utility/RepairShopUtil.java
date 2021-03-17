@@ -7,6 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RepairShopUtil {
+
+    public static Person currentUser;
+
+    public static Person getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(Person currentUser) {
+        RepairShopUtil.currentUser = currentUser;
+    }
+
+
     /**
      * Converts an iterable data type to a list
      * @param iterable

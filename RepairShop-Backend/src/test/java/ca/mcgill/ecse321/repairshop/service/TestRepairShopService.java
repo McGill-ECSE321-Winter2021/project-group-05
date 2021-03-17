@@ -368,7 +368,8 @@ public class TestRepairShopService {
 
         repairShopService.deleteBookableService(service1);
 
-        service1 = serviceRepository.findServiceByName(NAME);
+        //service1 = serviceRepository.findServiceByName(NAME);
+        service1 = repairShopService.getService(NAME);
         assertNull(service1);
     }
 
@@ -458,8 +459,8 @@ public class TestRepairShopService {
         repairShop.setBusiness(business);
 
         repairShopService.deleteBookableService(service1);
-
-        service1 = serviceRepository.findServiceByName(NAME);
+        service1 = repairShopService.getService(NAME);
+        //service1 = serviceRepository.findServiceByName(NAME);
 
         try {
             repairShopService.deleteBookableService(service1);

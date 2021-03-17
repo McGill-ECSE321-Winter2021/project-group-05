@@ -100,11 +100,8 @@ public class RepairShopService {
                     }
                 }
             }
-
         }
-        serviceRepository.deleteBookableServiceByName(bookableService.getName());
-
-
+        serviceRepository.deleteById(bookableService.getName());
     }
 
 
