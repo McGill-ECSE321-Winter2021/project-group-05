@@ -38,6 +38,7 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
+
         Customer customer = new Customer();
         customer.setEmail(email);
         customer.setPassword(password);
@@ -236,6 +237,10 @@ public class PersonService {
         }
         if(password == null || password.equals("") ) {
             return "Password cannot be empty";
+        }
+        // EMAIL VALIDATION: there must be @
+        if (email.contains("@")){
+            return "Email is not valid";
         }
         return "";
     }
