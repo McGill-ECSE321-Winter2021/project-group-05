@@ -38,7 +38,7 @@ public class TestRepairShopService {
 
     @BeforeEach
     public void setMockOutPut(){
-        lenient().when(serviceRepository.findById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(serviceRepository.findServiceByName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(NAME)){
                 BookableService bookableService = new BookableService();
                 bookableService.setName(NAME);
