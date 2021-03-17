@@ -482,7 +482,7 @@ public class TestRepairShopService {
     }
 
     @Test
-    public void testdeleteServiceWithInvalidInput() {
+    public void testDeleteServiceWithInvalidInput() {
         BookableService bookableService = null;
 
         try {
@@ -585,5 +585,113 @@ public class TestRepairShopService {
         }
     }
 
+
+    @Test
+    public void testGetServices() {
+        try{
+            RepairShop repairShop = new RepairShop();
+
+            TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
+            Date date = Date.valueOf("2021-05-14");
+            Time startTime = Time.valueOf("10:00:00");
+            Time endTime = Time.valueOf("12:00:00");
+            Long timeSlotId = 1L;
+            timeSlot.setDate(date);
+            timeSlot.setStartTime(startTime);
+            timeSlot.setEndTime(endTime);
+            timeSlot.setId(timeSlotId);
+            timeSlot.setRepairShop(repairShop);
+
+            Business business = new Business();                 // create business
+            String name = "Demo business";
+            String address = "365 Sherbrooke";
+            String phoneNumber = "514-123-4567";
+            String businessEmail = "123@repairshop.ca";
+            Long businessId = 2L;
+            business.setName(name);
+            business.setAddress(address);
+            business.setEmail(businessEmail);
+            business.setPhoneNumber(phoneNumber);
+            business.setId(businessId);
+            business.setRepairShop(repairShop);
+
+            Customer customer = new Customer();                 // create customer
+            String customerEmail = "johndoe@mail.mcgill.ca";
+            String username = "johndoe007";
+            String password = "password" ;
+            String cardNumber = "1234567890123456";
+            String cvv = "123";
+            Long personId = 3L;
+            Date expiry = Date.valueOf("2023-06-27");
+            int noShow = 1;
+            customer.setEmail(customerEmail);
+            customer.setCardNumber(cardNumber);
+            customer.setCvv(cvv);
+            customer.setUsername(username);
+            customer.setNoShow(noShow);
+            customer.setPassword(password);
+            customer.setExpiry(expiry);
+
+            customer.setRepairShop(repairShop);
+
+
+            // create service
+
+            BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
+            BookableService service2 = repairShopService.createService("Change tire", 12.95f, 30);
+            BookableService service3 = repairShopService.createService("Change air filter", 20.59f, 15);
+            BookableService service4 = repairShopService.createService("Repair gear box", 79.99f, 90);
+            BookableService service5 = repairShopService.createService("Change wing mirrors", 7.85f, 10);
+            service1.setRepairShop(repairShop);
+            service2.setRepairShop(repairShop);
+            service3.setRepairShop(repairShop);
+            service4.setRepairShop(repairShop);
+            service5.setRepairShop(repairShop);
+            List <BookableService> serviceCollection = new ArrayList();
+            serviceCollection.add(service1);
+            serviceCollection.add(service2);
+            serviceCollection.add(service3);
+            serviceCollection.add(service4);
+            serviceCollection.add(service5);
+
+
+            Appointment appointment1 = new Appointment();           // create appointment
+            List<BookableService> services = new ArrayList<>();
+            services.add(service1);
+            appointment1.setServices(services);
+            appointment1.setCustomer(customer);
+            appointment1.setTimeslot(timeSlot);
+            appointment1.setId(4L);
+            appointment1.setRepairShop(repairShop);
+
+
+            List<TimeSlot> timeSlots = new ArrayList<>();
+            timeSlots.add(timeSlot);
+
+            List<Person> persons = new ArrayList<>();
+            persons.add(customer);
+
+            List<Appointment> appointments = new ArrayList<>();
+            appointments.add(appointment1);
+
+            repairShop.setAppointments(appointments);
+            repairShop.setPersons(persons);
+            repairShop.setServices(services);
+            repairShop.setTimeSlots(timeSlots);
+            repairShop.setId(6l);
+            repairShop.setBusiness(business);
+
+
+            int numberOfServices = repairShopService.getAllService().size();
+
+            assertEquals(serviceCollection.size(), numberOfServices);
+
+
+
+        }
+        catch (BookableServiceException e){
+            fail();
+        }
+    }
 
 }
