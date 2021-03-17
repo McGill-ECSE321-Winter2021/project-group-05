@@ -125,10 +125,10 @@ public class TestAppointmentService {
                         Customer argumentCustomer = (Customer) invocation.getArgument(0);
                         if (argumentCustomer.getEmail() != null && argumentCustomer.getEmail().equals(CUSTOMER_ID)){
                             List<Appointment> appointments = new ArrayList<>();
-                            Appointment app = new Appointment();
-                            app.setCustomer(argumentCustomer);
-                            app.setId(APPOINTMENT_KEY);
-                            appointments.add(app);
+                            Appointment appointment = new Appointment();
+                            appointment.setCustomer(argumentCustomer);
+                            appointment.setId(APPOINTMENT_KEY);
+                            appointments.add(appointment);
 
                             return appointments;
                         }

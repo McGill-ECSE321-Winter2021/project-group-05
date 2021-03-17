@@ -11,13 +11,10 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
@@ -33,6 +30,7 @@ public class TestRepairShopService {
     private static String NAME = "TestService";
     private static float COST = 21.3f;
     private static int DURATION = 10;
+    private static String NONEXISTING_SERVICE = "Non existing service";
 
     @BeforeEach
     public void setMockOutPut(){
@@ -48,10 +46,21 @@ public class TestRepairShopService {
             }
         });
 
+        // getAllService
+        lenient().when(serviceRepository.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+                    List<BookableService> services = new ArrayList<>();
+                    BookableService bookableService = new BookableService();
+                    bookableService.setName(NAME);
+                    bookableService.setCost(COST);
+                    bookableService.setDuration(DURATION);
+                    services.add(bookableService);
+                    return services;
+        });
+
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
-       // lenient().when(serviceRepository.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(serviceRepository.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     @Test
@@ -116,8 +125,8 @@ public class TestRepairShopService {
 
         try {
             createdService = repairShopService.createService(NAME, -85.99f, DURATION);
-        createdService = null;
-        createdService = serviceRepository.findServiceByName(NAME);
+            createdService = null;
+            createdService = serviceRepository.findServiceByName(NAME);
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
@@ -342,7 +351,9 @@ public class TestRepairShopService {
         // create service
 
         BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
+        BookableService service2 = repairShopService.createService("Fix dashboard", 59.99f, 60);
         service1.setRepairShop(repairShop);
+        service2.setRepairShop(repairShop);
 
 
         Appointment appointment1 = new Appointment();           // create appointment
@@ -372,11 +383,21 @@ public class TestRepairShopService {
         repairShop.setBusiness(business);
 
 
-            repairShopService.deleteBookableService(service1);
+        repairShopService.deleteBookableService(service1);
+        for(BookableService bookableService : repairShopService.getAllService()) {
+            System.out.println("inside loop");
+            if (bookableService.getName().equals(NAME)) {
+                service1 = bookableService;
+                System.out.println("inside if");
+                break;
+            } else {
+                System.out.println("inside else");
+                service1 = null;
+            }
+        }
 
 
-            service1 = repairShopService.getService(NAME);
-            assertNull(service1);
+        assertNull(service1);
         }
         catch (BookableServiceException e){
             e.printStackTrace();
@@ -482,7 +503,7 @@ public class TestRepairShopService {
     }
 
     @Test
-    public void testdeleteServiceWithInvalidInput() {
+    public void testDeleteServiceWithInvalidInput() {
         BookableService bookableService = null;
 
         try {
@@ -492,4 +513,137 @@ public class TestRepairShopService {
         }
 
     }
+
+
+    @Test
+    public void testDeleteServiceWithFutureAppointments() {
+        try{
+            RepairShop repairShop = new RepairShop();
+
+            TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
+            Date date = Date.valueOf("2021-05-14");
+            Time startTime = Time.valueOf("10:00:00");
+            Time endTime = Time.valueOf("12:00:00");
+            Long timeSlotId = 1L;
+            timeSlot.setDate(date);
+            timeSlot.setStartTime(startTime);
+            timeSlot.setEndTime(endTime);
+            timeSlot.setId(timeSlotId);
+            timeSlot.setRepairShop(repairShop);
+
+            Business business = new Business();                 // create business
+            String name = "Demo business";
+            String address = "365 Sherbrooke";
+            String phoneNumber = "514-123-4567";
+            String businessEmail = "123@repairshop.ca";
+            Long businessId = 2L;
+            business.setName(name);
+            business.setAddress(address);
+            business.setEmail(businessEmail);
+            business.setPhoneNumber(phoneNumber);
+            business.setId(businessId);
+            business.setRepairShop(repairShop);
+
+            Customer customer = new Customer();                 // create customer
+            String customerEmail = "johndoe@mail.mcgill.ca";
+            String username = "johndoe007";
+            String password = "password" ;
+            String cardNumber = "1234567890123456";
+            String cvv = "123";
+            Long personId = 3L;
+            Date expiry = Date.valueOf("2023-06-27");
+            int noShow = 1;
+            customer.setEmail(customerEmail);
+            customer.setCardNumber(cardNumber);
+            customer.setCvv(cvv);
+            customer.setUsername(username);
+            customer.setNoShow(noShow);
+            customer.setPassword(password);
+            customer.setExpiry(expiry);
+
+            customer.setRepairShop(repairShop);
+
+
+            // create service
+
+            BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
+            service1.setRepairShop(repairShop);
+
+
+            Appointment appointment1 = new Appointment();           // create appointment
+            List<BookableService> services = new ArrayList<>();
+            services.add(service1);
+            appointment1.setServices(services);
+            appointment1.setCustomer(customer);
+            appointment1.setTimeslot(timeSlot);
+            appointment1.setId(4L);
+            appointment1.setRepairShop(repairShop);
+
+
+            List<TimeSlot> timeSlots = new ArrayList<>();
+            timeSlots.add(timeSlot);
+
+            List<Person> persons = new ArrayList<>();
+            persons.add(customer);
+
+            List<Appointment> appointments = new ArrayList<>();
+            appointments.add(appointment1);
+
+            repairShop.setAppointments(appointments);
+            repairShop.setPersons(persons);
+            repairShop.setServices(services);
+            repairShop.setTimeSlots(timeSlots);
+            repairShop.setId(6l);
+            repairShop.setBusiness(business);
+
+
+            repairShopService.deleteBookableService(service1);
+
+
+        }
+        catch (BookableServiceException e){
+            assertEquals(e.getMessage(), "Cannot delete a service which still has future appointments");
+        }
+    }
+
+    /**
+     * test getService(String name)
+     */
+    @Test
+    public void testGetServiceForExistingService() {
+        assertEquals(NAME, repairShopService.getService(NAME).getName());
+    }
+    @Test
+    public void testGetServiceForNonExistingService() {
+        assertNull(repairShopService.getService(NONEXISTING_SERVICE));
+    }
+
+    /**
+     * test getAllService()
+     */
+    @Test
+    public void testGetAllServiceForExistingService() {
+        try {
+            BookableService service = repairShopService.createService(NAME, COST, DURATION);
+        } catch(BookableServiceException e) {
+            e.getMessage();
+        }
+        assertNotNull(repairShopService.getAllService());
+        assertEquals(1, repairShopService.getAllService().size());
+        assertEquals(NAME, repairShopService.getAllService().get(0).getName());
+    }
+    @Test
+    public void testGetAllServiceForNonExistingService() {
+        try {
+            BookableService bookableService = new BookableService();
+            bookableService.setName("Change tire rims");
+            bookableService.setCost(55.97f);
+            bookableService.setDuration(55);
+            assertNotEquals(bookableService.getName(), repairShopService.getAllService().get(0).getName());
+        }
+        catch (IllegalArgumentException e){
+            fail();
+        }
+    }
+
 }
