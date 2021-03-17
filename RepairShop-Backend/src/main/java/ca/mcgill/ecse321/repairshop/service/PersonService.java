@@ -38,7 +38,10 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
-
+        //check if email hasn't been taken
+        if(customerRepository.findCustomerByEmail(email) != null){
+            throw new PersonException("This email has already been taken, try a different one");
+        }
         Customer customer = new Customer();
         customer.setEmail(email);
         customer.setPassword(password);
@@ -65,18 +68,16 @@ public class PersonService {
         }
         Customer customer = customerOptional.get();
 
-        String username = customer.getUsername();
-        String password = customer.getPassword();
+        String username = customerDto.getUsername();
+        String password = customerDto.getPassword();
         //TODO : CHECK FOR OTHER ATTRIBUTES OF THE CUSTOMER I.E CVV ...
-        if(email.equals("") || email == null){
-            throw new PersonException("Email cannot be empty");
+        String error = getErrorFromData(email, username, password);
+        if(!error.equals("")){
+            throw new PersonException(error);
         }
-        if(username.equals("") || username == null){
-            throw new PersonException("Username cannot be empty");
-        }
-        if(password.equals("") || password == null) {
-            throw new PersonException("Password cannot be empty");
-        }
+        customer.setUsername(customerDto.getUsername());
+        customer.setPassword(customerDto.getPassword());
+        customer.setEmail(customerDto.getEmail());
         customerRepository.save(customer);
         return customer;
     }
@@ -98,7 +99,6 @@ public class PersonService {
     }
 
 
-
     /**
      * Owner
      */
@@ -107,6 +107,9 @@ public class PersonService {
         String error = getErrorFromData(email, username, password);
         if(!error.equals("")){
             throw new PersonException(error);
+        }
+        if(ownerRepository.findOwnerByEmail(email) != null){
+            throw new PersonException("This email has already been taken, try a different one");
         }
         Owner owner = new Owner();
         owner.setEmail(email);
@@ -151,6 +154,9 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
+        if(technicianRepository.findTechnicianByEmail(email) != null){
+            throw new PersonException("This email has already been taken, try a different one");
+        }
 
         Technician technician = new Technician();
         technician.setEmail(email);
@@ -193,6 +199,10 @@ public class PersonService {
         String error = getErrorFromData(email, username, password);
         if(!error.equals("")){
             throw new PersonException(error);
+        }
+
+        if(administratorRepository.findAdministratorByEmail(email) != null){
+            throw new PersonException("This email has already been taken, try a different one");
         }
         Administrator administrator = new Administrator();
         administrator.setEmail(email);
