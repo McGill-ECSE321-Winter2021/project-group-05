@@ -94,11 +94,11 @@ public class AppointmentController {
      */
 
     @PostMapping(value = { "/appointment", "/appointment/" })
-    public ResponseEntity<?> createAppointment( @RequestParam(value="customerId") Long customerId,
+    public ResponseEntity<?> createAppointment( @RequestParam(value="customerEmail") String customerEmail,
                                                 @RequestParam(value="serviceNames") List<String> serviceNames,
                                                 @RequestBody TimeSlotDto timeSlotDto) {
         try {
-            Customer customer = personService.getCustomer(customerId);
+            Customer customer = personService.getCustomer(customerEmail);
             //CONVERT BOOKABLE SERVICE DTO --> DAO
             List<BookableService> service = new ArrayList<>();
             for (String name: serviceNames){
@@ -118,10 +118,10 @@ public class AppointmentController {
     }
 
     @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
-    public List<AppointmentDto> getAppointmentHistory(@PathVariable("id") Long id) throws AppointmentException {
+    public List<AppointmentDto> getAppointmentHistory(@PathVariable("email") String email) throws AppointmentException {
         Customer customer = null;
         try {
-            customer = personService.getCustomer(id);
+            customer = personService.getCustomer(email);
         } catch (PersonException e) {
             e.printStackTrace();
         }

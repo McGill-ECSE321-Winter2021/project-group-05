@@ -13,8 +13,8 @@ public abstract class Person
 
   //Person Associations
   private RepairShop repairShop;
-  private Long id;
 
+  @Id
   public String getEmail() {
     return email;
   }
@@ -46,15 +46,5 @@ public abstract class Person
 
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  public Long getId() {
-    return id;
   }
 }

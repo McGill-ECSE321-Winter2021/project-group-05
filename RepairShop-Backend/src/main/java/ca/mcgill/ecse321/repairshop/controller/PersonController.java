@@ -37,13 +37,13 @@ public class PersonController {
 
     /**
      * returns a customer with the given id
-     * @param id
+     * @param email
      * @return
      */
-    @GetMapping(value = {"/person/customer/{id}", "/person/customer/{id}/"})
-    public ResponseEntity<?> getCustomer(@PathVariable Long id){
+    @GetMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    public ResponseEntity<?> getCustomer(@PathVariable String email){
         try{
-            Customer customer = personService.getCustomer(id);
+            Customer customer = personService.getCustomer(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -52,14 +52,14 @@ public class PersonController {
 
     /**
      * updates the information of a customer in the database
-     * @param id
+     * @param email
      * @param customerDto
      * @return
      */
-    @PutMapping(value = {"/person/customer/{id}", "/person/customer/{id}/"})
-    public ResponseEntity<?> updateCustomer(@PathVariable Long id,  CustomerDto customerDto){
+    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    public ResponseEntity<?> updateCustomer(@PathVariable String email,  CustomerDto customerDto){
         try {
-            Customer customer = personService.updateCustomer(id, customerDto);
+            Customer customer = personService.updateCustomer(email, customerDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -68,13 +68,13 @@ public class PersonController {
 
     /**
      * deletes a customer from the database
-     * @param id
+     * @param email
      * @return
      */
     @DeleteMapping(value = {"/person/customer/{id}", "/person/customer/{id}/"})
-    public ResponseEntity<?> deleteCustomer(@PathVariable Long id){
+    public ResponseEntity<?> deleteCustomer(@PathVariable String email){
         try {
-            Customer customer = personService.deleteCustomer(id);
+            Customer customer = personService.deleteCustomer(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -100,13 +100,13 @@ public class PersonController {
 
     /**
      * gets a technician with the given id
-     * @param id
+     * @param email
      * @return
      */
-    @GetMapping(value = {"/person/technician/{id}", "/person/technician/{id}/"})
-    public ResponseEntity<?> getTechnician(@PathVariable Long id){
+    @GetMapping(value = {"/person/technician/{email}", "/person/technician/{email}/"})
+    public ResponseEntity<?> getTechnician(@PathVariable String email){
         try {
-            Technician technician =  personService.getTechnician(id);
+            Technician technician =  personService.getTechnician(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -115,13 +115,13 @@ public class PersonController {
 
     /**
      * deletes a technician with the given id
-     * @param id
+     * @param email
      * @return
      */
-    @DeleteMapping(value = {"/person/technician/{id}", "/person/technician/{id}/"})
-    public ResponseEntity<?> deleteTechnician(@PathVariable Long id){
+    @DeleteMapping(value = {"/person/technician/{email}", "/person/technician/{email}/"})
+    public ResponseEntity<?> deleteTechnician(@PathVariable String email){
         try {
-            Technician technician =  personService.deleteTechnician(id);
+            Technician technician =  personService.deleteTechnician(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -147,13 +147,13 @@ public class PersonController {
 
     /**
      * gets an administrator
-     * @param id
+     * @param email
      * @return
      */
-    @GetMapping(value = {"/person/administrator/{id}", "/person/administrator/{id}/"})
-    public ResponseEntity<?> getAdministrator(Long id){
+    @GetMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
+    public ResponseEntity<?> getAdministrator(String email){
         try {
-            Administrator administrator = personService.getAdministrator(id);
+            Administrator administrator = personService.getAdministrator(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -162,13 +162,13 @@ public class PersonController {
 
     /**
      * deletes an administrator
-     * @param id
+     * @param email
      * @return
      */
-    @DeleteMapping(value = {"/person/administrator/{id}", "/person/administrator/{id}/"})
-    public ResponseEntity<?> deleteAdministrator(@PathVariable Long id){
+    @DeleteMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
+    public ResponseEntity<?> deleteAdministrator(@PathVariable String email){
         try {
-            Administrator administrator =  personService.deleteAdministrator(id);
+            Administrator administrator =  personService.deleteAdministrator(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -195,13 +195,13 @@ public class PersonController {
 
     /**
      * gets the owner
-     * @param id
+     * @param email
      * @return
      */
-    @GetMapping(value = {"/person/owner/{id}", "/person/owner/{id}/"})
-    public ResponseEntity<?> getOwner(@PathVariable Long id){
+    @GetMapping(value = {"/person/owner/{email}", "/person/owner/{email}/"})
+    public ResponseEntity<?> getOwner(@PathVariable String email){
         try{
-            Owner owner = personService.getOwner(id);
+            Owner owner = personService.getOwner(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -210,13 +210,13 @@ public class PersonController {
 
     /**
      * deletes the owner
-     * @param id
+     * @param email
      * @return
      */
-    @DeleteMapping(value = {"/person/owner/{id}", "/person/owner/{id}/"})
-    public ResponseEntity<?> deleteOwner(@PathVariable Long id){
+    @DeleteMapping(value = {"/person/owner/{email}", "/person/owner/{email}/"})
+    public ResponseEntity<?> deleteOwner(@PathVariable String email){
         try {
-            Owner owner =  personService.deleteOwner(id);
+            Owner owner =  personService.deleteOwner(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);

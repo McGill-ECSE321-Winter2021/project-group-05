@@ -38,6 +38,7 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
+
         Customer customer = new Customer();
         customer.setEmail(email);
         customer.setPassword(password);
@@ -47,8 +48,9 @@ public class PersonService {
     }
 
     @Transactional
-    public Customer getCustomer(Long id) throws PersonException{
-        Optional<Customer> customerOptional = customerRepository.findById(id);
+    public Customer getCustomer(String email) throws PersonException{
+        // todo: ofNullable?????
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
             throw new PersonException("Customer with this id does not exist");
         }
@@ -56,13 +58,13 @@ public class PersonService {
     }
 
     @Transactional
-    public Customer updateCustomer(Long id, CustomerDto customerDto) throws PersonException{
-        Optional<Customer> customerOptional = customerRepository.findById(id);
+    public Customer updateCustomer(String email, CustomerDto customerDto) throws PersonException{
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
             throw new PersonException("The customer with this id does not exist");
         }
         Customer customer = customerOptional.get();
-        String email = customer.getEmail();
+
         String username = customer.getUsername();
         String password = customer.getPassword();
         //TODO : CHECK FOR OTHER ATTRIBUTES OF THE CUSTOMER I.E CVV ...
@@ -85,13 +87,13 @@ public class PersonService {
     }
 
     @Transactional
-    public Customer deleteCustomer(Long id) throws PersonException{
-        Optional<Customer> customerOptional = customerRepository.findById(id);
+    public Customer deleteCustomer(String email) throws PersonException{
+        Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
             throw new PersonException("The customer with the given id does not exist");
         }
         Customer customer = customerOptional.get();
-        customerRepository.deleteById(id);
+        customerRepository.deleteById(email);
         return customer;
     }
 
@@ -115,8 +117,8 @@ public class PersonService {
     }
 
     @Transactional
-    public Owner getOwner(Long id) throws PersonException{
-        Optional<Owner> ownerOptional = ownerRepository.findById(id);
+    public Owner getOwner(String email) throws PersonException{
+        Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
         if(!ownerOptional.isPresent()){
             throw new PersonException("The owner with this id does not exist");
         }
@@ -125,13 +127,13 @@ public class PersonService {
     }
 
     @Transactional
-    public Owner deleteOwner(Long id) throws PersonException{
-        Optional<Owner> ownerOptional = ownerRepository.findById(id);
+    public Owner deleteOwner(String email) throws PersonException{
+        Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
         if(!ownerOptional.isPresent()){
             throw new PersonException("The customer with the given id does not exist");
         }
         Owner owner = ownerOptional.get();
-        customerRepository.deleteById(id);
+        customerRepository.deleteById(email);
         return owner;
     }
 
@@ -159,8 +161,8 @@ public class PersonService {
     }
 
     @Transactional
-    public Technician getTechnician(Long id) throws PersonException{
-        Optional<Technician> technicianOptional = technicianRepository.findById(id);
+    public Technician getTechnician(String email) throws PersonException{
+        Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
             throw new PersonException("The technician with this id does not exist");
         }
@@ -168,13 +170,13 @@ public class PersonService {
     }
 
     @Transactional
-    public Technician deleteTechnician(Long id) throws PersonException{
-        Optional<Technician> technicianOptional = technicianRepository.findById(id);
+    public Technician deleteTechnician(String email) throws PersonException{
+        Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
             throw new PersonException("The customer with the given id does not exist");
         }
         Technician technician = technicianOptional.get();
-        customerRepository.deleteById(id);
+        customerRepository.deleteById(email);
         return technician;
     }
 
@@ -201,8 +203,8 @@ public class PersonService {
     }
 
     @Transactional
-    public Administrator getAdministrator(Long id) throws PersonException {
-        Optional<Administrator> administratorOptional = administratorRepository.findById(id);
+    public Administrator getAdministrator(String email) throws PersonException {
+        Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
         if(!administratorOptional.isPresent()){
             throw new PersonException("The administrator with the id does not exist");
         }
@@ -210,13 +212,13 @@ public class PersonService {
     }
 
     @Transactional
-    public Administrator deleteAdministrator(Long id) throws PersonException{
-        Optional<Administrator> administratorOptional = administratorRepository.findById(id);
+    public Administrator deleteAdministrator(String email) throws PersonException{
+        Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
         if(!administratorOptional.isPresent()){
             throw new PersonException("The customer with the given id does not exist");
         }
         Administrator administrator = administratorOptional.get();
-        customerRepository.deleteById(id);
+        customerRepository.deleteById(email);
         return administrator;
     }
 
@@ -235,6 +237,10 @@ public class PersonService {
         }
         if(password == null || password.equals("") ) {
             return "Password cannot be empty";
+        }
+        // EMAIL VALIDATION: there must be @
+        if (!email.contains("@")){
+            return "Email is not valid";
         }
         return "";
     }
