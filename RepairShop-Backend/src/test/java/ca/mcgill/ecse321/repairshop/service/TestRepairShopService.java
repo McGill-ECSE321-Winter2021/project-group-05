@@ -381,4 +381,113 @@ public class TestRepairShopService {
         service1 = serviceRepository.findServiceByName(NAME);
         assertNull(service1);
     }
+
+    @Test
+    public void testDeleteServiceThatDoesNotExist() {
+        RepairShop repairShop = new RepairShop();
+
+        TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
+        Date date = Date.valueOf("2021-03-14");
+        Time startTime = Time.valueOf("10:00:00");
+        Time endTime = Time.valueOf("12:00:00");
+        Long timeSlotId = 1L;
+        timeSlot.setDate(date);
+        timeSlot.setStartTime(startTime);
+        timeSlot.setEndTime(endTime);
+        timeSlot.setId(timeSlotId);
+        timeSlot.setRepairShop(repairShop);
+
+        Business business = new Business();                 // create business
+        String name = "Demo business";
+        String address = "365 Sherbrooke";
+        String phoneNumber = "514-123-4567";
+        String businessEmail = "123@repairshop.ca";
+        Long businessId = 2L;
+        business.setName(name);
+        business.setAddress(address);
+        business.setEmail(businessEmail);
+        business.setPhoneNumber(phoneNumber);
+        business.setId(businessId);
+        business.setRepairShop(repairShop);
+
+        Customer customer = new Customer();                 // create customer
+        String customerEmail = "johndoe@mail.mcgill.ca";
+        String username = "johndoe007";
+        String password = "password" ;
+        String cardNumber = "1234567890123456";
+        String cvv = "123";
+        Long personId = 3L;
+        Date expiry = Date.valueOf("2023-06-27");
+        int noShow = 1;
+        customer.setEmail(customerEmail);
+        customer.setCardNumber(cardNumber);
+        customer.setCvv(cvv);
+        customer.setUsername(username);
+        customer.setNoShow(noShow);
+        customer.setPassword(password);
+        customer.setExpiry(expiry);
+        customer.setId(personId);
+        customer.setRepairShop(repairShop);
+
+
+        // create service
+        String serviceName = "TestService1";
+        float serviceCost = 55.89f;
+        int serviceDuration = 18;
+        BookableService service1 = repairShopService.createService(NAME, COST, DURATION);
+        service1.setName(serviceName);
+        service1.setCost(serviceCost);
+        service1.setDuration(serviceDuration);
+        service1.setRepairShop(repairShop);
+
+
+        Appointment appointment1 = new Appointment();           // create appointment
+        List<BookableService> services = new ArrayList<>();
+        services.add(service1);
+        appointment1.setServices(services);
+        appointment1.setCustomer(customer);
+        appointment1.setTimeslot(timeSlot);
+        appointment1.setId(4L);
+        appointment1.setRepairShop(repairShop);
+
+
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        timeSlots.add(timeSlot);
+
+        List<Person> persons = new ArrayList<>();
+        persons.add(customer);
+
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(appointment1);
+
+        repairShop.setAppointments(appointments);
+        repairShop.setPersons(persons);
+        repairShop.setServices(services);
+        repairShop.setTimeSlots(timeSlots);
+        repairShop.setId(6l);
+        repairShop.setBusiness(business);
+
+        repairShopService.deleteBookableService(service1);
+
+        service1 = serviceRepository.findServiceByName(NAME);
+
+        try {
+            repairShopService.deleteBookableService(service1);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "Cannot delete a service that does not exist");
+        }
+
+    }
+
+    @Test
+    public void testdeleteServiceWithInvalidInput() {
+        BookableService bookableService = null;
+
+        try {
+            repairShopService.deleteBookableService(bookableService);
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "Cannot delete a service that does not exist");
+        }
+
+    }
 }
