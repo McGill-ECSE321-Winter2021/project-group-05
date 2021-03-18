@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.repairshop.service;
 
+import ca.mcgill.ecse321.repairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.repairshop.dao.TechnicianRepository;
 import ca.mcgill.ecse321.repairshop.dao.TimeSlotRepository;
-import ca.mcgill.ecse321.repairshop.model.Technician;
-import ca.mcgill.ecse321.repairshop.model.TimeSlot;
+import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop.utility.TimeSlotException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,8 @@ public class TimeSlotService {
     TimeSlotRepository timeSlotRepository;
     @Autowired
     TechnicianRepository technicianRepository;
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
     @Transactional
     public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime){
@@ -68,7 +70,25 @@ public class TimeSlotService {
 
     @Transactional
     public List<TimeSlot> getAllTimeSlot() {
-        return RepairShopUtil.toList(timeSlotRepository.findAll());
+        return timeSlotRepository.findAll();
+    }
+
+    @Transactional
+    public List<TimeSlot> getAllOpenTimeSlot() {
+        List<TimeSlot> allSlots = timeSlotRepository.findAll();
+        List<Appointment> allAppts = RepairShopUtil.toList(appointmentRepository.findAll());
+        List<TimeSlot> openSlots = null;
+        for(TimeSlot slot : allSlots){
+            for(Appointment a : allAppts){
+                if(a.getTimeslot().equals(slot)){
+
+                }else{
+                    openSlots.add(slot);
+                }
+            }
+
+        }
+        return openSlots;
     }
 
     /**

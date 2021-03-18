@@ -36,10 +36,18 @@ public class TestTimeSlotService {
     @Mock
     private TimeSlotRepository timeSlotDao;
 
+    @Mock
+    private AppointmentRepository appointmentDao;
+
     @InjectMocks
     private TimeSlotService timeSlotService;
 
+    @InjectMocks
+    private AppointmentService appointmentService;
+
     private static final Long TIMESLOT_ID = 0L;
+    private static final Long APPOINTMENT_KEY = 0L;
+    private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
 
     @BeforeEach
     public void setMockOutput() {
@@ -53,10 +61,23 @@ public class TestTimeSlotService {
                 return null;
             }
         });
+
+        lenient().when(appointmentDao.findAppointmentById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(APPOINTMENT_KEY)) {
+                Appointment appointment = new Appointment();
+                appointment.setId(APPOINTMENT_KEY);
+                return appointment;
+            }
+            else{
+                return null;
+            }
+        });
+
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(timeSlotDao.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(appointmentDao.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
     }
 
 
@@ -121,8 +142,9 @@ public class TestTimeSlotService {
         }
         catch (IllegalArgumentException e){
             error = e.getMessage();
-            assertEquals("Timeslot is null",error);
+
         }
+        assertEquals("Timeslot is null",error);
 
     }
 
@@ -140,11 +162,12 @@ public class TestTimeSlotService {
 
         try {
             timeSlotService.deleteTimeSlot(timeSlot);
-            assertNull(timeSlotService.getTimeSlot(timeSlot.getId()));
+
         }
         catch (IllegalArgumentException e){
             error = e.getMessage();
         }
+        assertNull(timeSlotService.getTimeSlot(timeSlot.getId()));
 
 
 
@@ -154,8 +177,8 @@ public class TestTimeSlotService {
     public void testEnterTimeSlotTooLate(){
         LocalDate dateToday = LocalDate.now();
         Date appointmentDate = Date.valueOf(dateToday);
-        LocalTime startTime = LocalTime.now().plusHours(3);
-        LocalTime endTime = LocalTime.now().plusHours(12);
+        LocalTime startTime = LocalTime.now().plusMinutes(1);
+        LocalTime endTime = LocalTime.now().plusMinutes(5);
 
         String error = null;
         TimeSlot timeSlot = null;
@@ -171,6 +194,51 @@ public class TestTimeSlotService {
 
 
 
+
+
+    }
+
+    @Test
+    public void testGetOpenSlots(){
+        Calendar c = Calendar.getInstance();
+        c.set(2021, Calendar.OCTOBER, 16, 9, 00, 0);
+        Date appointmentDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("15:00");
+        c.set(2021, Calendar.OCTOBER, 16, 9, 59, 59);
+        LocalTime endTime = LocalTime.parse("16:59");
+
+       // timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+
+        Calendar c2 = Calendar.getInstance();
+        c2.set(2021, Calendar.OCTOBER, 18, 9, 00, 0);
+        Date appointmentDate2 = new Date(c.getTimeInMillis());
+        LocalTime startTime2 = LocalTime.parse("09:00");
+        c2.set(2021, Calendar.OCTOBER, 18, 9, 59, 59);
+        LocalTime endTime2 = LocalTime.parse("09:59");
+
+        //timeSlotService.createTimeSlot(appointmentDate2, Time.valueOf(startTime2), Time.valueOf(endTime2));
+        String error = null;
+
+        //List<TimeSlot> listTimeSlot = null;
+        int actual = 0;
+        try {
+            timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            timeSlotService.createTimeSlot(appointmentDate2, Time.valueOf(startTime2), Time.valueOf(endTime2));
+            List<TimeSlot> listTimeSlot = timeSlotService.getAllOpenTimeSlot();
+            if(listTimeSlot == null){
+                actual = 0;
+            }else{
+                actual = listTimeSlot.size();
+            }
+
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        //int actual = listTimeSlot.size();
+        int expected = 2;
+        assertEquals(error, null);
+        assertEquals(actual, expected);
 
 
     }
