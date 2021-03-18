@@ -85,7 +85,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Rakshitha Ravi</td>
      <td align="center">Project Manager</td>
     <td align="center">18</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">22</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -215,9 +215,9 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Rakshitha Ravi</td>
     <td> 
         <ul>
-          <li></li>
+          <li>Person classes </li>
         </ul></td>
-    <td align="center">18</td>
+    <td align="center">22</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
