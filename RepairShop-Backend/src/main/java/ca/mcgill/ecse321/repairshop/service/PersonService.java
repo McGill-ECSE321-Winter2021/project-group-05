@@ -396,7 +396,8 @@ public class PersonService {
     private String checkDuplicateEmail(String email){
         if(customerRepository.findCustomerByEmail(email) == null
                 || ownerRepository.findOwnerByEmail(email) == null
-                || administratorRepository.findAdministratorByEmail(email) == null || technicianRepository.findTechnicianByEmail(email) == null){
+                || administratorRepository.findAdministratorByEmail(email) == null
+                || technicianRepository.findTechnicianByEmail(email) == null){
             return "";
         }
         return "Email has been taken";

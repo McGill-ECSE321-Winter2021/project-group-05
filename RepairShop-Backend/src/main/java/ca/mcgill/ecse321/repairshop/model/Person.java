@@ -58,5 +58,4 @@ public abstract class Person
     this.repairShop = repairShop;
   }
 
-
 }

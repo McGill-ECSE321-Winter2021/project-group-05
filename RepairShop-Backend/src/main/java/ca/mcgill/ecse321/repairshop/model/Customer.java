@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import java.sql.Date;
-import java.util.*;
 
 @Entity
 public class Customer extends Person

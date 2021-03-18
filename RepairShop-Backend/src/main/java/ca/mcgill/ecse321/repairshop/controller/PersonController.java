@@ -254,7 +254,6 @@ public class PersonController {
     }
 
     //Owner
-
     /**
      * Register the owner
      * @param ownerDto
@@ -284,7 +283,6 @@ public class PersonController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     /**
      * updates the information of a owner in the database
@@ -331,5 +329,4 @@ public class PersonController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 }

@@ -1,11 +1,5 @@
 package ca.mcgill.ecse321.repairshop.dto;
 
-import ca.mcgill.ecse321.repairshop.model.RepairShop;
-import ca.mcgill.ecse321.repairshop.model.TimeSlot;
-
-import javax.persistence.*;
-import java.util.List;
-
 public class BusinessDto {
     private String name;
     private String address;

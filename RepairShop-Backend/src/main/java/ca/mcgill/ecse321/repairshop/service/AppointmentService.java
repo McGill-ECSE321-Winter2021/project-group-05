@@ -25,8 +25,6 @@ public class AppointmentService {
     @Autowired
     BillRepository billRepository;
 
-
-
     @Transactional
     public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
             throws AppointmentException {
@@ -57,8 +55,6 @@ public class AppointmentService {
         appointment.setBill(bill);
         appointmentRepository.save(appointment);
         return appointment;
-
-
     }
 
     @Transactional
@@ -97,7 +93,6 @@ public class AppointmentService {
         timeSlotRepository.save(timeSlot);
         appointmentRepository.save(appointment);
         return appointment;
-
     }
 
 
@@ -109,7 +104,6 @@ public class AppointmentService {
         Bill bill = appointment.getBill();
         appointmentRepository.deleteById(appointment.getId());
         billRepository.deleteById(bill.getId());
-
     }
 
     @Transactional

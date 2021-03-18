@@ -5,7 +5,6 @@ import ca.mcgill.ecse321.repairshop.dao.TechnicianRepository;
 import ca.mcgill.ecse321.repairshop.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
-import ca.mcgill.ecse321.repairshop.utility.TimeSlotException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +26,12 @@ public class TimeSlotService {
     AppointmentRepository appointmentRepository;
 
     @Transactional
-    public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime){
+    public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime) throws IllegalArgumentException{
         if(startTime.toLocalTime().isAfter(endTime.toLocalTime())) {
             throw new IllegalArgumentException("start time must be before end time");
         }
         LocalTime timeNow =  LocalTime.now();
         LocalDate todayplus2 = LocalDate.now().plusDays(2);
-
 
         if(date.toLocalDate().isBefore(todayplus2)){
             throw new IllegalArgumentException("start time must be at least 2 days from now");
@@ -42,6 +40,7 @@ public class TimeSlotService {
         timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
+
    @Transactional
     public TimeSlot createTimeSlotforTestingNoShow(Date date, Time startTime, Time endTime){
         TimeSlot timeSlot = createInstanceOfTimeSlot(date, startTime, endTime);
@@ -49,18 +48,12 @@ public class TimeSlotService {
         return timeSlot;
     }
 
-    
     @Transactional
     public void deleteTimeSlot(TimeSlot timeslot) {
-
-
         if(timeslot == null){
             throw new IllegalArgumentException("Timeslot is null");
         }
-
         timeSlotRepository.deleteById(timeslot.getId()); //??????
-
-
     }
 
     @Transactional
@@ -109,24 +102,4 @@ public class TimeSlotService {
         timeSlot.setEndTime(endTime);
         return timeSlot;
     }
-
-    //checks for dublicate timeslot entry
-   /* public boolean isTimeSlotDuplicated(TimeSlot timeSlotInDb, TimeSlot newTimeSlot){
-        Time startTimeOfTimeSlotInDb = timeSlotInDb.getStartTime();
-        Time endTimeOfTimeSlotInDb = timeSlotInDb.getEndTime();
-        Date dateOfTimeSlotInDb = timeSlotInDb.getDate();
-
-        Time startTimeOfNewTimeSlot = timeSlotInDb.getStartTime();
-        Time endTimeOfNewTimeSlot = timeSlotInDb.getEndTime();
-        Date dateOfNewTimeSlot = timeSlotInDb.getDate();
-
-        if(!dateOfNewTimeSlot.equals(dateOfTimeSlotInDb)){
-            return false;
-        }
-        if(startTimeOfNewTimeSlot.equals(startTimeOfTimeSlotInDb)
-                && endTimeOfNewTimeSlot.equals(endTimeOfTimeSlotInDb)){
-            return false;
-        }
-        return true;
-    }*/
 }

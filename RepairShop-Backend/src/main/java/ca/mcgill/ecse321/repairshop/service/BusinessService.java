@@ -39,22 +39,6 @@ public class BusinessService {
         return business;
     }
 
-    private String getErrorFromData(BusinessDto businessDto) {
-        if(businessDto.getName() == null || businessDto.getName().equals("")){
-            return "Business name cannot be empty";
-        }
-        if(businessDto.getAddress() == null || businessDto.getAddress().equals("")){
-            return "Business address cannot be empty";
-        }
-        if(businessDto.getEmail() == null || businessDto.getEmail().equals("")){
-            return "Business email cannot be empty";
-        }
-        if(businessDto.getPhoneNumber() == null || businessDto.getPhoneNumber().equals("")){
-            return "Business phone number cannot be empty";
-        }
-        return "";
-    }
-
     /**
      * gets the business, given the Id
      * @param id
@@ -124,5 +108,21 @@ public class BusinessService {
         business.setAddress(businessDto.getAddress());
         business.setId(businessDto.getId());
         return business;
+    }
+
+    private String getErrorFromData(BusinessDto businessDto) {
+        if(businessDto.getName() == null || businessDto.getName().equals("")){
+            return "Business name cannot be empty";
+        }
+        if(businessDto.getAddress() == null || businessDto.getAddress().equals("")){
+            return "Business address cannot be empty";
+        }
+        if(businessDto.getEmail() == null || businessDto.getEmail().equals("")){
+            return "Business email cannot be empty";
+        }
+        if(businessDto.getPhoneNumber() == null || businessDto.getPhoneNumber().equals("")){
+            return "Business phone number cannot be empty";
+        }
+        return "";
     }
 }

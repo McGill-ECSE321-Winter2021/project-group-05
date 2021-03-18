@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
-
 import ca.mcgill.ecse321.repairshop.dto.TimeSlotDto;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import ca.mcgill.ecse321.repairshop.service.TimeSlotService;
@@ -36,7 +35,6 @@ public class TimeSlotController {
         else{
             throw new IllegalArgumentException("StartTime must be before EndTime and startDate must be at least in 2 days");
         }
-
     }
 
     private TimeSlotDto convertToDto(TimeSlot timeSlot){
@@ -56,7 +54,6 @@ public class TimeSlotController {
         if(canDeleteTimeSlot(timeSlot)){
             timeSlotService.deleteTimeSlot(timeSlot);
         }
-
     }
 
    @GetMapping(value = { "/timeslotAvailable", "/timeslotAvailable/"})
@@ -66,10 +63,7 @@ public class TimeSlotController {
             availableSlots.add(timeSlot);
         }
         return availableSlots;
-
     }
-
-
 
     private boolean canEnterTimeSlot(LocalTime startTime, LocalTime endTime, LocalDate date){
         if(startTime.isAfter(endTime)) {
@@ -77,7 +71,6 @@ public class TimeSlotController {
         }
         LocalTime timeNow =  LocalTime.now();
         LocalDate todayplus1 = LocalDate.now().plusDays(1);
-
 
         if(todayplus1.isBefore(date)){
             return true;
@@ -90,7 +83,6 @@ public class TimeSlotController {
         LocalTime startTime = timeSlot.getStartTime().toLocalTime();
         LocalDate todayplus1 = LocalDate.now().plusDays(1);
         LocalDate tsDate = timeSlot.getDate().toLocalDate();
-
 
         if(todayplus1.isBefore(tsDate)){
             return true;
