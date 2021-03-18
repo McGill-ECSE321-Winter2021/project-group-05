@@ -66,7 +66,7 @@ public class ServiceController {
         return RepairShopUtil.convertToDto(repairShopService.getService(name));
     }
 
-    @GetMapping(value = { "/bookableServices", "/bookableServices" })
+    @GetMapping(value = { "/bookableServices", "/bookableServices/" })
     public List<BookableServiceDto> getAllBookableServices() {
         List<BookableServiceDto> bookableServiceDtoList = new ArrayList<>();
         for (BookableService s: repairShopService.getAllService()){

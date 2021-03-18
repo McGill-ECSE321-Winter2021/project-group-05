@@ -107,7 +107,8 @@ public class PersonService {
             throw new PersonException("The customer with the given id does not exist");
         }
         Customer customer = customerOptional.get();
-        customerRepository.deleteById(email);
+        Long id = customer.getId();
+        customerRepository.deleteById(id);
         return customer;
     }
 
@@ -163,7 +164,8 @@ public class PersonService {
             throw new PersonException("The customer with the given id does not exist");
         }
         Owner owner = ownerOptional.get();
-        customerRepository.deleteById(email);
+        Long id = owner.getId();
+        ownerRepository.deleteById(id);
         return owner;
     }
 
@@ -221,7 +223,8 @@ public class PersonService {
             throw new PersonException("The customer with the given id does not exist");
         }
         Technician technician = technicianOptional.get();
-        customerRepository.deleteById(email);
+        Long id = technician.getId();
+        technicianRepository.deleteById(id);
         return technician;
     }
 
@@ -279,7 +282,8 @@ public class PersonService {
             throw new PersonException("The customer with the given id does not exist");
         }
         Administrator administrator = administratorOptional.get();
-        customerRepository.deleteById(email);
+        Long id = administrator.getId();
+        administratorRepository.deleteById(id);
         return administrator;
     }
 

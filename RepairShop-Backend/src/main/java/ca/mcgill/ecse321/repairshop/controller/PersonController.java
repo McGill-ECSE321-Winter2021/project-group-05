@@ -90,7 +90,7 @@ public class PersonController {
     public ResponseEntity<?> deleteCustomer(@PathVariable String email){
         try {
             Customer customer = personService.deleteCustomer(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
+            return new ResponseEntity<>("Customer has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -152,7 +152,7 @@ public class PersonController {
     public ResponseEntity<?> deleteTechnician(@PathVariable String email){
         try {
             Technician technician =  personService.deleteTechnician(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+            return new ResponseEntity<>("Technician has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -213,7 +213,7 @@ public class PersonController {
     public ResponseEntity<?> deleteAdministrator(@PathVariable String email){
         try {
             Administrator administrator =  personService.deleteAdministrator(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+            return new ResponseEntity<>("Administrator has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -275,7 +275,7 @@ public class PersonController {
     public ResponseEntity<?> deleteOwner(@PathVariable String email){
         try {
             Owner owner =  personService.deleteOwner(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
+            return new ResponseEntity<>("Owner has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

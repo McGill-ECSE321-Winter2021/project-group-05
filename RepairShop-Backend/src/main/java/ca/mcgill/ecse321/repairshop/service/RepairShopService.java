@@ -33,7 +33,9 @@ public class RepairShopService {
         if (duration == 0) {
             throw new BookableServiceException("Service duration cannot be 0");
         }
-
+        if(serviceRepository.findServiceByName(name) != null){
+            throw new BookableServiceException("Service already exist");
+        }
         BookableService service = new BookableService();
         service.setCost(cost);
         service.setName(name);
@@ -88,6 +90,7 @@ public class RepairShopService {
         if (bookableService == null){
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
+        //TODO : get appointment from database instead. getRepairShop() returns null
 
         // cannot delete a service which still have future appointment link to it
         for (Appointment app : bookableService.getRepairShop().getAppointments()){
@@ -102,9 +105,7 @@ public class RepairShopService {
                 }
             }
         }
-        serviceRepository.deleteById(bookableService.getName());
-
+        Long id = bookableService.getId();
+        serviceRepository.deleteById(id);
     }
-
-
 }

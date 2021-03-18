@@ -8,12 +8,22 @@ public class BookableService {
   private String name;
   private float cost;
   private int duration;
+  private Long id;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
 
   //Service Associations
   private RepairShop repairShop;
 
-  @Id
   public String getName() {
     return name;
   }

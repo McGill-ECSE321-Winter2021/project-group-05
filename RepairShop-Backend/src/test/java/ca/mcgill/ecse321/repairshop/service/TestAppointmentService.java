@@ -5,6 +5,7 @@ import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -617,6 +618,4 @@ public class TestAppointmentService {
         testCustomer.setEmail(CUSTOMER_ID);
         return testCustomer;
     }
-
-
 }

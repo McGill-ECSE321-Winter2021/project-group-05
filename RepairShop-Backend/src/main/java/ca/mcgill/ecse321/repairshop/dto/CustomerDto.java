@@ -12,6 +12,15 @@ public class CustomerDto {
     private String cvv;
     private Date expiry;
     private int noShow;
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public CustomerDto(){}
 
