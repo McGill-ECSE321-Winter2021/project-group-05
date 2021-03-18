@@ -37,7 +37,7 @@ public class RepairShopService {
             throw new BookableServiceException("Service duration cannot be 0");
         }
         if(serviceRepository.findServiceByName(name) != null){
-            throw new BookableServiceException("Service already exist");
+            throw new BookableServiceException("Service already exists");
         }
         BookableService service = new BookableService();
         service.setCost(cost);
@@ -55,7 +55,7 @@ public class RepairShopService {
         if (service == null){
             throw new BookableServiceException("Please select a service that you want to modify");
         }
-        if (newName.trim().equalsIgnoreCase("")){
+        if (newName == null || newName.trim().equalsIgnoreCase("")){
             throw new BookableServiceException("New service name cannot be empty");
         }
         if (newCost < 0) {
@@ -66,7 +66,7 @@ public class RepairShopService {
         }
 
         if(serviceRepository.findServiceByName(newName) != null){
-            throw new BookableServiceException("Service already exist");
+            throw new BookableServiceException("Service already exists");
         }
 
         if (newName != null){
@@ -120,6 +120,10 @@ public class RepairShopService {
                 }
             }
         }
+
+
+        serviceRepository.deleteById(bookableService.getId());
+
     }
 
 

@@ -66,7 +66,7 @@ public class TestAppointmentService {
     private static final String CUSTOMER_ID = "mtl@mcgill.ca";
     private static final String CUSTOMER_ID_2 = "mtl@google.ca";
     private static final Long TIMESLOT_ID = 0L;
-    private static final String NAME = "TestService";
+    private static final String NAME = "Fix tail light";
     private static final String SERVICE_NAME_2 = "Fix fog light";
     private static final Long Service_ID = 1l;
     private static final Long Service_ID_2 = 2L;
@@ -121,8 +121,15 @@ public class TestAppointmentService {
 
         // findServiceByName
         lenient().when(serviceDao.findServiceByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+
+         
+
             if(invocation.getArgument(0).equals(NAME)) {
+
                 BookableService service = new BookableService();
+                service.setDuration(DURATION);
+                service.setCost(COST);
+                service.setId(Service_ID_2);
                 return service;
             }
         else if (invocation.getArgument(0).equals(SERVICE_NAME_2)) {
@@ -515,11 +522,13 @@ public class TestAppointmentService {
             Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
             appointmentService.deleteAppointment(appointment);
             // AFTER DELETION
+            System.out.println(appointment.getId() + " : HERE");
             assertNull(appointmentService.getAppointment(appointment.getId()));
 
         }
         catch (AppointmentException e) {
             // Check that no error occurred
+            e.printStackTrace();
             fail();
         }
 

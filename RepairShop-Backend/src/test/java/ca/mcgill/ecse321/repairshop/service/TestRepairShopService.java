@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+
+import javax.print.attribute.standard.MediaSize;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -32,6 +34,12 @@ public class TestRepairShopService {
     private TimeSlotRepository timeSlotRepository;
     @Mock
     private CustomerRepository customerRepository;
+    @Mock
+    private OwnerRepository ownerRepository;
+    @Mock
+    private AdministratorRepository administratorRepository;
+    @Mock
+    private TechnicianRepository technicianRepository;
     @Mock
     private BusinessRepository businessRepository;
 
@@ -70,12 +78,14 @@ public class TestRepairShopService {
                 bookableService.setName(NAME);
                 bookableService.setCost(COST);
                 bookableService.setDuration(DURATION);
+                bookableService.setId(EXISTING_SERVICE_ID);
                 return bookableService;
             } else if(invocation.getArgument(0).equals(SERVICE_NAME_2)){
                 BookableService bookableService = new BookableService();
                 bookableService.setName(SERVICE_NAME_2);
                 bookableService.setCost(COST);
                 bookableService.setDuration(DURATION);
+                bookableService.setId(EXISTING_SERVICE_ID_2);
                 return bookableService;
             }
             else{
@@ -111,6 +121,7 @@ public class TestRepairShopService {
             bookableService.setName(NAME);
             bookableService.setCost(COST);
             bookableService.setDuration(DURATION);
+            bookableService.setId(EXISTING_SERVICE_ID);
             services.add(bookableService);
             return services;
         });
@@ -195,20 +206,25 @@ public class TestRepairShopService {
         lenient().when(timeSlotRepository.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
     }
 
+    /**
+     * test createService(name, cost, duration); POSITIVE
+     */
     @Test
     public void testCreateServiceSuccessfully(){
         try{
-            String serviceName = SERVICE_NAME_2;
+            String serviceName = NAME;
+            // validation skipped due to mockito limitations
             BookableService createdService = repairShopService.createService("Place holder", COST, DURATION);
             createdService.setName(serviceName);
-            createdService.setId(EXISTING_SERVICE_ID_2);
+            createdService.setId(EXISTING_SERVICE_ID);
             createdService = null;
-            createdService = serviceRepository.findServiceById(EXISTING_SERVICE_ID_2);
+            createdService = serviceRepository.findServiceById(EXISTING_SERVICE_ID);
 
             assertNotNull(createdService);
-            assertEquals(createdService.getName(), serviceName);
-            assertEquals(createdService.getCost(), COST);
-            assertEquals(createdService.getDuration(), DURATION);
+            assertEquals(serviceName, createdService.getName());
+            assertEquals(COST, createdService.getCost());
+            assertEquals(DURATION, createdService.getDuration());
+            assertEquals(EXISTING_SERVICE_ID, createdService.getId());
         }
         catch (BookableServiceException e){
             e.printStackTrace();
@@ -217,6 +233,9 @@ public class TestRepairShopService {
 
     }
 
+    /**
+     * test createService(name, cost, duration); error check; name = null
+     */
     @Test
     public void testCreateServiceWithNullName(){
 
@@ -231,10 +250,13 @@ public class TestRepairShopService {
             error = e.getMessage();
         }
 
-        assertEquals(error, "Service name cannot be empty");
+        assertEquals("Service name cannot be empty", error);
     }
 
 
+    /**
+     * test createService(name, cost, duration); error check; name = "  "
+     */
     @Test
     public void testCreateServiceWithEmptyName(){
 
@@ -248,10 +270,13 @@ public class TestRepairShopService {
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
-        assertEquals(error, "Service name cannot be empty");
+        assertEquals("Service name cannot be empty", error);
     }
 
 
+    /**
+     * test createService(name, cost, duration); error check; negative cost
+     */
     @Test
     public void testCreateServiceWithNegativeCost(){
 
@@ -265,14 +290,16 @@ public class TestRepairShopService {
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
-        assertEquals(error, "Service cost cannot be negative");
+        assertEquals("Service cost cannot be negative", error);
     }
 
 
-
+    /**
+     * test createService(name, cost, duration); error check; duration = 0
+     */
     @Test
     public void testCreateServiceWithZeroDuration(){
-        String NAME = "TestService";
+        String NAME = "Steering wheel repair";
         float COST = 85.98f;
         int DURATION = 0;
         String error = null;
@@ -285,32 +312,50 @@ public class TestRepairShopService {
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
-        assertEquals(error, "Service duration cannot be 0");
+        assertEquals("Service duration cannot be 0", error);
     }
 
+    /**
+     * test createService(name, cost, duration); error check; service already exists
+     */
+    @Test
+    public void testCreateServiceThatAlreadyExists(){
+        String error = null;
+        try{
+            String serviceName = NAME;
+            BookableService createdService = repairShopService.createService(serviceName, COST, DURATION);
+            createdService.setId(EXISTING_SERVICE_ID);
+        }
+        catch (BookableServiceException e){
+            error = e.getMessage();
+        }
+        assertEquals("Service already exists", error);
+    }
 
+    /**
+     * test editService(service, newName, newCost, newDuration); POSITIVE
+     */
     @Test
     public void testEditServiceSuccessfully() {
         try {
-            //TODO: change this later, doesnt work if removed
-            String OLD_NAME = "Old service name";
+            String OLD_NAME = NAME;
             float OLD_COST = 29.79f;
             int OLD_DURATION = 12;
-            BookableService service = new BookableService();
+            BookableService service = repairShopService.createService("Place holder", OLD_COST, OLD_DURATION);
             service.setName(OLD_NAME);
-            service.setCost(OLD_COST);
-            service.setDuration(OLD_DURATION);
+            service.setId(EXISTING_SERVICE_ID);
 
-            String NEW_NAME = "New service name";
+            String NEW_NAME = "Sound system repair";
             float NEW_COST = 19.79f;
             int NEW_DURATION = 14;
 
             BookableService editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
 
             assertNotNull(editedService);
-            assertEquals(editedService.getName(), NEW_NAME);
-            assertEquals(editedService.getCost(), NEW_COST);
-            assertEquals(editedService.getDuration(), NEW_DURATION);
+            assertEquals(NEW_NAME, editedService.getName());
+            assertEquals(NEW_COST, editedService.getCost());
+            assertEquals(NEW_DURATION, editedService.getDuration());
+            assertEquals(EXISTING_SERVICE_ID, editedService.getId());
         }
         catch (BookableServiceException e){
             e.printStackTrace();
@@ -318,21 +363,26 @@ public class TestRepairShopService {
         }
     }
 
-
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; service = null
+     */
     @Test
     public void testEditServiceWithNullService() {
-        //TODO: change this later, doesnt work if removed
-        String OLD_NAME = "Old service name";
+        String OLD_NAME = "Sound system repair";
         float OLD_COST = 29.79f;
         int OLD_DURATION = 12;
-        BookableService service = new BookableService();
-        service.setName(OLD_NAME);
-        service.setCost(OLD_COST);
-        service.setDuration(OLD_DURATION);
+        BookableService service = null;
+        try {
+            service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
+        } catch (BookableServiceException e) {
+            e.printStackTrace();
+            fail();
+        }
+        service.setId(5l);
 
         service = null;
 
-        String NEW_NAME = "New service name";
+        String NEW_NAME = "Indicator light repair";
         float NEW_COST = 59.79f;
         int NEW_DURATION = 16;
         String error = null;
@@ -345,25 +395,31 @@ public class TestRepairShopService {
             error = e.getMessage();
         }
 
-        assertEquals(error, "Please select a service that you want to modify");
+        assertEquals("Please select a service that you want to modify", error);
     }
 
 
-
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; newName = "   "
+     */
     @Test
     public void testEditServiceWithEmptyNewServiceName() {
-        //TODO: change this later, doesnt work if removed
-        String OLD_NAME = "Old service name";
+        String OLD_NAME = "Sound system repair";
         float OLD_COST = 29.79f;
         int OLD_DURATION = 12;
-        BookableService service = new BookableService();
-        service.setName(OLD_NAME);
-        service.setCost(OLD_COST);
-        service.setDuration(OLD_DURATION);
+        BookableService service = null;
+        try {
+            service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
+        } catch (BookableServiceException e) {
+            e.printStackTrace();
+            fail();
+        }
+        service.setId(5l);
+
 
         String NEW_NAME = "   ";
-        float NEW_COST = 39.79f;
-        int NEW_DURATION = 17;
+        float NEW_COST = 59.79f;
+        int NEW_DURATION = 16;
         String error = null;
 
         BookableService editedService = null;
@@ -374,24 +430,65 @@ public class TestRepairShopService {
             error = e.getMessage();
         }
 
-        assertEquals(error, "New service name cannot be empty");
+        assertEquals("New service name cannot be empty", error);
     }
 
 
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; newName = null
+     */
+    @Test
+    public void testEditServiceWithNullNewServiceName() {
+        String OLD_NAME = "Sound system repair";
+        float OLD_COST = 29.79f;
+        int OLD_DURATION = 12;
+        BookableService service = null;
+        try {
+            service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
+        } catch (BookableServiceException e) {
+            e.printStackTrace();
+            fail();
+        }
+        service.setId(5l);
+
+
+        String NEW_NAME = null;
+        float NEW_COST = 59.79f;
+        int NEW_DURATION = 16;
+        String error = null;
+
+        BookableService editedService = null;
+
+        try {
+            editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
+        } catch (BookableServiceException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals("New service name cannot be empty", error);
+    }
+
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; negative cost
+     */
     @Test
     public void testEditServiceWithNegativeNewCost() {
-        //TODO: change this later, doesnt work if removed
-        String OLD_NAME = "Old service name";
+        String OLD_NAME = "Sound system repair";
         float OLD_COST = 29.79f;
         int OLD_DURATION = 12;
-        BookableService service = new BookableService();
-        service.setName(OLD_NAME);
-        service.setCost(OLD_COST);
-        service.setDuration(OLD_DURATION);
+        BookableService service = null;
+        try {
+            service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
+        } catch (BookableServiceException e) {
+            e.printStackTrace();
+            fail();
+        }
+        service.setId(5l);
 
-        String NEW_NAME = "New service name";
-        float NEW_COST = -19.59f;
-        int NEW_DURATION = 9;
+
+        String NEW_NAME = "Indicator light repair";
+        float NEW_COST = -59.79f;
+        int NEW_DURATION = 16;
         String error = null;
 
         BookableService editedService = null;
@@ -402,23 +499,29 @@ public class TestRepairShopService {
             error = e.getMessage();
         }
 
-        assertEquals(error, "New service cost cannot be negative");
+        assertEquals("New service cost cannot be negative", error);
     }
 
-
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; newDuration = 0
+     */
     @Test
     public void testEditServiceWithZeroNewDuration() {
-        //TODO: change this later, doesnt work if removed
-        String OLD_NAME = "Old service name";
+        String OLD_NAME = "Sound system repair";
         float OLD_COST = 29.79f;
         int OLD_DURATION = 12;
-        BookableService service = new BookableService();
-        service.setName(OLD_NAME);
-        service.setCost(OLD_COST);
-        service.setDuration(OLD_DURATION);
+        BookableService service = null;
+        try {
+            service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
+        } catch (BookableServiceException e) {
+            e.printStackTrace();
+            fail();
+        }
+        service.setId(5l);
 
-        String NEW_NAME = "New service name";
-        float NEW_COST = 599.59f;
+
+        String NEW_NAME = "Indicator light repair";
+        float NEW_COST = 59.79f;
         int NEW_DURATION = 0;
         String error = null;
 
@@ -430,10 +533,47 @@ public class TestRepairShopService {
             error = e.getMessage();
         }
 
-        assertEquals(error, "New service duration cannot be 0");
+        assertEquals("New service duration cannot be 0", error);
     }
 
 
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; new service name already exists
+     */
+    @Test
+    public void testEditServiceWithNewNameThatAlreadyExists() {
+        String error = null;
+        try {
+            String OLD_NAME = NAME;
+            float OLD_COST = 29.79f;
+            int OLD_DURATION = 12;
+            BookableService service = repairShopService.createService("Place holder", OLD_COST, OLD_DURATION);
+            service.setName(OLD_NAME);
+            service.setId(EXISTING_SERVICE_ID);
+
+            String NEW_NAME = SERVICE_NAME_2;
+            float NEW_COST = 19.79f;
+            int NEW_DURATION = 14;
+
+            BookableService editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
+
+            assertNotNull(editedService);
+            assertEquals(NEW_NAME, editedService.getName());
+            assertEquals(NEW_COST, editedService.getCost());
+            assertEquals(NEW_DURATION, editedService.getDuration());
+            assertEquals(EXISTING_SERVICE_ID, editedService.getId());
+        }
+        catch (BookableServiceException e){
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "Service already exists");
+    }
+
+
+    /**
+     * test deleteService(service); error check; service does not exist
+     */
     @Test
     public void testDeleteServiceThatDoesNotExist() {
         try{
@@ -443,11 +583,10 @@ public class TestRepairShopService {
             Date date = Date.valueOf("2021-03-14");
             Time startTime = Time.valueOf("10:00:00");
             Time endTime = Time.valueOf("12:00:00");
-            Long timeSlotId = 1L;
             timeSlot.setDate(date);
             timeSlot.setStartTime(startTime);
             timeSlot.setEndTime(endTime);
-            timeSlot.setId(timeSlotId);
+            timeSlot.setId(TIMESLOT_ID);
             timeSlot.setRepairShop(repairShop);
 
             Business business = new Business();                 // create business
@@ -455,12 +594,11 @@ public class TestRepairShopService {
             String address = "365 Sherbrooke";
             String phoneNumber = "514-123-4567";
             String businessEmail = "123@repairshop.ca";
-            Long businessId = 2L;
             business.setName(name);
             business.setAddress(address);
             business.setEmail(businessEmail);
             business.setPhoneNumber(phoneNumber);
-            business.setId(businessId);
+            business.setId(BUSINESS_ID);
             business.setRepairShop(repairShop);
 
             Customer customer = new Customer();                 // create customer
@@ -484,7 +622,7 @@ public class TestRepairShopService {
 
 
             // create service
-            String serviceName = "TestService1";
+            String serviceName = "Sound system repair";
             float serviceCost = 55.89f;
             int serviceDuration = 18;
             BookableService service1 = repairShopService.createService(serviceName, COST, DURATION);
@@ -531,6 +669,9 @@ public class TestRepairShopService {
 
     }
 
+    /**
+     * test deleteService(service); error check; service = null
+     */
     @Test
     public void testDeleteServiceWithInvalidInput() {
         BookableService bookableService = null;
@@ -538,26 +679,26 @@ public class TestRepairShopService {
         try {
             repairShopService.deleteBookableService(bookableService);
         } catch (BookableServiceException e) {
-            assertEquals(e.getMessage(), "Cannot delete a service that does not exist");
+            assertEquals("Cannot delete a service that does not exist", e.getMessage());
         }
 
     }
 
-
+    /**
+     * test deleteService(service); error check; service with future appointments
+     */
     @Test
     public void testDeleteServiceWithFutureAppointments() {
         RepairShop repairShop = new RepairShop();
 
-        //TimeSlot timeSlot = new TimeSlot();                 // create new TimeSlot
-        Date date = Date.valueOf("2021-06-21");
+        Date date = Date.valueOf("2021-06-21");                 // create TimeSlot
         Time startTime = Time.valueOf("10:00:00");
         Time endTime = Time.valueOf("12:00:00");
         TimeSlot timeSlot = timeSlotService.createTimeSlot(date, startTime, endTime);
         timeSlot.setId(TIMESLOT_ID);
         timeSlot.setRepairShop(repairShop);
 
-        //Business business = new Business();                 // create business
-        String name = "Demo business";
+        String name = "Demo business";                          // create business
         String address = "365 Sherbrooke";
         String phoneNumber = "514-123-4567";
         String businessEmail = "123@repairshop.ca";
@@ -575,8 +716,7 @@ public class TestRepairShopService {
         business.setId(BUSINESS_ID);
         business.setRepairShop(repairShop);
 
-        //Customer customer = new Customer();                 // create customer
-        String username = "johndoe007";
+        String username = "johndoe007";     // create customer
         String password = "password" ;
         String cardNumber = "1234567890123456";
         String cvv = "123";
@@ -584,11 +724,12 @@ public class TestRepairShopService {
         int noShow = 1;
         Customer customer = null;
         customer = new Customer();
-//        try {
-//            customer = personService.createCustomer(CUSTOMER_ID_2, username, password);
-//        } catch (PersonException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            customer = personService.createCustomer("example@placeholder.com", username, password);
+        } catch (PersonException e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
         customer.setEmail(CUSTOMER_ID);
         customer.setCardNumber(cardNumber);
         customer.setCvv(cvv);
@@ -602,12 +743,12 @@ public class TestRepairShopService {
         BookableService service = null;
         try {
             service = repairShopService.createService("Place holder", COST, DURATION);      // TODO  : workaround - test skipped
-            service.setId(10l);
             service.setName(SERVICE_NAME_2);
             service.setId(EXISTING_SERVICE_ID_2);
 
         } catch (BookableServiceException e) {
             System.out.println(e.getMessage());
+            fail();
         }
 
         service.setRepairShop(repairShop);
@@ -619,6 +760,7 @@ public class TestRepairShopService {
             appointment1 = appointmentService.createAppointment(services, customer, timeSlot);          // create appointment
         } catch (AppointmentException e) {
             System.out.println(e.getMessage());
+            fail();
         }
         appointment1.setServices(services);
         appointment1.setCustomer(customer);
@@ -642,53 +784,71 @@ public class TestRepairShopService {
     }
 
     /**
-     * test getService(Long Id)
+     * test getService(Long Id); POSITIVE
      */
     @Test
     public void testGetServiceByIDForExistingService() {
         assertEquals(EXISTING_SERVICE_ID, repairShopService.getService(EXISTING_SERVICE_ID).getId());
+        assertEquals(NAME, repairShopService.getService(EXISTING_SERVICE_ID).getName());
+        assertEquals(COST, repairShopService.getService(EXISTING_SERVICE_ID).getCost());
+        assertEquals(DURATION, repairShopService.getService(EXISTING_SERVICE_ID).getDuration());
     }
+    /**
+     * test getService(Long Id); NEGATIVE
+     */
     @Test
     public void testGetServiceByIdForNonExistingService() {
         assertNull(repairShopService.getService(NON_EXISTING_SERVICE_ID));
     }
 
     /**
-     * test getService(String name)
+     * test getService(String name); POSITIVE
      */
     @Test
     public void testGetServiceByNameForExistingService() {
         assertEquals(NAME, repairShopService.getService(NAME).getName());
+        assertEquals(EXISTING_SERVICE_ID, repairShopService.getService(NAME).getId());
+        assertEquals(COST, repairShopService.getService(NAME).getCost());
+        assertEquals(DURATION, repairShopService.getService(NAME).getDuration());
     }
+    /**
+     * test getService(String name); NEGATIVE
+     */
     @Test
     public void testGetServiceByNameForNonExistingService() {
         assertNull(repairShopService.getService(NON_EXISTING_SERVICE));
     }
 
     /**
-     * test getAllService()
+     * test getAllService(); POSITIVE
      */
     @Test
     public void testGetAllServiceForExistingService() {
         try {
             BookableService service = repairShopService.createService(NAME, COST, DURATION);
+            service.setId(EXISTING_SERVICE_ID);
         } catch(BookableServiceException e) {
             e.getMessage();
         }
         assertNotNull(repairShopService.getAllService());
         assertEquals(1, repairShopService.getAllService().size());
         assertEquals(NAME, repairShopService.getAllService().get(0).getName());
+        assertEquals(EXISTING_SERVICE_ID, repairShopService.getAllService().get(0).getId());
     }
+    /**
+     * test getAllService(); NEGATIVE
+     */
     @Test
     public void testGetAllServiceForNonExistingService() {
         try {
-            BookableService bookableService = new BookableService();
-            bookableService.setName("Change tire rims");
+            BookableService bookableService = repairShopService.createService("Tire rims repair", COST, DURATION);
             bookableService.setCost(55.97f);
             bookableService.setDuration(55);
+            bookableService.setId(NON_EXISTING_SERVICE_ID);
             assertNotEquals(bookableService.getName(), repairShopService.getAllService().get(0).getName());
+            assertNotEquals(bookableService.getId(), repairShopService.getAllService().get(0).getId());
         }
-        catch (IllegalArgumentException e){
+        catch (BookableServiceException e){
             fail();
         }
     }
