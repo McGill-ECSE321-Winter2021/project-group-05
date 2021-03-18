@@ -93,7 +93,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Saikou Ceesay</td>
     <td align="center">Testing Lead</td>
     <td align="center">24</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">35</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -101,7 +101,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Yichen Wu</td>
     <td align="center">Documentation Lead</td>
     <td align="center">25</td>
-    <td align="center">25</td>
+    <td align="center">35</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -231,9 +231,17 @@ The project report for this deliverable can be found [here](https://github.com/M
                 <li>BusinessController </li>
                 <li>TestBusinessService </li>
               </ul>
+              <li>Person classes 
+              <ul>
+                <li>PersonService </li>
+                <li>PersonDTO </li>
+                <li>PersonController </li>
+                <li>TestPersonService </li>
+              </ul>
+               <li>Controller Tests</li>
         </ul>
       </td>    
- <td align="center">24</td>
+ <td align="center">35</td>
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
@@ -253,9 +261,10 @@ The project report for this deliverable can be found [here](https://github.com/M
                <li>CustomerDto</li>
              </ul>
           <li>Documentation</li>
+          <li>Controller Tests</li>
         </ul>
       </td> 
-    <td align="center">25</td>
+    <td align="center">35</td>
   </tr>
 </table>
 
