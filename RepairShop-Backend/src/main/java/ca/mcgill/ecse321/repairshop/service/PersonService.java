@@ -109,7 +109,7 @@ public class PersonService {
     public Customer deleteCustomer(String email) throws PersonException{
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
-            throw new PersonException("The customer with the given id does not exist");
+            throw new PersonException("The customer with the given email does not exist");
         }
         Customer customer = customerOptional.get();
         Long id = customer.getId();
@@ -155,7 +155,7 @@ public class PersonService {
     public Owner getOwner(String email) throws PersonException{
         Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
         if(!ownerOptional.isPresent()){
-            throw new PersonException("The owner with this email does not exist");
+            throw new PersonException("owner with this email does not exist");
         }
         Owner owner = ownerOptional.get();
         return owner;
@@ -241,7 +241,7 @@ public class PersonService {
     public Technician getTechnician(String email) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
-            throw new PersonException("The technician with this email does not exist");
+            throw new PersonException("Technician with this email does not exist");
         }
         return technicianOptional.get();
     }
@@ -327,7 +327,7 @@ public class PersonService {
     public Administrator getAdministrator(String email) throws PersonException {
         Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
         if(!administratorOptional.isPresent()){
-            throw new PersonException("The administrator with the id does not exist");
+            throw new PersonException("Administrator with this email does not exist");
         }
         return administratorOptional.get();
     }
@@ -353,7 +353,7 @@ public class PersonService {
     public Administrator updateAdministrator(String email, AdministratorDto administratorDto) throws PersonException{
         Optional<Administrator> technicianOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
         if(!technicianOptional.isPresent()){
-            throw new PersonException("The Technician with this email does not exist");
+            throw new PersonException("The Administrator with this email does not exist");
         }
         Administrator administrator = technicianOptional.get();
 
@@ -395,8 +395,8 @@ public class PersonService {
 
     private String checkDuplicateEmail(String email){
         if(customerRepository.findCustomerByEmail(email) == null
-                && ownerRepository.findOwnerByEmail(email) == null
-                && administratorRepository.findAdministratorByEmail(email) == null && technicianRepository.findTechnicianByEmail(email) == null){
+                || ownerRepository.findOwnerByEmail(email) == null
+                || administratorRepository.findAdministratorByEmail(email) == null || technicianRepository.findTechnicianByEmail(email) == null){
             return "";
         }
         return "Email has been taken";
