@@ -81,6 +81,7 @@ public class RepairShopService {
         return service;
     }
 
+    @Transactional
     public BookableService getService(String name) {
         BookableService service = serviceRepository.findServiceByName(name);
         return service;
@@ -108,7 +109,7 @@ public class RepairShopService {
                     || appointment.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
                 for (BookableService b : appointment.getServices()){
                     // still have future appointments inside the service
-                    if (b.getName().equals(bookableService.getId())){
+                    if (b.getName().equals(bookableService.getName())){
                         throw new BookableServiceException("Cannot delete a service which still has future appointments");
                     }
                 }
