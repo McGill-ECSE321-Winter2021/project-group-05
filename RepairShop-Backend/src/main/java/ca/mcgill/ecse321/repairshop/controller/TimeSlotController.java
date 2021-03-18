@@ -15,6 +15,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -57,14 +59,15 @@ public class TimeSlotController {
 
     }
 
-   /* @GetMapping
-    public List<TimeSlotDto> getAvailableTimeSlots()throws IllegalArgumentException{
-        List<TimeSlotDto> availableSlots = new ArrayList<>();
-        for(TimeSlot timeSlot : timeSlotService.getAllTimeSlot()){
-            for(Appointment appointment : appointmentService.getAllAppointment
+   @GetMapping(value = { "/timeslotAvailable", "/timeslotAvailable/"})
+    public List<TimeSlot> getAvailableTimeSlots()throws IllegalArgumentException{
+        List<TimeSlot> availableSlots = new ArrayList();
+        for(TimeSlot timeSlot : timeSlotService.getAllOpenTimeSlot()){
+            availableSlots.add(timeSlot);
         }
+        return availableSlots;
 
-    }*/
+    }
 
 
 
