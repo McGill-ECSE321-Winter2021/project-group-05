@@ -7,6 +7,7 @@ public class BookableServiceDto {
     private String name;
     private float cost;
     private int duration;
+    private Long Id;
 
     public BookableServiceDto(){}
 
@@ -40,5 +41,11 @@ public class BookableServiceDto {
         this.duration = duration;
     }
 
+    public Long getId() {
+        return Id;
+    }
 
+    public void setId(Long id) {
+        Id = id;
+    }
 }
