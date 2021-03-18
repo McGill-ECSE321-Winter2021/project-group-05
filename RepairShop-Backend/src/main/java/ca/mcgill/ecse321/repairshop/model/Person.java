@@ -10,11 +10,21 @@ public abstract class Person
   private String email;
   private String username;
   private String password;
+  private Long id;
 
   //Person Associations
   private RepairShop repairShop;
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public String getEmail() {
     return email;
   }
@@ -47,4 +57,6 @@ public abstract class Person
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
   }
+
+
 }

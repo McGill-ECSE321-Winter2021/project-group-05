@@ -33,7 +33,9 @@ public class RepairShopService {
         if (duration == 0) {
             throw new BookableServiceException("Service duration cannot be 0");
         }
-
+        if(serviceRepository.findServiceByName(name) != null){
+            throw new BookableServiceException("Service already exist");
+        }
         BookableService service = new BookableService();
         service.setCost(cost);
         service.setName(name);
@@ -60,6 +62,10 @@ public class RepairShopService {
             throw new BookableServiceException("New service duration cannot be 0");
         }
 
+        if(serviceRepository.findServiceByName(newName) != null){
+            throw new BookableServiceException("Service already exist");
+        }
+
         if (newName != null){
             service.setName(newName);
         }
@@ -70,6 +76,11 @@ public class RepairShopService {
     }
 
     @Transactional
+    public BookableService getService(Long Id) {
+        BookableService service = serviceRepository.findServiceById(Id);
+        return service;
+    }
+
     public BookableService getService(String name) {
         BookableService service = serviceRepository.findServiceByName(name);
         return service;
@@ -88,23 +99,22 @@ public class RepairShopService {
         if (bookableService == null){
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
+        //TODO : get appointment from database instead. getRepairShop() returns null
 
         // cannot delete a service which still have future appointment link to it
-        for (Appointment app : bookableService.getRepairShop().getAppointments()){
+        for (Appointment appointment : bookableService.getRepairShop().getAppointments()){
             // loop through all future appointments in future days
-            if(app.getTimeslot().getDate().after(valueOf(LocalDate.now()))
-                    || app.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
-                for (BookableService b : app.getServices()){
+            if(appointment.getTimeslot().getDate().after(valueOf(LocalDate.now()))
+                    || appointment.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
+                for (BookableService b : appointment.getServices()){
                     // still have future appointments inside the service
-                    if (b.getName().equals(bookableService.getName())){
+                    if (b.getName().equals(bookableService.getId())){
                         throw new BookableServiceException("Cannot delete a service which still has future appointments");
                     }
                 }
             }
         }
-        serviceRepository.deleteById(bookableService.getName());
-
+        Long id = bookableService.getId();
+        serviceRepository.deleteById(id);
     }
-
-
 }

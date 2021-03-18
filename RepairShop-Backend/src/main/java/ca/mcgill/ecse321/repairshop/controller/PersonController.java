@@ -90,7 +90,7 @@ public class PersonController {
     public ResponseEntity<?> deleteCustomer(@PathVariable String email){
         try {
             Customer customer = personService.deleteCustomer(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
+            return new ResponseEntity<>("Customer has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -129,6 +129,22 @@ public class PersonController {
     }
 
     /**
+     * updates the information of a technician in the database
+     * @param email
+     * @param technicianDto
+     * @return
+     */
+    @PutMapping(value = {"/person/technician/{email}", "/person/technician/{email}/"})
+    public ResponseEntity<?> updateTechnician(@PathVariable String email,  @RequestBody TechnicianDto technicianDto){
+        try {
+            Technician technician = personService.updateTechnician(email, technicianDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * gets a technician with the given email
      * @param email
      * @return
@@ -152,7 +168,7 @@ public class PersonController {
     public ResponseEntity<?> deleteTechnician(@PathVariable String email){
         try {
             Technician technician =  personService.deleteTechnician(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+            return new ResponseEntity<>("Technician has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -189,11 +205,29 @@ public class PersonController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-        /**
-         * gets an administrator
-         * @param email
-         * @return
-         */
+
+    /**
+     * updates the information of a administrator in the database
+     * @param email
+     * @param administratorDto
+     * @return
+     */
+    @PutMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
+    public ResponseEntity<?> updateAdministrator(@PathVariable String email,  @RequestBody AdministratorDto administratorDto){
+        try {
+            Administrator administrator = personService.updateAdministrator(email, administratorDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * gets an administrator
+     * @param email
+     * @return
+     */
+
     @GetMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
     public ResponseEntity<?> getAdministrator(@PathVariable String email){
         try {
@@ -213,7 +247,7 @@ public class PersonController {
     public ResponseEntity<?> deleteAdministrator(@PathVariable String email){
         try {
             Administrator administrator =  personService.deleteAdministrator(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+            return new ResponseEntity<>("Administrator has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -251,6 +285,23 @@ public class PersonController {
         }
     }
 
+
+    /**
+     * updates the information of a owner in the database
+     * @param email
+     * @param ownerDto
+     * @return
+     */
+    @PutMapping(value = {"/person/owner/{email}", "/person/owner/{email}/"})
+    public ResponseEntity<?> updateOwner(@PathVariable String email,  @RequestBody OwnerDto ownerDto){
+        try {
+            Owner owner = personService.updateOwner(email, ownerDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /**
      * gets the owner
      * @param email
@@ -275,7 +326,7 @@ public class PersonController {
     public ResponseEntity<?> deleteOwner(@PathVariable String email){
         try {
             Owner owner =  personService.deleteOwner(email);
-            return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
+            return new ResponseEntity<>("Owner has been deleted", HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

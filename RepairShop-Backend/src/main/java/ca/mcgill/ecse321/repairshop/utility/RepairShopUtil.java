@@ -80,6 +80,7 @@ public class RepairShopUtil {
         CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(),
                 customer.getPassword(),customer.getCardNumber(),
                 customer.getCvv(), customer.getExpiry());
+        customerDto.setId(customer.getId());
         return customerDto;
     }
 
@@ -130,6 +131,7 @@ public class RepairShopUtil {
         technicianDto.setPassword(technician.getPassword());
         technicianDto.setUsername(technician.getUsername());
         technicianDto.setEmail(technician.getEmail());
+        technicianDto.setId(technician.getId());
         return technicianDto;
     }
 
@@ -139,6 +141,7 @@ public class RepairShopUtil {
         administratorDto.setPassword(administrator.getPassword());
         administratorDto.setUsername(administrator.getUsername());
         administratorDto.setEmail(administrator.getEmail());
+        administratorDto.setId(administratorDto.getId());
         return administratorDto;
     }
     public static OwnerDto convertToDto(Owner owner){
@@ -147,6 +150,7 @@ public class RepairShopUtil {
         ownerDto.setPassword(owner.getPassword());
         ownerDto.setUsername(owner.getUsername());
         ownerDto.setEmail(owner.getEmail());
+        ownerDto.setId(owner.getId());
         return ownerDto;
     }
 

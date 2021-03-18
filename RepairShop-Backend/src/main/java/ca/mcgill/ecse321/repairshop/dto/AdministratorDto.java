@@ -5,6 +5,16 @@ public class AdministratorDto {
     private String username;
     private String password;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    private Long id;
+
     public String getEmail() {
         return email;
     }

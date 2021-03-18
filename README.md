@@ -190,11 +190,18 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Florence Yared</td>
    <td>
         <ul>
-          <li></li>
+          <li>TimeSlot Classes</li>
+              <ul>
+                <li>TimeSlotService </li>
+                <li>TimeSlotDTO </li>
+                <li>TimeSlotController </li>
+                <li>TestTimeSlotService </li>
+              </ul>
+          <li>Enter No Show (all classes)</li>
+          <li>Get Appointment History (Controller)</li>
         </ul>
     </td>
-    <td align="center">23</td>
-  </tr>
+    <td align="center">30</td>
   <tr>
     <td align="center">Himel Saha</td>
     <td>
