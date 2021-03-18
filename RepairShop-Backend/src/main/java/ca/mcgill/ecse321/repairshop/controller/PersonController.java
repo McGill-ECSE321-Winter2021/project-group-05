@@ -129,6 +129,22 @@ public class PersonController {
     }
 
     /**
+     * updates the information of a technician in the database
+     * @param email
+     * @param technicianDto
+     * @return
+     */
+    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    public ResponseEntity<?> updateTechnician(@PathVariable String email,  @RequestBody TechnicianDto technicianDto){
+        try {
+            Technician technician = personService.updateTechnician(email, technicianDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * gets a technician with the given email
      * @param email
      * @return
@@ -189,11 +205,29 @@ public class PersonController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-        /**
-         * gets an administrator
-         * @param email
-         * @return
-         */
+
+    /**
+     * updates the information of a administrator in the database
+     * @param email
+     * @param administratorDto
+     * @return
+     */
+    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    public ResponseEntity<?> updateAdministrator(@PathVariable String email,  @RequestBody AdministratorDto administratorDto){
+        try {
+            Administrator administrator = personService.updateAdministrator(email, administratorDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * gets an administrator
+     * @param email
+     * @return
+     */
+
     @GetMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
     public ResponseEntity<?> getAdministrator(@PathVariable String email){
         try {
@@ -245,6 +279,23 @@ public class PersonController {
     public ResponseEntity<?> loginOwner(@RequestBody OwnerDto ownerDto) {
         try {
             Owner owner = personService.loginOwner(ownerDto.getEmail(), ownerDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * updates the information of a owner in the database
+     * @param email
+     * @param ownerDto
+     * @return
+     */
+    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    public ResponseEntity<?> updateOwner(@PathVariable String email,  @RequestBody OwnerDto ownerDto){
+        try {
+            Owner owner = personService.updateOwner(email, ownerDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

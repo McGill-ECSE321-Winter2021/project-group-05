@@ -4,7 +4,10 @@ import ca.mcgill.ecse321.repairshop.dao.AdministratorRepository;
 import ca.mcgill.ecse321.repairshop.dao.CustomerRepository;
 import ca.mcgill.ecse321.repairshop.dao.OwnerRepository;
 import ca.mcgill.ecse321.repairshop.dao.TechnicianRepository;
+import ca.mcgill.ecse321.repairshop.dto.AdministratorDto;
 import ca.mcgill.ecse321.repairshop.dto.CustomerDto;
+import ca.mcgill.ecse321.repairshop.dto.OwnerDto;
+import ca.mcgill.ecse321.repairshop.dto.TechnicianDto;
 import ca.mcgill.ecse321.repairshop.model.Administrator;
 import ca.mcgill.ecse321.repairshop.model.Customer;
 import ca.mcgill.ecse321.repairshop.model.Owner;
@@ -38,7 +41,7 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
-        //check if email hasn't been taken
+        //check if email has not been taken
         if(!checkDuplicateEmail(email).equals("")){
             throw new PersonException(checkDuplicateEmail(email));
         }
@@ -65,10 +68,9 @@ public class PersonService {
 
     @Transactional
     public Customer getCustomer(String email) throws PersonException{
-        // todo: ofNullable?????
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
-            throw new PersonException("Customer with this id does not exist");
+            throw new PersonException("Customer with this email does not exist");
         }
         return customerOptional.get();
     }
@@ -77,16 +79,19 @@ public class PersonService {
     public Customer updateCustomer(String email, CustomerDto customerDto) throws PersonException{
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
         if(!customerOptional.isPresent()){
-            throw new PersonException("The customer with this id does not exist");
+            throw new PersonException("The customer with this email does not exist");
         }
         Customer customer = customerOptional.get();
 
         String username = customerDto.getUsername();
         String password = customerDto.getPassword();
-        //TODO : CHECK FOR OTHER ATTRIBUTES OF THE CUSTOMER I.E CVV ...
-        String error = getErrorFromData(email, username, password);
+        String error = getErrorFromData(customerDto.getEmail(), username, password);
         if(!error.equals("")){
             throw new PersonException(error);
+        }
+        //check if email has not been taken
+        if(!checkDuplicateEmail(customerDto.getEmail()).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
         }
         customer.setUsername(customerDto.getUsername());
         customer.setPassword(customerDto.getPassword());
@@ -112,7 +117,6 @@ public class PersonService {
         return customer;
     }
 
-
     /**
      * Owner
      */
@@ -122,10 +126,10 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
+        //check if email has not been taken
         if(!checkDuplicateEmail(email).equals("")){
             throw new PersonException(checkDuplicateEmail(email));
         }
-
         Owner owner = new Owner();
         owner.setEmail(email);
         owner.setPassword(password);
@@ -151,9 +155,35 @@ public class PersonService {
     public Owner getOwner(String email) throws PersonException{
         Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
         if(!ownerOptional.isPresent()){
-            throw new PersonException("The owner with this id does not exist");
+            throw new PersonException("The owner with this email does not exist");
         }
         Owner owner = ownerOptional.get();
+        return owner;
+    }
+
+    @Transactional
+    public Owner updateOwner(String email, OwnerDto ownerDto) throws PersonException{
+        Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
+        if(!ownerOptional.isPresent()){
+            throw new PersonException("The Owner with this email does not exist");
+        }
+        Owner owner = ownerOptional.get();
+
+        String username = ownerDto.getUsername();
+        String password = ownerDto.getPassword();
+        String error = getErrorFromData(ownerDto.getEmail(), username, password);
+        if(!error.equals("")){
+            throw new PersonException(error);
+        }
+        //check if email hasn't been taken
+        if(!checkDuplicateEmail(ownerDto.getEmail()).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
+        }
+
+        owner.setUsername(ownerDto.getUsername());
+        owner.setPassword(ownerDto.getPassword());
+        owner.setEmail(ownerDto.getEmail());
+        ownerRepository.save(owner);
         return owner;
     }
 
@@ -211,7 +241,7 @@ public class PersonService {
     public Technician getTechnician(String email) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
-            throw new PersonException("The technician with this id does not exist");
+            throw new PersonException("The technician with this email does not exist");
         }
         return technicianOptional.get();
     }
@@ -220,7 +250,7 @@ public class PersonService {
     public Technician deleteTechnician(String email) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
-            throw new PersonException("The customer with the given id does not exist");
+            throw new PersonException("The technician with the this email does not exist");
         }
         Technician technician = technicianOptional.get();
         Long id = technician.getId();
@@ -232,6 +262,33 @@ public class PersonService {
     public List<Technician> getAllTechnician() {
         return RepairShopUtil.toList(technicianRepository.findAll());
     }
+
+    @Transactional
+    public Technician updateTechnician(String email, TechnicianDto technicianDto) throws PersonException{
+        Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
+        if(!technicianOptional.isPresent()){
+            throw new PersonException("The Technician with this email does not exist");
+        }
+        Technician technician = technicianOptional.get();
+
+        String username = technicianDto.getUsername();
+        String password = technicianDto.getPassword();
+        String error = getErrorFromData(technicianDto.getEmail(), username, password);
+        if(!error.equals("")){
+            throw new PersonException(error);
+        }
+        //check if email hasn't been taken
+        if(!checkDuplicateEmail(technicianDto.getEmail()).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
+        }
+
+        technician.setUsername(technicianDto.getUsername());
+        technician.setPassword(technicianDto.getPassword());
+        technician.setEmail(technicianDto.getEmail());
+        technicianRepository.save(technician);
+        return technician;
+    }
+
 
     /**
      * Administrator
@@ -290,6 +347,32 @@ public class PersonService {
     @Transactional
     public List<Administrator> getAllAdministrator() {
         return RepairShopUtil.toList(administratorRepository.findAll());
+    }
+
+    @Transactional
+    public Administrator updateAdministrator(String email, AdministratorDto administratorDto) throws PersonException{
+        Optional<Administrator> technicianOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
+        if(!technicianOptional.isPresent()){
+            throw new PersonException("The Technician with this email does not exist");
+        }
+        Administrator administrator = technicianOptional.get();
+
+        String username = administratorDto.getUsername();
+        String password = administratorDto.getPassword();
+        String error = getErrorFromData(administratorDto.getEmail(), username, password);
+        if(!error.equals("")){
+            throw new PersonException(error);
+        }
+        //check if email hasn't been taken
+        if(!checkDuplicateEmail(administratorDto.getEmail()).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
+        }
+
+        administrator.setUsername(administratorDto.getUsername());
+        administrator.setPassword(administratorDto.getPassword());
+        administrator.setEmail(administratorDto.getEmail());
+        administratorRepository.save(administrator);
+        return administrator;
     }
 
     //HELPER METHODS
