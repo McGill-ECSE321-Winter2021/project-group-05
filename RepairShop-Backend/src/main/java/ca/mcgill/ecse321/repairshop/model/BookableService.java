@@ -20,7 +20,6 @@ public class BookableService {
     this.id = id;
   }
 
-
   //Service Associations
   private RepairShop repairShop;
 

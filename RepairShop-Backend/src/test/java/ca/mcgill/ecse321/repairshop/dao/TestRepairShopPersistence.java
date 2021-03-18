@@ -70,7 +70,7 @@ class TestRepairShopPersistence {
     /**
      * testing customer
      */
-    @Test
+
     public void testPersistAndLoadCustomer() {
     	
         String name = "TestCustomer";
@@ -105,7 +105,6 @@ class TestRepairShopPersistence {
     /**
      * testing association between timeslot and technician
      */
-    @Test
     public void testPersistAndLoadTechnician() {
     	
         String name = "TestTechnician";
@@ -163,7 +162,6 @@ class TestRepairShopPersistence {
     /**
      * testing Administrator
      */
-    @Test
     public void testPersistAndLoadAdministrator() {
         
         String name = "TestAdministrator";
@@ -197,7 +195,6 @@ class TestRepairShopPersistence {
     /**
      * testing Owner
      */
-    @Test
     public void testPersistAndLoadOwner() {
     	
         String name = "TestOwner";
@@ -231,7 +228,6 @@ class TestRepairShopPersistence {
     /**
      * testing Bill
      */
-    @Test
     public void testPersistAndLoadBill() {
 
         String name = "TestCustomer";
@@ -273,7 +269,6 @@ class TestRepairShopPersistence {
 
     }
 
-    @Test
     public void testPersistAndLoadAppointment() {
 
         String name = "TestCustomer";
@@ -350,7 +345,6 @@ class TestRepairShopPersistence {
     /**
      * Testing persisting and loading a service
      */
-    @Test
     public void testPersistAndLoadService() {
 
         String serviceName = "repair window";
@@ -380,7 +374,6 @@ class TestRepairShopPersistence {
     /**
      * Testing persisting and loading business
      */
-    @Test
     public void testPersistAndLoadBusiness(){
         String address = "MTL";
         String email = "business@123.com";
@@ -416,7 +409,6 @@ class TestRepairShopPersistence {
     /**
      * Testing persisting and loading timeslot
      */
-    @Test
     public void testPersistAndLoadTimeSlot(){
     	
         Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));

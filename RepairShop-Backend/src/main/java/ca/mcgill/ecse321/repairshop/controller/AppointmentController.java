@@ -30,10 +30,8 @@ public class AppointmentController {
     @Autowired
     private PersonService personService;
 
-    // todo: delete later
     @GetMapping(value = {"/"})
     public String sayHello(){return "hello world";}
-
 
     @GetMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public AppointmentDto getAppointment(@PathVariable("id") Long id) {
@@ -132,7 +130,6 @@ public class AppointmentController {
         return apptsCustDtos;
     }
 
-
     @PutMapping(value = { "/appointmentNoShow/{id}", "/appointmentNoShow/{id}/" })
     public void enterNoShow(@PathVariable("id") Long id) throws AppointmentException{
         Appointment appointment = appointmentService.getAppointment(id);
@@ -164,8 +161,6 @@ public class AppointmentController {
         int dayToday = today.getDayOfMonth();
         int hourToday = timeNow.getHour();
 
-
-
         LocalDate tsDate = timeSlot.getDate().toLocalDate();
         int yearTS = tsDate.getYear();
         int monthTS = tsDate.getMonthValue();
@@ -178,16 +173,12 @@ public class AppointmentController {
             if (yearToday > yearTS || monthToday > monthTS || dayToday - dayTS >1){ return true;}
             // if there's only one day before the appointment date
             else{
-
                 // can cancel / edit appointment when there's still 24 hours
                 return hourToday<= hourTS;
             }
         }
-
-
-
-
     }
+
     private boolean canEnterNoShow(TimeSlot timeslot){
         LocalTime timeNow =  LocalTime.now();
         LocalDate today = LocalDate.now();

@@ -69,7 +69,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Florence Yared</td>
     <td align="center">Software Developer</td>
     <td align="center">23</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">30</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -85,7 +85,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Rakshitha Ravi</td>
      <td align="center">Project Manager</td>
     <td align="center">18</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">22</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -93,7 +93,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Saikou Ceesay</td>
     <td align="center">Testing Lead</td>
     <td align="center">24</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">35</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -101,7 +101,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Yichen Wu</td>
     <td align="center">Documentation Lead</td>
     <td align="center">25</td>
-    <td align="center">25</td>
+    <td align="center">35</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
@@ -190,11 +190,18 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Florence Yared</td>
    <td>
         <ul>
-          <li></li>
+          <li>TimeSlot Classes</li>
+              <ul>
+                <li>TimeSlotService </li>
+                <li>TimeSlotDTO </li>
+                <li>TimeSlotController </li>
+                <li>TestTimeSlotService </li>
+              </ul>
+          <li>Enter No Show (all classes)</li>
+          <li>Get Appointment History (Controller)</li>
         </ul>
     </td>
-    <td align="center">23</td>
-  </tr>
+    <td align="center">30</td>
   <tr>
     <td align="center">Himel Saha</td>
     <td>
@@ -208,9 +215,9 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Rakshitha Ravi</td>
     <td> 
         <ul>
-          <li></li>
+          <li>Person classes </li>
         </ul></td>
-    <td align="center">18</td>
+    <td align="center">22</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
@@ -224,9 +231,17 @@ The project report for this deliverable can be found [here](https://github.com/M
                 <li>BusinessController </li>
                 <li>TestBusinessService </li>
               </ul>
+              <li>Person classes 
+              <ul>
+                <li>PersonService </li>
+                <li>PersonDTO </li>
+                <li>PersonController </li>
+                <li>TestPersonService </li>
+              </ul>
+               <li>Controller Tests</li>
         </ul>
       </td>    
- <td align="center">24</td>
+ <td align="center">35</td>
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
@@ -246,9 +261,10 @@ The project report for this deliverable can be found [here](https://github.com/M
                <li>CustomerDto</li>
              </ul>
           <li>Documentation</li>
+          <li>Controller Tests</li>
         </ul>
       </td> 
-    <td align="center">25</td>
+    <td align="center">35</td>
   </tr>
 </table>
 

@@ -6,7 +6,6 @@ import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.BusinessException;
-import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

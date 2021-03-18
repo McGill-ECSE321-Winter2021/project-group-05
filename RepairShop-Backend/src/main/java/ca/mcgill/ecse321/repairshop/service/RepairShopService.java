@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.repairshop.service;
 
+import ca.mcgill.ecse321.repairshop.dao.AppointmentRepository;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
@@ -18,6 +19,8 @@ import static java.sql.Date.valueOf;
 public class RepairShopService {
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    AppointmentRepository appintmentRepository;
 
     /**
      * create new Service
@@ -100,14 +103,16 @@ public class RepairShopService {
         if (bookableService == null){
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
+        Long id = bookableService.getId();
+        serviceRepository.deleteById(id);
         //TODO : get appointment from database instead. getRepairShop() returns null
 
         // cannot delete a service which still have future appointment link to it
-        for (Appointment appointment : bookableService.getRepairShop().getAppointments()){
+        for (Appointment app: appintmentRepository.findAll()) {
             // loop through all future appointments in future days
-            if(appointment.getTimeslot().getDate().after(valueOf(LocalDate.now()))
-                    || appointment.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
-                for (BookableService b : appointment.getServices()){
+            if(app.getTimeslot().getDate().after(valueOf(LocalDate.now()))
+                    || app.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
+                for (BookableService b : app.getServices()){
                     // still have future appointments inside the service
                     if (b.getName().equals(bookableService.getName())){
                         throw new BookableServiceException("Cannot delete a service which still has future appointments");
@@ -116,6 +121,10 @@ public class RepairShopService {
             }
         }
 
+
         serviceRepository.deleteById(bookableService.getId());
+
     }
+
+
 }

@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.repairshop.dto;
 
 import java.sql.Date;
-import java.util.List;
 
 public class BillDto {
     private Date date;

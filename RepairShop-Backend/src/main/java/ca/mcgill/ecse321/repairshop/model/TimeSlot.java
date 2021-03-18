@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.repairshop.model;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.List;
 
 import javax.persistence.*;
 

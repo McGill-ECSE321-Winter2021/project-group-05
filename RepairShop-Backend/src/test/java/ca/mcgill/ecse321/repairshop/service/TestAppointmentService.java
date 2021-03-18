@@ -4,8 +4,6 @@ import ca.mcgill.ecse321.repairshop.dao.*;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
-import ca.mcgill.ecse321.repairshop.utility.PersonException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -72,8 +70,9 @@ public class TestAppointmentService {
     private static final String SERVICE_NAME_2 = "Fix fog light";
     private static final Long Service_ID = 1l;
     private static final Long Service_ID_2 = 2L;
-    private static final float COST = 12.99f;
+    private static final float COST = 12.00f;
     private static final int DURATION = 20;
+    private static Long EXISTING_SERVICE_ID_2 = 3L;
 
     // IN ORDER TO TEST GET GETAPPOINTMENT
     @BeforeEach
@@ -114,6 +113,7 @@ public class TestAppointmentService {
                 timeSlot.setId(TIMESLOT_ID);
                 return timeSlot;
             }
+
             else{
                 return null;
             }
@@ -121,13 +121,21 @@ public class TestAppointmentService {
 
         // findServiceByName
         lenient().when(serviceDao.findServiceByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(SERVICE_NAME_2)) {
+
+         
+
+            if(invocation.getArgument(0).equals(NAME)) {
+
                 BookableService service = new BookableService();
                 service.setDuration(DURATION);
                 service.setCost(COST);
                 service.setId(Service_ID_2);
                 return service;
             }
+        else if (invocation.getArgument(0).equals(SERVICE_NAME_2)) {
+                BookableService service = new BookableService();
+                return service;
+        }
             else{
                 return null;
             }
@@ -158,7 +166,8 @@ public class TestAppointmentService {
         lenient().when(appointmentDao.findByCustomer(any())).thenAnswer( (InvocationOnMock invocation) -> {
                     if(invocation.getArgument(0) instanceof Customer){
                         Customer argumentCustomer = (Customer) invocation.getArgument(0);
-                        if (argumentCustomer.getEmail() != null && argumentCustomer.getEmail().equals(CUSTOMER_ID)){
+                        if (argumentCustomer.getEmail() != null && argumentCustomer.getEmail().equals(CUSTOMER_ID) ||
+                                argumentCustomer.getEmail().equals(CUSTOMER_ID_2)){
                             List<Appointment> appointments = new ArrayList<>();
                             Appointment appointment = new Appointment();
                             appointment.setCustomer(argumentCustomer);
@@ -276,7 +285,7 @@ public class TestAppointmentService {
 
         assertNull(appointment);
         // check error
-        assertEquals("Bookable Service, Customer, Timeslot don't exist!", error);
+        assertEquals("Customer, Timeslot don't exist!", error);
     }
 
     // NEGATIVE TEST
@@ -431,7 +440,7 @@ public class TestAppointmentService {
 
             Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
             appointmentService.editAppointment(appointment, bookableServices_new, timeSlot);
-            checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID, timeSlot_new.getDate(),
+            checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID_2, timeSlot_new.getDate(),
                     timeSlot_new.getStartTime().toLocalTime(), timeSlot_new.getEndTime().toLocalTime());
 
         }
@@ -623,13 +632,13 @@ public class TestAppointmentService {
 
     private BookableService createTestService(){
         try {
-            float serviceCost = 10f;
-            int serviceDuration = 60;
-            BookableService service = repairShopService.createService("Place holder", serviceCost, serviceDuration);
-            service.setName(SERVICE_NAME_2);
-            service.setId(Service_ID_2);
 
-            return service;
+                String serviceName = SERVICE_NAME_2;
+                BookableService createdService = repairShopService.createService("Place holder", COST, DURATION);
+                createdService.setName(serviceName);
+                createdService.setId(EXISTING_SERVICE_ID_2);
+
+            return createdService;
         }
         catch (BookableServiceException e){
             e.printStackTrace();

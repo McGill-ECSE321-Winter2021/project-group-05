@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.repairshop.dto;
 
 import java.sql.Date;
-import java.util.Collections;
-import java.util.List;
 
 public class CustomerDto {
     private String email;

@@ -155,7 +155,7 @@ public class RepairShopUtil {
     }
 
 
-    public static Appointment convertToEntity(AppointmentDto appointmentDto){
+    public static Appointment convertToEntity(AppointmentDto appointmentDto) {
         Appointment appointment = new Appointment();
         appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));
         appointment.setId(appointmentDto.getId());
@@ -163,8 +163,6 @@ public class RepairShopUtil {
         appointment.setCustomer(convertToEntity(appointmentDto.getCustomer()));
         return appointment;
     }
-
-
 
     public static BookableService convertToEntity(BookableServiceDto bookableServiceDto){
         BookableService bookableService = new BookableService();

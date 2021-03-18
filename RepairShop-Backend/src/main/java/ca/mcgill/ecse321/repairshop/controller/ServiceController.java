@@ -1,10 +1,7 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
 import ca.mcgill.ecse321.repairshop.dto.BookableServiceDto;
-import ca.mcgill.ecse321.repairshop.model.Appointment;
 import ca.mcgill.ecse321.repairshop.model.BookableService;
-import ca.mcgill.ecse321.repairshop.model.Customer;
-import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import ca.mcgill.ecse321.repairshop.service.RepairShopService;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
@@ -19,10 +16,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 public class ServiceController {
-
     @Autowired
     private RepairShopService repairShopService;
-
 
     /**
      * create new service
@@ -30,16 +25,13 @@ public class ServiceController {
     @PostMapping(value = { "/bookableService", "/bookableService/" })
     public ResponseEntity<?> createBookableService(@RequestBody BookableServiceDto bookableServiceDto) {
         try {
-
            BookableService bookableService = repairShopService.createService(bookableServiceDto.getName(), bookableServiceDto.getCost(),
                    bookableServiceDto.getDuration());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(bookableService), HttpStatus.OK);
         }catch (BookableServiceException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
-
 
     /**
      * edit service
@@ -48,7 +40,6 @@ public class ServiceController {
     public ResponseEntity<?> editBookableService(@PathVariable("name") String name,
                                 @RequestBody BookableServiceDto bookableServiceDto)
             throws IllegalArgumentException, BookableServiceException {
-
       try{
           BookableService originalService = repairShopService.getService(name);
 
@@ -86,6 +77,5 @@ public class ServiceController {
         }
         // find the appointment using id
         repairShopService.deleteBookableService(bookableService);
-
     }
 }
