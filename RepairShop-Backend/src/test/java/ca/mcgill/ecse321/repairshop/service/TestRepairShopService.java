@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
 import ca.mcgill.ecse321.repairshop.utility.BusinessException;
+import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-import javax.print.attribute.standard.MediaSize;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
