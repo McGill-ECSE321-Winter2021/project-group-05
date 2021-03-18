@@ -69,7 +69,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Florence Yared</td>
     <td align="center">Software Developer</td>
     <td align="center">23</td>
-    <td align="center">Sprint 2</td>
+    <td align="center">30</td>
     <td align="center">Sprint 3</td>
     <td align="center">Sprint 4</td>
   </tr>
