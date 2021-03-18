@@ -4,6 +4,9 @@ import ca.mcgill.ecse321.repairshop.model.Appointment;
 import ca.mcgill.ecse321.repairshop.model.BookableService;
 import ca.mcgill.ecse321.repairshop.model.Customer;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
+import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
+import ca.mcgill.ecse321.repairshop.utility.BookableServiceException;
+import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,14 +24,14 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,11 +42,23 @@ public class TestTimeSlotService {
     @Mock
     private AppointmentRepository appointmentDao;
 
+    @Mock
+    private CustomerRepository customerDao;
+
+    @Mock
+    private ServiceRepository serviceDao;
+
     @InjectMocks
     private TimeSlotService timeSlotService;
 
     @InjectMocks
     private AppointmentService appointmentService;
+
+    @InjectMocks
+    private PersonService personService;
+
+    @InjectMocks
+    private RepairShopService repairShopService;
 
     private static final Long TIMESLOT_ID = 0L;
     private static final Long APPOINTMENT_KEY = 0L;
@@ -51,6 +66,7 @@ public class TestTimeSlotService {
 
     @BeforeEach
     public void setMockOutput() {
+
         lenient().when(timeSlotDao.findTimeSlotById(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(TIMESLOT_ID)) {
                 TimeSlot timeSlot = new TimeSlot();
@@ -73,11 +89,86 @@ public class TestTimeSlotService {
             }
         });
 
+        lenient().when(timeSlotDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+            List<TimeSlot> timeSlots = new ArrayList<>();
+            TimeSlot timeslot = new TimeSlot();
+            Calendar c = Calendar.getInstance();
+            c.set(2021, Calendar.OCTOBER, 16, 9, 00, 0);
+            Date appointmentDate = new Date(c.getTimeInMillis());
+            LocalTime startTime = LocalTime.parse("09:00");
+            c.set(2021, Calendar.OCTOBER, 16, 9, 59, 59);
+            LocalTime endTime = LocalTime.parse("09:59");
+            timeslot.setStartTime(Time.valueOf(startTime));
+            timeslot.setEndTime(Time.valueOf(endTime));
+            timeslot.setDate(appointmentDate);
+            timeSlots.add(timeslot);
+            return timeSlots;
+        });
+
+        lenient().when(appointmentDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+            TimeSlot timeslot = new TimeSlot();
+            Calendar c = Calendar.getInstance();
+            c.set(2021, Calendar.OCTOBER, 16, 9, 00, 0);
+            Date appointmentDate = new Date(c.getTimeInMillis());
+            LocalTime startTime = LocalTime.parse("09:00");
+            c.set(2021, Calendar.OCTOBER, 16, 9, 59, 59);
+            LocalTime endTime = LocalTime.parse("09:59");
+            timeslot.setStartTime(Time.valueOf(startTime));
+            timeslot.setEndTime(Time.valueOf(endTime));
+            timeslot.setDate(appointmentDate);
+            Customer customer = new Customer();
+            customer.setEmail("hello@abc.ca");
+            customer.setUsername("abc1");
+            customer.setPassword("P00wwwwwwwwc");
+            BookableService service = new BookableService();
+            service.setName("hello");
+            service.setCost(10);
+            service.setDuration(15);
+            List<BookableService> serviceList = new ArrayList<>();
+            serviceList.add(service);
+
+            Appointment appointment = new Appointment();
+            appointment.setServices(serviceList);
+            appointment.setCustomer(customer);
+            appointment.setTimeslot(timeslot);
+            List<Appointment> appointmentList = new ArrayList<>();
+            appointmentList.add(appointment);
+            return appointmentList;
+        });
+
+
+
+        lenient().when(customerDao.findCustomerByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals("hello@gmail.com")) {
+                Customer customer = new Customer();
+                customer.setEmail("hello@gmail.com");
+                return customer;
+            }
+            else{
+                return null;
+            }
+        });
+
+        lenient().when(serviceDao.findServiceByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals("testService")) {
+                BookableService service = new BookableService();
+                return service;
+            }
+            else{
+                return null;
+            }
+        });
+
+
+
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(timeSlotDao.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(appointmentDao.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(customerDao.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(serviceDao.save(any(BookableService.class))).thenAnswer(returnParameterAsAnswer);
+
     }
 
 
@@ -207,23 +298,15 @@ public class TestTimeSlotService {
         c.set(2021, Calendar.OCTOBER, 16, 9, 59, 59);
         LocalTime endTime = LocalTime.parse("16:59");
 
-       // timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
 
-        Calendar c2 = Calendar.getInstance();
-        c2.set(2021, Calendar.OCTOBER, 18, 9, 00, 0);
-        Date appointmentDate2 = new Date(c.getTimeInMillis());
-        LocalTime startTime2 = LocalTime.parse("09:00");
-        c2.set(2021, Calendar.OCTOBER, 18, 9, 59, 59);
-        LocalTime endTime2 = LocalTime.parse("09:59");
 
-        //timeSlotService.createTimeSlot(appointmentDate2, Time.valueOf(startTime2), Time.valueOf(endTime2));
         String error = null;
+        timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
 
         //List<TimeSlot> listTimeSlot = null;
         int actual = 0;
         try {
-            timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-            timeSlotService.createTimeSlot(appointmentDate2, Time.valueOf(startTime2), Time.valueOf(endTime2));
+
             List<TimeSlot> listTimeSlot = timeSlotService.getAllOpenTimeSlot();
             if(listTimeSlot == null){
                 actual = 0;
@@ -236,11 +319,48 @@ public class TestTimeSlotService {
         }
 
         //int actual = listTimeSlot.size();
-        int expected = 2;
+        int expected = 1;
         assertEquals(error, null);
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
 
 
     }
+
+
+
+    private BookableService createTestService(){
+        try {
+            float serviceCost = 10;
+            int serviceDuration = 60;
+            BookableService service = repairShopService.createService("testservice", serviceCost, serviceDuration);
+
+            return service;
+        }
+        catch (BookableServiceException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<BookableService> createTestListServices(){
+        List<BookableService> bookableServices = new ArrayList<>();
+        bookableServices.add(createTestService());
+        return bookableServices;
+    }
+
+    private Customer createTestCustomer(){
+        // CREATING CUSTOMER
+        String customerUsername = "Bob";
+        String customerPassword = "abc123";
+        Customer testCustomer = null;
+        try {
+            testCustomer = personService.createCustomer("flor@abc.com", customerUsername, customerPassword);
+        } catch (PersonException e) {
+            e.printStackTrace();
+        }
+        testCustomer.setEmail("flor@abc.com");
+        return testCustomer;
+    }
+
 
 }

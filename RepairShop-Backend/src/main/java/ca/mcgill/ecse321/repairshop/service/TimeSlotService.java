@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -75,17 +76,20 @@ public class TimeSlotService {
 
     @Transactional
     public List<TimeSlot> getAllOpenTimeSlot() {
-        List<TimeSlot> allSlots = timeSlotRepository.findAll();
+        List<TimeSlot> allSlots = getAllTimeSlot();
         List<Appointment> allAppts = RepairShopUtil.toList(appointmentRepository.findAll());
-        List<TimeSlot> openSlots = null;
+        List<TimeSlot> openSlots = new ArrayList<>();
+        boolean legal = true;
         for(TimeSlot slot : allSlots){
             for(Appointment a : allAppts){
-                if(a.getTimeslot().equals(slot)){
-
-                }else{
-                    openSlots.add(slot);
+                if(a.getTimeslot().equals(slot)) {
+                    legal = false;
                 }
             }
+            if(legal){
+                openSlots.add(slot);
+            }
+            legal = true;
 
         }
         return openSlots;
@@ -107,7 +111,7 @@ public class TimeSlotService {
     }
 
     //checks for dublicate timeslot entry
-    public boolean isTimeSlotDuplicated(TimeSlot timeSlotInDb, TimeSlot newTimeSlot){
+   /* public boolean isTimeSlotDuplicated(TimeSlot timeSlotInDb, TimeSlot newTimeSlot){
         Time startTimeOfTimeSlotInDb = timeSlotInDb.getStartTime();
         Time endTimeOfTimeSlotInDb = timeSlotInDb.getEndTime();
         Date dateOfTimeSlotInDb = timeSlotInDb.getDate();
@@ -124,5 +128,5 @@ public class TimeSlotService {
             return false;
         }
         return true;
-    }
+    }*/
 }
