@@ -134,7 +134,7 @@ public class PersonController {
      * @param technicianDto
      * @return
      */
-    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    @PutMapping(value = {"/person/technician/{email}", "/person/technician/{email}/"})
     public ResponseEntity<?> updateTechnician(@PathVariable String email,  @RequestBody TechnicianDto technicianDto){
         try {
             Technician technician = personService.updateTechnician(email, technicianDto);
@@ -212,7 +212,7 @@ public class PersonController {
      * @param administratorDto
      * @return
      */
-    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    @PutMapping(value = {"/person/administrator/{email}", "/person/administrator/{email}/"})
     public ResponseEntity<?> updateAdministrator(@PathVariable String email,  @RequestBody AdministratorDto administratorDto){
         try {
             Administrator administrator = personService.updateAdministrator(email, administratorDto);
@@ -292,7 +292,7 @@ public class PersonController {
      * @param ownerDto
      * @return
      */
-    @PutMapping(value = {"/person/customer/{email}", "/person/customer/{email}/"})
+    @PutMapping(value = {"/person/owner/{email}", "/person/owner/{email}/"})
     public ResponseEntity<?> updateOwner(@PathVariable String email,  @RequestBody OwnerDto ownerDto){
         try {
             Owner owner = personService.updateOwner(email, ownerDto);
