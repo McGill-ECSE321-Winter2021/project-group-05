@@ -38,10 +38,10 @@ public class AppointmentService {
         // IF EITHER ARGUMENT IS NOT FOUND IN DATABASE
         if (customerRepository.findCustomerByEmail(customer.getEmail()) == null
                 || timeSlotRepository.findTimeSlotById(timeslot.getId()) == null){
-            throw new AppointmentException("Bookable Service, Customer, Timeslot don't exist!");
+            throw new AppointmentException("Customer, Timeslot don't exist!");
         }
         for (BookableService s : services){
-            if (serviceRepository.findServiceByName(s.getName())== null){
+            if (serviceRepository.findServiceByName(s.getName()) == null){
                 throw new AppointmentException("Bookable Service, Customer, Timeslot don't exist!");
             }
         }
