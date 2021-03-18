@@ -206,10 +206,16 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Himel Saha</td>
     <td>
         <ul>
-          <li></li>
+          <li>BookableService classes</li>
+            <ul>
+                <li>RepairShopService </li>
+                <li>BookableServiceDTO </li>
+                <li>ServiceController </li>
+                <li>TestRepairShopService </li>
+              </ul>
         </ul>
     </td>
-    <td align="center">23.5</td>
+    <td align="center">28</td>
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
