@@ -39,8 +39,8 @@ public class PersonService {
             throw new PersonException(error);
         }
         //check if email hasn't been taken
-        if(customerRepository.findCustomerByEmail(email) != null){
-            throw new PersonException("This email has already been taken, try a different one");
+        if(!checkDuplicateEmail(email).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
         }
         Customer customer = new Customer();
         customer.setEmail(email);
@@ -121,9 +121,10 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
-        if(ownerRepository.findOwnerByEmail(email) != null){
-            throw new PersonException("This email has already been taken, try a different one");
+        if(!checkDuplicateEmail(email).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
         }
+
         Owner owner = new Owner();
         owner.setEmail(email);
         owner.setPassword(password);
@@ -136,7 +137,7 @@ public class PersonService {
     public Owner loginOwner(String email, String password) throws PersonException{
         Optional<Owner> customerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
         if(!customerOptional.isPresent()){
-            throw new PersonException("Customer does not exist");
+            throw new PersonException("Owner does not exist");
         }
         Owner owner = customerOptional.get();
         if(!owner.getPassword().equals(password)){
@@ -180,10 +181,9 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
-        if(technicianRepository.findTechnicianByEmail(email) != null){
-            throw new PersonException("This email has already been taken, try a different one");
+        if(!checkDuplicateEmail(email).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
         }
-
         Technician technician = new Technician();
         technician.setEmail(email);
         technician.setPassword(password);
@@ -196,7 +196,7 @@ public class PersonService {
     public Technician loginTechnician(String email, String password) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
         if(!technicianOptional.isPresent()){
-            throw new PersonException("Customer does not exist");
+            throw new PersonException("Technician does not exist");
         }
         Technician technician = technicianOptional.get();
         if(!technician.getPassword().equals(password)){
@@ -239,9 +239,8 @@ public class PersonService {
         if(!error.equals("")){
             throw new PersonException(error);
         }
-
-        if(administratorRepository.findAdministratorByEmail(email) != null){
-            throw new PersonException("This email has already been taken, try a different one");
+        if(!checkDuplicateEmail(email).equals("")){
+            throw new PersonException(checkDuplicateEmail(email));
         }
         Administrator administrator = new Administrator();
         administrator.setEmail(email);
@@ -305,5 +304,13 @@ public class PersonService {
             return "Email is not valid";
         }
         return "";
+    }
+
+    private String checkDuplicateEmail(String email){
+        if(customerRepository.findCustomerByEmail(email) == null && ownerRepository.findOwnerByEmail(email) == null
+                && administratorRepository.findAdministratorByEmail(email) == null && technicianRepository.findTechnicianByEmail(email) == null){
+            return "";
+        }
+        return "Email has been taken";
     }
 }

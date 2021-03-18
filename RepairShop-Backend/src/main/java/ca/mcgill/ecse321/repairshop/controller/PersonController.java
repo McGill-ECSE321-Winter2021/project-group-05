@@ -31,7 +31,7 @@ public class PersonController {
             Customer customer =  personService.createCustomer(customerDto.getEmail(), customerDto.getUsername(), customerDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -46,7 +46,7 @@ public class PersonController {
             Customer customer =  personService.loginCustomer(customerDto.getEmail(), customerDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,7 +61,7 @@ public class PersonController {
             Customer customer = personService.getCustomer(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -77,7 +77,7 @@ public class PersonController {
             Customer customer = personService.updateCustomer(email, customerDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -92,7 +92,7 @@ public class PersonController {
             Customer customer = personService.deleteCustomer(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -109,7 +109,7 @@ public class PersonController {
             Technician technician =  personService.createTechnician(technicianDto.getEmail(), technicianDto.getUsername(), technicianDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -124,7 +124,7 @@ public class PersonController {
             Technician technician =  personService.loginTechnician(technicianDto.getEmail(), technicianDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -139,7 +139,7 @@ public class PersonController {
             Technician technician =  personService.getTechnician(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -154,7 +154,7 @@ public class PersonController {
             Technician technician =  personService.deleteTechnician(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -171,7 +171,7 @@ public class PersonController {
             Administrator administrator = personService.createAdministrator(administratorDto.getEmail(), administratorDto.getUsername(), administratorDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -186,7 +186,7 @@ public class PersonController {
             Administrator administrator = personService.loginAdministrator(administratorDto.getEmail(), administratorDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
         /**
@@ -200,7 +200,7 @@ public class PersonController {
             Administrator administrator = personService.getAdministrator(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -215,7 +215,7 @@ public class PersonController {
             Administrator administrator =  personService.deleteAdministrator(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -232,7 +232,7 @@ public class PersonController {
             Owner owner = personService.createOwner(ownerDto.getEmail(), ownerDto.getUsername(), ownerDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -247,7 +247,7 @@ public class PersonController {
             Owner owner = personService.loginOwner(ownerDto.getEmail(), ownerDto.getPassword());
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -262,7 +262,7 @@ public class PersonController {
             Owner owner = personService.getOwner(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -277,7 +277,7 @@ public class PersonController {
             Owner owner =  personService.deleteOwner(email);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(owner), HttpStatus.OK);
         } catch (PersonException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
