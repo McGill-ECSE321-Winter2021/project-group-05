@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
+import ca.mcgill.ecse321.repairshop.dto.AdministratorDto;
 import ca.mcgill.ecse321.repairshop.dto.OwnerDto;
+import ca.mcgill.ecse321.repairshop.model.Administrator;
 import ca.mcgill.ecse321.repairshop.model.Owner;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,13 +24,13 @@ import org.mockito.Mock;
 public class TestOwnerService {
 
     @Mock
-    private AdministratorRepository administratorRepository;
+    private OwnerRepository ownerRepository;
 
     @Mock
     private CustomerRepository customerRepository;
 
     @Mock
-    private OwnerRepository ownerRepository;
+    private AdministratorRepository administratorRepository;
 
     @Mock
     private TechnicianRepository technicianRepository;
@@ -62,7 +64,7 @@ public class TestOwnerService {
 
     //positive create Owner
     @Test
-    public void testCreateCustomer() {
+    public void testCreateOwner() {
         Owner Owner = new Owner();
         Owner.setEmail("test@gmail.com");
         Owner.setPassword("testpassword");
@@ -81,7 +83,7 @@ public class TestOwnerService {
 
     //negative create OWNER [missing email]
     @Test
-    public void testCreateCustomerWithoutEmail() {
+    public void testCreateOwnerWithoutEmail() {
         Owner Owner = new Owner();
         Owner.setPassword("testpassword");
         Owner.setUsername("testusername");
@@ -97,7 +99,7 @@ public class TestOwnerService {
 
     //negative create customer [missing username]
     @Test
-    public void testCreateCustomerWithoutUsername() {
+    public void testCreateOwnerWithoutUsername() {
         Owner Owner = new Owner();
         Owner.setPassword("testpassword");
         Owner.setEmail("test@gmail.com");
@@ -113,7 +115,7 @@ public class TestOwnerService {
 
     //negative create customer [missing password]
     @Test
-    public void testCreateCustomerWithoutPassword() {
+    public void testCreateOwnerWithoutPassword() {
         Owner Owner = new Owner();
         Owner.setEmail("test@gmail.com");
         Owner.setUsername("testusername");
@@ -129,7 +131,7 @@ public class TestOwnerService {
 
     //positive login test
     @Test
-    public void testLoginCustomer() {
+    public void testLoginOwner() {
         Owner Owner = new Owner();
         Owner.setEmail(OWNER_EMAIL);
         Owner.setUsername(OWNER_USERNAME);
@@ -146,7 +148,7 @@ public class TestOwnerService {
 
     //negative login test [customer does not exist]
     @Test
-    public void testLoginCustomerWithWrongEmail() {
+    public void testLoginOwnerWithWrongEmail() {
         Owner Owner = new Owner();
         Owner.setEmail("incorrect email");
         Owner.setUsername(OWNER_USERNAME);
@@ -162,7 +164,7 @@ public class TestOwnerService {
 
     //negative login test [wrong password]
     @Test
-    public void testLoginCustomerWithWrongPassword() {
+    public void testLoginOwnerWithWrongPassword() {
         Owner Owner = new Owner();
         Owner.setEmail(OWNER_EMAIL);
         Owner.setUsername(OWNER_USERNAME);
@@ -178,7 +180,7 @@ public class TestOwnerService {
 
     //positive get test
     @Test
-    public void testGetCustomer() {
+    public void testGetOwner() {
         Owner Owner = new Owner();
         Owner.setEmail(OWNER_EMAIL);
         Owner.setUsername(OWNER_USERNAME);
@@ -195,7 +197,7 @@ public class TestOwnerService {
 
     //positive get test
     @Test
-    public void testGetCustomerWithWrongEmail() {
+    public void testGetOwnerWithWrongEmail() {
         Owner Owner = new Owner();
         Owner.setEmail("incorrect email");
         Owner.setUsername(OWNER_USERNAME);
@@ -211,7 +213,7 @@ public class TestOwnerService {
 
     //positive update test
     @Test
-    public void testUpdateCustomer() {
+    public void testUpdateOwner() {
         OwnerDto OwnerDto = new OwnerDto();
         OwnerDto.setEmail("new@gmail.com");
         OwnerDto.setPassword("newpassword");
@@ -228,7 +230,7 @@ public class TestOwnerService {
 
     //negative update test [wrong email]
     @Test
-    public void testUpdateCustomerWithWrongEmail() {
+    public void testUpdateOwnerWithWrongEmail() {
         OwnerDto OwnerDto = new OwnerDto();
         OwnerDto.setEmail("new@gmail.com");
         OwnerDto.setPassword("newpassword");
@@ -242,9 +244,25 @@ public class TestOwnerService {
         }
     }
 
+    //negative update test [dulicate email]
+    @Test
+    public void testUpdateOwnerWithDuplicateEmail() {
+        OwnerDto OwnerDto = new OwnerDto();
+        OwnerDto.setEmail("new@gmail.com");
+        OwnerDto.setPassword("newpassword");
+        OwnerDto.setUsername("newusername");
+        OwnerDto.setId(1L);
+        Owner updatedOWNER = null;
+        try {
+            updatedOWNER = personService.updateOwner(OWNER_EMAIL, OwnerDto);
+        } catch (PersonException e) {
+            assertEquals("Email has been taken", e.getMessage());
+        }
+    }
+
     //positive delete
     @Test
-    public void testDeleteCustomer() {
+    public void testDeleteOwner() {
         Owner Owner = null;
         try {
             Owner = personService.deleteOwner(OWNER_EMAIL);
@@ -253,5 +271,19 @@ public class TestOwnerService {
         }
         assertNotNull(Owner);
     }
+
+    //nagative delete
+    @Test
+    public void testDeleteNonExistingOwner() {
+
+        try {
+            personService.deleteOwner("nonexisting@mail.ca");
+        } catch (PersonException e) {
+            assertEquals("The customer with the given id does not exist",e.getMessage());
+        }
+
+    }
+
+
 
 }

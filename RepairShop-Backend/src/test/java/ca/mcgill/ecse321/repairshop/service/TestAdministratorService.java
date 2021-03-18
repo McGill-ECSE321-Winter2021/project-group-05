@@ -18,20 +18,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 
+
 @ExtendWith(MockitoExtension.class)
 public class TestAdministratorService {
-
-    @Mock
-    private AdministratorRepository administratorRepository;
-
-    @Mock
-    private CustomerRepository customerRepository;
 
     @Mock
     private OwnerRepository ownerRepository;
 
     @Mock
+    private CustomerRepository customerRepository;
+
+    @Mock
+    private AdministratorRepository administratorRepository;
+
+    @Mock
     private TechnicianRepository technicianRepository;
+
 
     @InjectMocks
     private PersonService personService;
@@ -62,7 +64,7 @@ public class TestAdministratorService {
 
     //positive create administrator
     @Test
-    public void testCreateCustomer() {
+    public void testCreateAdministrator() {
         Administrator administrator = new Administrator();
         administrator.setEmail("test@gmail.com");
         administrator.setPassword("testpassword");
@@ -81,7 +83,7 @@ public class TestAdministratorService {
 
     //negative create admin [missing email]
     @Test
-    public void testCreateCustomerWithoutEmail() {
+    public void testCreateAdministratorWithoutEmail() {
         Administrator administrator = new Administrator();
         administrator.setPassword("testpassword");
         administrator.setUsername("testusername");
@@ -97,7 +99,7 @@ public class TestAdministratorService {
 
     //negative create customer [missing username]
     @Test
-    public void testCreateCustomerWithoutUsername() {
+    public void testCreateAdministratorWithoutUsername() {
         Administrator administrator = new Administrator();
         administrator.setPassword("testpassword");
         administrator.setEmail("test@gmail.com");
@@ -113,7 +115,7 @@ public class TestAdministratorService {
 
     //negative create customer [missing password]
     @Test
-    public void testCreateCustomerWithoutPassword() {
+    public void testCreateAdministratorWithoutPassword() {
         Administrator administrator = new Administrator();
         administrator.setEmail("test@gmail.com");
         administrator.setUsername("testusername");
@@ -129,7 +131,7 @@ public class TestAdministratorService {
 
     //positive login test
     @Test
-    public void testLoginCustomer() {
+    public void testLoginAdministrator() {
         Administrator administrator = new Administrator();
         administrator.setEmail(ADMIN_EMAIL);
         administrator.setUsername(ADMIN_USERNAME);
@@ -146,7 +148,7 @@ public class TestAdministratorService {
 
     //negative login test [customer does not exist]
     @Test
-    public void testLoginCustomerWithWrongEmail() {
+    public void testLoginAdministratorWithWrongEmail() {
         Administrator administrator = new Administrator();
         administrator.setEmail("incorrect email");
         administrator.setUsername(ADMIN_USERNAME);
@@ -162,7 +164,7 @@ public class TestAdministratorService {
 
     //negative login test [wrong password]
     @Test
-    public void testLoginCustomerWithWrongPassword() {
+    public void testLoginAdministratorWithWrongPassword() {
         Administrator administrator = new Administrator();
         administrator.setEmail(ADMIN_EMAIL);
         administrator.setUsername(ADMIN_USERNAME);
@@ -178,7 +180,7 @@ public class TestAdministratorService {
 
     //positive get test
     @Test
-    public void testGetCustomer() {
+    public void testGetAdministrator() {
         Administrator administrator = new Administrator();
         administrator.setEmail(ADMIN_EMAIL);
         administrator.setUsername(ADMIN_USERNAME);
@@ -195,7 +197,7 @@ public class TestAdministratorService {
 
     //positive get test
     @Test
-    public void testGetCustomerWithWrongEmail() {
+    public void testGetAdministratorWithWrongEmail() {
         Administrator administrator = new Administrator();
         administrator.setEmail("incorrect email");
         administrator.setUsername(ADMIN_USERNAME);
@@ -211,7 +213,7 @@ public class TestAdministratorService {
 
     //positive update test
     @Test
-    public void testUpdateCustomer() {
+    public void testUpdateAdministrator() {
         AdministratorDto administratorDto = new AdministratorDto();
         administratorDto.setEmail("new@gmail.com");
         administratorDto.setPassword("newpassword");
@@ -228,7 +230,7 @@ public class TestAdministratorService {
 
     //negative update test [wrong email]
     @Test
-    public void testUpdateCustomerWithWrongEmail() {
+    public void testUpdateAdministratorWithWrongEmail() {
         AdministratorDto administratorDto = new AdministratorDto();
         administratorDto.setEmail("new@gmail.com");
         administratorDto.setPassword("newpassword");
@@ -242,9 +244,41 @@ public class TestAdministratorService {
         }
     }
 
+    //negative update test [invalid email]
+    @Test
+    public void testUpdateAdministratorWithInvalidEmail() {
+        AdministratorDto administratorDto = new AdministratorDto();
+        administratorDto.setEmail("newgmail.com");
+        administratorDto.setPassword("newpassword");
+        administratorDto.setUsername("newusername");
+        administratorDto.setId(1L);
+        Administrator updatedAdmin = null;
+        try {
+            updatedAdmin = personService.updateAdministrator(ADMIN_EMAIL, administratorDto);
+        } catch (PersonException e) {
+            assertEquals("Email is not valid", e.getMessage());
+        }
+    }
+
+    //negative update test [dulicate email]
+    @Test
+    public void testUpdateAdministratorWithDuplicateEmail() {
+        AdministratorDto administratorDto = new AdministratorDto();
+        administratorDto.setEmail(ADMIN_EMAIL);
+        administratorDto.setPassword("newpassword");
+        administratorDto.setUsername("newusername");
+        administratorDto.setId(1L);
+
+        try {
+           personService.updateAdministrator(ADMIN_EMAIL, administratorDto);
+        } catch (PersonException e) {
+            assertEquals("Email has been taken", e.getMessage());
+        }
+    }
+
     //positive delete
     @Test
-    public void testDeleteCustomer() {
+    public void testDeleteAdministrator() {
         Administrator administrator = null;
         try {
             administrator = personService.deleteAdministrator(ADMIN_EMAIL);
@@ -252,6 +286,18 @@ public class TestAdministratorService {
             e.printStackTrace();
         }
         assertNotNull(administrator);
+    }
+
+    //nagative delete
+    @Test
+    public void testDeleteNonExistingAdministrator() {
+
+        try {
+             personService.deleteAdministrator("nonexisting@mail.ca");
+        } catch (PersonException e) {
+            assertEquals("The customer with the given id does not exist",e.getMessage());
+        }
+
     }
 
 }

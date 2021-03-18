@@ -1,9 +1,11 @@
 package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
+import ca.mcgill.ecse321.repairshop.dto.AdministratorDto;
 import ca.mcgill.ecse321.repairshop.dto.CustomerDto;
 import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -307,6 +309,22 @@ public class TestCustomerService {
         }
     }
 
+    //negative update test [dulicate email]
+    @Test
+    public void testUpdatCustomerWithDuplicateEmail() {
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setEmail(CUSTOMER_EMAIL);
+        customerDto.setPassword("newpassword");
+        customerDto.setUsername("newusername");
+        customerDto.setId(1L);
+
+        try {
+            personService.updateCustomer(CUSTOMER_EMAIL, customerDto);
+        } catch (PersonException e) {
+            assertEquals("Email has been taken", e.getMessage());
+        }
+    }
+
     //positive delete
     @Test
     public void testDeleteCustomer() {
@@ -319,4 +337,16 @@ public class TestCustomerService {
         assertNotNull(customer);
     }
 
+    //nagative delete
+    @Test
+    public void testDeleteNonExistingAdministrator() {
+
+
+        try {
+            personService.deleteCustomer("nonexisting@mail.ca");
+        } catch (PersonException e) {
+            assertEquals("The customer with the given email does not exist",e.getMessage());
+        }
+
+    }
 }

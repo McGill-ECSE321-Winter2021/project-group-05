@@ -345,9 +345,7 @@ public class PersonService {
     }
 
     @Transactional
-    public List<Administrator> getAllAdministrator() {
-        return RepairShopUtil.toList(administratorRepository.findAll());
-    }
+    public List<Administrator> getAllAdministrator() {return RepairShopUtil.toList(administratorRepository.findAll()); }
 
     @Transactional
     public Administrator updateAdministrator(String email, AdministratorDto administratorDto) throws PersonException{

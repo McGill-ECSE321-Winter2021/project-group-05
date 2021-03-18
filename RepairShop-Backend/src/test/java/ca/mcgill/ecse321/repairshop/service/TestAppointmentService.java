@@ -114,6 +114,7 @@ public class TestAppointmentService {
                 timeSlot.setId(TIMESLOT_ID);
                 return timeSlot;
             }
+
             else{
                 return null;
             }
@@ -121,10 +122,14 @@ public class TestAppointmentService {
 
         // findServiceByName
         lenient().when(serviceDao.findServiceByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(Service_ID)) {
+            if(invocation.getArgument(0).equals(NAME)) {
                 BookableService service = new BookableService();
                 return service;
             }
+        else if (invocation.getArgument(0).equals(SERVICE_NAME_2)) {
+                BookableService service = new BookableService();
+                return service;
+        }
             else{
                 return null;
             }
