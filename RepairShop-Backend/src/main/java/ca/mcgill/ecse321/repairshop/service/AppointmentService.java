@@ -145,5 +145,9 @@ public class AppointmentService {
         }
 
     }
+    @Transactional
+    public List<Appointment> getAllAppointments() {
+        return RepairShopUtil.toList(appointmentRepository.findAll());
+    }
 
 }
