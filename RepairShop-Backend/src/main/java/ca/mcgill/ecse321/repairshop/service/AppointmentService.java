@@ -70,7 +70,7 @@ public class AppointmentService {
     @Transactional
     public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
                                  TimeSlot timeSlot) throws AppointmentException {
-        if (service_new== null || service_new.size() == 0){
+        if (service_new == null || service_new.size() == 0){
             throw new AppointmentException("The Appointment must have at least one services");
         }
 

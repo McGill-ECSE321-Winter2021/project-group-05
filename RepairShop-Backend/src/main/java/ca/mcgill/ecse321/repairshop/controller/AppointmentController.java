@@ -54,7 +54,7 @@ public class AppointmentController {
                 List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
                 List<BookableService> service_new = new ArrayList<>();
                 for (BookableServiceDto s : newServicesDto) {
-                    service_new.add(repairShopService.getService(s.getName()));
+                    service_new.add(repairShopService.getService(s.getId()));
                 }
 
                 Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);

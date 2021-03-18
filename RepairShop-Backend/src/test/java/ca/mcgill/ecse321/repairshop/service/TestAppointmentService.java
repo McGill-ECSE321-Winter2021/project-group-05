@@ -66,8 +66,14 @@ public class TestAppointmentService {
     private static final Long APPOINTMENT_KEY = 0L;
     private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
     private static final String CUSTOMER_ID = "mtl@mcgill.ca";
+    private static final String CUSTOMER_ID_2 = "mtl@google.ca";
     private static final Long TIMESLOT_ID = 0L;
-    private static final String Service_ID="Test Service";
+    private static final String NAME = "TestService";
+    private static final String SERVICE_NAME_2 = "Fix fog light";
+    private static final Long Service_ID = 1l;
+    private static final Long Service_ID_2 = 2L;
+    private static final float COST = 12.99f;
+    private static final int DURATION = 20;
 
     // IN ORDER TO TEST GET GETAPPOINTMENT
     @BeforeEach
@@ -90,6 +96,10 @@ public class TestAppointmentService {
             if(invocation.getArgument(0).equals(CUSTOMER_ID)) {
                 Customer customer = new Customer();
                 customer.setEmail(CUSTOMER_ID);
+                return customer;
+            }else if (invocation.getArgument(0).equals(CUSTOMER_ID_2)) {
+                Customer customer = new Customer();
+                customer.setEmail(CUSTOMER_ID_2);
                 return customer;
             }
             else{
@@ -114,6 +124,27 @@ public class TestAppointmentService {
             if(invocation.getArgument(0).equals(Service_ID)) {
                 BookableService service = new BookableService();
                 return service;
+            }
+            else{
+                return null;
+            }
+        });
+
+        lenient().when(serviceDao.findServiceById(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(Service_ID)){
+                BookableService bookableService = new BookableService();
+                bookableService.setName(NAME);
+                bookableService.setCost(COST);
+                bookableService.setDuration(DURATION);
+                bookableService.setId(Service_ID);
+                return bookableService;
+            }else if(invocation.getArgument(0).equals(Service_ID_2)) {
+                BookableService bookableService = new BookableService();
+                bookableService.setName(SERVICE_NAME_2);
+                bookableService.setCost(COST);
+                bookableService.setDuration(DURATION);
+                bookableService.setId(Service_ID_2);
+                return bookableService;
             }
             else{
                 return null;
@@ -587,9 +618,10 @@ public class TestAppointmentService {
 
     private BookableService createTestService(){
         try {
-            float serviceCost = 10;
+            float serviceCost = 10f;
             int serviceDuration = 60;
-            BookableService service = repairShopService.createService(Service_ID, serviceCost, serviceDuration);
+            BookableService service = repairShopService.createService(SERVICE_NAME_2, serviceCost, serviceDuration);
+            service.setId(Service_ID_2);
 
             return service;
         }
@@ -607,15 +639,18 @@ public class TestAppointmentService {
 
     private Customer createTestCustomer(){
         // CREATING CUSTOMER
-        String customerUsername = "Bob";
-        String customerPassword = "abc123";
-        Customer testCustomer = null;
-        try {
-            testCustomer = personService.createCustomer(CUSTOMER_ID, customerUsername, customerPassword);
-        } catch (PersonException e) {
-            e.printStackTrace();
-        }
-        testCustomer.setEmail(CUSTOMER_ID);
-        return testCustomer;
+        Customer customer = new Customer();                 // create customer
+        String username = "johndoe007";
+        String password = "password" ;
+        String cardNumber = "1234567890123456";
+        String cvv = "123";
+        int noShow = 1;
+        customer.setEmail(CUSTOMER_ID_2);
+        customer.setCardNumber(cardNumber);
+        customer.setCvv(cvv);
+        customer.setUsername(username);
+        customer.setNoShow(noShow);
+        customer.setPassword(password);
+        return customer;
     }
 }
