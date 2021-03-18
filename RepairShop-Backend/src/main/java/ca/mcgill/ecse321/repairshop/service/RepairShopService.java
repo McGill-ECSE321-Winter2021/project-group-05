@@ -115,7 +115,7 @@ public class RepairShopService {
                 }
             }
         }
-        Long id = bookableService.getId();
-        serviceRepository.deleteById(id);
+
+        serviceRepository.deleteById(bookableService.getId());
     }
 }
