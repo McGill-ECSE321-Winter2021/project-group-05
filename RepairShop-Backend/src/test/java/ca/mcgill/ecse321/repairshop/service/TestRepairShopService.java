@@ -914,7 +914,7 @@ public class TestRepairShopService {
             service = repairShopService.createService("Place holder", COST, DURATION);      // TODO  : workaround - test skipped
             service.setId(10l);
             service.setName(SERVICE_NAME_2);
-            service.setId(EXISTING_SERVICE_ID_2);
+            // service.setId(EXISTING_SERVICE_ID_2);       //???? WHY
 
         } catch (BookableServiceException e) {
             System.out.println(e.getMessage());
@@ -945,7 +945,7 @@ public class TestRepairShopService {
 
         try {
             repairShopService.deleteBookableService(service);
-            assertNull(repairShopService.getService(EXISTING_SERVICE_ID_2));
+            assertNull(repairShopService.getService(service.getId()));
         } catch (BookableServiceException e) {
             System.out.println(e.getMessage());
             fail();

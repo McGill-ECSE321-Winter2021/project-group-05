@@ -295,7 +295,7 @@ public class TestAdministratorService {
         try {
              personService.deleteAdministrator("nonexisting@mail.ca");
         } catch (PersonException e) {
-            assertEquals("The customer with the given id does not exist",e.getMessage());
+            assertEquals("The Administrator with the given id does not exist",e.getMessage());
         }
 
     }

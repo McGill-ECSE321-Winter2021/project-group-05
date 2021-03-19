@@ -103,8 +103,8 @@ public class RepairShopService {
         if (bookableService == null){
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
-        Long id = bookableService.getId();
-        serviceRepository.deleteById(id);
+        //Long id = bookableService.getId();
+        //serviceRepository.deleteById(id);
         //TODO : get appointment from database instead. getRepairShop() returns null
 
         // cannot delete a service which still have future appointment link to it

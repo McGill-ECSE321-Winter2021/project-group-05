@@ -336,7 +336,7 @@ public class PersonService {
     public Administrator deleteAdministrator(String email) throws PersonException{
         Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
         if(!administratorOptional.isPresent()){
-            throw new PersonException("The customer with the given id does not exist");
+            throw new PersonException("The Administrator with the given id does not exist");
         }
         Administrator administrator = administratorOptional.get();
         Long id = administrator.getId();
