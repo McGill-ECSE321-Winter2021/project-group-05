@@ -103,10 +103,6 @@ public class RepairShopService {
         if (bookableService == null){
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
-        //Long id = bookableService.getId();
-        //serviceRepository.deleteById(id);
-        //TODO : get appointment from database instead. getRepairShop() returns null
-
 
         if(serviceRepository.findServiceById(bookableService.getId()) == null) {
             throw new BookableServiceException("Service does not exist");
@@ -114,7 +110,6 @@ public class RepairShopService {
 
             // cannot delete a service which still have future appointment link to it
             for (Appointment appointment : appointmentRepository.findAll()) {
-
 
                 // loop through all future appointments in future days
                 if (appointment.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())
@@ -128,7 +123,6 @@ public class RepairShopService {
                 }
             }
         }
-
 
         serviceRepository.deleteById(bookableService.getId());
 

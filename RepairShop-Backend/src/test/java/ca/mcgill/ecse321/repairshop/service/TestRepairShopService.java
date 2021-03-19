@@ -55,21 +55,20 @@ public class TestRepairShopService {
     @InjectMocks
     private BusinessService businessService;
 
-    private static String NAME = "TestService";
-    private static String SERVICE_NAME_2 = "Fix fog light";
-    private static String NON_EXISTING_SERVICE = "Fix tail light";
-    private static float COST = 21.3f;
-    private static int DURATION = 10;
-    private static Long EXISTING_SERVICE_ID = 2L;
-    private static Long EXISTING_SERVICE_ID_2 = 3L;
-    private static Long NON_EXISTING_SERVICE_ID = 4L;
-    //private static String NONEXISTING_SERVICE = "Non existing service";
+    private static final String NAME = "TestService";
+    private static final String SERVICE_NAME_2 = "Fix fog light";
+    private static final String NON_EXISTING_SERVICE = "Fix tail light";
+    private static final float COST = 21.3f;
+    private static final int DURATION = 10;
+    private static final Long EXISTING_SERVICE_ID = 2L;
+    private static final Long EXISTING_SERVICE_ID_2 = 3L;
+    private static final Long NON_EXISTING_SERVICE_ID = 4L;
 
-    private static Long TIMESLOT_ID = 0L;
-    private static Long BUSINESS_ID = 0L;
-    private static String CUSTOMER_ID = "johndoe@mail.mcgill.ca";
-    private static String CUSTOMER_ID_2 = "anna-taylorjoy@mcgill.ca";
-    private static Long APPOINTMENT_ID = 0L;
+    private static final Long TIMESLOT_ID = 0L;
+    private static final Long BUSINESS_ID = 0L;
+    private static final String CUSTOMER_ID = "johndoe@mail.mcgill.ca";
+    private static final String CUSTOMER_ID_2 = "anna-taylorjoy@mcgill.ca";
+    private static final Long APPOINTMENT_ID = 0L;
 
     @BeforeEach
     public void setMockOutPut(){
@@ -231,6 +230,9 @@ public class TestRepairShopService {
         lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(businessRepository.save(any(Business.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(ownerRepository.save(any(Owner.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(administratorRepository.save(any(Administrator.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(technicianRepository.save(any(Technician.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(timeSlotRepository.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
     }
 
@@ -241,7 +243,6 @@ public class TestRepairShopService {
     public void testCreateServiceSuccessfully(){
         try{
             String serviceName = NAME;
-            // validation skipped due to mockito limitations
             BookableService createdService = repairShopService.createService("Place holder", COST, DURATION);
             createdService.setName(serviceName);
             createdService.setId(EXISTING_SERVICE_ID);
@@ -255,7 +256,6 @@ public class TestRepairShopService {
             assertEquals(EXISTING_SERVICE_ID, createdService.getId());
         }
         catch (BookableServiceException e){
-            e.printStackTrace();
             fail();
         }
 
@@ -474,7 +474,6 @@ public class TestRepairShopService {
         try {
             service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
         } catch (BookableServiceException e) {
-            e.printStackTrace();
             fail();
         }
         service.setId(5l);
@@ -508,7 +507,6 @@ public class TestRepairShopService {
         try {
             service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
         } catch (BookableServiceException e) {
-            e.printStackTrace();
             fail();
         }
         service.setId(5l);
@@ -610,7 +608,7 @@ public class TestRepairShopService {
         Time endTime = Time.valueOf("12:00:00");
         TimeSlot timeSlot = timeSlotService.createTimeSlot(date, startTime, endTime);
         timeSlot.setId(TIMESLOT_ID);
-        timeSlot.setDate(Date.valueOf("2021-02-01"));       // workaround the restriction
+        timeSlot.setDate(Date.valueOf("2021-02-01"));
         timeSlot.setRepairShop(repairShop);
 
 
@@ -633,18 +631,17 @@ public class TestRepairShopService {
         business.setRepairShop(repairShop);
 
 
-        String username = "johndoe007";                 // create customer
+        String username = "johndoe007";                  // create customer
         String password = "password" ;
         String cardNumber = "1234567890123456";
         String cvv = "123";
         Date expiry = Date.valueOf("2023-06-27");
         int noShow = 1;
         Customer customer = null;
-//        customer = new Customer();
         try {
             customer = personService.createCustomer("123@placeholder.com", username, password);
         } catch (PersonException e) {
-            System.out.println(e.getMessage());
+            fail();
         }
         customer.setEmail(CUSTOMER_ID);
         customer.setCardNumber(cardNumber);
@@ -658,24 +655,23 @@ public class TestRepairShopService {
         List<BookableService> services = new ArrayList<>();
         BookableService service = null;
         try {
-            service = repairShopService.createService("Place holder", COST, DURATION);      // TODO  : workaround - test skipped
-            //service.setId(10l);
+            service = repairShopService.createService("Place holder", COST, DURATION);
             service.setName(SERVICE_NAME_2);
             service.setId(EXISTING_SERVICE_ID_2);
 
         } catch (BookableServiceException e) {
-            System.out.println(e.getMessage());
+            fail();
         }
 
         service.setRepairShop(repairShop);
         services.add(service);
 
 
-        Appointment appointment1 = null;
+        Appointment appointment1 = null;                          // create appointment
         try {
-            appointment1 = appointmentService.createAppointment(services, customer, timeSlot);          // create appointment
+            appointment1 = appointmentService.createAppointment(services, customer, timeSlot);
         } catch (AppointmentException e) {
-            System.out.println(e.getMessage());
+            fail();
         }
         appointment1.setServices(services);
         appointment1.setCustomer(customer);
@@ -692,10 +688,8 @@ public class TestRepairShopService {
 
         try {
             repairShopService.deleteBookableService(service);
-            System.out.println(service.getId());
-            assertNull(repairShopService.getService(service.getId()));      // assign id?
+            assertNull(repairShopService.getService(service.getId()));
         } catch (BookableServiceException e) {
-            System.out.println(e.getMessage());
             fail();
         }
 
@@ -707,6 +701,7 @@ public class TestRepairShopService {
      */
     @Test
     public void testDeleteServiceThatDoesNotExist() {
+        String error = null;
         try{
             RepairShop repairShop = new RepairShop();
 
@@ -738,7 +733,6 @@ public class TestRepairShopService {
             String password = "password" ;
             String cardNumber = "1234567890123456";
             String cvv = "123";
-            Long personId = 3L;
             Date expiry = Date.valueOf("2023-06-27");
             int noShow = 1;
             customer.setEmail(customerEmail);
@@ -752,8 +746,7 @@ public class TestRepairShopService {
             customer.setRepairShop(repairShop);
 
 
-            // create service
-            String serviceName = "Sound system repair";
+            String serviceName = "Sound system repair";             // create service
             float serviceCost = 55.89f;
             int serviceDuration = 18;
             BookableService service1 = repairShopService.createService(serviceName, COST, DURATION);
@@ -788,15 +781,12 @@ public class TestRepairShopService {
             repairShop.setTimeSlots(timeSlots);
             repairShop.setId(6l);
             repairShop.setBusiness(business);
-            System.out.println(service1.getRepairShop());
-
             service1.setRepairShop(repairShop);
-
-
             repairShopService.deleteBookableService(service1);
         } catch(BookableServiceException e) {
-            assertEquals("Service does not exist", e.getMessage());
+            error = e.getMessage();
         }
+        assertEquals("Service does not exist", error);
 
     }
 
@@ -858,7 +848,6 @@ public class TestRepairShopService {
         try {
             customer = personService.createCustomer("example@placeholder.com", username, password);
         } catch (PersonException e) {
-            System.out.println(e.getMessage());
             fail();
         }
         customer.setEmail(CUSTOMER_ID);
@@ -873,12 +862,11 @@ public class TestRepairShopService {
         List<BookableService> services = new ArrayList<>();
         BookableService service = null;
         try {
-            service = repairShopService.createService("Place holder", COST, DURATION);      // TODO  : workaround - test skipped
+            service = repairShopService.createService("Place holder", COST, DURATION);
             service.setName(NAME);
             service.setId(EXISTING_SERVICE_ID);
 
         } catch (BookableServiceException e) {
-            System.out.println(e.getMessage());
             fail();
         }
 
@@ -886,12 +874,11 @@ public class TestRepairShopService {
         services.add(service);
 
 
-        Appointment appointment1 = null;
+        Appointment appointment1 = null;                    // create appointment
         String error = null;
         try {
-            appointment1 = appointmentService.createAppointment(services, customer, timeSlot);          // create appointment
+            appointment1 = appointmentService.createAppointment(services, customer, timeSlot);
         } catch (AppointmentException e) {
-            System.out.println(e.getMessage());
             fail();
         }
         appointment1.setServices(services);
@@ -910,7 +897,6 @@ public class TestRepairShopService {
         try {
             repairShopService.deleteBookableService(service);
         } catch (BookableServiceException e) {
-            System.out.println(e.getMessage());
             error = e.getMessage();
         }
         assertEquals("Cannot delete a service which still has future appointments", error);
@@ -961,7 +947,6 @@ public class TestRepairShopService {
         try {
             customer = personService.createCustomer("example@placeholder.com", username, password);
         } catch (PersonException e) {
-            System.out.println(e.getMessage());
             fail();
         }
         customer.setEmail(CUSTOMER_ID);
@@ -976,12 +961,11 @@ public class TestRepairShopService {
         List<BookableService> services = new ArrayList<>();
         BookableService service = null;
         try {
-            service = repairShopService.createService("Place holder", COST, DURATION);      // TODO  : workaround - test skipped
+            service = repairShopService.createService("Place holder", COST, DURATION);
             service.setName(NAME);
             service.setId(EXISTING_SERVICE_ID);
 
         } catch (BookableServiceException e) {
-            System.out.println(e.getMessage());
             fail();
         }
 
@@ -989,12 +973,11 @@ public class TestRepairShopService {
         services.add(service);
 
 
-        Appointment appointment1 = null;
+        Appointment appointment1 = null;                          // create appointment
         String error = null;
         try {
-            appointment1 = appointmentService.createAppointment(services, customer, timeSlot);          // create appointment
+            appointment1 = appointmentService.createAppointment(services, customer, timeSlot);
         } catch (AppointmentException e) {
-            System.out.println(e.getMessage());
             fail();
         }
         appointment1.setServices(services);
@@ -1013,7 +996,6 @@ public class TestRepairShopService {
         try {
             repairShopService.deleteBookableService(service);
         } catch (BookableServiceException e) {
-            System.out.println(e.getMessage());
             error = e.getMessage();
         }
         assertEquals("Cannot delete a service which still has future appointments", error);
@@ -1078,7 +1060,7 @@ public class TestRepairShopService {
     @Test
     public void testGetAllServiceForNonExistingService() {
         try {
-            BookableService bookableService = repairShopService.createService("Tire rims repair", COST, DURATION);
+            BookableService bookableService = repairShopService.createService("Tire rim repair", COST, DURATION);
             bookableService.setCost(55.97f);
             bookableService.setDuration(55);
             bookableService.setId(NON_EXISTING_SERVICE_ID);
@@ -1089,7 +1071,5 @@ public class TestRepairShopService {
             fail();
         }
     }
-
-
 
 }
