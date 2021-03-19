@@ -48,7 +48,7 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
 
-       // appointmentRepository.save(appointment);
+        // appointmentRepository.save(appointment);
         Bill bill = new Bill();
         bill.setDate(timeslot.getDate());
         bill.setTotalCost(RepairShopUtil.getTotalCostOfAppointment(appointment));
@@ -66,7 +66,7 @@ public class AppointmentService {
 
     @Transactional
     public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
-                                 TimeSlot timeSlot) throws AppointmentException {
+                                        TimeSlot timeSlot) throws AppointmentException {
         if (service_new == null || service_new.size() == 0){
             throw new AppointmentException("The Appointment must have at least one services");
         }
@@ -123,22 +123,11 @@ public class AppointmentService {
         LocalDate today = LocalDate.now();
 
         if (appointment==null){
-
             throw new AppointmentException("appointment cannot be null");
         }
-
-        TimeSlot timeslot = appointment.getTimeslot();
-        LocalDate tsDate = timeslot.getDate().toLocalDate();
-        LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
-        LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
-        if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
-            int noShow = appointment.getCustomer().getNoShow();
-            noShow++;
-            appointment.getCustomer().setNoShow(noShow);
-        }else{
-            throw new AppointmentException("Cannot enter no show at this time");
-        }
-
+        int noShow = appointment.getCustomer().getNoShow();
+        noShow++;
+        appointment.getCustomer().setNoShow(noShow);
     }
 
 }

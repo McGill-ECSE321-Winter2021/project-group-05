@@ -520,7 +520,7 @@ public class TestAppointmentService {
 
         try {
             Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
-            appointment.setId(APPOINTMENT_KEY);
+            appointment.setId(10L);
             appointmentService.deleteAppointment(appointment);
             // AFTER DELETION
             System.out.println(appointment.getId() + " : HERE");
