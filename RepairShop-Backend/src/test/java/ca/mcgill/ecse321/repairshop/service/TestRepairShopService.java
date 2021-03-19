@@ -657,7 +657,7 @@ public class TestRepairShopService {
         try {
             service = repairShopService.createService("Place holder", COST, DURATION);
             service.setName(SERVICE_NAME_2);
-            service.setId(EXISTING_SERVICE_ID_2);
+            service.setId(10l);
 
         } catch (BookableServiceException e) {
             fail();
@@ -690,6 +690,7 @@ public class TestRepairShopService {
             repairShopService.deleteBookableService(service);
             assertNull(repairShopService.getService(service.getId()));
         } catch (BookableServiceException e) {
+            e.printStackTrace();
             fail();
         }
 

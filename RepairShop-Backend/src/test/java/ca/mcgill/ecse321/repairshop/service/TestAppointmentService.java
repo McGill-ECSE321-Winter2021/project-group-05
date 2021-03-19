@@ -522,9 +522,7 @@ public class TestAppointmentService {
             Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
             appointmentService.deleteAppointment(appointment);
             // AFTER DELETION
-            System.out.println(appointment.getId() + " : HERE");
             assertNull(appointmentService.getAppointment(appointment.getId()));
-
         }
         catch (AppointmentException e) {
             // Check that no error occurred

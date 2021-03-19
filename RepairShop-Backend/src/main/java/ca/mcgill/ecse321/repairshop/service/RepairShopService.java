@@ -104,7 +104,7 @@ public class RepairShopService {
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
 
-        if(serviceRepository.findServiceById(bookableService.getId()) == null) {
+        if(serviceRepository.findServiceByName(bookableService.getName()) == null) {
             throw new BookableServiceException("Service does not exist");
         } else {
 
