@@ -37,13 +37,6 @@ public class TimeSlotController {
         }
     }
 
-    private TimeSlotDto convertToDto(TimeSlot timeSlot){
-        if (timeSlot == null){
-            throw new IllegalArgumentException("There is no such TimeSlot!");
-        }
-        TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getDate(),timeSlot.getStartTime(),timeSlot.getEndTime(), timeSlot.getId());
-        return timeSlotDto;
-    }
 
     @DeleteMapping(value = { "/timeSlot/{id}", "/timeSlot/{id}/" })
     public void deleteTimeSlot(@PathVariable("id") Long id) throws IllegalArgumentException{
