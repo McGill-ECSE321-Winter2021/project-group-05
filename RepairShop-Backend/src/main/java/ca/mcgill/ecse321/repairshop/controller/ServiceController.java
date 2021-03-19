@@ -70,12 +70,17 @@ public class ServiceController {
      * delete service
      */
     @DeleteMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
-    public void deleteBookableService(@PathVariable("name") String name) throws BookableServiceException {
+    public ResponseEntity<?> deleteBookableService(@PathVariable("name") String name){
         BookableService bookableService = repairShopService.getService(name);
         if (bookableService == null) {
-            throw new BookableServiceException("Cannot delete a null service");
+            return new ResponseEntity<>("Cannot delete a null service", HttpStatus.BAD_REQUEST);
         }
         // find the appointment using id
-        repairShopService.deleteBookableService(bookableService);
+        try {
+            repairShopService.deleteBookableService(bookableService);
+        } catch (BookableServiceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("The service has been succesfully deleted", HttpStatus.OK);
     }
 }

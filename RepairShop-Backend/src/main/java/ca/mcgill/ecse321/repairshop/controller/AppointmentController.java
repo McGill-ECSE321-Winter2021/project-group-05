@@ -43,16 +43,17 @@ public class AppointmentController {
      */
     @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
     public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
-                                             @RequestBody AppointmentDto appointmentDto) {
+                                             @RequestParam(value = "timeSlotId") Long timeSlotId,
+                                             @RequestParam(value = "serviceNames") List<String> serviceNames) {
         try {
-            TimeSlot timeSlot = timeSlotService.getTimeSlot(appointmentDto.getTimeSlot().getId());
+            TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
             if (canCancelAndDelete(timeSlot)) {
                 Appointment appointment = appointmentService.getAppointment(id);
 
-                List<BookableServiceDto> newServicesDto = appointmentDto.getServices();
                 List<BookableService> service_new = new ArrayList<>();
-                for (BookableServiceDto s : newServicesDto) {
-                    service_new.add(repairShopService.getService(s.getId()));
+                for(String serviceName : serviceNames){
+                    BookableService bookableService = repairShopService.getService(serviceName);
+                    service_new.add(bookableService);
                 }
 
                 Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);
@@ -70,20 +71,20 @@ public class AppointmentController {
      * delete appointment
      */
     @DeleteMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
-    public void deleteAppointment(@PathVariable("id") Long id) throws AppointmentException {
+    public ResponseEntity<?> deleteAppointment(@PathVariable("id") Long id) throws AppointmentException {
         Appointment appointment = appointmentService.getAppointment(id);
         if (appointment == null) {
             throw new AppointmentException("Cannot delete a null appointment");
         }
-
         TimeSlot timeSlot = appointment.getTimeslot();
         // check if it's within 24 hr
         if (canCancelAndDelete(timeSlot)) {
             // find the appointment using id
             appointmentService.deleteAppointment(appointment);
+            return new ResponseEntity<>("Appointment has been deleted", HttpStatus.OK);
         }
         else{
-            throw new AppointmentException("Cannot delete appointment before 24hr");
+            return new ResponseEntity<>("Cannot delete appointment 24hrs before start time", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -94,7 +95,7 @@ public class AppointmentController {
     @PostMapping(value = { "/appointment", "/appointment/" })
     public ResponseEntity<?> createAppointment( @RequestParam(value="customerEmail") String customerEmail,
                                                 @RequestParam(value="serviceNames") List<String> serviceNames,
-                                                @RequestBody TimeSlotDto timeSlotDto) {
+                                                @RequestParam(value="timeSlotId") Long id) {
         try {
             Customer customer = personService.getCustomer(customerEmail);
             //CONVERT BOOKABLE SERVICE DTO --> DAO
@@ -102,8 +103,7 @@ public class AppointmentController {
             for (String name: serviceNames){
                 service.add(repairShopService.getService(name));
             }
-
-            TimeSlot timeSlot = RepairShopUtil.convertToEntity(timeSlotDto);
+            TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
             Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
 
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
@@ -115,7 +115,7 @@ public class AppointmentController {
 
     }
 
-    @GetMapping(value = { "/appointments/person/{id}", "/appointments/person/{id}/"})
+    @GetMapping(value = { "/appointment/person/{email}", "/appointment/person/{email}/"})
     public List<AppointmentDto> getAppointmentHistory(@PathVariable("email") String email) throws AppointmentException {
         Customer customer = null;
         try {
@@ -168,9 +168,9 @@ public class AppointmentController {
         LocalTime tsStartTime = timeSlot.getStartTime().toLocalTime();
         int hourTS = tsStartTime.getHour();
 
-        if (yearToday < yearTS || monthToday < monthTS || dayToday <= dayTS ){return false;}
+        if (yearToday < yearTS || monthToday < monthTS || dayToday <= dayTS ){return true;}
         else{
-            if (yearToday > yearTS || monthToday > monthTS || dayToday - dayTS >1){ return true;}
+            if (yearToday > yearTS || monthToday > monthTS || dayToday - dayTS >1){ return false;}
             // if there's only one day before the appointment date
             else{
                 // can cancel / edit appointment when there's still 24 hours

@@ -48,11 +48,12 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
 
-        appointmentRepository.save(appointment);
+       // appointmentRepository.save(appointment);
         Bill bill = new Bill();
         bill.setDate(timeslot.getDate());
         bill.setTotalCost(RepairShopUtil.getTotalCostOfAppointment(appointment));
         appointment.setBill(bill);
+        billRepository.save(bill);
         appointmentRepository.save(appointment);
         return appointment;
     }
