@@ -80,7 +80,7 @@ public class AppointmentController {
         // check if it's within 24 hr
         if (canCancelAndDelete(timeSlot)) {
             // find the appointment using id
-            appointmentService.deleteAppointment(appointment);
+            appointmentService.deleteAppointment(id);
         }
         else{
             throw new AppointmentException("Cannot delete appointment before 24hr");

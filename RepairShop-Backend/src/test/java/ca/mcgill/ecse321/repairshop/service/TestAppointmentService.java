@@ -398,237 +398,236 @@ public class TestAppointmentService {
      */
     // POSITIVE TEST
     @Test
-    public void testEditAppointment(){
+    public void testEditAppointment() {
         try {
-        /**
-         * The original Appointment
-         */
-        //CREATING TIMESLOT
-        Calendar c = Calendar.getInstance();
-        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
-        Date appointmentDate = new Date(c.getTimeInMillis());
-        LocalTime startTime = LocalTime.parse("09:00");
-        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
-        LocalTime endTime = LocalTime.parse("10:00");
-        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(0L);
+            /**
+             * The original Appointment
+             */
+            //CREATING TIMESLOT
+            Calendar c = Calendar.getInstance();
+            c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+            Date appointmentDate = new Date(c.getTimeInMillis());
+            LocalTime startTime = LocalTime.parse("09:00");
+            c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+            LocalTime endTime = LocalTime.parse("10:00");
+            TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            timeSlot.setId(0L);
 
-        List<BookableService> bookableServices = createTestListServices();
-        Customer customer = createTestCustomer();
-         /**
-         * Edited appointment
-         */
-        //CREATING NEW TIMESLOT
-        Calendar c_new = Calendar.getInstance();
-        c_new.set(2021, Calendar.MAY, 3, 9, 0, 0);
-        Date appointmentDate_new = new Date(c.getTimeInMillis());
-        LocalTime startTime_new = LocalTime.parse("09:00");
-        c_new.set(2021, Calendar.MAY, 3, 10, 0, 0);
-        LocalTime endTime_new = LocalTime.parse("10:00");
-        TimeSlot timeSlot_new = timeSlotService.createTimeSlot(appointmentDate_new, Time.valueOf(startTime_new),
-                Time.valueOf(endTime_new));
-        timeSlot_new.setId(0L);
+            List<BookableService> bookableServices = createTestListServices();
+            Customer customer = createTestCustomer();
+            /**
+             * Edited appointment
+             */
+            //CREATING NEW TIMESLOT
+            Calendar c_new = Calendar.getInstance();
+            c_new.set(2021, Calendar.MAY, 3, 9, 0, 0);
+            Date appointmentDate_new = new Date(c.getTimeInMillis());
+            LocalTime startTime_new = LocalTime.parse("09:00");
+            c_new.set(2021, Calendar.MAY, 3, 10, 0, 0);
+            LocalTime endTime_new = LocalTime.parse("10:00");
+            TimeSlot timeSlot_new = timeSlotService.createTimeSlot(appointmentDate_new, Time.valueOf(startTime_new),
+                    Time.valueOf(endTime_new));
+            timeSlot_new.setId(0L);
 
-        String serviceName1 = "RepairWindows";
-        float serviceCost1 = 20;
-        int serviceDuration1 = 120;
-        BookableService service1 = repairShopService.createService(serviceName1,serviceCost1,serviceDuration1);
+            String serviceName1 = "RepairWindows";
+            float serviceCost1 = 20;
+            int serviceDuration1 = 120;
+            BookableService service1 = repairShopService.createService(serviceName1, serviceCost1, serviceDuration1);
 
 
-        List<BookableService> bookableServices_new = new ArrayList<>();
-        bookableServices_new.add(service1);
+            List<BookableService> bookableServices_new = new ArrayList<>();
+            bookableServices_new.add(service1);
 
             Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
             appointmentService.editAppointment(appointment, bookableServices_new, timeSlot);
-            checkResultAppointment( appointment, bookableServices_new, CUSTOMER_ID_2, timeSlot_new.getDate(),
+            checkResultAppointment(appointment, bookableServices_new, CUSTOMER_ID_2, timeSlot_new.getDate(),
                     timeSlot_new.getStartTime().toLocalTime(), timeSlot_new.getEndTime().toLocalTime());
 
-        }
-        catch (AppointmentException e){
-            e.printStackTrace();
-            fail();
-        }
-        catch (BookableServiceException e){
-            e.printStackTrace();
-            fail();
-        }
-
-    }
-    // NEGATIVE TEST
-    @Test
-    public void testEditAppointmentNegative(){
-        /**
-         * The original Appointment
-         */
-        //CREATING TIMESLOT
-        Calendar c = Calendar.getInstance();
-        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
-        Date appointmentDate = new Date(c.getTimeInMillis());
-        LocalTime startTime = LocalTime.parse("09:00");
-        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
-        LocalTime endTime = LocalTime.parse("10:00");
-        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(0L);
-
-        List<BookableService> bookableServices = createTestListServices();
-        Customer customer = createTestCustomer();
-
-        String error = null;
-        try {
-            Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
-            appointmentService.editAppointment(appointment,null,null);
-        }
-        catch (AppointmentException e){
-            error = e.getMessage();
-            assertEquals("The Appointment must have at least one services",error);
-        }
-
-    }
-
-
-    /**
-     * TESTING deleteAppointment
-     */
-    // NEGATIVE TEST
-    @Test
-    public void testDeleteNullAppointment(){
-        Appointment appointment = null;
-        String error = null;
-        try {
-            appointmentService.deleteAppointment(appointment);
-        }
-        catch (AppointmentException e){
-            error = e.getMessage();
-            assertEquals("Cannot delete a null appointment",error);
-        }
-    }
-    // POSITIVE TEST
-    @Test
-    public void testDeleteAppointment(){
-        //CREATING TIMESLOT
-        Calendar c = Calendar.getInstance();
-        c.set(2021, Calendar.MAY, 1, 9, 0, 0);
-        Date appointmentDate = new Date(c.getTimeInMillis());
-        LocalTime startTime = LocalTime.parse("09:00");
-        c.set(2021, Calendar.MAY, 1, 10, 0, 0);
-        LocalTime endTime = LocalTime.parse("10:00");
-
-        TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(TIMESLOT_ID);
-        List<BookableService> services = createTestListServices();
-        Customer customer = createTestCustomer();
-
-        try {
-            Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
-            appointmentService.deleteAppointment(appointment);
-            // AFTER DELETION
-            System.out.println(appointment.getId() + " : HERE");
-            assertNull(appointmentService.getAppointment(appointment.getId()));
-
-        }
-        catch (AppointmentException e) {
-            // Check that no error occurred
-            e.printStackTrace();
-            fail();
-        }
-
-    }
-
-    /**
-     * test enter no-show
-     */
-
-    @Test
-    public void testWrongEnterNoShow(){
-        LocalDate dateToday = LocalDate.now();
-        Date appointmentDate = Date.valueOf(dateToday);
-        LocalTime startTime = LocalTime.now().minusMinutes(12);
-        LocalTime endTime = LocalTime.now().plusMinutes(50);
-
-        TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(TIMESLOT_ID);
-        List<BookableService> services = createTestListServices();
-        Customer customer = createTestCustomer();
-
-
-
-        String error = null;
-
-        try{
-            Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
-            appointmentService.enterNoShow(appointment);
-        }catch (AppointmentException e){
-            error = e.getMessage();
-            assertEquals(error, "Cannot enter no show at this time");
-        }
-
-    }
-
-    @Test
-    public void testEnterNoShowtoNullAppointment() {
-
-        Appointment appointment = null;
-        String error = null;
-
-        try {
-            appointmentService.enterNoShow(appointment);
         } catch (AppointmentException e) {
-            error = e.getMessage();
-            assertEquals(error, "appointment cannot be null");
+            e.printStackTrace();
+            fail();
+        } catch (BookableServiceException e) {
+
+                e.printStackTrace();
+                fail();
+            }
+
         }
-    }
+
+        // NEGATIVE TEST
+        @Test
+        public void testEditAppointmentNegative () {
+            /**
+             * The original Appointment
+             */
+            //CREATING TIMESLOT
+            Calendar c = Calendar.getInstance();
+            c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+            Date appointmentDate = new Date(c.getTimeInMillis());
+            LocalTime startTime = LocalTime.parse("09:00");
+            c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+            LocalTime endTime = LocalTime.parse("10:00");
+            TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            timeSlot.setId(0L);
+
+            List<BookableService> bookableServices = createTestListServices();
+            Customer customer = createTestCustomer();
+
+            String error = null;
+            try {
+                Appointment appointment = appointmentService.createAppointment(bookableServices, customer, timeSlot);
+                appointmentService.editAppointment(appointment, null, null);
+            } catch (AppointmentException e) {
+                error = e.getMessage();
+                assertEquals("The Appointment must have at least one services", error);
+            }
+
+        }
+
+
+        /**
+         * TESTING deleteAppointment
+         */
+        // NEGATIVE TEST
+        @Test
+        public void testDeleteNonExistingAppointment () {
+
+            Appointment appointment = new Appointment();
+            appointment.setId(0l);
+            String error = null;
+            try {
+                appointmentService.deleteAppointment(1l);
+            } catch (AppointmentException e) {
+                error = e.getMessage();
+                assertEquals("Cannot delete a null appointment", error);
+            }
+        }
+        // POSITIVE TEST
+        @Test
+        public void testDeleteAppointment () {
+            //CREATING TIMESLOT
+            Calendar c = Calendar.getInstance();
+            c.set(2021, Calendar.MAY, 1, 9, 0, 0);
+            Date appointmentDate = new Date(c.getTimeInMillis());
+            LocalTime startTime = LocalTime.parse("09:00");
+            c.set(2021, Calendar.MAY, 1, 10, 0, 0);
+            LocalTime endTime = LocalTime.parse("10:00");
+
+            TimeSlot timeSlot = timeSlotService.createTimeSlot(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            timeSlot.setId(TIMESLOT_ID);
+            List<BookableService> services = createTestListServices();
+            Customer customer = createTestCustomer();
+
+            try {
+                Appointment appointment = appointmentService.createAppointment(services, customer, timeSlot);
+               System.out.println(appointment.getId());
+                appointmentService.deleteAppointment(0l);
+                // AFTER DELETION
+
+                assertNull(appointmentService.getAppointment(0l));
+
+
+            } catch (AppointmentException e) {
+                // Check that no error occurred
+                e.printStackTrace();
+                fail();
+            }
+
+        }
+
+        /**
+         * test enter no-show
+         */
 
         @Test
-        public void testEnterNoShow(){
-        LocalDate dateToday = LocalDate.now();
-        Date appointmentDate = Date.valueOf(dateToday);
-        LocalTime startTime = LocalTime.now().minusMinutes(22);
-        LocalTime endTime = LocalTime.now().plusMinutes(50);
+        public void testWrongEnterNoShow () {
+            LocalDate dateToday = LocalDate.now();
+            Date appointmentDate = Date.valueOf(dateToday);
+            LocalTime startTime = LocalTime.now().minusMinutes(12);
+            LocalTime endTime = LocalTime.now().plusMinutes(50);
 
-        TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
-        timeSlot.setId(TIMESLOT_ID);
-        List<BookableService> services = createTestListServices();
-        Customer customer = createTestCustomer();
+            TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            timeSlot.setId(TIMESLOT_ID);
+            List<BookableService> services = createTestListServices();
+            Customer customer = createTestCustomer();
 
-        String error = null;
 
-        try{
-            Appointment appointment = appointmentService.createAppointment(services,customer,timeSlot);
-            appointmentService.enterNoShow(appointment);
-        }catch (AppointmentException e){
-            error = e.getMessage();
-            assertEquals(error, null);
+            String error = null;
+
+            try {
+                Appointment appointment = appointmentService.createAppointment(services, customer, timeSlot);
+                appointmentService.enterNoShow(appointment);
+            } catch (AppointmentException e) {
+                error = e.getMessage();
+                assertEquals(error, "Cannot enter no show at this time");
+            }
+
+        }
+
+        @Test
+        public void testEnterNoShowtoNullAppointment () {
+
+            Appointment appointment = null;
+            String error = null;
+
+            try {
+                appointmentService.enterNoShow(appointment);
+            } catch (AppointmentException e) {
+                error = e.getMessage();
+                assertEquals(error, "appointment cannot be null");
+            }
+        }
+
+        @Test
+        public void testEnterNoShow () {
+            LocalDate dateToday = LocalDate.now();
+            Date appointmentDate = Date.valueOf(dateToday);
+            LocalTime startTime = LocalTime.now().minusMinutes(22);
+            LocalTime endTime = LocalTime.now().plusMinutes(50);
+
+            TimeSlot timeSlot = timeSlotService.createTimeSlotforTestingNoShow(appointmentDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            timeSlot.setId(TIMESLOT_ID);
+            List<BookableService> services = createTestListServices();
+            Customer customer = createTestCustomer();
+
+            String error = null;
+
+            try {
+                Appointment appointment = appointmentService.createAppointment(services, customer, timeSlot);
+                appointmentService.enterNoShow(appointment);
+            } catch (AppointmentException e) {
+                error = e.getMessage();
+                assertEquals(error, null);
+
+            }
+
 
         }
 
 
+        /**
+         * PRIVATE HELPERS
+         */
+        private void checkResultAppointment (Appointment appointment, List < BookableService > bookableServices,
+                String customerID, Date appointmentDate,
+                LocalTime startTime, LocalTime endTime){
+            assertNotNull(appointment);
+            assertEquals(appointment.getServices().size(), bookableServices.size());
+            int totalCost = 0;
+            for (BookableService b : appointment.getServices()) {
+                totalCost += b.getCost();
+                assertEquals(bookableServices.contains(b), true);
+            }
+            assertEquals(appointment.getCustomer().getEmail(), customerID);
+            assertEquals(appointment.getTimeslot().getDate().toString(), appointmentDate.toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            assertEquals(startTime.format(formatter).toString(), appointment.getTimeslot().getStartTime().toString());
+            assertEquals(endTime.format(formatter).toString(), appointment.getTimeslot().getEndTime().toString());
+            assertEquals(appointment.getBill().getTotalCost(), totalCost);
+            assertEquals(appointment.getBill().getDate(), appointment.getTimeslot().getDate());
 
-
-    }
-
-
-    /**
-     * PRIVATE HELPERS
-     */
-    private void checkResultAppointment(Appointment appointment, List<BookableService> bookableServices,
-                                        String customerID, Date appointmentDate,
-                                        LocalTime startTime, LocalTime endTime) {
-        assertNotNull(appointment);
-        assertEquals(appointment.getServices().size(),bookableServices.size());
-        int totalCost=0;
-        for (BookableService b : appointment.getServices()){
-            totalCost += b.getCost();
-            assertEquals(bookableServices.contains(b),true);
         }
-        assertEquals(appointment.getCustomer().getEmail(),customerID);
-        assertEquals(appointment.getTimeslot().getDate().toString(),appointmentDate.toString());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        assertEquals(startTime.format(formatter).toString(), appointment.getTimeslot().getStartTime().toString());
-        assertEquals(endTime.format(formatter).toString(), appointment.getTimeslot().getEndTime().toString());
-        assertEquals(appointment.getBill().getTotalCost(),totalCost);
-        assertEquals(appointment.getBill().getDate(),appointment.getTimeslot().getDate());
 
-    }
 
     private BookableService createTestService(){
         try {
@@ -669,3 +668,4 @@ public class TestAppointmentService {
         return customer;
     }
 }
+

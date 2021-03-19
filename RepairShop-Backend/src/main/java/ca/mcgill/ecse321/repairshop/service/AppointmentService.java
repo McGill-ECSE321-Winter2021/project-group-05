@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -95,15 +96,25 @@ public class AppointmentService {
         return appointment;
     }
 
-
+    // TODO: to fix
     @Transactional
-    public void deleteAppointment (Appointment appointment) throws AppointmentException {
-        if (appointment == null){
+    public void deleteAppointment (Long id) throws AppointmentException {
+        Optional<Appointment> appointmentOptional = Optional.ofNullable(appointmentRepository.findAppointmentById(id));
+        if(!appointmentOptional.isPresent()){
             throw new AppointmentException("Cannot delete a null appointment");
         }
-        Bill bill = appointment.getBill();
-        appointmentRepository.deleteById(appointment.getId());
-        billRepository.deleteById(bill.getId());
+       // Appointment appointment = getAppointment(id);
+       // Bill bill = appointment.getBill();
+        appointmentRepository.deleteById(id);
+       // billRepository.deleteById(bill.getId());
+
+         /*
+
+
+        Long id = administrator.getId();
+        administratorRepository.deleteById(id);
+        return administrator;
+             */
     }
 
     @Transactional
@@ -129,7 +140,6 @@ public class AppointmentService {
         TimeSlot timeslot = appointment.getTimeslot();
         LocalDate tsDate = timeslot.getDate().toLocalDate();
         LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
-        LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
         if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
             int noShow = appointment.getCustomer().getNoShow();
             noShow++;
