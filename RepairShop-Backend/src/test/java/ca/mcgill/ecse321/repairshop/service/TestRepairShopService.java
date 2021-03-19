@@ -883,7 +883,6 @@ public class TestRepairShopService {
         try {
             appointment1 = appointmentService.createAppointment(services, customer, timeSlot);
         } catch (AppointmentException e) {
-            System.out.println(e.getMessage());
             fail();
         }
         appointment1.setServices(services);
@@ -1000,6 +999,8 @@ public class TestRepairShopService {
 
         try {
             repairShopService.deleteBookableService(service);
+
+
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
@@ -1043,9 +1044,6 @@ public class TestRepairShopService {
         assertNull(repairShopService.getService(NON_EXISTING_SERVICE));
     }
 
-    /**
-     * test getAllService(); POSITIVE
-     */
     @Test
     public void testGetAllServiceForExistingService() {
         try {
