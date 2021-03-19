@@ -1,9 +1,7 @@
 package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.*;
-import ca.mcgill.ecse321.repairshop.dto.AdministratorDto;
 import ca.mcgill.ecse321.repairshop.dto.OwnerDto;
-import ca.mcgill.ecse321.repairshop.model.Administrator;
 import ca.mcgill.ecse321.repairshop.model.Owner;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import org.junit.jupiter.api.BeforeEach;

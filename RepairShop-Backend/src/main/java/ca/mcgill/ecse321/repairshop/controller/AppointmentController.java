@@ -131,16 +131,17 @@ public class AppointmentController {
     }
 
     @PutMapping(value = { "/appointmentNoShow/{id}", "/appointmentNoShow/{id}/" })
-    public void enterNoShow(@PathVariable("id") Long id) throws AppointmentException{
+    public ResponseEntity<?> enterNoShow(@PathVariable("id") Long id) throws AppointmentException{
         Appointment appointment = appointmentService.getAppointment(id);
         if (appointment == null) {
-            throw new AppointmentException("Cannot enter no show for a null appointment");
+            return new ResponseEntity<>("Cannot enter no show for a null appointment", HttpStatus.BAD_REQUEST);
         }
         TimeSlot timeSlot = appointment.getTimeslot();
         if (canEnterNoShow(timeSlot)){
             appointmentService.enterNoShow(appointment);
+            return new ResponseEntity<>("No show count updated for customer", HttpStatus.OK);
         }else{
-            throw new AppointmentException("Cannot enter no show at this time");
+            return new ResponseEntity<>("Cannot enter no show at this time", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -182,8 +183,10 @@ public class AppointmentController {
     private boolean canEnterNoShow(TimeSlot timeslot){
         LocalTime timeNow =  LocalTime.now();
         LocalDate today = LocalDate.now();
-        LocalDate tsDate = timeslot.getDate().toLocalDate();
-        LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
+        //LocalDate tsDate = timeslot.getDate().toLocalDate();
+        LocalDate tsDate = LocalDate.now();
+       // LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
+        LocalTime tsStartTime = timeNow.minusHours(2);
         LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
 
         if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
