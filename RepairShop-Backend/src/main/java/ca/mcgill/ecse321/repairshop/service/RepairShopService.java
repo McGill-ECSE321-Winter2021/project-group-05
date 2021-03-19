@@ -104,6 +104,7 @@ public class RepairShopService {
             throw new BookableServiceException("Cannot delete a service that does not exist");
         }
 
+
         if(serviceRepository.findServiceByName(bookableService.getName()) == null) {
             throw new BookableServiceException("Service does not exist");
         } else {
@@ -119,6 +120,7 @@ public class RepairShopService {
                         if (service.getName().equals(bookableService.getName())) {
                             throw new BookableServiceException("Cannot delete a service which still has future appointments");
                         }
+
                     }
                 }
             }

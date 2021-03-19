@@ -59,6 +59,7 @@ public class RepairShopUtil {
         }
         //service, customer, timeslot bill
         BookableServiceDto serviceDto = new BookableServiceDto(service.getName(), service.getCost(),service.getDuration());
+        serviceDto.setId(service.getId());
         return serviceDto;
     }
 
@@ -141,7 +142,7 @@ public class RepairShopUtil {
         administratorDto.setPassword(administrator.getPassword());
         administratorDto.setUsername(administrator.getUsername());
         administratorDto.setEmail(administrator.getEmail());
-        administratorDto.setId(administratorDto.getId());
+        administratorDto.setId(administrator.getId());
         return administratorDto;
     }
     public static OwnerDto convertToDto(Owner owner){

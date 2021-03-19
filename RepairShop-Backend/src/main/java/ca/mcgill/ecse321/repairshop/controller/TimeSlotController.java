@@ -37,23 +37,17 @@ public class TimeSlotController {
         }
     }
 
-    private TimeSlotDto convertToDto(TimeSlot timeSlot){
-        if (timeSlot == null){
-            throw new IllegalArgumentException("There is no such TimeSlot!");
-        }
-        TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getDate(),timeSlot.getStartTime(),timeSlot.getEndTime(), timeSlot.getId());
-        return timeSlotDto;
-    }
 
     @DeleteMapping(value = { "/timeSlot/{id}", "/timeSlot/{id}/" })
-    public void deleteTimeSlot(@PathVariable("id") Long id) throws IllegalArgumentException{
+    public ResponseEntity<?> deleteTimeSlot(@PathVariable("id") Long id) throws IllegalArgumentException{
         TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
         if (timeSlot == null) {
-            throw new IllegalArgumentException("Cannot delete a null timeSlot");
+           return new ResponseEntity<>("Cannot delete null timeslot", HttpStatus.BAD_REQUEST);
         }
         if(canDeleteTimeSlot(timeSlot)){
             timeSlotService.deleteTimeSlot(timeSlot);
         }
+        return new ResponseEntity<>("The timeslot has been successfully deleted", HttpStatus.OK);
     }
 
    @GetMapping(value = { "/timeslotAvailable", "/timeslotAvailable/"})

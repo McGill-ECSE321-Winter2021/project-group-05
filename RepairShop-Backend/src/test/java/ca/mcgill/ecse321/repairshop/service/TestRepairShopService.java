@@ -962,9 +962,11 @@ public class TestRepairShopService {
         List<BookableService> services = new ArrayList<>();
         BookableService service = null;
         try {
+
             service = repairShopService.createService("Place holder", COST, DURATION);
             service.setName(NAME);
             service.setId(EXISTING_SERVICE_ID);
+
 
         } catch (BookableServiceException e) {
             fail();
@@ -996,6 +998,8 @@ public class TestRepairShopService {
 
         try {
             repairShopService.deleteBookableService(service);
+
+
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
