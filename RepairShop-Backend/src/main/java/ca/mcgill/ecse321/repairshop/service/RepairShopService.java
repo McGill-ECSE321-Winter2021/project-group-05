@@ -117,8 +117,8 @@ public class RepairShopService {
 
 
                 // loop through all future appointments in future days
-                if (appointment.getTimeslot().getDate().after(valueOf(LocalDate.now()))
-                        || appointment.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())) { // on same day
+                if (appointment.getTimeslot().getDate().toString().equals(valueOf(LocalDate.now()).toString())
+                        || appointment.getTimeslot().getDate().after(valueOf(LocalDate.now()))) { // on same day
                     for (BookableService service : appointment.getServices()) {
                         // still have future appointments inside the service
                         if (service.getName().equals(bookableService.getName())) {
