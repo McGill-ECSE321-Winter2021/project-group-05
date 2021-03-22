@@ -4,6 +4,10 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
+    host: 'repairshop-backend-group05.herokuapp.com',
+    port: 5432,
+    backendHost: 'repairshop-backend-group05.herokuapp.com',
+    backendPort: 5432,
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
@@ -23,10 +27,13 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    host: '127.0.0.1',
+    port: 8087,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    backendHost: '127.0.0.1',
+    backendPort: 8080,
     proxyTable: {},
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
