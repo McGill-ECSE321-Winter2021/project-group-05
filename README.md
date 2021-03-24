@@ -274,3 +274,99 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
 </table>
 
+### Deliverable 3
+The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-3-Report).
+<table>
+    <tr>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Contibutions</strong></td>
+    <td align="center"><strong>Hours</strong></td>
+  </tr>
+   </tr>
+   <tr>
+    <td align="center">Florence Yared</td>
+   <td>
+        <ul>
+          <li>TimeSlot Classes</li>
+              <ul>
+                <li>TimeSlotService </li>
+                <li>TimeSlotDTO </li>
+                <li>TimeSlotController </li>
+                <li>TestTimeSlotService </li>
+              </ul>
+          <li>Enter No Show (all classes)</li>
+          <li>Get Appointment History (Controller)</li>
+        </ul>
+    </td>
+    <td align="center">30</td>
+  <tr>
+    <td align="center">Himel Saha</td>
+    <td>
+        <ul>
+          <li>BookableService classes</li>
+            <ul>
+                <li>RepairShopService </li>
+                <li>BookableServiceDTO </li>
+                <li>ServiceController </li>
+                <li>TestRepairShopService </li>
+              </ul>
+        </ul>
+    </td>
+    <td align="center">28</td>
+  </tr>
+ <tr>
+    <td align="center">Rakshitha Ravi</td>
+    <td> 
+        <ul>
+          <li>Person classes </li>
+        </ul></td>
+    <td align="center">22</td>
+  </tr>
+  <tr>
+    <td align="center">Saikou Ceesay</td>
+    <td>
+        <ul>
+          <li>Domain model modification</li>
+          <li>Business classes 
+              <ul>
+                <li> BusinessService </li>
+                <li>BusinessDTO </li>
+                <li>BusinessController </li>
+                <li>TestBusinessService </li>
+              </ul>
+              <li>Person classes 
+              <ul>
+                <li>PersonService </li>
+                <li>PersonDTO </li>
+                <li>PersonController </li>
+                <li>TestPersonService </li>
+              </ul>
+               <li>Controller Tests</li>
+        </ul>
+      </td>    
+ <td align="center">35</td>
+  </tr>
+  <tr>
+    <td align="center">Yichen Wu</td>
+    <td>
+        <ul>
+          <li>Domain model modification</li>
+          <li>Appointment classes 
+             <ul>
+               <li>AppointmentService</li>
+               <li>AppointmentDto</li>
+               <li>AppointmentController</li>
+               <li>TestAppointmentService</li>
+             </ul>
+           <li>Customer classes</li>
+             <ul>
+               <li>PersonService</li>
+               <li>CustomerDto</li>
+             </ul>
+          <li>Documentation</li>
+          <li>Controller Tests</li>
+        </ul>
+      </td> 
+    <td align="center">35</td>
+  </tr>
+</table>
