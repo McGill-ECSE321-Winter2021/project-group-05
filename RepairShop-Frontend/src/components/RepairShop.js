@@ -1,4 +1,6 @@
 import axios from 'axios'
+
+
 var config = require('../../config')
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -9,18 +11,10 @@ var AXIOS = axios.create({
 })
 
 
-function CustomerDto (email,username, password) {
-  this.email = email
-  this.username = username
-  this.password = password
-
-}
 
 export default {
   name: 'repairShop',
-  created: function () {
 
-  },
   data () {
     return {
       customers: [],
@@ -38,7 +32,11 @@ export default {
 
   methods: {
     createCustomer: function (username, email, password) {
-      AXIOS.post('/person/customer/register', {}, {})
+      AXIOS.post('/person/customer/register', {
+        "email": username,
+        "username": email,
+        "password": password
+      },{})
         .then(response => {
           // JSON responses are automatically parsed.
           this.customers.push(response.data)
@@ -51,5 +49,6 @@ export default {
           this.errorCustomer = errorMsg
         })
     }
+
   }
 }
