@@ -3,7 +3,7 @@
 
   <div id="customerLogin">
     <div id="left">
-      <img class ="left" width="100" height="100" src="src/assets/logo.png">
+      <img class ="logo" src="../assets/repairShop.png">
     </div>
 
     <div id="right">
@@ -19,9 +19,9 @@
           </td>
         </tr>
         <tr>
-          <button v-bind:disabled= "!currentUser.password|| !currentUser.username"
+          <router-link to = "/homePage_customer/"> <button v-bind:disabled= "!currentUser.password|| !currentUser.username"
                   v-on:click="loginCustomer(currentUser.username,currentUser.password)">
-            Log-in</button>
+            Log-in </button> </router-link>
         </tr>
         <tr>
 
@@ -59,10 +59,14 @@
     width: 50%;
     height: 50%;
     float: left;
-    margin-top: 150px ;
+
   }
   table {
     border-spacing: 30px;
     border-collapse: separate;
+  }
+  .logo{
+    width:300px;
+    height:300px;
   }
 </style>

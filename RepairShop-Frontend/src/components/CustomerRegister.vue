@@ -1,7 +1,7 @@
 <template>
   <div id="customerRegister">
       <div id="left">
-        <img class ="left" width="100" height="100" src="src/assets/logo.png">
+        <img class ="logo"  src="../assets/repairShop.png">
       </div>
 
       <div id="right">
@@ -22,8 +22,8 @@
       </td>
     </tr>
     <tr>
-      <button v-bind:disabled= "!customer.username || !customer.password || !customer.email" v-on:click="createCustomer(customer.username,customer.email,customer.password)">
-        Register</button>
+      <router-link to = "/homePage_customer/"><button v-bind:disabled= "!customer.username || !customer.password || !customer.email" v-on:click="createCustomer(customer.username,customer.email,customer.password)">
+        Register</button></router-link>
     </tr>
 
 
@@ -48,19 +48,25 @@
 }
 
 #right{
+
   margin-left: 50%;
   height: 50%;
   margin-top: 300px;
 }
 #left{
+
   width: 50%;
   height: 50%;
   float: left;
-  margin-top: 150px ;
+
 }
 table {
   border-spacing: 30px;
   border-collapse: separate;
+}
+.logo{
+  width:300px;
+  height:300px;
 }
 </style>
 
