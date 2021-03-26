@@ -1,5 +1,5 @@
 <template>
-  <div id="repairshop">
+  <div id="customerRegister">
   <h1>RepairShop</h1>
   <h2>Create Account</h2>
   <table class="center">
@@ -28,13 +28,13 @@
   </div>
 </template>
 
-<script src="./RepairShop.js">
+<script src="./CustomerRegister.js">
 
 </script>
 
 
 <style>
-#repairshop {
+#customerRegister {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #f2ece8;
