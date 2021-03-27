@@ -29,12 +29,16 @@ export default {
     }
   },
 
-  created: function () {
-      // Test data
-      const s1 = new BookableServiceDto('Tire')
-      const s2 = new BookableServiceDto('Wheel')
-      // Sample initial content
-      this.services = [s1, s2]
+  created: function () {                            // new added
+      // Initializing services from backend
+      AXIOS.get('/services')
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.services = response.data
+      })
+      .catch(e => {
+        this.errorCreateService = e
+      })
     },
 
     methods: {
