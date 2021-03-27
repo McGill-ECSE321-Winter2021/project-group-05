@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import ServiceCustomer from '@/components/ServiceCustomer'
-import ServiceAdmin from '@/components/ServiceAdmin'
+import CreateService from '@/components/CreateService'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/customer',
       name: 'ServiceCustomer',
       component: ServiceCustomer
     },
     {
-      path: '/createService',
-      name: 'ServiceAdmin',
-      component: ServiceAdmin
+      path: '/',
+      name: 'CreateService',
+      component: CreateServiceAdmin
     }
   ]
 })
