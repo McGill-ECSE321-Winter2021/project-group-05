@@ -20,7 +20,8 @@ export default {
       customer: {
         username: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPass:""
       },
 
       errorCustomer: "",
