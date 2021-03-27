@@ -12,7 +12,6 @@ var AXIOS = axios.create({
 
 export default {
   name: "Hello",
-
   data() {
     return {
       currentUser: {

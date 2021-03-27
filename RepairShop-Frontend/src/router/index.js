@@ -36,7 +36,7 @@ export default new Router({
     {
       path: "/business",
       name: "BusinessPage",
-      component: require("../components/BusinessPage").default
+      component: require("../components/BusinessPage.vue").default
     }
   ]
 });
