@@ -30,7 +30,7 @@ export default {
           // Create a new service and add it to the list of services
           var p = new BookableServiceDto(serviceName, serviceCost, serviceDuration)
           this.services.push(p)
-          // Reset the name field for new people
+          // Reset the name field for new services
           this.serviceName = ''
           this.serviceCost = ''
           this.serviceDuration = ''
