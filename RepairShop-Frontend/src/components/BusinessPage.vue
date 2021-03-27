@@ -14,7 +14,7 @@
                 <label>Phone Number: </label>
                 <input required v-model="phoneNumber">
 
-                <button v-on:click="updateBusiness(1, name, address, phoneNumber, email)">Update Info</button>
+                <button v-on:click="updateBusiness(name, address, phoneNumber, email)">Update Info</button>
             </form>
         </div>
     </div>
