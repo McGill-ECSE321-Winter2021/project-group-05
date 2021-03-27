@@ -2,31 +2,39 @@
 
 
   <div id="customerLogin">
-    <div id="left">
+    <div id="top">
       <img class ="logo" src="../assets/repairShop.png">
+      <h1 class="slogan">Welcome to repairshop, <br/>
+        Your satisfaction is our top concern</h1>
     </div>
 
-    <div id="right">
+    <div id="bottom">
       <table>
         <tr>
-          <td>
+          <td>Username:</td>
+          <td colspan="2">
             <input type="text"  v-model="currentUser.username" placeholder="username">
           </td>
         </tr>
-        <tr >
-          <td>
+        <tr>
+          <td>Password:</td>
+          <td colspan="2">
             <input type="password"  v-model="currentUser.password"  placeholder="password">
           </td>
         </tr>
         <tr>
+          <td></td>
+          <td>Forgot password?</td>
+          <td>
           <router-link to = "/homePage_customer/"> <button v-bind:disabled= "!currentUser.password|| !currentUser.username"
                   v-on:click="loginCustomer(currentUser.username,currentUser.password)">
-            Log-in </button> </router-link>
+            Sign in </button> </router-link></td>
+
         </tr>
         <tr>
-
-         <router-link to = "/register/">Don't have an account? Click here</router-link>
-
+          <td></td>
+         <td><router-link to = "/register/">Don't have an account? Create One</router-link>
+         </td>
         </tr>
       </table>
     </div>
@@ -41,32 +49,59 @@
 
 
 <style>
+body{background: #F6F6F6;}
+
   #customerLogin {
+
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #f2ece8;
+
     width: 100%;
     height: 100%;
-    margin-top: 300px;
+
+
   }
 
-  #right{
-    margin-left: 50%;
-    height: 50%;
-    margin-top: 300px;
+  #bottom{
+    margin-top: 15%;
+    margin-left: 30%;
+    margin-right: 30%;
+
+
+
   }
-  #left{
-    width: 50%;
-    height: 50%;
-    float: left;
+
+  #top{
+    position: relative;
+
+    width: 100%;
+    height: 20%;
+    float: top;
+    background-color:#2373F7;
 
   }
   table {
+    position: relative;
     border-spacing: 30px;
     border-collapse: separate;
   }
   .logo{
-    width:300px;
-    height:300px;
+    position: relative;
+    width:100px;
+    height:100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right:60%;
+  }
+  .slogan{
+    position: relative;
+    width:60%;
+    height:400%;
+
+    margin-top: -100px;
+
+    margin-left: 40%;
+
+
+
   }
 </style>
