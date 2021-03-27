@@ -5,7 +5,7 @@ function BookableServiceDto (name, cost, duration) {
 }
 
 export default {
-  name: 'createService',
+  name: 'createServiceAdmin',
   data () {
     return {
       services: [],
@@ -26,7 +26,7 @@ export default {
     },
 
     methods: {
-        createService: function (serviceName, serviceCost, serviceDuration) {
+        createServiceAdmin: function (serviceName, serviceCost, serviceDuration) {
           // Create a new service and add it to the list of services
           var p = new BookableServiceDto(serviceName, serviceCost, serviceDuration)
           this.services.push(p)

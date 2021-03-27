@@ -1,5 +1,5 @@
 <template>
-  <div id="createService">
+  <div id="CreateService">
     <h2>RepairShop</h2>
     <label align=CENTER>Create new service</label>
     <label align=CENTER> </label>
@@ -32,12 +32,12 @@
   </div>
 </template>
 
-<script src="./createService.js">
+<script src="./createServiceAdmin.js">
 </script>
 
 
 <style>
-  #createService {
+  #CreateService {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;

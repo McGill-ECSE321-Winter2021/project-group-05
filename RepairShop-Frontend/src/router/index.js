@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/',
       name: 'CreateService',
-      component: CreateServiceAdmin
+      component: CreateService
     }
   ]
 })
