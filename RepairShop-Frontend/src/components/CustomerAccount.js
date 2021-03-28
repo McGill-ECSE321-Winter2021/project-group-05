@@ -1,5 +1,6 @@
 import CustomerHeader from './CustomerHeader'
 import axios from "axios";
+import Router from "../router";
 
 
 var config = require("../../config");
@@ -53,12 +54,19 @@ const CustomerAccountPage = {
         .then(response => {
           this.customers.pop();
           console.log(response.data);
+          this.gotoLogin();
         })
         .catch(e => {
           console.log(e);
           this.error = e.message;
         });
 
+    },
+    gotoLogin: function() {
+      Router.push({
+        path: "/",
+        name: "LoginPage"
+      });
     }
   }
 
