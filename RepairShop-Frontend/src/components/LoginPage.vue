@@ -17,15 +17,17 @@
           <!-- Email input text -->
             <label>Email:</label>
             <input type="text" required v-model="currentUser.email">
-        
-          <!-- Password input text -->        
+
+          <!-- Password input text -->
             <label>Password: </label>
             <input type="password" required v-model="currentUser.password" >
-       
+
           <!--Forgot password and sign in button -->
           <div id="forgotAndSignContainer">
             <button id="forgotPassword__button">Forgot password?</button>
+
             <button id="signin__button"  v-bind:disabled= "!currentUser.password|| !currentUser.email" v-on:click="loginUser(currentUser.email,currentUser.password, currentUser.personType )">Sign in </button>
+
           </div>
           <!-- Don't have an account-->
           <div id="createAccountContainer">

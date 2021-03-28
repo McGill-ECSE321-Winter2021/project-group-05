@@ -4,7 +4,7 @@
         <div id="businessForm">
             <form>
                 <label>Email:</label>
-                <input type="email" required v-model="email">
+                <input required type="email" v-model="email">
 
                 <label>Name: </label>
                 <input required v-model="name">
@@ -39,7 +39,7 @@ form {
     flex-direction: column;
     padding: 20px;
     border: 1px solid lightgray;
-}  
+}
 label {
     font-family: 'Times New Roman', Times, serif;
     font-size: 14px;
