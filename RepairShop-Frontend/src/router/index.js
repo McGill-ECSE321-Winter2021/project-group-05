@@ -7,8 +7,9 @@ import LoginPage from "../components/LoginPage";
 import AdminHomePage from "../components/AdminHomePage";
 import AdminAccountPage from "../components/AdminAccountPage";
 import TimeSlotPage from "../components/TimeSlotPage";
-import ServicePage from "../components/ServicePage";
+import ServicePageAdmin from "../components/ServicePageAdmin";
 import AdminAppointmentPage from "../components/AdminAppointmentPage";
+import ServiceCustomer from "../components/ServiceCustomer";
 
 
 Vue.use(Router);
@@ -60,9 +61,14 @@ export default new Router({
       component: require("../components/TimeSlotPage.vue").default
     },
     {
-      path: "/ServicePage",
-      name: "ServicePage",
-      component: require("../components/ServicePage.vue").default
+      path: "/ServicePageAdmin",
+      name: "ServicePageAdmin",
+      component: require("../components/ServicePageAdmin.vue").default
+    },
+    {
+      path: "/ServiceCustomer",
+      name: "ServiceCustomer",
+      component: require("../components/ServiceCustomer.vue").default
     },
     {
       path: "/AdminAppointmentPage",
@@ -72,7 +78,7 @@ export default new Router({
     {
       path: "/CustomerAppointmentPage",
       name: "CustomerAppointmentPage",
-      component: require("../components/CustomerAppointmentPage.vue").default    
+      component: require("../components/CustomerAppointmentPage.vue").default
     }
   ]
 });

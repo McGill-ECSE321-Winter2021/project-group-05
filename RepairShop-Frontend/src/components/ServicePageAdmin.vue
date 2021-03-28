@@ -21,7 +21,7 @@
 
           <td>
               <select>
-                  <option disabled value="">Available services</option>
+                  <option disabled selected value="">Available services</option>
                   <option v-for="service in services" name="serviceList" style="width:670px">
                       {{service.name}}
                   </option>
