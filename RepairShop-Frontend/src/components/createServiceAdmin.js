@@ -21,9 +21,11 @@ export default {
   data () {
     return {
       services: [],
-      newService: '',
-      newCost: '',
-      newDuration: '',
+      bookableService: {
+        newService: '',
+        newCost: '',
+        newDuration: ''
+      },
       errorCreateService: '',
       response: []
     }
@@ -31,7 +33,7 @@ export default {
 
   created: function () {                            // new added
       // Initializing services from backend
-      AXIOS.get('/bookableService')
+      AXIOS.get('/bookableServices')
       .then(response => {
         // JSON responses are automatically parsed.
         this.services = response.data
@@ -43,10 +45,10 @@ export default {
 
     methods: {
         createServiceAdmin: function (serviceName, serviceCost, serviceDuration) {
-          AXIOS.post('/bookableService/', {
-            newService: serviceName,
-            newCost: serviceCost,
-            newDuration: serviceDuration
+          console.log(serviceName, serviceCost, serviceDuration);
+          const bookableServiceDto = new BookableServiceDto(serviceName, serviceCost, serviceDuration);
+          AXIOS.put('/bookableService', {
+            bookableServiceDto
           })
             .then(response => {
               // JSON responses are automatically parsed.
