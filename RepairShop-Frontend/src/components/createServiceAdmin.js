@@ -31,7 +31,7 @@ export default {
 
   created: function () {                            // new added
       // Initializing services from backend
-      AXIOS.get('/services')
+      AXIOS.get('/bookableServices')
       .then(response => {
         // JSON responses are automatically parsed.
         this.services = response.data
@@ -43,13 +43,21 @@ export default {
 
     methods: {
         createServiceAdmin: function (serviceName, serviceCost, serviceDuration) {
-          // Create a new service and add it to the list of services
-          var p = new BookableServiceDto(serviceName, serviceCost, serviceDuration)
-          this.services.push(p)
-          // Reset the name field for new services
-          this.serviceName = ''
-          this.serviceCost = ''
-          this.serviceDuration = ''
+        AXIOS.post('/bookableService/', {serviceName}, {serviceCost}, {serviceDuration})
+                .then(response => {
+                // JSON responses are automatically parsed.
+                  this.services.push(response.data)
+                  this.serviceName = ''
+                  this.serviceCost = ''
+                  this.serviceDuration = ''
+                  this.errorCreateService = ''
+                })
+                .catch(e => {
+                  var errorMsg = e.response.data.message
+                  console.log(errorMsg)
+                  this.errorCreateService = errorMsg
+                })
+
         }
       }
 }
