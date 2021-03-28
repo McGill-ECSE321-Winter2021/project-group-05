@@ -10,6 +10,7 @@ import TimeSlotPage from "../components/TimeSlotPage";
 import ServicePage from "../components/ServicePage";
 import AdminAppointmentPage from "../components/AdminAppointmentPage";
 
+
 Vue.use(Router);
 
 export default new Router({
@@ -71,7 +72,7 @@ export default new Router({
     {
       path: "/CustomerAppointmentPage",
       name: "CustomerAppointmentPage",
-      component: require("../components/CustomerAppointmentPage.vue").default
+      component: require("../components/CustomerAppointmentPage.vue").default    
     }
   ]
 });
