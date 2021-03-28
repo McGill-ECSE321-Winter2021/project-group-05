@@ -1,7 +1,6 @@
 <template>
   <div id="CreateService">
       <AdminHeader />
-    <h2 align=CENTER>Create service</h2>
     <label align=CENTER></label>
     <label align=CENTER> </label>
     <table align=CENTER>
@@ -12,24 +11,22 @@
           </td>
 
           <td>
-          </td>
-
-          <td>
-          </td>
-
-          <td>
-
-              <select>
-                  <option v-for="service in services" name="serviceList">
-                    {{service.name}}
-                  </option>
-              </select>
+              <h4 align=CENTER>Available services</h4>
           </td>
       </tr>
 
 
       <tr>
           <input type="text" v-model="newService" placeholder="Enter name">
+
+          <td>
+              <select>
+                  <option disabled value="">Available services</option>
+                  <option v-for="service in services" name="serviceList" style="width:670px">
+                      {{service.name}}
+                  </option>
+              </select>
+          </td>
       </tr>
       <tr>
           <input type="number" step="0.01" v-model="newCost" placeholder="Enter cost">
@@ -38,12 +35,15 @@
           <input type="number" v-model="newDuration" placeholder="Enter duration (minutes)" size="25">
       </tr>
 
+      <tr>
+          <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
+      </tr>
+
+
     </table>
 
-
-    <Button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</Button>
-    <p>
-      <span v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
+    <p align=CENTER>
+      <span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
     </p>
   </div>
 </template>
@@ -57,5 +57,11 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;
+  }
+
+  td {
+    width: 250px;
+    text-align: center;
+    padding: 1px;
   }
 </style>
