@@ -2,25 +2,29 @@
   <div id="CustomerService">
       <CustomerHeader />
     <label align=CENTER></label>
-    <label align=CENTER> </label>
-    <table align=CENTER>
+
+    <table align=CENTER id="servicesTable">
 
       <tr>
-          <td>
-              <h4 align=CENTER>Available services</h4>
-          </td>
+          <h4 align=CENTER>Available services</h4>
       </tr>
 
       <tr>
+          <h2 align=CENTER></h2>
+      </tr>
 
-          <td>
-              <select>
-                  <option disabled selected value="">Select a service</option>
-                  <option v-for="service in services" name="serviceList" style="width:150px">
-                      {{service.name}}
-                  </option>
-              </select>
-          </td>
+
+      <tr>
+
+          <select multiple size=6>
+               <option v-for="service in services">{{service.name}}</option>
+          </select>
+      </tr>
+
+      <tr>
+        <td>
+           <h2 align=CENTER></h2>
+        </td>
       </tr>
 
     </table>
