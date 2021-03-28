@@ -1,4 +1,5 @@
 import axios from "axios";
+import AdminHeader from "./AdminHeader";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -20,6 +21,9 @@ function BusinessDto(name, address, phoneNumber, email) {
 
 const BusinessPage = {
   name: "BusinessPage",
+  components: {
+    AdminHeader
+  },
   data() {
     return {
       business: [],

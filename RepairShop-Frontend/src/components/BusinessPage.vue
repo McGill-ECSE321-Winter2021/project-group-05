@@ -1,5 +1,6 @@
 <template>
     <div id="businessPage">
+        <AdminHeader />
         <div id="businessForm">
             <form>
                 <label>Email:</label>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import AuthHeader from "./AuthHeader";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -11,8 +12,10 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "CustomerRegister",
-
+  name: "CustomerRegisterPage",
+  components: {
+    AuthHeader
+  },
   data() {
     return {
       customers: [],
@@ -21,11 +24,12 @@ export default {
         username: "",
         email: "",
         password: "",
-        confirmPass:""
+        confirmPass: ""
       },
 
       errorCustomer: "",
-      response: []
+      response: [],
+      pageTitle: "Create Account"
     };
   },
 

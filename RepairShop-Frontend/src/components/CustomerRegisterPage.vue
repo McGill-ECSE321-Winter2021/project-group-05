@@ -1,11 +1,6 @@
 <template>
   <div id="customerRegister">
-    <div id="top">
-      <img class ="logo" src="../assets/repairShop.png">
-      <h1 class="slogan">Welcome to repairshop, <br/>
-        Your satisfaction is our top concern</h1>
-    </div>
-
+    <AuthHeader v-bind:pageTitle="pageTitle"/>
     <div id="bottom">
   <table>
     <tr>

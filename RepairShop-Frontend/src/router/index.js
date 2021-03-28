@@ -1,9 +1,14 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Hello from "../components/Hello";
-import CustomerRegister from "../components/CustomerRegister";
-import HomePage_Customer from "../components/HomePage_Customer";
-import MyAccount from "../components/MyAccount";
+import CustomerRegister from "../components/CustomerRegisterPage";
+import CustomerHomePagePage from "../components/CustomerHomePage";
+import CustomerAccountPage from "../components/CustomerAccountPage";
+import LoginPage from "../components/LoginPage";
+import AdminHomePage from "../components/AdminHomePage";
+import AdminAccountPage from "../components/AdminAccountPage";
+import TimeSlotPage from "../components/TimeSlotPage";
+import ServicePage from "../components/ServicePage";
+import AdminAppointmentPage from "../components/AdminAppointmentPage";
 
 Vue.use(Router);
 
@@ -12,31 +17,61 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Hello",
-      component: require("../components/Hello.vue").default
+      name: "LoginPage",
+      component: require("../components/LoginPage.vue").default
     },
 
     {
-      path: "/register",
-      name: "CustomerRegister",
-      component: require("../components/CustomerRegister.vue").default
+      path: "/CustomerRegisterPage",
+      name: "CustomerRegisterPage",
+      component: require("../components/CustomerRegisterPage.vue").default
     },
 
     {
-      path: "/homePage_customer",
-      name: "HomePage_Customer",
-      component: require("../components/HomePage_Customer.vue").default
+      path: "/CustomerHomePage",
+      name: "CustomerHomePage",
+      component: require("../components/CustomerHomePage.vue").default
     },
 
     {
-      path: "/myAccount",
-      name: "MyAccount",
-      component: require("../components/MyAccount.vue").default
+      path: "/CustomerAccountPage",
+      name: "CustomerAccountPage",
+      component: require("../components/CustomerAccountPage.vue").default
     },
     {
-      path: "/business",
+      path: "/BusinessPage",
       name: "BusinessPage",
       component: require("../components/BusinessPage.vue").default
+    },
+    {
+      path: "/AdminHomePage",
+      name: "AdminHomePage",
+      component: require("../components/AdminHomePage.vue").default
+    },
+    {
+      path: "/AdminAccountPage",
+      name: "AdminAccountPage",
+      component: require("../components/AdminAccountPage.vue").default
+    },
+    {
+      path: "/TimeSlotPage",
+      name: "TimeSlotPage",
+      component: require("../components/TimeSlotPage.vue").default
+    },
+    {
+      path: "/ServicePage",
+      name: "ServicePage",
+      component: require("../components/ServicePage.vue").default
+    },
+    {
+      path: "/AdminAppointmentPage",
+      name: "AdminAppointmentPage",
+      component: require("../components/AdminAppointmentPage.vue").default
+    },
+    {
+      path: "/CustomerAppointmentPage",
+      name: "CustomerAppointmentPage",
+      component: require("../components/CustomerAppointmentPage.vue").default
     }
   ]
 });

@@ -1,23 +1,6 @@
 <template>
   <div class="surface">
-    <img class ="logo" src="../assets/repairShop.png" alt="Repair Shop">
-    <router-link to = "/myAccount/">
-      <img class="userCenter" src="../assets/repairShop.png" alt="User Center">
-    </router-link>
-
-    <router-link to = "/">
-      <button class="logout">log out</button>
-    </router-link>
-
-    <div class="nav">
-      <ul>
-        <router-link to="/homePage_customer/"><li>Home</li></router-link>
-        <li>Appointment</li>
-        <router-link to="/myAccount/"><li class="active">My Account</li></router-link>
-      </ul>
-    </div>
-
-
+    <AdminHeader />
   <table>
     <tr>
       <td>
@@ -44,8 +27,13 @@
 </template>
 
 <script>
+import AdminHeader from './AdminHeader'
+
 export default {
-  name: "MyAccount"
+  name: "AdminAccountPage",
+  components: {
+    AdminHeader
+  }
 }
 </script>
 
