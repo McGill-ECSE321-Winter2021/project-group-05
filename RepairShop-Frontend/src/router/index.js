@@ -20,6 +20,7 @@ export default new Router({
       path: "/",
       name: "LoginPage",
       component: require("../components/LoginPage.vue").default
+
     },
 
     {
@@ -72,7 +73,7 @@ export default new Router({
     {
       path: "/CustomerAppointmentPage",
       name: "CustomerAppointmentPage",
-      component: require("../components/CustomerAppointmentPage.vue").default    
+      component: require("../components/CustomerAppointmentPage.vue").default
     }
   ]
 });

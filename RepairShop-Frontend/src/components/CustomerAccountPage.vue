@@ -1,105 +1,62 @@
 <template>
-  <div class="surface">
+  <div id="accountPage">
     <CustomerHeader />
-  <table>
-    <tr>
-      <td>
-        <input type="text"  placeholder="username">
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input type="text"  placeholder="email">
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input type="text"  placeholder="password">
-      </td>
-    </tr>
-    <tr>
-      <td> <button>save</button>
-      <button>delete</button> </td>
-    </tr>
-  </table>
+    <div id="accountForm">
+      <form>
+        <label>Username: </label>
+        <input required v-model="username">
 
+        <label>Email:</label>
+        <input required type="email" v-model="email">
+
+        <label>Password:</label>
+        <input required type="password" v-model="password">
+
+     <button id="save"v-on:click="updateAccount(username, email, password)">
+       save</button>
+      <button id="delete" v-on:click="deleteAccount(email)">
+        delete</button>
+
+    </form>
+    </div>
   </div>
 </template>
 
-<script>
-import CustomerHeader from './CustomerHeader'
+<script src = "./CustomerAccount.js">
 
-export default {
-  name: "CustomerAccount",
-  components: {
-    CustomerHeader
-  }
-}
 </script>
 
 <style scoped>
 
-.surface{
-  position: relative;
-  width:100%;
+#accountForm {
+  background-color: #F6F6F6;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
-.logo{
-  position: absolute;
-
-  top: 8px;
-  left:16px;
-  width:100px;
-  heigh: 100px;
+form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid lightgray;
 }
-.userCenter{
-  position: absolute;
-  top: 8px;
-  right:16px;
-  width:100px;
-  heigh: 100px;
-}
-.logout{
-  position: absolute;
-  top: 120px;
-  right:16px;
-  width:15%;
-  heigh: 15%;
-
+label {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14px;
 }
 
-li{
-  display: inline;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-
+#save {
+  background-color: #2373F7;
+  color: white;
+  margin-top: 16px;
 }
-
-.active{
-  background-color: #4CAF50;
+#delete{
+  background-color:firebrick;
+  color: white;
+  margin-top: 16px;
 }
-
-.nav{
-  position: absolute;
-  top: 200px;
-  margin-left: 25%;
-  margin-right: 25%;
-  background-color: #2c3e50;
-}
-
-
-table{
-  border-spacing: 30px;
-  border-collapse: separate;
-  position: absolute;
-  top: 300px;
-  margin-left: 30%;
-  margin-right: 30%;
-
-}
-
-
 
 
 </style>
