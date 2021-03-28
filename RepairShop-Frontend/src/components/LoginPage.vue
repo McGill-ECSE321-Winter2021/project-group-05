@@ -5,6 +5,15 @@
 
       <div id="form__container">
         <form>
+          <!--  Select input-->
+          <label>Please select the role that applies to you </label>
+          <select require v-model="currentUser.personType">
+            <option disabled value="">Please select one</option>
+            <option>Customer</option>
+            <option>Technician</option>
+            <option>Admin</option>
+          </select>
+
           <!-- Email input text -->
             <label>Email:</label>
             <input type="text" required v-model="currentUser.email">
@@ -16,7 +25,7 @@
           <!--Forgot password and sign in button -->
           <div id="forgotAndSignContainer">
             <button id="forgotPassword__button">Forgot password?</button>
-            <button id="signin__button"  v-bind:disabled= "!currentUser.password|| !currentUser.email" v-on:click="loginCustomer(currentUser.email,currentUser.password)">Sign in </button>
+            <button id="signin__button"  v-bind:disabled= "!currentUser.password|| !currentUser.email" v-on:click="loginUser(currentUser.email,currentUser.password, currentUser.personType )">Sign in </button>
           </div>
           <!-- Don't have an account-->
           <div id="createAccountContainer">
