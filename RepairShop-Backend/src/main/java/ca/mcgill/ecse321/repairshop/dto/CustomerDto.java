@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.repairshop.dto;
 
 import java.sql.Date;
 
+import ca.mcgill.ecse321.repairshop.model.PersonType;
+
 public class CustomerDto {
     private String email;
     private String username;
@@ -11,6 +13,15 @@ public class CustomerDto {
     private Date expiry;
     private int noShow;
     private Long id;
+    private PersonType personType;
+
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
+    }
+
+    public PersonType getPersonType() {
+        return this.personType;
+    }
 
     public Long getId() {
         return id;
@@ -20,22 +31,21 @@ public class CustomerDto {
         this.id = id;
     }
 
-    public CustomerDto(){}
-
-    @SuppressWarnings("unchecked")
-    public CustomerDto(String email,String username, String password){
-        this(email,username,password, null,null,null);
+    public CustomerDto() {
     }
 
-    public CustomerDto(String email, String username,
-                       String password,
-                       String cardNumber, String cvv, Date expiry){
-        this.email=email;
-        this.username=username;
-        this.password=password;
-        this.cardNumber=cardNumber;
-        this.cvv=cvv;
-        this.expiry=expiry;
+    @SuppressWarnings("unchecked")
+    public CustomerDto(String email, String username, String password) {
+        this(email, username, password, null, null, null);
+    }
+
+    public CustomerDto(String email, String username, String password, String cardNumber, String cvv, Date expiry) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+        this.expiry = expiry;
 
     }
 

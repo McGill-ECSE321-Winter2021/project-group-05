@@ -1,6 +1,6 @@
 <template>
     <nav id="header">
-        <img class ="logo" src="../assets/repairShop.png" />
+        <img class ="logo" src="../assets/logo_draft1.png" />
         <div id="container">    
             <button id="home" v-on:click="goToCustomerHomePage()" >Home</button>
             <span></span>
