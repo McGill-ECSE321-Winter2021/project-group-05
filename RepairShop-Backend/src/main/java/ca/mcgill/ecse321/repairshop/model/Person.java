@@ -3,16 +3,17 @@ package ca.mcgill.ecse321.repairshop.model;
 import javax.persistence.*;
 
 @Entity
-public abstract class Person
-{
+public abstract class Person {
 
-  //Person Attributes
+  // Person Attributes
   private String email;
   private String username;
   private String password;
   private Long id;
+  @Enumerated
+  private PersonType personType;
 
-  //Person Associations
+  // Person Associations
   private RepairShop repairShop;
 
   @Id
@@ -49,13 +50,21 @@ public abstract class Person
     this.password = password;
   }
 
-  @ManyToOne(cascade = {CascadeType.ALL})
+  @ManyToOne(cascade = { CascadeType.ALL })
   public RepairShop getRepairShop() {
     return repairShop;
   }
 
   public void setRepairShop(RepairShop repairShop) {
     this.repairShop = repairShop;
+  }
+
+  public void setPersonType(PersonType personType) {
+    this.personType = personType;
+  }
+
+  public PersonType getPersonType() {
+    return this.personType;
   }
 
 }
