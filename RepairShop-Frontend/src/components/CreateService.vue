@@ -25,7 +25,7 @@
 
 
     </table>
-    <Button align=CENTER v-bind:disabled="!newService" @click="createServiceAdmin(newService, newCost, newDuration)">Create</Button>
+    <Button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</Button>
     <p>
       <span v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
     </p>
