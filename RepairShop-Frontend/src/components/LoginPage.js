@@ -26,27 +26,72 @@ export default {
     return {
       currentUser: {
         email: "",
-        password: ""
+        password: "",
+        personType: ""
       },
-      errorCustomer: "",
+      error: "",
       response: [],
       pageTitle: "Welcome to repairshop, your satisfaction is our top concern"
     };
   },
 
   methods: {
+    loginUser: function(email, password, personType) {
+      if (personType == "Customer") {
+        this.loginCustomer(email, password);
+        return;
+      }
+      if (personType == "Technician") {
+        this.loginTechnician(email, password);
+        return;
+      }
+      if (personType == "Admin") {
+        this.loginAdmin(email, password);
+        return;
+      }
+      this.error = "You need to select a role";
+    },
+
     loginCustomer: function(email, password) {
       const customerDto = new CustomerDto(email, password);
       AXIOS.post("person/customer/login", customerDto)
         .then(response => {
           console.log(response.data);
           this.currentUser = response.data;
-          this.errorCustomer = "";
+          this.error = "";
           this.goToCustomerHomePage();
         })
         .catch(e => {
           var errorMsg = e;
-          this.errorCustomer = errorMsg;
+          this.error = errorMsg;
+        });
+    },
+    loginTechnician: function(email, password) {
+      const customerDto = new CustomerDto(email, password);
+      AXIOS.post("person/technician/login", customerDto)
+        .then(response => {
+          console.log(response.data);
+          this.currentUser = response.data;
+          this.error = "";
+          this.goToTechinicianHomePage();
+        })
+        .catch(e => {
+          var errorMsg = e;
+          this.error = errorMsg;
+        });
+    },
+    loginAdmin: function(email, password) {
+      const customerDto = new CustomerDto(email, password);
+      AXIOS.post("person/administrator/login", customerDto)
+        .then(response => {
+          console.log(response.data);
+          this.currentUser = response.data;
+          this.error = "";
+          this.goToAdminHomePage();
+        })
+        .catch(e => {
+          var errorMsg = e;
+          this.error = errorMsg;
         });
     },
     goToCreateAccountPage: function() {
@@ -59,6 +104,18 @@ export default {
       Router.push({
         path: "/CustomerHomePage",
         name: "CustomerHomePage"
+      });
+    },
+    goToAdminHomePage: function() {
+      Router.push({
+        path: "/AdminHomePage",
+        name: "AdminHomePage"
+      });
+    },
+    goToTechinicianHomePage: function() {
+      Router.push({
+        path: "/TechnicianHomePage",
+        name: "TechnicianHomePage"
       });
     }
   }

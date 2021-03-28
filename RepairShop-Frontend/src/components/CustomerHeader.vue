@@ -1,7 +1,9 @@
 <template>
     <nav id="header">
-        <img class ="logo" src="../assets/repairShop.png" />
-        <div id="container">
+
+        <img class ="logo" src="../assets/logo_draft1.png" />
+        <div id="container">    
+
             <button id="home" v-on:click="goToCustomerHomePage()" >Home</button>
             <span></span>
             <button id="appointment" v-on:click="goToCustomerAppointmentPage()">Appointment</button>

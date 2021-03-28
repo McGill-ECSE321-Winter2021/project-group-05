@@ -1,6 +1,6 @@
 <template>
     <nav id="header">
-        <img class ="logo" src="../assets/repairShop.png" />
+        <img class ="logo" src="../assets/logo_draft1.png" />
         <p class="message">{{pageTitle}}</p>
     </nav>
 </template>
@@ -26,9 +26,7 @@ export default {
 }
 .logo{
     border-radius: 20px;
-    height: 100px;
-    width: 100px;
-    margin: 8px;
+
 }
 .message{
    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
