@@ -31,8 +31,6 @@ export default {
         selectedService: "",
         selectedCost: "",
         selectedDuration: "",
-        //returnedServiceCost: "",
-        //returnedServiceDuration: ""
       },
       errorCreateService: "",
       returnedService: "",

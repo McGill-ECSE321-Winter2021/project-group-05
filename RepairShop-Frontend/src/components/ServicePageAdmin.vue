@@ -3,44 +3,81 @@
       <AdminHeader />
     <label align=CENTER></label>
     <label align=CENTER> </label>
-    <table align=CENTER>
 
+    <table align=CENTER id="availableServices">
       <tr>
-          <td>
-              <h4 align=CENTER>Create service</h4>
-          </td>
-
           <td>
               <h4 align=CENTER>Available services</h4>
           </td>
+
       </tr>
 
-
-      <tr>
-          <input type="text" v-model="newService" placeholder="Enter name">
-
+      <tr align=CENTER>
           <td>
-              <select>
-                  <option disabled selected value="">Available services</option>
+              <select v-model="selectedService" multiple :size="services.length" @click="getServiceByName(selectedService)">
                   <option v-for="service in services" name="serviceList" style="width:150px">
                       {{service.name}}
                   </option>
               </select>
           </td>
-      </tr>
-      <tr>
-          <input type="number" step="0.01" v-model="newCost" placeholder="Enter cost">
-      </tr>
-      <tr>
-          <input type="number" v-model="newDuration" placeholder="Enter duration (minutes)" size="25">
-      </tr>
-
-      <tr>
-          <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
-      </tr>
 
 
+      </tr>
     </table>
+
+    <table align=CENTER id="createServices">
+        <tr>
+            <td>
+                <h4 align=CENTER>Create Service</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" v-model="newService" placeholder="Enter name" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" step="0.01" v-model="newCost" placeholder="Enter cost" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" v-model="newDuration" placeholder="Enter duration (minutes)" size="25">
+            </td>
+        </tr>
+        <tr align=CENTER>
+            <td>
+                <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
+            </td>
+        </tr>
+    </table>
+
+
+    <table align=CENTER id="editServices">
+        <tr>
+            <td>
+                <h4 align=CENTER>Edit service</h4>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <input type="text" v-model="newCost" placeholder="Service name" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" step="0.01" v-model="newCost" placeholder="Service cost" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" v-model="newCost" placeholder="Service duration" size="25">
+            </td>
+        </tr>
+    </table>
+
 
     <p align=CENTER>
       <span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
@@ -57,11 +94,5 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;
-  }
-
-  td {
-    width: 250px;
-    text-align: center;
-    padding: 1px;
   }
 </style>

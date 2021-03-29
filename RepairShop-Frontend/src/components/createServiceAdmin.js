@@ -31,6 +31,7 @@ export default {
         newCost: "",
         newDuration: ""
       },
+      returnedService: "",
       errorCreateService: "",
       response: []
     };
@@ -70,6 +71,21 @@ export default {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
           this.errorCreateService = errorMsg;
+        });
+    },
+
+    getServiceByName: function(serviceName){
+        console.log(serviceName);
+        AXIOS.get("/bookableService/".concat(serviceName))
+            .then(response => {
+                this.returnedService = response.data;
+                console.log(returnedService.duration);
+
+            })
+            .catch(e => {
+               var errorMsg = e.response.data.message;
+               console.log(errorMsg);
+               this.errorCreateService = errorMsg;
         });
     }
   }
