@@ -17,6 +17,48 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+const filterUpcomingAppointments = appointmentDate => {
+  const currentDate = new Date();
+  const currentDayOfMonth = currentDate.getDate();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
+
+  const date = new Date(appointmentDate);
+  const appointmentDayOfMonth = date.getDate();
+  const appointmenntMonth = date.getMonth() + 1;
+  const appointmenntYear = date.getFullYear();
+
+  // console.log(currentDayOfMonth);
+  // console.log(currentMonth);
+  // console.log(currentYear);
+  // console.log("--------");
+  // console.log(appointmentDayOfMonth);
+  // console.log(appointmenntMonth);
+  // console.log(appointmenntYear);
+
+  return (
+    currentDayOfMonth === appointmentDayOfMonth &&
+    currentMonth === appointmenntMonth &&
+    currentYear === appointmenntYear
+  );
+};
+
+const formatAppointment = appointment => {
+  const serviceNames = [];
+  appointment.services.forEach(item => {
+    serviceNames.push(item.name);
+  });
+  const date = appointment.timeSlot.date;
+  const startTime = appointment.timeSlot.startTime;
+  const endTime = appointment.timeSlot.endTime;
+  return {
+    Services: serviceNames,
+    date: date,
+    startTime: startTime,
+    endTime: endTime
+  };
+};
+
 const CustomerAppointmentPage = {
   name: "CustomerAppointmentPage",
   components: {
@@ -25,22 +67,121 @@ const CustomerAppointmentPage = {
   },
   data() {
     return {
+      show: false,
       date: "",
+      updatedDate: "",
+      updatedServices: [],
+      error: "",
+      modalError: "",
+      allServicesAvailable: [],
       services: [],
-      items: [
-        { id: 1, date: 40, start_time: "Dickerson", end_time: "Macdonald" },
-        { id: 2, date: 21, start_time: "Larsen", end_time: "Shaw" },
-        { id: 3, date: 89, start_time: "Geneva", end_time: "Wilson" },
-        { id: 4, date: 38, start_time: "Jami", end_time: "Carney" }
-      ]
+      allTimeSlots: [],
+      allServiceNames: [],
+      futureTimeSlots: [],
+      allTimeSlotsDates: [],
+      upcomingAppointments: [],
+      allAppointments: [],
+      allAppointmentsFormated: []
     };
   },
+  created() {
+    this.getAllAppointments("customer@gmail.com");
+    this.getAllTimeSlots();
+    this.getAllServices();
+  },
   methods: {
-    editAppointment: function() {
-      console.log("edit");
+    editAppointment: function(id) {
+      this.show = true;
     },
-    cancelAppointment: function() {
-      console.log("cancel");
+    cancelAppointment: function(id) {
+      AXIOS.delete(`/appointment/${id}`)
+        .then(response => {
+          //toast message for success
+          console.log("suceess");
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+
+    getAllAppointments: function(email) {
+      AXIOS.get(`/appointment/person/${email}`)
+        .then(response => {
+          response.data.forEach(appointment => {
+            this.allAppointments.push(appointment);
+            this.allAppointmentsFormated.push(formatAppointment(appointment));
+            this.getUpcomingAppointments(appointment);
+          });
+          //console.log(this.allAppointments);
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+
+    getUpcomingAppointments: function(appointment) {
+      const bool = filterUpcomingAppointments(appointment.timeSlot.date);
+      if (bool) {
+        this.upcomingAppointments.push(appointment);
+      }
+    },
+
+    getAllTimeSlots: function() {
+      AXIOS.get(`/timeslotAvailable`)
+        .then(response => {
+          response.data.forEach(timeSlot => {
+            this.allTimeSlots.push(timeSlot);
+            const date = timeSlot.date + " " + timeSlot.startTime;
+            this.allTimeSlotsDates.push({ id: timeSlot.id, date: date });
+            //get future timeslots
+          });
+          console.log(this.allTimeSlotsDates);
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+
+    getAllServices: function() {
+      AXIOS.get(`bookableServices`)
+        .then(response => {
+          response.data.forEach(service => {
+            this.allServicesAvailable.push(service);
+          });
+          this.allServicesAvailable.forEach(service => {
+            this.allServiceNames.push(service.name);
+          });
+        })
+        .catch(error => {
+          this.error = error;
+        });
+    },
+
+    handleOk(id, timeSlotId) {
+      let services = "";
+      this.updatedServices.forEach(str => {
+        for (var i = 0; i < str.length; i++) {
+          str = str.replace(" ", "+");
+        }
+        services += str + ",";
+      });
+      services = services.substring(0, services.length - 1);
+      AXIOS.put(
+        `/appointment/${id}` +
+          `?` +
+          `timeSlotId=` +
+          `${timeSlotId}` +
+          `&` +
+          `serviceNames=` +
+          `${services}`
+      )
+        .then(response => {
+          //handle success
+          console.log("success");
+        })
+        .catch(error => {
+          this.error = error;
+        });
     }
   }
 };
