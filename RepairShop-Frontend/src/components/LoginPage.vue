@@ -14,13 +14,19 @@
             <option>Admin</option>
           </select>
 
+        <br>
+          <br>
+
           <!-- Email input text -->
-            <label>Email:</label>
-            <input type="text" required v-model="currentUser.email">
+          <input type="text" required v-model="currentUser.email">
+            <label>Email</label>
+
 
           <!-- Password input text -->
-            <label>Password: </label>
-            <input type="password" required v-model="currentUser.password" >
+          <input type="password" required v-model="currentUser.password" >
+            <label>Password </label>
+
+
 
           <!--Forgot password and sign in button -->
           <div id="forgotAndSignContainer">
@@ -64,6 +70,7 @@ form{
     padding: 20px;
     border: 1px solid lightgray;
 }
+
 
 #createAccount__button{
   color: blue;
@@ -114,5 +121,21 @@ input{
 #signin__button{
   align-self: center;
   margin-left: 200px;
+}
+
+input + label{
+  position: relative;
+  display: block;
+  padding-left: .1em;
+  transform: translateY(-2.2em);
+  transform-origin: left center;
+  opacity: .5;
+  transition: transform .2s, opacity .2s;
+  pointer-events: none;
+}
+
+input:valid + label {
+  transform: translateY(-4em) ;
+  opacity: .9;
 }
 </style>

@@ -1,6 +1,8 @@
 import CustomerHeader from './CustomerHeader'
 import axios from "axios";
 import Router from "../router";
+import currentUser from "./LoginPage.js";
+
 
 
 var config = require("../../config");
@@ -29,25 +31,33 @@ const CustomerAccountPage = {
   data() {
     return {
       customers: [],
-      username: "",
-      email: "",
+      username: currentUser.data().currentUser.email,
+      email: currentUser.data().currentUser.email,
       password:"",
+      confirmPassword:"",
       error: ""
     };
   },
   methods: {
-    updateAccount: function(username, email, password) {
+    updateAccount: function(username, email, password,confirmPassword) {
+      if (password == confirmPassword){
+
       const customerDTO = new CustomerDto(username,email,password);
       console.log(customerDTO);
       AXIOS.put(`/person/customer/${email}/`, customerDTO)
         .then(response => {
           this.customers.push(response.data);
           console.log(response.data);
+
         })
         .catch(e => {
           console.log(e);
           this.error = e.message;
         });
+      }
+      else{
+        alert("confirm password doesn't match with the password")
+      }
     },
     deleteAccount: function(email){
       AXIOS.delete(`/person/customer/${email}/`)

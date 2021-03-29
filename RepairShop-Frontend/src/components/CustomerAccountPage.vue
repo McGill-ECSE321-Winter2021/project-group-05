@@ -3,16 +3,24 @@
     <CustomerHeader />
     <div id="accountForm">
       <form>
-        <label>Username: </label>
-        <input required v-model="username" >
 
-        <label>Email:</label>
-        <input required type="email" v-model="email">
 
-        <label>Password:</label>
-        <input required type="password" v-model="password">
+        <label>Username</label>
+        <input required v-model="username" v-bind:placeholder=$data.username>
 
-     <button id="save"v-on:click="updateAccount(username, email, password)">
+
+        <label>Email</label>
+        <input required type="email" v-model="email"  v-bind:placeholder=$data.email>
+
+
+        <label>Password</label>
+        <input required  v-model="password" type="password">
+
+        <label>Confirm Password</label>
+        <input required  v-model="confirmPassword" type="password">
+
+
+     <button id="save"v-on:click="updateAccount(username, email, password,confirmPassword)">
        save</button>
       <button id="delete" v-on:click="deleteAccount(email)">
         delete</button>
@@ -42,6 +50,7 @@ form {
   padding: 20px;
   border: 1px solid lightgray;
 }
+
 label {
   font-family: 'Times New Roman', Times, serif;
   font-size: 14px;
@@ -57,6 +66,5 @@ label {
   color: white;
   margin-top: 16px;
 }
-
 
 </style>
