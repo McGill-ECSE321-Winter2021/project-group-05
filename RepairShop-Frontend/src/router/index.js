@@ -10,6 +10,7 @@ import TimeSlotPage from "../components/TimeSlotPage";
 import ServicePageAdmin from "../components/ServicePageAdmin";
 import AdminAppointmentPage from "../components/AdminAppointmentPage";
 import ServiceCustomer from "../components/ServiceCustomer";
+import TechnicianHomePage from "../components/TechnicianHomePage";
 
 
 Vue.use(Router);
@@ -21,6 +22,7 @@ export default new Router({
       path: "/",
       name: "LoginPage",
       component: require("../components/LoginPage.vue").default
+
     },
 
     {
@@ -79,6 +81,11 @@ export default new Router({
       path: "/CustomerAppointmentPage",
       name: "CustomerAppointmentPage",
       component: require("../components/CustomerAppointmentPage.vue").default
+    },
+    {
+      path: "/TechnicianHomePage",
+      name: "TechnicianHomePage",
+      component: require("../components/TechnicianHomePage.vue").default
     }
   ]
 });

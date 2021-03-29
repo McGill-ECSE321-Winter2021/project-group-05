@@ -2,16 +2,11 @@ package ca.mcgill.ecse321.repairshop.service;
 
 import ca.mcgill.ecse321.repairshop.dao.AdministratorRepository;
 import ca.mcgill.ecse321.repairshop.dao.CustomerRepository;
-import ca.mcgill.ecse321.repairshop.dao.OwnerRepository;
 import ca.mcgill.ecse321.repairshop.dao.TechnicianRepository;
 import ca.mcgill.ecse321.repairshop.dto.AdministratorDto;
 import ca.mcgill.ecse321.repairshop.dto.CustomerDto;
-import ca.mcgill.ecse321.repairshop.dto.OwnerDto;
 import ca.mcgill.ecse321.repairshop.dto.TechnicianDto;
-import ca.mcgill.ecse321.repairshop.model.Administrator;
-import ca.mcgill.ecse321.repairshop.model.Customer;
-import ca.mcgill.ecse321.repairshop.model.Owner;
-import ca.mcgill.ecse321.repairshop.model.Technician;
+import ca.mcgill.ecse321.repairshop.model.*;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +20,6 @@ import java.util.Optional;
 public class PersonService {
     @Autowired
     AdministratorRepository administratorRepository;
-    @Autowired
-    OwnerRepository ownerRepository;
     @Autowired
     TechnicianRepository technicianRepository;
     @Autowired
@@ -49,6 +42,7 @@ public class PersonService {
         customer.setEmail(email);
         customer.setPassword(password);
         customer.setUsername(username);
+        customer.setPersonType(PersonType.CUSTOMER);
         customerRepository.save(customer);
         return customer;
     }
@@ -118,93 +112,6 @@ public class PersonService {
     }
 
     /**
-     * Owner
-     */
-    @Transactional
-    public Owner createOwner(String email, String username, String password) throws PersonException{
-        String error = getErrorFromData(email, username, password);
-        if(!error.equals("")){
-            throw new PersonException(error);
-        }
-        //check if email has not been taken
-        if(!checkDuplicateEmail(email).equals("")){
-            throw new PersonException(checkDuplicateEmail(email));
-        }
-        Owner owner = new Owner();
-        owner.setEmail(email);
-        owner.setPassword(password);
-        owner.setUsername(username);
-        ownerRepository.save(owner);
-        return owner;
-    }
-
-    @Transactional
-    public Owner loginOwner(String email, String password) throws PersonException{
-        Optional<Owner> customerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
-        if(!customerOptional.isPresent()){
-            throw new PersonException("Owner does not exist");
-        }
-        Owner owner = customerOptional.get();
-        if(!owner.getPassword().equals(password)){
-            throw new PersonException("Incorrect password");
-        }
-        return owner;
-    }
-
-    @Transactional
-    public Owner getOwner(String email) throws PersonException{
-        Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
-        if(!ownerOptional.isPresent()){
-            throw new PersonException("owner with this email does not exist");
-        }
-        Owner owner = ownerOptional.get();
-        return owner;
-    }
-
-    @Transactional
-    public Owner updateOwner(String email, OwnerDto ownerDto) throws PersonException{
-        Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
-        if(!ownerOptional.isPresent()){
-            throw new PersonException("The Owner with this email does not exist");
-        }
-        Owner owner = ownerOptional.get();
-
-        String username = ownerDto.getUsername();
-        String password = ownerDto.getPassword();
-        String error = getErrorFromData(ownerDto.getEmail(), username, password);
-        if(!error.equals("")){
-            throw new PersonException(error);
-        }
-        //check if email hasn't been taken
-        if(!checkDuplicateEmail(ownerDto.getEmail()).equals("")){
-            throw new PersonException(checkDuplicateEmail(email));
-        }
-
-        owner.setUsername(ownerDto.getUsername());
-        owner.setPassword(ownerDto.getPassword());
-        owner.setEmail(ownerDto.getEmail());
-        ownerRepository.save(owner);
-        return owner;
-    }
-
-    @Transactional
-    public Owner deleteOwner(String email) throws PersonException{
-        Optional<Owner> ownerOptional = Optional.ofNullable(ownerRepository.findOwnerByEmail(email));
-        if(!ownerOptional.isPresent()){
-            throw new PersonException("The customer with the given id does not exist");
-        }
-        Owner owner = ownerOptional.get();
-        Long id = owner.getId();
-        ownerRepository.deleteById(id);
-        return owner;
-    }
-
-    @Transactional
-    public List<Owner> getAllOwner() {
-        return RepairShopUtil.toList(ownerRepository.findAll());
-    }
-
-    /**
      * Technician
      */
     @Transactional
@@ -220,6 +127,7 @@ public class PersonService {
         technician.setEmail(email);
         technician.setPassword(password);
         technician.setUsername(username);
+        technician.setPersonType(PersonType.TECHNICIAN);
         technicianRepository.save(technician);
         return technician;
     }
@@ -306,6 +214,7 @@ public class PersonService {
         administrator.setEmail(email);
         administrator.setPassword(password);
         administrator.setUsername(username);
+        administrator.setPersonType(PersonType.ADMIN);
         administratorRepository.save(administrator);
         return administrator;
     }
@@ -393,7 +302,6 @@ public class PersonService {
 
     private String checkDuplicateEmail(String email){
         if(customerRepository.findCustomerByEmail(email) == null
-                || ownerRepository.findOwnerByEmail(email) == null
                 || administratorRepository.findAdministratorByEmail(email) == null
                 || technicianRepository.findTechnicianByEmail(email) == null){
             return "";

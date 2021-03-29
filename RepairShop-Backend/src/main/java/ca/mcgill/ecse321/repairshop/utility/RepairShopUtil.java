@@ -18,14 +18,14 @@ public class RepairShopUtil {
         RepairShopUtil.currentUser = currentUser;
     }
 
-
     /**
      * Converts an iterable data type to a list
+     * 
      * @param iterable
      * @param <T>
      * @return
      */
-    public static<T> List<T> toList(Iterable<T> iterable){
+    public static <T> List<T> toList(Iterable<T> iterable) {
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {
             resultList.add(t);
@@ -34,22 +34,23 @@ public class RepairShopUtil {
     }
 
     public static AppointmentDto convertToDto(Appointment appointment) {
-       if (appointment == null) {
-           throw new IllegalArgumentException("There is no such Appointment!");
-       }
-       //service, customer, timeslot, bill
-       AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getServices()),
-               convertToDto(appointment.getCustomer()),convertToDto(appointment.getTimeslot()),
-               convertToDto(appointment.getBill()), appointment.getId());
-       return appointmentDto;
-   }
+        if (appointment == null) {
+            throw new IllegalArgumentException("There is no such Appointment!");
+        }
+        // service, customer, timeslot, bill
+        AppointmentDto appointmentDto = new AppointmentDto(convertToDto(appointment.getServices()),
+                convertToDto(appointment.getCustomer()), convertToDto(appointment.getTimeslot()),
+                convertToDto(appointment.getBill()), appointment.getId());
+        return appointmentDto;
+    }
 
-    public static TimeSlotDto convertToDto(TimeSlot timeSlot){
+    public static TimeSlotDto convertToDto(TimeSlot timeSlot) {
         if (timeSlot == null) {
             throw new IllegalArgumentException("There is no such TimeSlot!");
         }
-        //service, customer, timeslot bill
-        TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getDate(),timeSlot.getStartTime(),timeSlot.getEndTime(), timeSlot.getId());
+        // service, customer, timeslot bill
+        TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getDate(), timeSlot.getStartTime(), timeSlot.getEndTime(),
+                timeSlot.getId());
         return timeSlotDto;
     }
 
@@ -57,8 +58,9 @@ public class RepairShopUtil {
         if (service == null) {
             throw new IllegalArgumentException("There is no such Service!");
         }
-        //service, customer, timeslot bill
-        BookableServiceDto serviceDto = new BookableServiceDto(service.getName(), service.getCost(),service.getDuration());
+        // service, customer, timeslot bill
+        BookableServiceDto serviceDto = new BookableServiceDto(service.getName(), service.getCost(),
+                service.getDuration());
         serviceDto.setId(service.getId());
         return serviceDto;
     }
@@ -68,49 +70,49 @@ public class RepairShopUtil {
         if (services == null) {
             throw new IllegalArgumentException("There is no such list of ervices!");
         }
-        for (BookableService s:services){
+        for (BookableService s : services) {
             serviceDtos.add(convertToDto(s));
         }
         return serviceDtos;
     }
 
-    public static  CustomerDto convertToDto(Customer customer){
-        if (customer == null){
+    public static CustomerDto convertToDto(Customer customer) {
+        if (customer == null) {
             throw new IllegalArgumentException("There is no such Customer!");
         }
-        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(),
-                customer.getPassword(),customer.getCardNumber(),
-                customer.getCvv(), customer.getExpiry());
+        CustomerDto customerDto = new CustomerDto(customer.getEmail(), customer.getUsername(), customer.getPassword(),
+                customer.getCardNumber(), customer.getCvv(), customer.getExpiry());
         customerDto.setId(customer.getId());
+        customerDto.setPersonType(customer.getPersonType());
         return customerDto;
     }
 
-
-    public static BillDto convertToDto(Bill bill){
-        if (bill == null){
+    public static BillDto convertToDto(Bill bill) {
+        if (bill == null) {
             throw new IllegalArgumentException("There is no such Bill!");
         }
         BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), bill.getId());
         return billDto;
     }
 
-    public static  BusinessDto convertToDto(Business business){
-        if (business == null){
+    public static BusinessDto convertToDto(Business business) {
+        if (business == null) {
             throw new IllegalArgumentException("There is no such Bill!");
         }
-        BusinessDto businessDto = new BusinessDto(business.getName(), business.getAddress(), business.getPhoneNumber(), business.getEmail(), business.getId());
+        BusinessDto businessDto = new BusinessDto(business.getName(), business.getAddress(), business.getPhoneNumber(),
+                business.getEmail(), business.getId());
         return businessDto;
     }
 
-    public static  List<BillDto> convertBillToDto(List<Bill> bills){
-        List<BillDto> billDtoList= new ArrayList<BillDto>();
-        for (Bill b: bills){
+    public static List<BillDto> convertBillToDto(List<Bill> bills) {
+        List<BillDto> billDtoList = new ArrayList<BillDto>();
+        for (Bill b : bills) {
             billDtoList.add(convertToDto(b));
         }
         return billDtoList;
     }
 
-    public static  List<AppointmentDto> convertAppointmentsToDto(List<Appointment> appointments) {
+    public static List<AppointmentDto> convertAppointmentsToDto(List<Appointment> appointments) {
         List<AppointmentDto> appointmentDtoList = new ArrayList<AppointmentDto>();
         for (Appointment app : appointments) {
             appointmentDtoList.add(convertToDto(app));
@@ -118,44 +120,35 @@ public class RepairShopUtil {
         return appointmentDtoList;
     }
 
-    public static float getTotalCostOfAppointment(Appointment appointment){
+    public static float getTotalCostOfAppointment(Appointment appointment) {
         float sum = 0L;
-        for(BookableService bookableService : appointment.getServices()){
+        for (BookableService bookableService : appointment.getServices()) {
             sum += bookableService.getCost();
         }
         return sum;
     }
 
-    public static TechnicianDto convertToDto(Technician technician){
+    public static TechnicianDto convertToDto(Technician technician) {
         TechnicianDto technicianDto = new TechnicianDto();
         technicianDto.setEmail(technician.getEmail());
         technicianDto.setPassword(technician.getPassword());
         technicianDto.setUsername(technician.getUsername());
         technicianDto.setEmail(technician.getEmail());
         technicianDto.setId(technician.getId());
+        technicianDto.setPersonType(technician.getPersonType());
         return technicianDto;
     }
 
-    public static AdministratorDto convertToDto(Administrator administrator){
+    public static AdministratorDto convertToDto(Administrator administrator) {
         AdministratorDto administratorDto = new AdministratorDto();
         administratorDto.setEmail(administrator.getEmail());
         administratorDto.setPassword(administrator.getPassword());
         administratorDto.setUsername(administrator.getUsername());
         administratorDto.setEmail(administrator.getEmail());
         administratorDto.setId(administrator.getId());
+        administratorDto.setPersonType(administrator.getPersonType());
         return administratorDto;
     }
-    public static OwnerDto convertToDto(Owner owner){
-        OwnerDto ownerDto = new OwnerDto();
-        ownerDto.setEmail(owner.getEmail());
-        ownerDto.setPassword(owner.getPassword());
-        ownerDto.setUsername(owner.getUsername());
-        ownerDto.setEmail(owner.getEmail());
-        ownerDto.setId(owner.getId());
-        return ownerDto;
-    }
-
-
     public static Appointment convertToEntity(AppointmentDto appointmentDto) {
         Appointment appointment = new Appointment();
         appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));
@@ -165,7 +158,7 @@ public class RepairShopUtil {
         return appointment;
     }
 
-    public static BookableService convertToEntity(BookableServiceDto bookableServiceDto){
+    public static BookableService convertToEntity(BookableServiceDto bookableServiceDto) {
         BookableService bookableService = new BookableService();
         bookableService.setName(bookableServiceDto.getName());
         bookableService.setCost(bookableServiceDto.getCost());
@@ -174,15 +167,15 @@ public class RepairShopUtil {
         return bookableService;
     }
 
-    public static List<BookableService> convertToListOfEntity(List<BookableServiceDto> bookableServiceDtos){
+    public static List<BookableService> convertToListOfEntity(List<BookableServiceDto> bookableServiceDtos) {
         List<BookableService> bookableServices = new ArrayList<>();
-        for(BookableServiceDto bookableServiceDto : bookableServiceDtos){
+        for (BookableServiceDto bookableServiceDto : bookableServiceDtos) {
             bookableServices.add(convertToEntity(bookableServiceDto));
         }
         return bookableServices;
     }
 
-    public static TimeSlot convertToEntity(TimeSlotDto timeSlotDto){
+    public static TimeSlot convertToEntity(TimeSlotDto timeSlotDto) {
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setDate(timeSlotDto.getDate());
         timeSlot.setEndTime(timeSlotDto.getEndTime());
@@ -191,7 +184,7 @@ public class RepairShopUtil {
         return timeSlot;
     }
 
-    public static Customer convertToEntity(CustomerDto customerDto){
+    public static Customer convertToEntity(CustomerDto customerDto) {
         Customer customer = new Customer();
         customer.setNoShow(customerDto.getNoShow());
         customer.setCardNumber(customerDto.getCardNumber());
@@ -200,6 +193,7 @@ public class RepairShopUtil {
         customer.setCvv(customerDto.getCvv());
         customer.setUsername(customerDto.getUsername());
         customer.setPassword(customerDto.getPassword());
+        customer.setPersonType(customerDto.getPersonType());
         return customer;
     }
 

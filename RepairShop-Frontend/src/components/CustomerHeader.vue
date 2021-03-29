@@ -1,7 +1,9 @@
 <template>
     <nav id="header">
-        <img class ="logo" src="../assets/repairShop.png" />
+
+        <img class ="logo" src="../assets/logo_draft1.png" />
         <div id="container">    
+
             <button id="home" v-on:click="goToCustomerHomePage()" >Home</button>
             <span></span>
             <button id="appointment" v-on:click="goToCustomerAppointmentPage()">Appointment</button>
@@ -25,19 +27,21 @@ export default {
                 path: "/CustomerHomePage",
                 name: "CustomerHomePage"
             })
-        }, 
+        },
         goToAccountPage: function(){
             Router.push({
                 path: "/CustomerAccountPage",
                 name: "CustomerAccountPage"
             })
-        }, 
+        },
 
         logout: function(){
-            Router.push({
-                path: "/",
-                name: "LoginPage"
-            })
+          Router.push({
+            path: "/",
+            name: "LoginPage",
+          })
+
+
         },
         goToCustomerAppointmentPage: function(){
             Router.push({

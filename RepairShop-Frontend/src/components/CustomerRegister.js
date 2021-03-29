@@ -1,5 +1,6 @@
 import axios from "axios";
 import AuthHeader from "./AuthHeader";
+import Router from "../router";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -19,13 +20,12 @@ export default {
   data() {
     return {
       customers: [],
-      appointments: [],
-      customer: {
-        username: "",
-        email: "",
-        password: "",
-        confirmPass: ""
-      },
+
+      username: "",
+      email: "",
+      password: "",
+      confirmPass: "",
+
 
       errorCustomer: "",
       response: [],
@@ -34,8 +34,11 @@ export default {
   },
 
   methods: {
-    createCustomer: function(username, email, password) {
+    createCustomer: function(username, email, password, confirmPass) {
       console.log(username, email, password);
+      if (password != confirmPass){
+        alert("Password is not equal to the confirm password")
+      }
       AXIOS.post("/person/customer/register/", {
         email: email,
         username: username,
@@ -45,12 +48,19 @@ export default {
           // JSON responses are automatically parsed.
           this.customers.push(response.data);
           this.errorCustomer = "";
-          this.newCustomer = "";
+          this.gotoCustomerHomePage();
         })
         .catch(e => {
-          var errorMsg = e.response.data.message;
+          var errorMsg = e;
           this.errorCustomer = errorMsg;
         });
+    },
+    gotoCustomerHomePage: function() {
+      Router.push({
+        path: "/CustomerHomePage",
+        name: "CustomerHomePage"
+      });
     }
+
   }
 };

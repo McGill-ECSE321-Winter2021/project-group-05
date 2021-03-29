@@ -1,52 +1,31 @@
 <template>
   <div id="customerRegister">
     <AuthHeader v-bind:pageTitle="pageTitle"/>
-    <div id="bottom">
-  <table>
-    <tr>
-      <td>Username:</td>
-      <td colspan="2">
-        <input type="text"  v-model="customer.username" placeholder="username">
-      </td>
-    </tr>
+    <div id="form__container">
+      <form>
+        <label>Username:</label>
+        <input type="text" required v-model="username">
 
-    <tr>
-      <td>Email Address:</td>
-      <td colspan="2">
-        <input type="text"  v-model="customer.email"  placeholder="email">
-      </td>
-    </tr>
+        <!-- Email input text -->
+        <label>Email:</label>
+        <input type="email" required v-model="email">
 
-    <tr>
-      <td>Password:</td>
-      <td colspan="2">
-        <input type="password"  v-model="customer.password"  placeholder="password">
-      </td>
-    </tr>
+        <!-- Password input text -->
+        <label>Password: </label>
+        <input type="password" required v-model="password" >
 
-    <tr>
-      <td>Confirm password:</td>
-      <td colspan="2">
-        <input type="password"  v-model="customer.confirmPass"  placeholder="password">
-      </td>
-    </tr>
+        <!-- Password input text -->
+        <label>Confirm Password: </label>
+        <input type="password" required v-model="confirmPass" >
 
 
+        <div id="button_Container">
+          <button id="button" v-bind:disabled= "!password|| !email|| !password|| !confirmPass"
+                  v-on:click="createCustomer(username,email,password,confirmPass)">Sign up</button>
+        </div>
+      </form>
 
-    <tr>
-      <td></td>
-      <router-link to = "/homePage_customer/"><button
-        v-bind:disabled= "!customer.username || !customer.password || !customer.email || !customer.confirmPass"
-                                                      v-on:click="createCustomer(customer.username,customer.email,customer.password)">
-        Sign up</button></router-link>
-    </tr>
-
-
-  </table>
     </div>
-
-
-
   </div>
 
 </template>
@@ -57,53 +36,71 @@
 
 
 <style>
-body{background: #F6F6F6;}
-#customerRegister {
+body{
+  background: #F6F6F6;
+}
+
+#form__container{
+  background-color: #F6F6F6;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+form{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid lightgray;
+}
+
+#createAccount__button{
+  color: blue;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+#forgotPassword__button{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 16px;
 
+}
+
+#button{
+  color: white;
+  border-radius: 10px;
+  background-color: #2373F7;
+  align-self: center;
+
+}
+label {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+input{
   width: 100%;
-  height: 100%;
+  border-radius: 4px;
 }
 
-#bottom{
-  margin-top: 15%;
-  margin-left: 30%;
-  margin-right: 30%;
-
-
-
+#button_Container{
+  margin-top: 16px;
+  align-self: center;
 }
 
-#top{
-  position: relative;
 
-  width: 100%;
-  height: 20%;
-  float: top;
-  background-color:#2373F7;
-
-}
-table {
-  position: relative;
-  border-spacing: 30px;
-  border-collapse: separate;
-}
-.logo{
-  position: relative;
-  width:100px;
-  height:100px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right:60%;
-}
-.slogan{
-  position: relative;
-  width:60%;
-  height:400%;
-
-  margin-top: -100px;
-
-  margin-left: 40%;
-}
 </style>
 
