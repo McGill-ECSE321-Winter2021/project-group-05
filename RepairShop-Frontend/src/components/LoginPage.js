@@ -2,6 +2,7 @@ import axios from "axios";
 import Router from "../router/index";
 import AuthHeader from "./AuthHeader";
 
+
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -39,6 +40,9 @@ export default {
     loginUser: function(email, password, personType) {
       if (personType == "Customer") {
         this.loginCustomer(email, password);
+        this.currentUser.email= email;
+        this.currentUser.password= password;
+        console.log(this.currentUser.email);
         return;
       }
       if (personType == "Technician") {
@@ -64,6 +68,7 @@ export default {
         .catch(e => {
           var errorMsg = e;
           this.error = errorMsg;
+          alert("wrong email or wrong password");
         });
     },
     loginTechnician: function(email, password) {

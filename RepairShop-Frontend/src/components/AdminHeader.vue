@@ -1,6 +1,6 @@
 <template>
     <nav id="header">
-        <img class ="logo" src="../assets/repairShop.png" />
+        <img class ="logo" src="../assets/logo_draft1.png" v-on:click="goToAdminHomePage()"/>
         <div id="container">
             <button id="home" v-on:click="goToAdminHomePage()" >Home</button>
             <span></span>
@@ -40,10 +40,8 @@ export default {
         },
 
         logout: function(){
-            Router.push({
-                path: "/",
-                name: "LoginPage"
-            })
+          Router.replace({path: "/",
+            name: 'LoginPage'})
         },
 
         goToAdminAppointmentPage: function(){

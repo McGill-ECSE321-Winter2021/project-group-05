@@ -29,12 +29,14 @@ const AdminAccountPage =  {
       username: "",
       email: "",
       password:"",
+      confirmPassword:'',
       error: ""
     };
   },
   methods:{
 
-  updateAccount: function(username, email, password) {
+  updateAccount: function(username, email, password,confirmPassword) {
+    if(this.confirmPassword==confirmPassword){
     const adminDTO = new AdminDto(username,email,password);
     console.log(adminDTO);
     AXIOS.put(`/person/administrator/${email}/`, adminDTO)
@@ -45,7 +47,10 @@ const AdminAccountPage =  {
       .catch(e => {
         console.log(e);
         this.error = e.message;
-      });
+      });}
+    else{
+      alert("confirm password doesn't match with the password");
+    }
   },
   deleteAccount: function(email){
     AXIOS.delete(`/person/administrator/${email}/`)
