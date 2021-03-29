@@ -1,8 +1,8 @@
 <template>
     <nav id="header">
 
-        <img class ="logo" src="../assets/logo_draft1.png" />
-        <div id="container">    
+        <img class ="logo" src="../assets/logo_draft1.png"  v-on:click="goToCustomerHomePage()"/>
+        <div id="container">
 
             <button id="home" v-on:click="goToCustomerHomePage()" >Home</button>
             <span></span>
@@ -10,7 +10,7 @@
             <span></span>
             <button id="account" v-on:click="goToAccountPage()">My Account </button>
             <span></span>
-            <button id="logout" v-on:click="logout()">Logout</button>
+            <button id="logout" v-on:click="logout()" >Logout</button>
             <span></span>
         </div>
     </nav>
@@ -33,14 +33,12 @@ export default {
                 path: "/CustomerAccountPage",
                 name: "CustomerAccountPage"
             })
+
         },
 
         logout: function(){
-          Router.push({
-            path: "/",
-            name: "LoginPage",
-          })
-
+         Router.replace({path: "/",
+           name: 'LoginPage'})
 
         },
         goToCustomerAppointmentPage: function(){
