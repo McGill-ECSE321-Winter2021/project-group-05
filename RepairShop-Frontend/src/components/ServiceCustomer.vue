@@ -1,39 +1,61 @@
 <template>
-  <div id="serviceCustomer">
-    <h2>RepairShop</h2>
-    <table align="CENTER">
+  <div id="CustomerService">
+      <CustomerHeader />
+    <label align=CENTER></label>
+
+    <table align=CENTER id="servicesTable">
+
       <tr>
-          <td>Services available</td>
+          <h4 align=CENTER>Available services</h4>
       </tr>
+
       <tr>
-          <select name="List" size="5">
-              <option value="Ghost of Tshushima"> Ghost of Tshushima </option>
-              <option value="Cyberpunk"> Cyberpunk </option>
-              <option value="Miles Morales"> Miles Morales </option>
-              <option value="AC Valhalla"> AC Valhalla </option>
-              <option value="Flight Simulator"> Flight Simulator </option>
+          <h2 align=CENTER></h2>
+      </tr>
+
+
+      <tr>
+
+          <select multiple size=6>
+               <option v-for="service in services">{{service.name}}</option>
           </select>
       </tr>
+
       <tr>
-          <td>
-              <button>Select</button>
-          </td>
+        <td>
+           <h2 align=CENTER></h2>
+        </td>
       </tr>
+
     </table>
-    <p>
-      <span style="color:red">Error: Message text comes here</span>
+
+    <p align=CENTER>
+
+      <button align=CENTER >Select</button>
+
+    </p>
+
+
+    <p align=CENTER>
+      <span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
     </p>
   </div>
 </template>
 
-<script>
+<script src="./viewServiceCustomer.js">
 </script>
 
 
 <style>
-  #serviceCustomer {
+  #CustomerService {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;
+  }
+
+  td {
+    width: 250px;
+    text-align: center;
+    padding: 1px;
   }
 </style>

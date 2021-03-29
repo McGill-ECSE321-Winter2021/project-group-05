@@ -1,7 +1,7 @@
 <template>
     <nav id="header">
         <img class ="logo" src="../assets/repairShop.png" />
-        <div id="container">    
+        <div id="container">
             <button id="home" v-on:click="goToAdminHomePage()" >Home</button>
             <span></span>
             <button id="appointment" v-on:click="goToAdminAppointmentPage()">Appointment Manager</button>
@@ -31,13 +31,13 @@ export default {
                 path: "/AdminHomePage",
                 name: "AdminHomePage"
             })
-        }, 
+        },
         goToAccountPage: function(){
             Router.push({
                 path: "/AdminAccountPage",
                 name: "AdminAccountPage"
             })
-        }, 
+        },
 
         logout: function(){
             Router.push({
@@ -58,7 +58,7 @@ export default {
                 path: "/TimeSlotPage",
                 name: "TimeSlotPage"
         })
-        }, 
+        },
          goToBusinessPage: function(){
             Router.push({
                 path: "/BusinessPage",
@@ -67,8 +67,8 @@ export default {
         },
         goToServicePage: function (){
             Router.push({
-                path: "/ServicePage",
-                name: "ServicePage"
+                path: "/ServicePageAdmin",
+                name: "ServicePageAdmin"
             })
         }
     }
