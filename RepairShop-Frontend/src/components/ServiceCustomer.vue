@@ -6,19 +6,54 @@
     <table align=CENTER id="servicesTable">
 
       <tr>
-          <h4 align=CENTER>Available services</h4>
+          <td>
+              <h4 align=CENTER>Available services</h4>
+
+          </td>
+          <td v-if="returnedService">
+              <h4 align=CENTER>About service</h4>
+          </td>
+
       </tr>
 
       <tr>
           <h2 align=CENTER></h2>
       </tr>
 
-
       <tr>
+          <td>
+              <select v-model="selectedService" multiple size=6 @click="getServiceByName(selectedService)">
+                   <option v-for="service in services">{{service.name}}</option>
+              </select>
 
-          <select multiple size=6>
-               <option v-for="service in services">{{service.name}}</option>
-          </select>
+          </td>
+          <td >
+              <table v-if="returnedService">
+                  <tr>
+                      <td>
+                          <label>Name</label>
+                      </td>
+                      <td>
+                          <label align=CENTER>Cost</label>
+                      </td>
+                      <td>
+                          <label align=CENTER>Duration</label>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <label>{{returnedService.name}}</label>
+                      </td>
+                      <td>
+                          <label>{{returnedService.cost}}</label>
+                      </td>
+                      <td>
+                          <label>{{returnedService.duration}}</label>
+                      </td>
+                  </tr>
+
+              </table>
+          </td>
       </tr>
 
       <tr>
