@@ -3,47 +3,93 @@
       <AdminHeader />
     <label align=CENTER></label>
     <label align=CENTER> </label>
-    <table align=CENTER>
 
+    <table align=CENTER id="availableServices">
       <tr>
-          <td>
-              <h4 align=CENTER>Create service</h4>
-          </td>
-
           <td>
               <h4 align=CENTER>Available services</h4>
           </td>
+
       </tr>
 
-
-      <tr>
-          <input type="text" v-model="newService" placeholder="Enter name">
-
+      <tr align=CENTER>
           <td>
-              <select>
-                  <option disabled selected value="">Available services</option>
-                  <option v-for="service in services" name="serviceList" style="width:670px">
+              <select v-model="selectedService" multiple :size="services.length" @click="getServiceByName(selectedService)">
+                  <option v-for="service in services" name="serviceList" style="width:150px">
                       {{service.name}}
                   </option>
               </select>
           </td>
-      </tr>
-      <tr>
-          <input type="number" step="0.01" v-model="newCost" placeholder="Enter cost">
-      </tr>
-      <tr>
-          <input type="number" v-model="newDuration" placeholder="Enter duration (minutes)" size="25">
-      </tr>
-
-      <tr>
-          <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
-      </tr>
 
 
+      </tr>
     </table>
 
+    <table align=CENTER id="createServices">
+        <tr>
+            <td>
+                <h4 align=CENTER>Create Service</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" v-model="newService" placeholder="Enter name" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" step="0.01" v-model="newCost" placeholder="Enter cost" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" v-model="newDuration" placeholder="Enter duration (minutes)" size="25">
+            </td>
+        </tr>
+        <tr align=CENTER>
+            <td>
+                <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
+            </td>
+        </tr>
+    </table>
+
+
+    <table align=CENTER id="editServices" v-if="returnedService">
+        <tr>
+            <td>
+                <h4 align=CENTER>Edit service</h4>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <input type="text" v-model="updatedName" :placeholder="returnedService.name" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" step="0.01" v-model="updatedCost" :placeholder="returnedService.cost" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" v-model="updatedDuration" :placeholder="returnedService.duration" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td align=CENTER>
+                <button align=CENTER @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
+                <button align=CENTER @click="deleteService(updatedName)">Delete</button>
+
+            </td>
+        </tr>
+    </table>
+
+
     <p align=CENTER>
-      <span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
+      <!--<span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
+      <span align=CENTER v-if="errorEditService" style="color:red">{{errorEditService}}</span>
+      <span align=CENTER v-if="errorDeleteService" style="color:red">{{errorDeleteService}}</span>-->
     </p>
   </div>
 </template>
@@ -58,10 +104,10 @@
     color: #2c3e50;
     background: #f2ece8;
   }
-
-  td {
-    width: 250px;
-    text-align: center;
-    padding: 1px;
+  button {
+      background-color: #2373F7;
+      color: white;
+      margin-top: 16px;
   }
+
 </style>

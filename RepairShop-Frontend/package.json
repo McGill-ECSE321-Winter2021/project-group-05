@@ -19,6 +19,10 @@
     "get-google-fonts": "^1.2.2",
     "jquery": "^3.6.0",
     "popper.js": "^1.12.9",
+    "vue": "^2.5.2",
+    "vue-my-toasts": "^1.1.1",
+    "vue-router": "^3.0.1",
+    "vue-toast-notification": "^0.6.1"
     "vue": "^2.6.12",
     "vue-ctk-date-time-picker": "^2.5.0",
     "vue-router": "^3.0.1"
