@@ -115,6 +115,15 @@ export default {
         AXIOS.delete("/bookableService/".concat(serviceToDelete))
             .then(response => {
                 console.log(response.data);
+                for(let i = 0; i < this.services.length; i++) {
+
+                   console.log(i);
+                   console.log(this.services[i].name);
+                   console.log(this.services[i].name.localeCompare(serviceToDelete));
+                   if(this.services[i].name.localeCompare(serviceToDelete) === 0){
+                       this.services.splice(i,1);
+                   }
+                }
             })
             .catch(e => {
                 var errorMsg = e.response.data.message;
