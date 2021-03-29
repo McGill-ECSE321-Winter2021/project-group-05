@@ -54,7 +54,7 @@
     </table>
 
 
-    <table align=CENTER id="editServices">
+    <table align=CENTER id="editServices" v-if="returnedService">
         <tr>
             <td>
                 <h4 align=CENTER>Edit service</h4>
@@ -63,17 +63,23 @@
         </tr>
         <tr>
             <td>
-                <input type="text" v-model="newCost" placeholder="Service name" size="25">
+                <input type="text" v-model="newCost" :placeholder="returnedService.name" size="25">
             </td>
         </tr>
         <tr>
             <td>
-                <input type="number" step="0.01" v-model="newCost" placeholder="Service cost" size="25">
+                <input type="number" step="0.01" v-model="newCost" :placeholder="returnedService.cost" size="25">
             </td>
         </tr>
         <tr>
             <td>
-                <input type="number" v-model="newCost" placeholder="Service duration" size="25">
+                <input type="number" v-model="newCost" :placeholder="returnedService.duration" size="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Update</button>
+
             </td>
         </tr>
     </table>
