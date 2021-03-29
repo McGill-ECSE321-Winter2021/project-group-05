@@ -8,7 +8,6 @@
       <tr>
           <td>
               <h4 align=CENTER>Available services</h4>
-
           </td>
           <td v-if="returnedService">
               <h4 align=CENTER>About service</h4>
@@ -27,7 +26,7 @@
               </select>
 
           </td>
-          <td >
+          <td v-if="returnedService">
               <table v-if="returnedService">
                   <tr>
                       <td>
