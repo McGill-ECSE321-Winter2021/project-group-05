@@ -81,6 +81,6 @@ public class ServiceController {
         } catch (BookableServiceException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("The service has been succesfully deleted", HttpStatus.OK);
+        return new ResponseEntity<>("The service has been successfully deleted", HttpStatus.OK);
     }
 }

@@ -34,6 +34,7 @@ export default {
       returnedService: "",
       errorCreateService: "",
       errorEditService: "",
+      errorDeleteService: "",
       response: []
     };
   },
@@ -107,6 +108,19 @@ export default {
                console.log(errorMsg);
                this.errorEditService = errorMsg;
             });
+    },
+
+    deleteService: function(serviceToDelete) {
+        console.log(serviceToDelete);
+        AXIOS.delete("/bookableService/".concat(serviceToDelete))
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(e => {
+                var errorMsg = e.response.data.message;
+                console.log(errorMsg);
+                this.errorDeleteService = errorMsg;
+            })
     }
   }
 };
