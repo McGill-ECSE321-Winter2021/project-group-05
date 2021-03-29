@@ -77,13 +77,15 @@ export default {
           this.newCost = "";
           this.newDuration = "";
           this.errorCreateService = "";
-          Vue.$toast.open('Service successfully created', {
+          Vue.$toast.success('Service successfully created', {
           duration: 6000});
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
           this.errorCreateService = errorMsg;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
         });
     },
 
@@ -100,6 +102,8 @@ export default {
                var errorMsg = e.response.data.message;
                console.log(errorMsg);
                this.errorCreateService = errorMsg;
+               Vue.$toast.error(e.response.data, {
+               duration: 6000});
             });
     },
 
@@ -119,13 +123,15 @@ export default {
                         this.services.splice(i,1);
                     }
                 }
-                Vue.$toast.open('Service successfully updated', {
+                Vue.$toast.success('Service successfully updated', {
                 duration: 6000});
             })
             .catch(e => {
                var errorMsg = e.response.data.message;
                console.log(errorMsg);
                this.errorEditService = errorMsg;
+               Vue.$toast.error(e.response.data, {
+               duration: 6000});
             });
     },
 
@@ -139,7 +145,7 @@ export default {
                        this.services.splice(i,1);
                    }
                 }
-                Vue.$toast.open('Service successfully deleted', {
+                Vue.$toast.success('Service successfully deleted', {
                 duration: 6000});
                 this.updatedName = "";
                 this.updatedCost = "";
@@ -149,6 +155,8 @@ export default {
                 var errorMsg = e.response.data.message;
                 console.log(errorMsg);
                 this.errorDeleteService = errorMsg;
+                Vue.$toast.error(e.response.data, {
+                duration: 6000});
             })
     }
   }
