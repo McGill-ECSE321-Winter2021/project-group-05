@@ -63,22 +63,22 @@
         </tr>
         <tr>
             <td>
-                <input type="text" v-model="newCost" :placeholder="returnedService.name" size="25">
+                <input type="text" v-model="updatedName" :placeholder="returnedService.name" size="25">
             </td>
         </tr>
         <tr>
             <td>
-                <input type="number" step="0.01" v-model="newCost" :placeholder="returnedService.cost" size="25">
+                <input type="number" step="0.01" v-model="updatedCost" :placeholder="returnedService.cost" size="25">
             </td>
         </tr>
         <tr>
             <td>
-                <input type="number" v-model="newCost" :placeholder="returnedService.duration" size="25">
+                <input type="number" v-model="updatedDuration" :placeholder="returnedService.duration" size="25">
             </td>
         </tr>
         <tr>
             <td>
-                <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Update</button>
+                <button align=CENTER @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
 
             </td>
         </tr>

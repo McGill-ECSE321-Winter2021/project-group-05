@@ -33,12 +33,12 @@ export default {
       },
       returnedService: "",
       errorCreateService: "",
+      errorEditService: "",
       response: []
     };
   },
 
   created: function() {
-    // new added
     // Initializing services from backend
     AXIOS.get("/bookableServices")
       .then(response => {
@@ -86,9 +86,27 @@ export default {
                var errorMsg = e.response.data.message;
                console.log(errorMsg);
                this.errorCreateService = errorMsg;
-        });
-    }
+            });
+    },
 
-    editService: function
+    editService: function(service, newServiceName, newServiceCost, newServiceDuration){
+        console.log(newName, newCost, newDuration);
+        const retrieveService = getServiceByName(service);
+        const editBookableServiceDto = new BookableServiceDto(
+          newServiceName,
+          newServiceCost,
+          newServiceDuration
+        );
+        AXIOS.put("bookableService/".concat(serviceName), editBookableServiceDto)
+            .then(response => {
+                this.services.push(response.data);
+                console.log(response.data);
+            })
+            .catch(e => {
+               var errorMsg = e.response.data.message;
+               console.log(errorMsg);
+               this.errorEditService = errorMsg;
+            });
+    }
   }
 };
