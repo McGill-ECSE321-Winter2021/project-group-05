@@ -77,7 +77,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td align=CENTER>
                 <button align=CENTER @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
                 <button align=CENTER @click="deleteService(updatedName)">Delete</button>
 

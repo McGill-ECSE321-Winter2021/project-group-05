@@ -35,6 +35,10 @@ export default {
       errorCreateService: "",
       errorEditService: "",
       errorDeleteService: "",
+
+      updatedName: "",
+      updatedCost: "",
+      updatedDuration: "",
       response: []
     };
   },
@@ -80,8 +84,9 @@ export default {
         AXIOS.get("/bookableService/".concat(serviceName))
             .then(response => {
                 this.returnedService = response.data;
-                console.log(returnedService.duration);
-
+                this.updatedName = response.data.name;
+                this.updatedCost = response.data.cost;
+                this.updatedDuration = response.data.duration;
             })
             .catch(e => {
                var errorMsg = e.response.data.message;
