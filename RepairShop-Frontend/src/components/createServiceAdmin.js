@@ -91,17 +91,21 @@ export default {
     },
 
     editService: function(service, newServiceName, newServiceCost, newServiceDuration){
-        console.log(newName, newCost, newDuration);
-        const retrieveService = getServiceByName(service);
+        console.log(service, newServiceName, newServiceCost, newServiceDuration);
         const editBookableServiceDto = new BookableServiceDto(
           newServiceName,
           newServiceCost,
           newServiceDuration
         );
-        AXIOS.put("bookableService/".concat(serviceName), editBookableServiceDto)
+        AXIOS.put("bookableService/".concat(service), editBookableServiceDto)
             .then(response => {
                 this.services.push(response.data);
                 console.log(response.data);
+                for(let i = 0; i < this.services.length; i++) {
+                    if(this.services[i].name.localeCompare(service) === 0){
+                        this.services.splice(i,1);
+                    }
+                }
             })
             .catch(e => {
                var errorMsg = e.response.data.message;
@@ -116,10 +120,6 @@ export default {
             .then(response => {
                 console.log(response.data);
                 for(let i = 0; i < this.services.length; i++) {
-
-                   console.log(i);
-                   console.log(this.services[i].name);
-                   console.log(this.services[i].name.localeCompare(serviceToDelete));
                    if(this.services[i].name.localeCompare(serviceToDelete) === 0){
                        this.services.splice(i,1);
                    }
