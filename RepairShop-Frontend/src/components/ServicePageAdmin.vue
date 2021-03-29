@@ -102,4 +102,10 @@
     color: #2c3e50;
     background: #f2ece8;
   }
+  button {
+      background-color: #2373F7;
+      color: white;
+      margin-top: 16px;
+  }
+
 </style>

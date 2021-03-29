@@ -92,4 +92,10 @@
     text-align: center;
     padding: 1px;
   }
+
+  button {
+      background-color: #2373F7;
+      color: white;
+      margin-top: 16px;
+  }
 </style>
