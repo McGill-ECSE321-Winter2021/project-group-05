@@ -6,7 +6,7 @@
       <div id="form__container">
         <form>
           <!--  Select input-->
-          <label>Please select the role that applies to you </label>
+          <label>Select the role that applies to you </label>
           <select require v-model="currentUser.personType">
             <option disabled value="">Please select one</option>
             <option>Customer</option>

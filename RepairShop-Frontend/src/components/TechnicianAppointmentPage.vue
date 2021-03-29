@@ -8,7 +8,7 @@
 import TechnicianHeader from './TechnicianHeader'
 
 export default {
-    name: "TechnicianHomePage",
+    name: "TechnicianAppointmentPage",
     components: {
         TechnicianHeader
     }
