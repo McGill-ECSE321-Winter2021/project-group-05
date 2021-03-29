@@ -21,7 +21,7 @@
 
       <tr>
           <td>
-              <select v-model="selectedService" multiple size=6 @click="getServiceByName(selectedService)">
+              <select v-model="selectedService" multiple :size="services.length" @click="getServiceByName(selectedService)">
                    <option v-for="service in services">{{service.name}}</option>
               </select>
 
