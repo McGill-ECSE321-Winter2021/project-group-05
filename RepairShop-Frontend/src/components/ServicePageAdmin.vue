@@ -88,6 +88,8 @@
 
     <p align=CENTER>
       <span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
+      <span align=CENTER v-if="errorEditService" style="color:red">{{errorEditService}}</span>
+      <span align=CENTER v-if="errorDeleteService" style="color:red">{{errorDeleteService}}</span>
     </p>
   </div>
 </template>

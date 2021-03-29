@@ -1,5 +1,8 @@
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
+import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 var config = require("../../config");
 
@@ -12,6 +15,8 @@ var AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+Vue.use(VueToast);
+
 function BookableServiceDto(name, cost, duration) {
   this.name = name;
   this.cost = cost;
@@ -23,6 +28,7 @@ export default {
   components: {
     AdminHeader
   },
+
   data() {
     return {
       services: [],
@@ -71,6 +77,8 @@ export default {
           this.newCost = "";
           this.newDuration = "";
           this.errorCreateService = "";
+          Vue.$toast.open('Service successfully created', {
+          duration: 6000});
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
@@ -111,6 +119,8 @@ export default {
                         this.services.splice(i,1);
                     }
                 }
+                Vue.$toast.open('Service successfully updated', {
+                duration: 6000});
             })
             .catch(e => {
                var errorMsg = e.response.data.message;
@@ -129,6 +139,11 @@ export default {
                        this.services.splice(i,1);
                    }
                 }
+                Vue.$toast.open('Service successfully deleted', {
+                duration: 6000});
+                this.updatedName = "";
+                this.updatedCost = "";
+                this.updatedDuration = "";
             })
             .catch(e => {
                 var errorMsg = e.response.data.message;
