@@ -30,9 +30,6 @@ public class TestCustomerService {
     private CustomerRepository customerRepository;
 
     @Mock
-    private OwnerRepository ownerRepository;
-
-    @Mock
     private TechnicianRepository technicianRepository;
 
 
@@ -106,23 +103,6 @@ public class TestCustomerService {
                 return null;
             }
         });
-
-
-        //owner by email
-        lenient().when(ownerRepository.findOwnerByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(OWNER_EMAIL)) {
-                Owner owner = new Owner();
-                owner.setEmail(OWNER_EMAIL);
-                owner.setUsername(OWNER_USERNAME);
-                owner.setPassword(OWNER_PASSWORD);
-                owner.setId(OWNER_ID);
-                return owner;
-            } else {
-                return null;
-            }
-        });
-
-
     }
 
     //CUSTOMER

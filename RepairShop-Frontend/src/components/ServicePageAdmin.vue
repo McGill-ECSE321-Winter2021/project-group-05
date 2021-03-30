@@ -1,10 +1,9 @@
 <template>
-  <div id="CreateService">
+  <div id="CreateService" align=CENTER>
       <AdminHeader />
-    <label align=CENTER></label>
-    <label align=CENTER> </label>
+    <h1 align=CENTER> </h1>
 
-    <table align=CENTER id="availableServices">
+    <table align=CENTER id="availableServices" style="display: inline-block;" width="auto">
       <tr>
           <td>
               <h4 align=CENTER>Available services</h4>
@@ -25,7 +24,7 @@
       </tr>
     </table>
 
-    <table align=CENTER id="createServices">
+    <table align=CENTER id="createServices" style="display: inline-block;" width="auto">
         <tr>
             <td>
                 <h4 align=CENTER>Create Service</h4>
@@ -54,7 +53,7 @@
     </table>
 
 
-    <table align=CENTER id="editServices" v-if="returnedService">
+    <table align=CENTER id="editServices" v-if="returnedService" style="display: inline-block;" width="auto">
         <tr>
             <td>
                 <h4 align=CENTER>Edit service</h4>
