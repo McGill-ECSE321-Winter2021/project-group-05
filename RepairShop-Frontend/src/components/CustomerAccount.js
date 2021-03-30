@@ -28,8 +28,8 @@ function CustomerDto(username, email, password) {
   this.password = password;
 }
 
-const CustomerAccountPage = {
-  name: "CustomerAccountPage",
+export default {
+  name: "CustomerAccount",
   components: {
     CustomerHeader
   },
@@ -37,17 +37,26 @@ const CustomerAccountPage = {
   data() {
     return {
       customers: [],
-      username: currentUser.data().currentUser.email,
-      email: currentUser.data().currentUser.email,
+      username: "",
+      email: "",
       password:"",
       confirmPassword:"",
       error: ""
     };
   },
+
+  created: function() {
+    this.userName = currentUser.data().username;
+    this.email = currentUser.email;
+    this.username = localStorage.getItem('savedUserName');
+    this.email = localStorage.getItem('savedUserEmail');
+    this.password = localStorage.getItem('savedUserPassword');
+  },
+
   methods: {
     updateAccount: function(username, email, password,confirmPassword) {
       if (password == confirmPassword){
-
+      console.log(this.email);
       const customerDTO = new CustomerDto(username,email,password);
       console.log(customerDTO);
       AXIOS.put(`/person/customer/${email}/`, customerDTO)
@@ -97,5 +106,3 @@ const CustomerAccountPage = {
   }
 
 };
-
-export default CustomerAccountPage;

@@ -31,15 +31,17 @@ export default {
   data() {
     return {
       currentUser: {
+        username: "",
         email: "",
         password: "",
         personType: ""
       },
       error: "",
       response: [],
-      pageTitle: "Welcome to repairshop, your satisfaction is our top concern"
+      pageTitle: "Welcome to RepairShop, your satisfaction is our top concern"
     };
   },
+
 
   methods: {
     loginUser: function(email, password, personType) {
@@ -47,7 +49,6 @@ export default {
         this.loginCustomer(email, password);
         this.currentUser.email= email;
         this.currentUser.password= password;
-        console.log(this.currentUser.email);
         return;
       }
       if (personType == "Technician") {
@@ -68,9 +69,20 @@ export default {
       AXIOS.post("person/customer/login", customerDto)
         .then(response => {
           console.log(response.data);
-          this.currentUser = response.data;
+          console.log(response.data);
+          this.currentUser.username = response.data.username;
+          this.currentUser.email = response.data.email;
+          this.currentUser.password = response.data.password;
+          this.currentUser.personType = response.data.personType;
+          console.log(this.currentUser.username);
+          console.log(this.currentUser.email);
+          console.log(this.currentUser.password);
+          console.log(this.currentUser.personType);
           this.error = "";
           this.goToCustomerHomePage();
+          localStorage.setItem('savedUserEmail', response.data.email);
+          localStorage.setItem('savedUserName', response.data.username);
+          localStorage.setItem('savedUserPassword', response.data.password);
         })
         .catch(e => {
           var errorMsg = e;
