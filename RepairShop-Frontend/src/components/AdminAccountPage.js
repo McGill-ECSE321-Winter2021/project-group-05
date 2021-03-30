@@ -38,6 +38,14 @@ const AdminAccountPage =  {
       error: ""
     };
   },
+
+  created: function() {
+      this.username = localStorage.getItem('savedAdminName');
+      this.email = localStorage.getItem('savedAdminEmail');
+      this.password = localStorage.getItem('savedAdminPassword');
+  },
+
+
   methods:{
 
   updateAccount: function(username, email, password,confirmPassword) {

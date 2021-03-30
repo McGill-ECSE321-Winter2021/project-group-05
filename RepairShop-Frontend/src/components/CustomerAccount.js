@@ -46,11 +46,9 @@ export default {
   },
 
   created: function() {
-    this.userName = currentUser.data().username;
-    this.email = currentUser.email;
-    this.username = localStorage.getItem('savedUserName');
-    this.email = localStorage.getItem('savedUserEmail');
-    this.password = localStorage.getItem('savedUserPassword');
+    this.username = localStorage.getItem('savedCustomerName');
+    this.email = localStorage.getItem('savedCustomerEmail');
+    this.password = localStorage.getItem('savedCustomerPassword');
   },
 
   methods: {

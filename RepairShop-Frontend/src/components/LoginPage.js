@@ -68,21 +68,21 @@ export default {
       const customerDto = new CustomerDto(email, password);
       AXIOS.post("person/customer/login", customerDto)
         .then(response => {
-          console.log(response.data);
-          console.log(response.data);
-          this.currentUser.username = response.data.username;
-          this.currentUser.email = response.data.email;
-          this.currentUser.password = response.data.password;
-          this.currentUser.personType = response.data.personType;
-          console.log(this.currentUser.username);
-          console.log(this.currentUser.email);
-          console.log(this.currentUser.password);
-          console.log(this.currentUser.personType);
+//          console.log(response.data);
+//          console.log(response.data);
+//          this.currentUser.username = response.data.username;
+//          this.currentUser.email = response.data.email;
+//          this.currentUser.password = response.data.password;
+//          this.currentUser.personType = response.data.personType;
+//          console.log(this.currentUser.username);
+//          console.log(this.currentUser.email);
+//          console.log(this.currentUser.password);
+//          console.log(this.currentUser.personType);
+          localStorage.setItem('savedCustomerEmail', response.data.email);
+          localStorage.setItem('savedCustomerName', response.data.username);
+          localStorage.setItem('savedCustomerPassword', response.data.password);
           this.error = "";
           this.goToCustomerHomePage();
-          localStorage.setItem('savedUserEmail', response.data.email);
-          localStorage.setItem('savedUserName', response.data.username);
-          localStorage.setItem('savedUserPassword', response.data.password);
         })
         .catch(e => {
           var errorMsg = e;
@@ -99,6 +99,9 @@ export default {
           console.log(response.data);
           this.currentUser = response.data;
           this.error = "";
+          localStorage.setItem('savedTechnicianEmail', response.data.email);
+          localStorage.setItem('savedTechnicianName', response.data.username);
+          localStorage.setItem('savedTechnicianPassword', response.data.password);
           this.goToTechinicianHomePage();
         })
         .catch(e => {
@@ -116,6 +119,9 @@ export default {
           console.log(response.data);
           this.currentUser = response.data;
           this.error = "";
+          localStorage.setItem('savedAdminEmail', response.data.email);
+          localStorage.setItem('savedAdminName', response.data.username);
+          localStorage.setItem('savedAdminPassword', response.data.password);
           this.goToAdminHomePage();
         })
         .catch(e => {
