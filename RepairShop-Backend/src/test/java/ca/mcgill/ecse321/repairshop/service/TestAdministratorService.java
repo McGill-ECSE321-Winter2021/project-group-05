@@ -23,9 +23,6 @@ import org.mockito.Mock;
 public class TestAdministratorService {
 
     @Mock
-    private OwnerRepository ownerRepository;
-
-    @Mock
     private CustomerRepository customerRepository;
 
     @Mock

@@ -28,9 +28,6 @@ public class TestPersonPersistence {
     private TechnicianRepository technicianRepository;
 
     @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
@@ -42,7 +39,6 @@ public class TestPersonPersistence {
         // Then we can clear the other tables
         administratorRepository.deleteAll();
         technicianRepository.deleteAll();
-        ownerRepository.deleteAll();
         customerRepository.deleteAll();
 
     }
@@ -171,37 +167,5 @@ public class TestPersonPersistence {
 
     }
 
-    /**
-     * testing Owner
-     */
-    public void testPersistAndLoadOwner() {
-
-        String name = "TestOwner";
-        String password = "TestPassword";
-        String email = "testemail@123.com";
-
-        Owner owner = new Owner();
-        owner.setUsername(name);
-        owner.setPassword(password);
-        owner.setEmail(email);
-
-        RepairShop rs = new RepairShop();
-        owner.setRepairShop(rs);
-
-        ownerRepository.save(owner);
-
-        String id = owner.getEmail();
-        owner = null;
-
-        owner = ownerRepository.findOwnerByEmail(id);
-
-        assertNotNull(owner);
-        assertEquals(email,owner.getEmail());
-        assertEquals(password,owner.getPassword());
-        assertEquals(id,owner.getEmail());
-        assertEquals(name,owner.getUsername());
-        assertNotNull(owner.getRepairShop());
-
-    }
 
 }

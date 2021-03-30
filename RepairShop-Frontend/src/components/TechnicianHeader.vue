@@ -2,7 +2,7 @@
     <nav id="header">
 
         <img class ="logo" src="../assets/logo_draft1.png" />
-        <div id="container">    
+        <div id="container">
 
             <button id="home" v-on:click="goToTechnicianHomePage()" >Home</button>
             <span></span>
@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 #header{
-    background-color: pink;
+    background-color: #2373F7;
     display: flex;
     align-items: center;
     position: sticky;

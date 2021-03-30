@@ -1,10 +1,9 @@
 <template>
-  <div id="CreateService">
+  <div id="CreateService" align=CENTER>
       <AdminHeader />
-    <label align=CENTER></label>
-    <label align=CENTER> </label>
+    <h1 align=CENTER> </h1>
 
-    <table align=CENTER id="availableServices">
+    <table align=CENTER id="availableServices" style="display: inline-block;" width="auto">
       <tr>
           <td>
               <h4 align=CENTER>Available services</h4>
@@ -25,7 +24,7 @@
       </tr>
     </table>
 
-    <table align=CENTER id="createServices">
+    <table align=CENTER id="createServices" style="display: inline-block;" width="auto">
         <tr>
             <td>
                 <h4 align=CENTER>Create Service</h4>
@@ -48,13 +47,13 @@
         </tr>
         <tr align=CENTER>
             <td>
-                <button align=CENTER @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
+                <button align=CENTER style="background-color: #2373F7; color: white; margin-top: 16px; border-radius: 10px;" @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
             </td>
         </tr>
     </table>
 
 
-    <table align=CENTER id="editServices" v-if="returnedService">
+    <table align=CENTER id="editServices" v-if="returnedService" style="display: inline-block;" width="auto">
         <tr>
             <td>
                 <h4 align=CENTER>Edit service</h4>
@@ -78,8 +77,8 @@
         </tr>
         <tr>
             <td align=CENTER>
-                <button align=CENTER @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
-                <button align=CENTER @click="deleteService(updatedName)">Delete</button>
+                <button align=CENTER style="background-color: #2373F7; color: white; margin-top: 16px; border-radius: 10px;" @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
+                <button align=CENTER style="background-color: firebrick; color: white; margin-top: 16px; border-radius: 10px;" @click="deleteService(updatedName)">Delete</button>
 
             </td>
         </tr>
@@ -103,11 +102,6 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;
-  }
-  button {
-      background-color: #2373F7;
-      color: white;
-      margin-top: 16px;
   }
 
 </style>
