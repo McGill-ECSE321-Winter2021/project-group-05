@@ -22,10 +22,6 @@ import org.mockito.Mock;
 @ExtendWith(MockitoExtension.class)
 public class TestTechnicianService {
 
-
-    @Mock
-    private OwnerRepository ownerRepository;
-
     @Mock
     private CustomerRepository customerRepository;
 

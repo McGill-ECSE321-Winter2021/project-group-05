@@ -26,6 +26,7 @@ export default {
 }
 .logo{
     border-radius: 20px;
+    margin-top: 20px;
 
 }
 .message{
@@ -33,6 +34,6 @@ export default {
    font-size: 20px;
    color: white;
    padding-top: 16px;
-   margin-left: 8px;
+   margin-left: 38px;
 }
 </style>

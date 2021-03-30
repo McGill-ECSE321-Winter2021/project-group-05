@@ -15,9 +15,9 @@
         <label>Confirm Password</label>
         <input required  v-model="confirmPassword" type="password">
 
-        <button id="save"v-on:click="updateAccount(username, email, password,confirmPassword)">
+        <button id="save"v-on:click="updateAccount(username, email, password,confirmPassword)" style="border-radius: 10px;">
           save</button>
-        <button id="delete" v-on:click="deleteAccount(email)">
+        <button id="delete" v-on:click="deleteAccount(email)" style="border-radius: 10px;">
           delete</button>
       </form>
     </div>

@@ -33,8 +33,8 @@ public class RepairShopService {
         if (cost < 0) {
             throw new BookableServiceException("Service cost cannot be negative");
         }
-        if (duration == 0) {
-            throw new BookableServiceException("Service duration cannot be 0");
+        if (duration <= 0) {
+            throw new BookableServiceException("Service duration must be more than 0");
         }
         if(serviceRepository.findServiceByName(name) != null){
             throw new BookableServiceException("Service already exists");
@@ -61,11 +61,11 @@ public class RepairShopService {
         if (newCost < 0) {
             throw new BookableServiceException("New service cost cannot be negative");
         }
-        if (newDuration == 0) {
-            throw new BookableServiceException("New service duration cannot be 0");
+        if (newDuration <= 0) {
+            throw new BookableServiceException("New service duration must be more than 0");
         }
 
-        if(serviceRepository.findServiceByName(newName) != null){
+        if(serviceRepository.findServiceByName(newName) != null && serviceRepository.findServiceByName(newName) != service){
             throw new BookableServiceException("Service already exists");
         }
 

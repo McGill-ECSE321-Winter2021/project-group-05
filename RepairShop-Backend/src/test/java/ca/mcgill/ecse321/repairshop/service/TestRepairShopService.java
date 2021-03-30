@@ -36,8 +36,6 @@ public class TestRepairShopService {
     @Mock
     private CustomerRepository customerRepository;
     @Mock
-    private OwnerRepository ownerRepository;
-    @Mock
     private AdministratorRepository administratorRepository;
     @Mock
     private TechnicianRepository technicianRepository;
@@ -232,7 +230,6 @@ public class TestRepairShopService {
         lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(businessRepository.save(any(Business.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
-        lenient().when(ownerRepository.save(any(Owner.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(administratorRepository.save(any(Administrator.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(technicianRepository.save(any(Technician.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(timeSlotRepository.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
@@ -343,7 +340,28 @@ public class TestRepairShopService {
         } catch (BookableServiceException e) {
             error = e.getMessage();
         }
-        assertEquals("Service duration cannot be 0", error);
+        assertEquals("Service duration must be more than 0", error);
+    }
+
+    /**
+     * test createService(name, cost, duration); error check; duration is negative
+     */
+    @Test
+    public void testCreateServiceWithNegativeDuration(){
+        String NAME = "Steering wheel repair";
+        float COST = 85.98f;
+        int DURATION = -2;
+        String error = null;
+        BookableService createdService = null;
+
+        try {
+            createdService = repairShopService.createService(NAME, COST, DURATION);
+            createdService = null;
+            createdService = serviceRepository.findServiceByName(NAME);
+        } catch (BookableServiceException e) {
+            error = e.getMessage();
+        }
+        assertEquals("Service duration must be more than 0", error);
     }
 
     /**
@@ -562,7 +580,42 @@ public class TestRepairShopService {
             error = e.getMessage();
         }
 
-        assertEquals("New service duration cannot be 0", error);
+        assertEquals("New service duration must be more than 0", error);
+    }
+
+
+    /**
+     * test editService(service, newName, newCost, newDuration); error check; newDuration is negative
+     */
+    @Test
+    public void testEditServiceWithNegativeNewDuration() {
+        String OLD_NAME = "Sound system repair";
+        float OLD_COST = 29.79f;
+        int OLD_DURATION = 12;
+        BookableService service = null;
+        try {
+            service = repairShopService.createService(OLD_NAME, OLD_COST, OLD_DURATION);
+        } catch (BookableServiceException e) {
+            e.printStackTrace();
+            fail();
+        }
+        service.setId(5l);
+
+
+        String NEW_NAME = "Indicator light repair";
+        float NEW_COST = 59.79f;
+        int NEW_DURATION = -45;
+        String error = null;
+
+        BookableService editedService = null;
+
+        try {
+            editedService = repairShopService.editService(service, NEW_NAME, NEW_COST, NEW_DURATION);
+        } catch (BookableServiceException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals("New service duration must be more than 0", error);
     }
 
 

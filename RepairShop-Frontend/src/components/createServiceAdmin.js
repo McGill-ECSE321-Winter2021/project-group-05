@@ -58,6 +58,8 @@ export default {
       })
       .catch(e => {
         this.errorCreateService = e;
+        Vue.$toast.error(e.response.data, {
+        duration: 6000});
       });
   },
 
