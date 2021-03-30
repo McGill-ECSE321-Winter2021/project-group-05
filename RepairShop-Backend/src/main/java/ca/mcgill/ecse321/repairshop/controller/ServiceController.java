@@ -48,7 +48,7 @@ public class ServiceController {
            return new ResponseEntity<>(RepairShopUtil.convertToDto(newService), HttpStatus.OK);
         }
       catch (BookableServiceException e) {
-            throw new BookableServiceException("Cannot edit appointment before 24hr");
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
