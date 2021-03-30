@@ -1,6 +1,9 @@
 import axios from "axios";
 import Router from "../router/index";
 import AuthHeader from "./AuthHeader";
+import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 
 var config = require("../../config");
@@ -12,6 +15,8 @@ var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
+
+Vue.use(VueToast);
 
 function CustomerDto(email, password) {
   this.email = email;
@@ -54,6 +59,8 @@ export default {
         return;
       }
       this.error = "You need to select a role";
+      Vue.$toast.error('You need to select a role', {
+      duration: 6000});
     },
 
     loginCustomer: function(email, password) {
@@ -68,7 +75,9 @@ export default {
         .catch(e => {
           var errorMsg = e;
           this.error = errorMsg;
-          alert("wrong email or wrong password");
+          //alert("wrong email or wrong password");
+          Vue.$toast.error('Wrong email/password combination', {
+          duration: 6000});
         });
     },
     loginTechnician: function(email, password) {
@@ -83,6 +92,9 @@ export default {
         .catch(e => {
           var errorMsg = e;
           this.error = errorMsg;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
+
         });
     },
     loginAdmin: function(email, password) {
@@ -97,6 +109,8 @@ export default {
         .catch(e => {
           var errorMsg = e;
           this.error = errorMsg;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
         });
     },
     goToCreateAccountPage: function() {

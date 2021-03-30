@@ -47,7 +47,7 @@
         </tr>
         <tr align=CENTER>
             <td>
-                <button align=CENTER style="background-color: #2373F7; color: white; margin-top: 16px;" @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
+                <button align=CENTER style="background-color: #2373F7; color: white; margin-top: 16px; border-radius: 10px;" @click="createServiceAdmin(newService, newCost, newDuration)">Create</button>
             </td>
         </tr>
     </table>
@@ -77,8 +77,8 @@
         </tr>
         <tr>
             <td align=CENTER>
-                <button align=CENTER style="background-color: #2373F7; color: white; margin-top: 16px;" @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
-                <button align=CENTER style="background-color: firebrick; color: white; margin-top: 16px;" @click="deleteService(updatedName)">Delete</button>
+                <button align=CENTER style="background-color: #2373F7; color: white; margin-top: 16px; border-radius: 10px;" @click="editService(returnedService.name, updatedName, updatedCost, updatedDuration)">Update</button>
+                <button align=CENTER style="background-color: firebrick; color: white; margin-top: 16px; border-radius: 10px;" @click="deleteService(updatedName)">Delete</button>
 
             </td>
         </tr>
