@@ -36,13 +36,21 @@ const TechnicianAccountPage = {
   data() {
     return {
       technicians: [],
-      username: currentUser.data().currentUser.username,
-      email: currentUser.data().currentUser.email,
+      username: "",
+      email: "",
       password:"",
       confirmPassword:"",
       error: ""
     };
   },
+
+  created: function() {
+      this.username = localStorage.getItem('savedTechnicianName');
+      this.email = localStorage.getItem('savedTechnicianEmail');
+      this.password = localStorage.getItem('savedTechnicianPassword');
+  },
+
+
   methods: {
     updateAccount: function(username, email, password,confirmPassword) {
       if (password == confirmPassword){
