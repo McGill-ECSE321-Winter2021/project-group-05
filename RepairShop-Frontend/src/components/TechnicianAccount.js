@@ -1,4 +1,4 @@
-import CustomerHeader from './CustomerHeader'
+import TechnicianHeader from './TechnicianHeader'
 import axios from "axios";
 import Router from "../router";
 import currentUser from "./LoginPage.js";
@@ -18,26 +18,25 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
-
 Vue.use(VueToast);
 
-//This function creates a customerDto
-function CustomerDto(username, email, password) {
+//This function creates a technicianDto
+function TechnicianDto(username, email, password) {
   this.username = username;
   this.email = email;
   this.password = password;
 }
 
-const CustomerAccountPage = {
-  name: "CustomerAccountPage",
+const TechnicianAccountPage = {
+  name: "TechnicianAccountPage",
   components: {
-    CustomerHeader
+    TechnicianHeader
   },
 
   data() {
     return {
-      customers: [],
-      username: currentUser.data().currentUser.email,
+      technicians: [],
+      username: currentUser.data().currentUser.username,
       email: currentUser.data().currentUser.email,
       password:"",
       confirmPassword:"",
@@ -48,11 +47,11 @@ const CustomerAccountPage = {
     updateAccount: function(username, email, password,confirmPassword) {
       if (password == confirmPassword){
 
-      const customerDTO = new CustomerDto(username,email,password);
-      console.log(customerDTO);
-      AXIOS.put(`/person/customer/${email}/`, customerDTO)
+      const technicianDTO = new TechnicianDto(username,email,password);
+      console.log(technicianDTO);
+      AXIOS.put(`/person/technician/${email}/`, technicianDTO)
         .then(response => {
-          this.customers.push(response.data);
+          this.technicians.push(response.data);
           console.log(response.data);
           Vue.$toast.success('Account credentials successfully updated', {
           duration: 6000});
@@ -72,9 +71,9 @@ const CustomerAccountPage = {
       }
     },
     deleteAccount: function(email){
-      AXIOS.delete(`/person/customer/${email}/`)
+      AXIOS.delete(`/person/technician/${email}/`)
         .then(response => {
-          this.customers.pop();
+          this.technicians.pop();
           console.log(response.data);
           this.gotoLogin();
           Vue.$toast.success('Account successfully deleted', {
@@ -98,4 +97,4 @@ const CustomerAccountPage = {
 
 };
 
-export default CustomerAccountPage;
+export default TechnicianAccountPage;

@@ -1,5 +1,8 @@
 import AdminHeader from './AdminHeader'
 import axios from "axios";
+import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -11,7 +14,9 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
-//This function creates a businessDto
+Vue.use(VueToast);
+
+//This function creates a adminDto
 function AdminDto(username, email, password) {
   this.username = username;
   this.email = email;
@@ -43,13 +48,19 @@ const AdminAccountPage =  {
       .then(response => {
         this.admins.push(response.data);
         console.log(response.data);
+        Vue.$toast.success('Account credentials successfully updated', {
+        duration: 6000});
       })
       .catch(e => {
         console.log(e);
         this.error = e.message;
+        Vue.$toast.error(e.response.data, {
+        duration: 6000});
       });}
     else{
-      alert("confirm password doesn't match with the password");
+      //alert("confirm password doesn't match with the password");
+      Vue.$toast.error("Passwords do not match", {
+      duration: 6000});
     }
   },
   deleteAccount: function(email){
@@ -57,10 +68,14 @@ const AdminAccountPage =  {
       .then(response => {
         this.admins.pop();
         console.log(response.data);
+        Vue.$toast.success('Account successfully deleted', {
+        duration: 6000});
       })
       .catch(e => {
         console.log(e);
         this.error = e.message;
+        Vue.$toast.error(e.response.data, {
+        duration: 6000});
       });
 
   }
