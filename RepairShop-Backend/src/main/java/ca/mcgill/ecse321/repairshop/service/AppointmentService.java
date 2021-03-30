@@ -117,6 +117,13 @@ public class AppointmentService {
     }
 
     @Transactional
+    public Iterable<Appointment> getAllAppointments(){
+
+        Iterable<Appointment> appointmentsBookedByCustomer = appointmentRepository.findAll();
+        return appointmentsBookedByCustomer;
+    }
+
+    @Transactional
     public void enterNoShow(Appointment appointment) throws AppointmentException {
 
         LocalTime timeNow =  LocalTime.now();

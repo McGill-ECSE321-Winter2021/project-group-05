@@ -1,108 +1,103 @@
 <template>
-    <div id="container">
-        <CustomerHeader id="header"/>
-        <div id="appointmentpage__container">
-            <div class="bookHeader__container">
-                <h4 class="bookHeader">Book Appointment</h4>
-            </div>
-            <div id="dateAndService__container">
-                <div id="date__container">
-                    <VueCtkDateTimePicker v-model="date" />
-                </div>
-                <div id="selectdiv__container">
-                   <div>
-                        <b-form-select id="select__container" multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- services selected-->
-            <div id="serviceList__container">
-                <span>Services selected: {{updatedServices }}</span>
-            </div>
-
-            <div id="bookbtn__container">
-                <button id="bookbtn">Book an appointment</button>
-            </div>
+  <div id="container">
+    <CustomerHeader id="header"/>
+    <div id="appointmentpage__container">
+      <div class="bookHeader__container">
+        <h4 class="bookHeader">Book Appointment</h4>
+      </div>
+      <div id="dateAndService__container">
+        <div id="date__container">
+          <VueCtkDateTimePicker v-model="date" />
         </div>
+        <div id="selectdiv__container">
+          <div>
+            <b-form-select id="select__container" multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
+          </div>
 
-        <!--UPCOMING APPOINTMENS-->
-        <div id="upcoming__container">
-              <div class="bookHeader__container">
-                 <h4 class="bookHeader">Future Appointments</h4>
-              </div>
-            <table id="requested_appointments" class="table ">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Services</th>
-                    <th>Edit Appointment</th>
-                    <th>Cancel Appointment</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-bind:key="appointment.id" v-for="appointment in allAppointments">
-                <td>{{ appointment.timeSlot.date }}</td>
-                <td>{{ appointment.timeSlot.startTime }}</td>
-                <td>{{ appointment.timeSlot.endTime }}</td>
-                <td>
-                    <div  v-bind:key="service.id" v-for="service in appointment.services">
-                        <tr>{{service.name}}</tr>
-                    </div>
-                </td>
-                <td>
-                    <!---EDIT APPOINTMEN----->
-
-                    <button v-b-modal.appointment.id @click="editAppointment(appointment.id)" class="update__button" id="edit__button">Edit</button>
-                    <b-modal v-model="show" title="Modal Variants" @ok="handleOk(appointment.id, updatedDate)">
-                            <b-container fluid>
-                                <b-row class="mb-4">
-                                <b-col cols="2">Date</b-col>
-                                
-                                <b-col>
-                                <div>
-                                    <b-form-select v-model="updatedDate" :options="allTimeSlotsDates"  value-field="id" text-field="date"></b-form-select>
-                                    <div class="mt-3">Selected Timeslot: <p>{{ updatedDate }}</p></div>
-                                </div>
-                                </b-col>
-                                </b-row>
-
-                                <b-row class="mb-4">
-                                <b-col cols="2">Services</b-col>
-                            
-                                <b-col>
-                                <div>
-                                    <b-form-select multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
-                                    <div class="mt-3">Selected Serivces: <p>{{ updatedServices }}</p></div>
-                                </div>
-                                </b-col>
-                                </b-row>
-                                
-                            </b-container>
-                    </b-modal>
-                </td>
-
-                <!--CANCEL APPOINTMENT--->
-
-                <td>
-                    <button @click="cancelAppointment(appointment.id)" class="update__button" id="cancel__button">Cancel</button>
-                </td>
-                </tr>
-                </tbody>
-            </table>
         </div>
+      </div>
+      <!-- services selected-->
+      <div id="serviceList__container">
+        <span>Services selected: {{updatedServices }}</span>
+      </div>
 
-        <!---PAST APPOINTMENT-->
-        <div id="past__container">
-            <div class="bookHeader__container">
-                <h4 class="bookHeader">Past Appointment</h4>
-            </div>
-            <b-table striped hover :items="allAppointmentsFormated"></b-table>
-        </div>
-
+      <div id="bookbtn__container">
+        <button id="bookbtn">Book an appointment</button>
+      </div>
     </div>
+
+    <!--UPCOMING APPOINTMENS-->
+    <div id="upcoming__container">
+      <div class="bookHeader__container">
+        <h4 class="bookHeader">Future Appointments</h4>
+      </div>
+      <table id="requested_appointments" class="table ">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Services</th>
+          <th>Edit Appointment</th>
+          <th>Cancel Appointment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-bind:key="appointment.id" v-for="appointment in allAppointments">
+          <td>{{ appointment.timeSlot.date }}</td>
+          <td>{{ appointment.timeSlot.startTime }}</td>
+          <td>{{ appointment.timeSlot.endTime }}</td>
+
+            <div v-bind:key="service.id" v-for="service in appointment.services">
+          <td >{{service.name}}</td>
+            </div>
+
+    <td>
+      <!---EDIT APPOINTMEN----->
+      <button v-b-modal.appointment.id @click="editAppointment(appointment.id)" class="update__button" id="edit__button">Edit</button>
+      <b-modal v-model="show" title="Modal Variants" @ok="handleOk(appointment.id, updatedDate)">
+        <b-container fluid>
+          <b-row class="mb-4">
+            <b-col cols="2">Date</b-col>
+
+            <b-col>
+              <div>
+                <b-form-select v-model="updatedDate" :options="allTimeSlotsDates"  value-field="id" text-field="date"></b-form-select>
+                <div class="mt-3">Selected Timeslot: <p>{{ updatedDate }}</p></div>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row class="mb-4">
+            <b-col cols="2">Services</b-col>
+
+            <b-col>
+              <div>
+                <b-form-select multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
+                <div class="mt-3">Selected Serivces: <p>{{ updatedServices }}</p></div>
+              </div>
+            </b-col>
+          </b-row>
+
+        </b-container>
+      </b-modal>
+    </td>
+    <!--CANCEL APPOINTMENT--->
+    <td>
+      <button @click="cancelAppointment(appointment.id)" class="update__button" id="cancel__button">Cancel</button>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  <!---PAST APPOINTMENT-->
+  <div id="past__container">
+    <div class="bookHeader__container">
+      <h4 class="bookHeader">Past Appointment</h4>
+    </div>
+    <b-table striped hover :items="allAppointmentsFormated"></b-table>
+  </div>
+
+  </div>
 </template>
 
 <script src="./CustomerAppointmentPage.js">
@@ -110,112 +105,97 @@
 
 <style scoped>
 #header{
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
 }
 #container{
 }
 #appointmentpage__container{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 16px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 16px;
+  background-color: white;
 }
 #upcomingappontmenpage__container{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin: 16px;
-    background-color: white;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 16px;
+  background-color: white;
+  justify-content: space-around;
 }
-
 #date__container{
-    width: 25%;
-    border-color: transparent;
+  width: 25%;
+  border-color: transparent;
 }
-
 #bookbtn__container{
-    width: 25%;
-    align-self: center;
-    display: flex;
+  width: 25%;
+  align-self: center;
+  display: flex;
 }
 #bookbtn{
-    outline:none;
-    background-color: #2273F7;
-    width: 50%;
-    margin: 0 auto;
-    color: white;
-    border-radius: 8px;
-    border-color: #2273F7;
-    margin-bottom: 8px;
+  outline:none;
+  background-color: #2273F7;
+  width: 50%;
+  margin: 0 auto;
+  color: white;
+  border-radius: 8px;
+  border-color: #2273F7;
+  margin-bottom: 8px;
 }
-
 .bookHeader__container{
-    margin-top: 8px;
-    height: 50px;
-    margin-left: 50px;
+  margin-top: 8px;
+  height: 50px;
+  margin-left: 50px;
 }
-
 .bookHeader{
-    margin: 0 auto;
-    width: 20%;
-    font-family: Arial, Helvetica, sans-serif;
+  margin: 0 auto;
+  width: 20%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 #date__container{
-    margin-left: 16px;
+  margin-left: 16px;
 }
-
 #dateAndService__container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-
 #select__container{
-    width: 500px;
-    margin-right: 16px;
+  width: 500px;
+  margin-right: 16px;
 }
-
 #selectdiv__container{
-   align-items: flex-end;
+  align-items: flex-end;
 }
-
 #serviceList__container{
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0 auto;
-    margin-bottom: 16px;
-    margin-top: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 auto;
+  margin-bottom: 16px;
+  margin-top: 8px;
 }
-
 #upcoming__container{
-    margin: 16px;
-    border-radius: 16px;
-    background-color: white;
+  margin: 16px;
+  border-radius: 16px;
+  background-color: white;
 }
-
 h5{
-    margin-top: 8px;
+  margin-top: 8px;
 }
-
 #edit__button{
-    background-color: #2273F7;
+  background-color: #2273F7;
 }
-
 #cancel__button{
-    background-color: #fc4949;
+  background-color: #fc4949;
 }
 .update__button{
-    border-radius: 4px;
-    color: white;
+  border-radius: 4px;
+  color: white;
 }
-
 #past__container{
-    margin: 16px;
-    border-radius: 16px;
-    background-color: white;
+  margin: 16px;
+  border-radius: 16px;
+  background-color: white;
 }
-
-
 </style>

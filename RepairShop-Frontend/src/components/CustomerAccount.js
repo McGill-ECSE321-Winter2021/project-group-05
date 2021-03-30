@@ -36,10 +36,12 @@ const CustomerAccountPage = {
       password:"",
       confirmPassword:"",
       error: ""
+
     };
   },
   methods: {
     updateAccount: function(username, email, password,confirmPassword) {
+      console.log(this.email);
       if (password == confirmPassword){
 
       const customerDTO = new CustomerDto(username,email,password);

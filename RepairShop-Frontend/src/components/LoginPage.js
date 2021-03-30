@@ -38,10 +38,10 @@ export default {
 
   methods: {
     loginUser: function(email, password, personType) {
+      this.currentUser.email= email;
+      this.currentUser.password= password;
       if (personType == "Customer") {
         this.loginCustomer(email, password);
-        this.currentUser.email= email;
-        this.currentUser.password= password;
         console.log(this.currentUser.email);
         return;
       }

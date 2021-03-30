@@ -4,7 +4,7 @@
     <div id="adminAccountForm">
       <form>
         <label>Username: </label>
-        <input required v-model="username">
+        <input required v-model="username" placeholder={{}}>
 
         <label>Email:</label>
         <input required type="email" v-model="email">
