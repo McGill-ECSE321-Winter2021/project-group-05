@@ -4,7 +4,7 @@
         <div id="adminHome">
 
                      <div class="bookHeader__container">
-                                    <h4 class="bookHeader">Welcome, Customer</h4>
+                                    <h4 class="bookHeader">Welcome, Admin</h4>
                       </div>
 
                       <button id="Account"v-on:click=" " style="border-radius: 10px;">
