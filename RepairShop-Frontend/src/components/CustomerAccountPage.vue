@@ -6,11 +6,11 @@
 
 
         <label>Username</label>
-        <input required v-model="username"  v-bind:placeholder=$data.username>
+        <input required v-model="username">
 
 
         <label>Email</label>
-        <input required type="email" v-model="email"  v-bind:placeholder=$data.email>
+        <input required type="email" v-model="email" >
 
 
         <label>Password</label>
