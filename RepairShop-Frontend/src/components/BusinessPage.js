@@ -1,5 +1,8 @@
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
+import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -10,6 +13,8 @@ const AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
+
+Vue.use(VueToast);
 
 //This function creates a businessDto
 function BusinessDto(name, address, phoneNumber, email) {
@@ -46,9 +51,13 @@ const BusinessPage = {
       })
         .then(response => {
           this.business.push(response.data);
+          Vue.$toast.success('Business successfully created', {
+          duration: 6000});
         })
         .catch(e => {
           this.error = e.response.data.message;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
         });
     },
     getBusiness: function(id) {
@@ -63,6 +72,8 @@ const BusinessPage = {
         })
         .catch(e => {
           this.error = e.response.data.message;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
         });
     },
     updateBusiness: function(name, address, phoneNumber, email) {
@@ -73,10 +84,14 @@ const BusinessPage = {
         .then(response => {
           this.business.push(response.data);
           console.log(response.data);
+          Vue.$toast.success('Business information successfully updated', {
+          duration: 6000});
         })
         .catch(e => {
           console.log(e);
           this.error = e.message;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
         });
     }
   }
