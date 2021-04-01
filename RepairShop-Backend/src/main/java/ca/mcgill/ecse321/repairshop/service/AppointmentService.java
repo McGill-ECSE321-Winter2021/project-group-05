@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +25,8 @@ public class AppointmentService {
     ServiceRepository serviceRepository;
     @Autowired
     BillRepository billRepository;
+    @Autowired
+    TechnicianRepository technicianRepository;
 
     @Transactional
     public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
@@ -48,7 +51,6 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
 
-        // appointmentRepository.save(appointment);
         Bill bill = new Bill();
         bill.setDate(timeslot.getDate());
         bill.setTotalCost(RepairShopUtil.getTotalCostOfAppointment(appointment));
@@ -118,16 +120,10 @@ public class AppointmentService {
 
     @Transactional
     public void enterNoShow(Appointment appointment) throws AppointmentException {
-
-        LocalTime timeNow =  LocalTime.now();
-        LocalDate today = LocalDate.now();
-
-        if (appointment==null){
-            throw new AppointmentException("appointment cannot be null");
-        }
-        int noShow = appointment.getCustomer().getNoShow();
-        noShow++;
-        appointment.getCustomer().setNoShow(noShow);
+        Customer customer = appointment.getCustomer();
+        int noShow = customer.getNoShow() + 1;
+        customer.setNoShow(noShow);
+        customerRepository.save(customer);
     }
 
 }
