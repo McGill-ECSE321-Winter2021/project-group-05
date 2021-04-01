@@ -75,6 +75,10 @@ button {
     color: white;
     border: none;
 }
+button:hover {
+    background-color: firebrick;
+    border-radius: 10px;
+}
 
 #container{
     width: 50%;
