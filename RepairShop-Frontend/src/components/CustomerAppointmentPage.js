@@ -105,11 +105,13 @@ const CustomerAppointmentPage = {
         .then(response => {
           //toast message for success
           console.log("suceess");
-        Vue.$toast.warning('Implement method', {
+        Vue.$toast.success('Appointment deleted successfully', {
         duration: 6000});
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -125,6 +127,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -148,6 +152,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -163,6 +169,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -190,6 +198,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
 
     }

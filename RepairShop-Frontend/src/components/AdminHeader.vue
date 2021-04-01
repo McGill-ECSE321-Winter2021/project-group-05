@@ -165,6 +165,12 @@ export default {
     border: none;
     border-radius: 10px;
 }
+#businessAbsent:hover {
+    background-color: firebrick;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
 #businessPresent{
     background-color: firebrick;
     color: white;
@@ -173,6 +179,12 @@ export default {
 }
 #homepageAbsent {
     background-color: Transparent;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+#homepageAbsent:hover {
+    background-color: firebrick;
     color: white;
     border: none;
     border-radius: 10px;
@@ -189,6 +201,12 @@ export default {
     border: none;
     border-radius: 10px;
 }
+#appointmentAbsent:hover {
+    background-color: firebrick;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
 #appointmentPresent{
     background-color: firebrick;
     color: white;
@@ -201,7 +219,12 @@ export default {
     border: none;
     border-radius: 10px;
 }
-
+#serviceAbsent:hover {
+    background-color: firebrick;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
 #servicePresent{
     background-color: firebrick;
     color: white;
@@ -214,6 +237,12 @@ export default {
     border: none;
     border-radius: 10px;
 }
+#timeslotAbsent:hover {
+    background-color: firebrick;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
 #timeslotPresent{
     background-color: firebrick;
     color: white;
@@ -222,6 +251,12 @@ export default {
 }
 #accountAbsent {
     background-color: Transparent;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+#accountAbsent:hover {
+    background-color: firebrick;
     color: white;
     border: none;
     border-radius: 10px;
@@ -239,11 +274,13 @@ export default {
     border: none;
     border-radius: 10px;
 }
-
-button:hover {
+#logout:hover {
     background-color: firebrick;
+    color: white;
+    border: none;
     border-radius: 10px;
 }
+
 
 #container{
     width: 65%;

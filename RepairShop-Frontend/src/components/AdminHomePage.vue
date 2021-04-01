@@ -1,5 +1,5 @@
 <template>
-    <div id="adminHome">
+    <div id="adminHomeHeader">
         <AdminHeader />
         <div id="adminHome">
 
@@ -81,7 +81,6 @@ export default {
 #logout {
   background-color:firebrick;
   color: white;
-  margin-top: 25px;
-   margin-left: 350px;
+  margin-top: 25px
 }
 </style>
