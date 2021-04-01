@@ -10,7 +10,8 @@
             <span></span>
              <button id="timeslot" v-on:click="goToTimeSlotPage()">TimeSlot Manager</button>
             <span></span>
-             <button id="business" v-on:click="goToBusinessPage()">Business Manager</button>
+             <button id="businessPresent" v-if="businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
+             <button id="businessAbsent" v-else v-on:click="goToBusinessPage()">Business Manager</button>
             <span></span>
             <button id="account" v-on:click="goToAccountPage()">My Account </button>
             <span></span>
@@ -25,6 +26,18 @@ import Router from "../router/index";
 
 export default {
     name: "AdminHeader",
+
+    data() {
+      return {
+        businessTab: false
+      };
+    },
+    created: function(){
+        if(this.$router.history.current.path.localeCompare("/BusinessPage") === 0) {
+            console.log(this.$router.history.current.path);
+            businessTab = true;
+        }
+    },
     methods: {
         goToAdminHomePage: function (){
             Router.push({
@@ -96,6 +109,12 @@ button {
     color: white;
     border: none;
 }
+#businessAbsent{
+    background-color: firebrick;
+    color: white;
+    border: none;
+}
+
 button:hover {
     background-color: firebrick;
     border-radius: 10px;
