@@ -90,6 +90,9 @@ public class PersonService {
         customer.setUsername(customerDto.getUsername());
         customer.setPassword(customerDto.getPassword());
         customer.setEmail(customerDto.getEmail());
+        customer.setCardNumber(customerDto.getCardNumber());
+        customer.setCvv(customerDto.getCvv());
+        customer.setExpiry(customerDto.getExpiry());
         customerRepository.save(customer);
         return customer;
     }
