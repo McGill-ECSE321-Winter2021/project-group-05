@@ -89,7 +89,8 @@ public class RepairShopUtil {
 
     public static BillDto convertToDto(Bill bill) {
         if (bill == null) {
-            throw new IllegalArgumentException("There is no such Bill!");
+            //throw new IllegalArgumentException("There is no such Bill!");
+            return new BillDto();       //TODO: needs to be fix
         }
         BillDto billDto = new BillDto(bill.getDate(), bill.getTotalCost(), bill.getId());
         return billDto;

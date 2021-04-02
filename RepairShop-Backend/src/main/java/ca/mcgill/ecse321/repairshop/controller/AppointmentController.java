@@ -173,6 +173,16 @@ public class AppointmentController {
         return list;
     }
 
+    @GetMapping(value = {"/allappointments/", "/allappointments"})
+    public List<AppointmentDto> getAllAppointments(){
+        List<Appointment> appointments = appointmentService.getAllAppointments();
+        List<AppointmentDto> list = new ArrayList<>();
+        for(Appointment appointment : appointments){
+            list.add(RepairShopUtil.convertToDto(appointment));
+        }
+        return list;
+    }
+
     /**
      * helper methods
      */

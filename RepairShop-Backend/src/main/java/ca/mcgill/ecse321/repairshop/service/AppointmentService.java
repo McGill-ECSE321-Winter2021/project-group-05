@@ -116,7 +116,7 @@ public class AppointmentService {
             }
         }
         appointmentRepository.deleteById(appointment.getId());
-        billRepository.deleteById(bill.getId());
+        //billRepository.deleteById(bill.getId());  //TODO
     }
 
     @Transactional
@@ -134,6 +134,11 @@ public class AppointmentService {
         int noShow = customer.getNoShow() + 1;
         customer.setNoShow(noShow);
         customerRepository.save(customer);
+    }
+
+    @Transactional
+    public List<Appointment> getAllAppointments(){
+        return RepairShopUtil.toList(appointmentRepository.findAll());
     }
 
 }
