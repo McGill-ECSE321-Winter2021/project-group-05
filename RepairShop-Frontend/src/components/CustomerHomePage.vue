@@ -152,7 +152,7 @@
 
 footer, .social_media{
   display: block;
-  margin-left: 20px;
+  text-align: center;
 }
 .social_media a{
   padding: 10px;
