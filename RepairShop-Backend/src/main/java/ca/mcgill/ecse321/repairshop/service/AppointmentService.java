@@ -129,13 +129,6 @@ public class AppointmentService {
     }
 
     @Transactional
-    public Iterable<Appointment> getAllAppointments(){
-
-        Iterable<Appointment> appointmentsBookedByCustomer = appointmentRepository.findAll();
-        return appointmentsBookedByCustomer;
-    }
-
-    @Transactional
     public void enterNoShow(Appointment appointment) throws AppointmentException {
         Customer customer = appointment.getCustomer();
         int noShow = customer.getNoShow() + 1;

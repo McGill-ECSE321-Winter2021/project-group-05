@@ -1,4 +1,4 @@
-import AdminHeader from './AdminHeader'
+import AdminHeader from "./AdminHeader";
 import axios from "axios";
 
 var config = require("../../config");
@@ -10,7 +10,6 @@ const AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
-
 
 const filterUpcomingAppointments = appointmentDate => {
   const currentDate = new Date();
@@ -56,22 +55,22 @@ const formatAppointment = appointment => {
 
 const AdminAppointmentPage = {
   name: "AdminAppointmentPage",
-  components:{
+  components: {
     AdminHeader
   },
-  data(){
-    return{
-      allAppointments:[],
-      allAppointmentsFormated:[],
-      upcomingAppointments:[],
-      pastAppointments:[],
-      error:""
+  data() {
+    return {
+      allAppointments: [],
+      allAppointmentsFormated: [],
+      upcomingAppointments: [],
+      pastAppointments: [],
+      error: ""
     };
   },
   methods: {
-    getAllAppointments: function(){
+    getAllAppointments: function() {
       AXIOS.get(`/appointments`)
-        .then(response =>{
+        .then(response => {
           response.data.forEach(appointment => {
             this.allAppointments.push(appointment);
             // TODO: why this one returns the past appointments?
@@ -81,23 +80,18 @@ const AdminAppointmentPage = {
           });
         })
         .catch(error => {
-          this.error=error;
+          this.error = error;
         });
     },
 
-    seperateAppointments: function(appointment){
+    seperateAppointments: function(appointment) {
       const isInFuture = filterUpcomingAppointments(appointment.timeslot.date);
-      if (isInFuture){
+      if (isInFuture) {
         this.upcomingAppointments.push(appointment);
-      }
-      else{
+      } else {
         this.pastAppointments.push(appointment);
       }
-
-
     }
   }
-
-}
+};
 export default AdminAppointmentPage;
-

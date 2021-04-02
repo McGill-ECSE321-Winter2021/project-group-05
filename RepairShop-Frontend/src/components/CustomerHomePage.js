@@ -1,5 +1,5 @@
 import axios from "axios";
-import AuthHeader from "./AuthHeader";
+import CustomerHeader from "./CustomerHeader";
 import "vueperslides/dist/vueperslides.css";
 import { VueMailchimpEmailSignupForm } from "vue-mailchimp-email-signup-form";
 import "vue-mailchimp-email-signup-form/dist/vue-mailchimp-email-signup-form.css";
@@ -17,7 +17,7 @@ const AXIOS = axios.create({
 const CustomerHomePage = {
   name: "CustomerHomePage",
   components: {
-    AuthHeader,
+    CustomerHeader,
     "vue-mailchimp-email-signup-form": VueMailchimpEmailSignupForm
   },
   created() {
