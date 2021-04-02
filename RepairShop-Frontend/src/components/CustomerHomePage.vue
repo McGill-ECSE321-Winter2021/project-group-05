@@ -2,8 +2,9 @@
 
   <div class ="outer_container">
   <div class="header">
-  <AuthHeader v-bind:pageTitle="pageTitle"
-  v-bind:button="login"/>
+  <!-- <AuthHeader v-bind:pageTitle="pageTitle"
+  v-bind:button="login"/> -->
+  <CustomerHeader />
   </div>
 
 
