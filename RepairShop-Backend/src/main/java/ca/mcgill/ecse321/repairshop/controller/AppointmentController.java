@@ -7,13 +7,20 @@ import ca.mcgill.ecse321.repairshop.utility.AppointmentException;
 import ca.mcgill.ecse321.repairshop.utility.PersonException;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,9 +38,11 @@ public class AppointmentController {
     private PersonService personService;
 
     @GetMapping(value = {"/"})
-    public String sayHello(){return "hello world";}
+    public String sayHello() {
+        return "hello world";
+    }
 
-    @GetMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
+    @GetMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public AppointmentDto getAppointment(@PathVariable("id") Long id) {
         return RepairShopUtil.convertToDto(appointmentService.getAppointment(id));
     }
@@ -41,7 +50,7 @@ public class AppointmentController {
     /**
      * edit appointment
      */
-    @PutMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
+    @PutMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
                                              @RequestParam(value = "timeSlotId") Long timeSlotId,
                                              @RequestParam(value = "serviceNames") List<String> serviceNames) {
@@ -51,7 +60,7 @@ public class AppointmentController {
                 Appointment appointment = appointmentService.getAppointment(id);
 
                 List<BookableService> service_new = new ArrayList<>();
-                for(String serviceName : serviceNames){
+                for (String serviceName : serviceNames) {
                     BookableService bookableService = repairShopService.getService(serviceName);
                     service_new.add(bookableService);
                 }
@@ -60,8 +69,7 @@ public class AppointmentController {
                 return new ResponseEntity<>(RepairShopUtil.convertToDto(newAppointment), HttpStatus.OK);
             }
             throw new AppointmentException("Cannot edit appointment before 24hr");
-        }
-        catch (AppointmentException e){
+        } catch (AppointmentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -70,7 +78,7 @@ public class AppointmentController {
     /**
      * delete appointment
      */
-    @DeleteMapping(value = { "/appointment/{id}", "/appointment/{id}/" })
+    @DeleteMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public ResponseEntity<?> deleteAppointment(@PathVariable("id") Long id) throws AppointmentException {
         Appointment appointment = appointmentService.getAppointment(id);
         if (appointment == null) {
@@ -82,8 +90,7 @@ public class AppointmentController {
             // find the appointment using id
             appointmentService.deleteAppointment(appointment);
             return new ResponseEntity<>("Appointment has been deleted", HttpStatus.OK);
-        }
-        else{
+        } else {
             return new ResponseEntity<>("Cannot delete appointment 24hrs before start time", HttpStatus.BAD_REQUEST);
         }
     }
@@ -92,27 +99,36 @@ public class AppointmentController {
      * create appointment with timeslot
      */
 
-    @PostMapping(value = { "/appointment", "/appointment/" })
-    public ResponseEntity<?> createAppointment( @RequestParam(value="customerEmail") String customerEmail,
-                                                @RequestParam(value="serviceNames") List<String> serviceNames,
-                                                @RequestParam(value="timeSlotId") Long id) {
+    @PostMapping(value = {"/appointment", "/appointment/"})
+    public ResponseEntity<?> createAppointment(@RequestParam(value = "customerEmail") String customerEmail,
+                                               @RequestParam(value = "serviceNames") List<String> serviceNames,
+                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
+                                               @RequestParam java.sql.Date date) {
         try {
             Customer customer = personService.getCustomer(customerEmail);
             //CONVERT BOOKABLE SERVICE DTO --> DAO
             List<BookableService> service = new ArrayList<>();
-            for (String name: serviceNames){
+            int duration = 0;
+            for (String name : serviceNames) {
                 service.add(repairShopService.getService(name));
+                duration += repairShopService.getService(name).getDuration();
             }
-            TimeSlot timeSlot = timeSlotService.getTimeSlot(id);
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            String time = (setEndTimeOfAppointmentBasedOnDuration(startTime.toString(), duration));
+            java.sql.Time endTime = new java.sql.Time(formatter.parse(time).getTime());
+            TimeSlot timeSlot = timeSlotService.createTimeSlot(date, Time.valueOf(startTime), endTime);
+            //TimeSlot timeSlot = timeSlotService.getTimeSlot(id)
+
             Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
 
             return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
-        }catch (AppointmentException e){
+        } catch (AppointmentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping(value = { "/appointment/person/{email}", "/appointment/person/{email}/"})
@@ -154,6 +170,17 @@ public class AppointmentController {
         }
     }
 
+    //This function returns all the appointments of a technician
+    @GetMapping(value = {"/appointmentOfTechnician/{emai}/", "/appointmentOfTechnician/{email}"})
+    public List<AppointmentDto> getAppointmentOfTechnician (@PathVariable String email) throws PersonException {
+        Technician technician = personService.getTechnician(email);
+        List<Appointment> appointments = technician.getAppointments();
+        List<AppointmentDto> list = new ArrayList<>();
+        for(Appointment appointment : appointments){
+            list.add(RepairShopUtil.convertToDto(appointment));
+        }
+        return list;
+    }
 
     /**
      * helper methods
@@ -192,15 +219,29 @@ public class AppointmentController {
     private boolean canEnterNoShow(TimeSlot timeslot){
         LocalTime timeNow =  LocalTime.now();
         LocalDate today = LocalDate.now();
-        //LocalDate tsDate = timeslot.getDate().toLocalDate();
-        LocalDate tsDate = LocalDate.now();
-       // LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
-        LocalTime tsStartTime = timeNow.minusHours(2);
-        LocalTime tsEnterTime = timeslot.getStartTime().toLocalTime();
-
-        if(today.equals(tsDate) && tsStartTime.plusMinutes(14).isBefore(timeNow)){
+        LocalDate timeSlotDate = timeslot.getDate().toLocalDate();
+        LocalTime timeSlotStartTime = timeslot.getStartTime().toLocalTime();
+        if(today.equals(timeSlotDate) && timeSlotStartTime.plusMinutes(14).isAfter(timeNow)){
             return true;
         }
         return false;
+        //Date tsDate = timeslot.getDate();
+        // LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
+        //LocalTime tsStartTime = timeNow.minusHours(2);
+    }
+
+    private static String setEndTimeOfAppointmentBasedOnDuration(String startTime, int duration){
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date d = null;
+        try {
+            d = df.parse(startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, duration);
+        String newTime = df.format(cal.getTime());
+        return newTime;
     }
 }

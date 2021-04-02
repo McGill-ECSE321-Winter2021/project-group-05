@@ -1,5 +1,10 @@
 package ca.mcgill.ecse321.repairshop.controller;
 
+import ca.mcgill.ecse321.repairshop.dao.AppointmentRepository;
+import ca.mcgill.ecse321.repairshop.dao.TechnicianRepository;
+import ca.mcgill.ecse321.repairshop.dto.AppointmentDto;
+import ca.mcgill.ecse321.repairshop.model.Appointment;
+import ca.mcgill.ecse321.repairshop.model.Technician;
 import ca.mcgill.ecse321.repairshop.model.TimeSlot;
 import ca.mcgill.ecse321.repairshop.service.TimeSlotService;
 import ca.mcgill.ecse321.repairshop.utility.RepairShopUtil;
@@ -21,6 +26,10 @@ import java.util.List;
 public class TimeSlotController {
     @Autowired
     private TimeSlotService timeSlotService;
+    @Autowired
+    private TechnicianRepository technicianRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @PostMapping(value = {"/timeSlot", "/timeSlot/"})
     public ResponseEntity<?> createTimeSlot (@RequestParam Date date,
@@ -58,6 +67,50 @@ public class TimeSlotController {
         return availableSlots;
     }
 
+    //API for assigning a timeslot to a technician
+    @PostMapping(value = {"/assignSlot/{id}", "/assignSlot/{id}/"})
+    public List<TimeSlot> assignSlot(@RequestParam(value = "email") String email, @PathVariable("id") Long timeSlotId ){
+        TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
+        Technician technician = technicianRepository.findTechnicianByEmail(email);
+        List<TimeSlot> timeSlots = technician.getTimeSlots();
+        if(timeSlots == null){
+            timeSlots = new ArrayList<>();
+            timeSlots.add(timeSlot);
+        }else {
+            timeSlots.add(timeSlot);
+        }
+        technician.setTimeSlots(timeSlots);
+        technicianRepository.save(technician);
+        return timeSlots;
+    }
+
+    //API for availability of a technician
+    @GetMapping(value = {"/timeSlotOfTechnician/{email}/", "/timeSlotOfTechnician/{email}"})
+    public List<TimeSlot> getAllTimeSlotOfTechnician(@PathVariable String email){
+        Technician technician = technicianRepository.findTechnicianByEmail(email);
+        return technician.getTimeSlots();
+    }
+
+    /**
+     * Assigns an appointment to a technician
+     */
+    @PutMapping(value = {"/assignAppointment/{id}", "/assignAppointment/{id}/"})
+    public AppointmentDto giveAppointmentToTechnician(@RequestParam(value = "email") String email,
+                                                            @PathVariable("id") Long id){
+        Appointment appointment = appointmentRepository.findAppointmentById(id);
+        Technician technician = technicianRepository.findTechnicianByEmail(email);
+        List<Appointment> appointments = technician.getAppointments();
+        if(appointments == null){
+            appointments = new ArrayList<>();
+        }
+        appointments.add(appointment);
+        technician.setAppointments(appointments);
+        //add checks
+        technicianRepository.save(technician);
+        return RepairShopUtil.convertToDto(appointment);
+    }
+
+
     private boolean canEnterTimeSlot(LocalTime startTime, LocalTime endTime, LocalDate date){
         if(startTime.isAfter(endTime)) {
             return false;
@@ -82,4 +135,49 @@ public class TimeSlotController {
         }
         return false;
     }
+
+//        List<Technician> allAvailableTechnicians = RepairShopUtil.toList(technicianRepository.findAll());
+//
+//        boolean flag = false;
+//        for(Technician technician : allAvailableTechnicians){
+//            List<TimeSlot> timeSlots = technician.getTimeSlots();
+//            for(TimeSlot techTimeSlot : timeSlots){
+//                System.out.println(techTimeSlot.getId());
+//                if(techTimeSlot.getDate().equals(timeslot.getDate())){
+//                    List<Appointment> allTechAppointments = technician.getAppointments();
+//                    if(allTechAppointments.isEmpty()){
+//                        allTechAppointments.add(appointment);
+//                        technician.setAppointments(allTechAppointments);
+//                        System.out.println("we're ");
+//                        appointmentRepository.save(appointment);
+//                        technicianRepository.save(technician);
+//                        flag = true;
+//                        break;
+//                    }else {
+//                        for (Appointment oldApp : allTechAppointments) {
+//                            if (! (oldApp.getTimeslot().getDate().equals(appointment.getTimeslot().getDate()))
+//                                || appointment.getTimeslot().getStartTime().after(oldApp.getTimeslot().getEndTime())) {
+//                                allTechAppointments.add(appointment);
+//                                flag = true;
+//                                technician.setAppointments(allTechAppointments);
+//                                System.out.println("booked in else ");
+//                                appointmentRepository.save(appointment);
+//                                technicianRepository.save(technician);
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            if(flag){
+//                break;
+//            }
+//       }
+//        if(flag == false){
+//            throw new AppointmentException("No technician is available at the specified date");
+//        }
+//         && (techTimeSlot.getEndTime().before(timeslot.getStartTime()) || techTimeSlot.getEndTime().equals(timeslot.getStartTime()))
+//                && (techTimeSlot.getStartTime().equals(timeslot.getStartTime()) || techTimeSlot.getStartTime().before(timeslot.getStartTime()))
+
+    // appointmentRepository.save(appointment);
 }

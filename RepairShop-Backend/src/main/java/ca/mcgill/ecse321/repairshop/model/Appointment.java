@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.repairshop.model;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @Entity
