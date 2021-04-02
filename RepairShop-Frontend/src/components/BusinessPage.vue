@@ -61,7 +61,6 @@
           </div>
         </div>
 
-       
         <!---buttons ---> 
         <div class="row gutters">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -70,7 +69,7 @@
                 Update
               </button>
                <b-modal v-model="showUpdate" title="Update Account" @ok="updateBusiness(name, address, phoneNumber, email)">
-                <p id="update">Are you sure you want to update your account details?</p>
+                <p id="update">Are you sure you want to update the business details?</p>
               </b-modal>
             </div>
           </div>
@@ -87,6 +86,9 @@
 <script src="./BusinessPage.js"></script>
 
 <style scoped>
+#update{
+  color: #007ae1;
+}
 .container{
     margin-top: 50px;
 }
