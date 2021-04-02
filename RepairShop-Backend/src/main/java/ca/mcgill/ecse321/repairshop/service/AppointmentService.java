@@ -105,6 +105,16 @@ public class AppointmentService {
             throw new AppointmentException("Cannot delete a null appointment");
         }
         Bill bill = appointment.getBill();
+        List<Technician> technicians = RepairShopUtil.toList(technicianRepository.findAll());
+        for(Technician technician : technicians){
+            for (Appointment appointment1 : technician.getAppointments()){
+                if(appointment1.getId() == appointment.getId()){
+                    technician.getAppointments().remove(appointment);
+                    technicianRepository.save(technician);
+                    break;
+                }
+            }
+        }
         appointmentRepository.deleteById(appointment.getId());
         billRepository.deleteById(bill.getId());
     }
