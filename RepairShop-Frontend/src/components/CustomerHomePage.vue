@@ -2,9 +2,8 @@
 
   <div class ="outer_container">
   <div class="header">
-  <!-- <AuthHeader v-bind:pageTitle="pageTitle"
-  v-bind:button="login"/> -->
-  <CustomerHeader />
+  <AuthHeader v-bind:pageTitle="pageTitle"
+  v-bind:button="login"/>
   </div>
 
 
@@ -152,7 +151,7 @@
 
 footer, .social_media{
   display: block;
-  text-align: center;
+  margin-left: 20px;
 }
 .social_media a{
   padding: 10px;
