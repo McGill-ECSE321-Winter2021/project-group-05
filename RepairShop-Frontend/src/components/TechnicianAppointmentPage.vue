@@ -4,15 +4,7 @@
     </div>
 </template>
 
-<script>
-import TechnicianHeader from './TechnicianHeader'
-
-export default {
-    name: "TechnicianAppointmentPage",
-    components: {
-        TechnicianHeader
-    }
-}
+<script src="./TechnicianAppointment.js">
 </script>
 
 <style scoped>

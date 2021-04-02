@@ -22,11 +22,15 @@
             </div>
 
             <div id="bookbtn__container">
-                <button id="bookbtn">Book an appointment</button>
+                <button id="bookbtn" @click="showBillModal()">Book an appointment</button>
+                <b-modal v-model="showBill" title="Modal Variants" @ok="handleBillOk()">
+
+                </b-modal>
             </div>
         </div>
 
         <!--UPCOMING APPOINTMENS-->
+
         <div id="upcoming__container">
               <div class="bookHeader__container">
                  <h4 class="bookHeader">Future Appointments</h4>
@@ -43,7 +47,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-bind:key="appointment.id" v-for="appointment in allAppointments">
+                <tr v-bind:key="appointment.id" v-for="appointment in upcomingAppointments">
                 <td>{{ appointment.timeSlot.date }}</td>
                 <td>{{ appointment.timeSlot.startTime }}</td>
                 <td>{{ appointment.timeSlot.endTime }}</td>
@@ -88,6 +92,11 @@
 
                 <td>
                     <button @click="cancelAppointment(appointment.id)" class="update__button" id="cancel__button">Cancel</button>
+                    <b-modal  v-model="showCancel" title="Modal Variants" @ok="handleCancel(appointment.id)">
+                        <div class="d-block text-center">
+                          <h3>Are you sure you want to cancel this appointment?</h3>
+                        </div>
+                    </b-modal>
                 </td>
                 </tr>
                 </tbody>
@@ -99,7 +108,7 @@
             <div class="bookHeader__container">
                 <h4 class="bookHeader">Past Appointment</h4>
             </div>
-            <b-table striped hover :items="allAppointmentsFormated"></b-table>
+            <b-table striped hover :items="pastAppointments"></b-table>
         </div>
 
     </div>

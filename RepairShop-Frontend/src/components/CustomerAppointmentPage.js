@@ -2,9 +2,9 @@ import axios from "axios";
 import CustomerHeader from "./CustomerHeader";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
-import Vue from 'vue';
-import VueToast from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
@@ -33,22 +33,37 @@ const filterUpcomingAppointments = appointmentDate => {
   const appointmenntMonth = date.getMonth() + 1;
   const appointmenntYear = date.getFullYear();
 
-  // console.log(currentDayOfMonth);
-  // console.log(currentMonth);
-  // console.log(currentYear);
-  // console.log("--------");
-  // console.log(appointmentDayOfMonth);
-  // console.log(appointmenntMonth);
-  // console.log(appointmenntYear);
+  if (
+    currentMonth <= appointmenntMonth ||
+    currentDate <= appointmentDate ||
+    currentYear <= appointmenntYear
+  ) {
+    return true;
+  }
+  return false;
+};
+const filterPastAppointments = appointmentDate => {
+  const currentDate = new Date();
+  const currentDayOfMonth = currentDate.getDate();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
 
-  return (
-    currentDayOfMonth === appointmentDayOfMonth &&
-    currentMonth === appointmenntMonth &&
-    currentYear === appointmenntYear
-  );
+  const date = new Date(appointmentDate);
+  const appointmentDayOfMonth = date.getDate();
+  const appointmenntMonth = date.getMonth() + 1;
+  const appointmenntYear = date.getFullYear();
+
+  if (
+    currentDate > appointmentDate ||
+    currentDayOfMonth > appointmenntMonth ||
+    currentYear > appointmenntYear
+  ) {
+    return true;
+  }
+  return false;
 };
 
-const formatAppointment = appointment => {
+const customizeAppointment = appointment => {
   const serviceNames = [];
   appointment.services.forEach(item => {
     serviceNames.push(item.name);
@@ -64,6 +79,24 @@ const formatAppointment = appointment => {
   };
 };
 
+const getCurrentUser = () => {
+  const email = localStorage.getItem("savedCustomerEmail");
+  const username = localStorage.getItem("savedCustomerName");
+  const password = localStorage.getItem("savedCustomerPassword");
+  return {
+    email: email,
+    username: username,
+    password: password
+  };
+};
+
+const getDateAndTime = time => {
+  return {
+    date: time.substring(0, 10),
+    time: time.substring(11, 16)
+  };
+};
+
 const CustomerAppointmentPage = {
   name: "CustomerAppointmentPage",
   components: {
@@ -73,40 +106,50 @@ const CustomerAppointmentPage = {
   data() {
     return {
       show: false,
+      showBill: false,
+      showCancel: false,
       date: "",
       updatedDate: "",
       updatedServices: [],
       error: "",
       modalError: "",
       allServicesAvailable: [],
-      services: [],
       allTimeSlots: [],
       allServiceNames: [],
       futureTimeSlots: [],
       allTimeSlotsDates: [],
       upcomingAppointments: [],
       allAppointments: [],
-      allAppointmentsFormated: []
+      pastAppointments: [],
+      currentUser: {},
+      renderComponent: true
     };
   },
   created() {
-    this.getAllAppointments("customer@gmail.com");
+    this.currentUser = getCurrentUser();
+    this.getAllAppointments(this.currentUser.email);
     this.getAllTimeSlots();
     this.getAllServices();
   },
   methods: {
+    forceRerender() {
+      this.$forceUpdate();
+    },
     editAppointment: function(id) {
       this.show = true;
-      Vue.$toast.warning('Implement method', {
-      duration: 6000});
     },
     cancelAppointment: function(id) {
+      this.showCancel = true;
+    },
+
+    handleCancel: function(id) {
+      console.log(id);
       AXIOS.delete(`/appointment/${id}`)
         .then(response => {
-          //toast message for success
           console.log("suceess");
-        Vue.$toast.warning('Implement method', {
-        duration: 6000});
+          Vue.$toast.warning("Your appointment has been deleted", {
+            duration: 1000
+          });
         })
         .catch(error => {
           this.error = error;
@@ -118,10 +161,9 @@ const CustomerAppointmentPage = {
         .then(response => {
           response.data.forEach(appointment => {
             this.allAppointments.push(appointment);
-            this.allAppointmentsFormated.push(formatAppointment(appointment));
+            this.getPastAppointments(appointment);
             this.getUpcomingAppointments(appointment);
           });
-          //console.log(this.allAppointments);
         })
         .catch(error => {
           this.error = error;
@@ -135,6 +177,13 @@ const CustomerAppointmentPage = {
       }
     },
 
+    getPastAppointments: function(appointment) {
+      const bool = filterPastAppointments(appointment.timeSlot.date);
+      if (bool) {
+        this.pastAppointments.push(customizeAppointment(appointment));
+      }
+    },
+
     getAllTimeSlots: function() {
       AXIOS.get(`/timeslotAvailable`)
         .then(response => {
@@ -142,9 +191,7 @@ const CustomerAppointmentPage = {
             this.allTimeSlots.push(timeSlot);
             const date = timeSlot.date + " " + timeSlot.startTime;
             this.allTimeSlotsDates.push({ id: timeSlot.id, date: date });
-            //get future timeslots
           });
-          console.log(this.allTimeSlotsDates);
         })
         .catch(error => {
           this.error = error;
@@ -186,12 +233,65 @@ const CustomerAppointmentPage = {
       )
         .then(response => {
           //handle success
-          console.log("success");
+          Vue.$toast.warning("Your appointment has been updated", {
+            duration: 6000
+          });
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.warning("Appointment could not be updated", {
+            duration: 6000
+          });
         });
-
+    },
+    showBillModal: function() {
+      if (
+        (this.date !== null || this.date !== "") &&
+        this.updatedServices.length > 0
+      ) {
+        this.showBill = true;
+      } else {
+        Vue.$toast.warning(
+          "Please select a date and services to book an appointment",
+          {
+            duration: 6000
+          }
+        );
+      }
+    },
+    handleBillOk: function() {
+      this.forceRerender();
+      let services = "";
+      this.updatedServices.forEach(str => {
+        for (var i = 0; i < str.length; i++) {
+          str = str.replace(" ", "+");
+        }
+        services += str + ",";
+      });
+      services = services.substring(0, services.length - 1);
+      const dateAndTime = getDateAndTime(this.date);
+      AXIOS.post(
+        `/appointment/` +
+          `?` +
+          `customerEmail=` +
+          this.currentUser.email +
+          `&` +
+          `serviceNames=` +
+          services +
+          `&` +
+          `startTime=` +
+          dateAndTime.time +
+          `&` +
+          `date=` +
+          dateAndTime.date
+      )
+        .then(response => {})
+        .catch(error => {
+          Vue.$toast.warning(
+            "Cannot book appointment at this time, please verify details",
+            { duration: 6000 }
+          );
+        });
     }
   }
 };
