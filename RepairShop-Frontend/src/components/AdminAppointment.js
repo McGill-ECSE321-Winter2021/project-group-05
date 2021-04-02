@@ -32,12 +32,27 @@ export default {
     this.getAllTechnicians();
     this.getAllAppointments();
     this.getAllTimeSlots();
+    this.getAllAppointmentsOfTechnicians();
   },
 
   methods: {
     getAllTechnicians: async function() {
       const response = await AXIOS.get(`/person/technician/`);
       this.allTechnicians = response.data;
+      this.allTechnicians.forEach(technician => {
+        AXIOS.get(`/appointmentOfTechnician/${technician.email}`)
+          .then(response => {
+            response.data.forEach(appointment => {
+              this.appointmentOfTechnicians.push({
+                appointment: appointment,
+                technician: technician
+              });
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
     },
     getAllAppointments: async function() {
       const response = await AXIOS.get(`/allappointments`);
@@ -59,6 +74,27 @@ export default {
           `email=` +
           `${technicianEmail}`
       );
+      const technician = AXIOS.get(`/person/technician/${technicianEmail}`);
+      this.appointmentOfTechnicians.push({
+        apppointment: response.data,
+        technician: technician
+      });
+    },
+    getAllAppointmentsOfTechnicians: function() {
+      this.allTechnicians.forEach(technician => {
+        AXIOS.get(`/appointmentOfTechnician/${technician.email}`)
+          .then(response => {
+            response.data.forEach(appointment => {
+              this.appointmentOfTechnicians.push({
+                appointment: appointment,
+                technician: technician
+              });
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
     }
   }
 };
