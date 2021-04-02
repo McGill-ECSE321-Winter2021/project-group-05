@@ -38,7 +38,9 @@ export default {
       },
       error: "",
       response: [],
-      pageTitle: "Welcome to RepairShop, your satisfaction is our top concern"
+      pageTitle: "Welcome to RepairShop, your satisfaction is our top concern",
+
+
     };
   },
 

@@ -22,9 +22,11 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "LoginPage",
-      component: require("../components/LoginPage.vue").default
+      name: "CustomerHomePage",
+      component: require("../components/CustomerHomePage.vue").default
+
     },
+
 
     {
       path: "/CustomerRegisterPage",
@@ -33,9 +35,10 @@ export default new Router({
     },
 
     {
-      path: "/CustomerHomePage",
-      name: "CustomerHomePage",
-      component: require("../components/CustomerHomePage.vue").default
+      path: "/LoginPage",
+      name: "LoginPage",
+      component: require("../components/LoginPage.vue").default
+
     },
 
     {
