@@ -34,6 +34,7 @@
         </table>
 
     </div>
+
 </template>
 
 <script src="./AdminAppointment.js">

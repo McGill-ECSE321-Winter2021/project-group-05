@@ -146,6 +146,15 @@ public class AppointmentController {
         return apptsCustDtos;
     }
 
+    @GetMapping(value = {"/appointments","/appointments/"})
+    public List<AppointmentDto> getAllAppointments(){
+        List<AppointmentDto> allApps = new ArrayList<>();
+        for(Appointment appointment : appointmentService.getAllAppointments()){
+            allApps.add(RepairShopUtil.convertToDto(appointment));
+        }
+        return allApps;
+    }
+
     @PutMapping(value = { "/appointmentNoShow/{id}", "/appointmentNoShow/{id}/" })
     public ResponseEntity<?> enterNoShow(@PathVariable("id") Long id) throws AppointmentException{
         Appointment appointment = appointmentService.getAppointment(id);
