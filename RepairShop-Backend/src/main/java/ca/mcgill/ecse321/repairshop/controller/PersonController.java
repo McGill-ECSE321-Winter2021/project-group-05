@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class PersonController {
@@ -186,6 +189,7 @@ public class PersonController {
         }
     }
 
+
     // ADMINISTRATOR
 
     /**
@@ -271,5 +275,18 @@ public class PersonController {
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * get all technicans
+     */
+    @GetMapping(value = {"/person/technician/", "/person/technician"})
+    public ResponseEntity<?> getAllTechnicians(){
+        List<Technician> technicianList = personService.getAllTechnician();
+        List<TechnicianDto> list = new ArrayList<>();
+        for(Technician technician : technicianList){
+            list.add(RepairShopUtil.convertToDto(technician));
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

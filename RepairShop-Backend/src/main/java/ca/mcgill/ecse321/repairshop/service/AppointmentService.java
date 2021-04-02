@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +25,8 @@ public class AppointmentService {
     ServiceRepository serviceRepository;
     @Autowired
     BillRepository billRepository;
+    @Autowired
+    TechnicianRepository technicianRepository;
 
     @Transactional
     public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
@@ -48,7 +51,6 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setTimeslot(timeslot);
 
-        // appointmentRepository.save(appointment);
         Bill bill = new Bill();
         bill.setDate(timeslot.getDate());
         bill.setTotalCost(RepairShopUtil.getTotalCostOfAppointment(appointment));
@@ -103,8 +105,18 @@ public class AppointmentService {
             throw new AppointmentException("Cannot delete a null appointment");
         }
         Bill bill = appointment.getBill();
+        List<Technician> technicians = RepairShopUtil.toList(technicianRepository.findAll());
+        for(Technician technician : technicians){
+            for (Appointment appointment1 : technician.getAppointments()){
+                if(appointment1.getId() == appointment.getId()){
+                    technician.getAppointments().remove(appointment);
+                    technicianRepository.save(technician);
+                    break;
+                }
+            }
+        }
         appointmentRepository.deleteById(appointment.getId());
-        billRepository.deleteById(bill.getId());
+        //billRepository.deleteById(bill.getId());  //TODO
     }
 
     @Transactional
@@ -117,17 +129,23 @@ public class AppointmentService {
     }
 
     @Transactional
+    public Iterable<Appointment> getAllAppointments(){
+
+        Iterable<Appointment> appointmentsBookedByCustomer = appointmentRepository.findAll();
+        return appointmentsBookedByCustomer;
+    }
+
+    @Transactional
     public void enterNoShow(Appointment appointment) throws AppointmentException {
+        Customer customer = appointment.getCustomer();
+        int noShow = customer.getNoShow() + 1;
+        customer.setNoShow(noShow);
+        customerRepository.save(customer);
+    }
 
-        LocalTime timeNow =  LocalTime.now();
-        LocalDate today = LocalDate.now();
-
-        if (appointment==null){
-            throw new AppointmentException("appointment cannot be null");
-        }
-        int noShow = appointment.getCustomer().getNoShow();
-        noShow++;
-        appointment.getCustomer().setNoShow(noShow);
+    @Transactional
+    public List<Appointment> getAllAppointments(){
+        return RepairShopUtil.toList(appointmentRepository.findAll());
     }
 
 }
