@@ -35,7 +35,7 @@
               <div class="bookHeader__container">
                  <h4 class="bookHeader">Future Appointments</h4>
               </div>
-            <table id="requested_appointments" class="table ">
+            <table id="requested_appointments" class="table table-hover table-dark ">
                 <thead>
                 <tr>
                     <th>Date</th>
