@@ -1,42 +1,91 @@
 <template>
-<div>
+
+  <div class ="outer_container">
+  <div class="header">
+  <AuthHeader v-bind:pageTitle="pageTitle"
+  v-bind:button="login"/>
+  </div>
+
+
   <!-- Slideshow container -->
   <div class="slideshow-container">
 
     <!-- Full-width images with number and caption text -->
-    <div class="mySlides fade" v-model="slide">
+    <div class="mySlides">
       <div class="numbertext">1 / 3</div>
-      <img src="../assets/logo_draft1.png" style="width:100%">
+      <img src="../assets/repairShop.png" style="width:100%">
       <div class="text">Caption Text</div>
     </div>
 
-    <div class="mySlides fade" v-model="slide">
+    <div class="mySlides">
       <div class="numbertext">2 / 3</div>
-      <img src="../assets/logo.png" style="width:100%">
+      <img src="../assets/logo_draft1.png" style="width:100%">
       <div class="text">Caption Two</div>
     </div>
 
-    <div class="mySlides fade" v-model="slide">
+    <div class="mySlides">
       <div class="numbertext">3 / 3</div>
-      <img src="../assets/repairShop.png" style="width:100%">
+      <img src="../assets/logo.png" style="width:100%">
       <div class="text">Caption Three</div>
     </div>
 
     <!-- Next and previous buttons -->
-    <a class="prev"  v-on:click="plusSlides(-1)">&#10094;</a>
-    <a class="next"  v-on:click="plusSlides(1)">&#10095;</a>
+    <a class="prev" v-on:click="plusSlides(-1)">&#10094;</a>
+    <a class="next" v-on:click="plusSlides(1)">&#10095;</a>
   </div>
   <br>
 
   <!-- The dots/circles -->
   <div style="text-align:center">
     <span class="dot" v-on:click="currentSlide(1)"></span>
-    <span class="dot"  v-on:click="currentSlide(2)"></span>
-    <span class="dot"  v-on:click="currentSlide(3)"></span>
+    <span class="dot" v-on:click="currentSlide(2)"></span>
+    <span class="dot" v-on:click="currentSlide(3)"></span>
   </div>
 
-</div>
+    <br>
+  <div class="map">
 
+  </div>
+
+
+
+    <div class="subscribe">
+      <vue-mailchimp-email-signup-form
+        :element-id="'first-email-signup-form'"
+        :url="'https://gmail.us1.list-manage.com/subscribe/post?u=e052a68428b7bbf7ea4807ebc&amp;id=ad5339535a'"
+        :title="'Don’t want to miss any promotions? '"
+        :subtitle="'We take privacy seriously and we will never spam or sell your information.'"
+      />
+    </div>
+
+    <div class="contactUs">
+      <h2>Contact Us</h2>
+      <p>Email us at <a href = "mailto: repairshop@mail.ca" target="_blank">repairshop@mail.ca</a></p>
+
+      <button id="button" style="vertical-align:middle">
+        <span>
+          <a href="mailto: repairshop@mail.ca" target="_blank"
+             style="color:white;text-decoration:none">Contact Us </a>
+        </span>
+      </button>
+      <hr>
+    </div>
+
+    <div>
+      <div class="social_media">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+      <!-- Add font awesome icons -->
+        <a href="#" class="fa fa-facebook" style="text-decoration:none"></a>
+        <a href="#" class="fa fa-twitter" style="text-decoration:none"></a>
+      </div>
+      <footer>
+        <p>© 2021 Repair Shop</p>
+
+     </footer>
+    </div>
+
+  </div>
 </template>
 
 <script src="./CustomerHomePage.js">
@@ -44,9 +93,71 @@
 
 </script>
 
-
-
 <style>
+
+.outer_container{
+  width: 100%;
+}
+
+.subscribe{
+
+  margin-left: 30%;
+  margin-right: 30%;
+
+}
+#button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: lightskyblue;
+  border: none;
+  text-align: center;
+  font-size: 20px;
+  padding: 8px;
+  width: 150px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#button:hover span {
+  padding-right: 25px;
+}
+
+#button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.contactUs{
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+footer, .social_media{
+  display: block;
+  margin-left: 20px;
+}
+.social_media a{
+  padding: 10px;
+}
+
+
 * {box-sizing:border-box}
 
 /* Slideshow container */
@@ -59,6 +170,10 @@
 /* Hide the images by default */
 .mySlides {
   display: none;
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
 }
 
 /* Next & previous buttons */
@@ -124,13 +239,6 @@
   background-color: #717171;
 }
 
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
 
 @-webkit-keyframes fade {
   from {opacity: .4}

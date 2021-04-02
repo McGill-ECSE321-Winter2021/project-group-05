@@ -21,10 +21,13 @@
     "popper.js": "^1.12.9",
     "vue": "^2.6.12",
     "vue-ctk-date-time-picker": "^2.5.0",
+    "vue-mailchimp-email-signup-form": "^1.1.2",
     "vue-my-toasts": "^1.1.1",
     "vue-router": "^3.0.1",
     "vue-toast-notification": "^0.6.1",
-    "vueperslides": "^3.2.0"
+    "vue2-google-maps": "^0.10.7",
+    "vueperslides": "^3.2.0",
+    "x5-gmaps": "^0.4.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -27,6 +27,7 @@ export default new Router({
 
     },
 
+
     {
       path: "/CustomerRegisterPage",
       name: "CustomerRegisterPage",
