@@ -285,7 +285,9 @@ const CustomerAppointmentPage = {
           `date=` +
           dateAndTime.date
       )
-        .then(response => {})
+        .then(response => {
+          this.getUpcomingAppointments(response.data);
+        })
         .catch(error => {
           Vue.$toast.warning(
             "Cannot book appointment at this time, please verify details",
