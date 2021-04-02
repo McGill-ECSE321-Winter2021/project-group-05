@@ -153,6 +153,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -167,6 +169,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -195,6 +199,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -210,6 +216,8 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+          Vue.$toast.error(error.response.data, {
+          duration: 6000});
         });
     },
 
@@ -239,6 +247,7 @@ const CustomerAppointmentPage = {
         })
         .catch(error => {
           this.error = error;
+
           Vue.$toast.warning("Appointment could not be updated", {
             duration: 6000
           });
@@ -285,7 +294,9 @@ const CustomerAppointmentPage = {
           `date=` +
           dateAndTime.date
       )
-        .then(response => {})
+        .then(response => {
+          this.getUpcomingAppointments(response.data);
+        })
         .catch(error => {
           Vue.$toast.warning(
             "Cannot book appointment at this time, please verify details",
