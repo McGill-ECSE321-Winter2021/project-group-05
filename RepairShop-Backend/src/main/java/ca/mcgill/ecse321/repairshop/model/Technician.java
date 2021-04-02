@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.repairshop.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import java.util.*;
 
@@ -10,8 +11,9 @@ public class Technician extends Person
 {
   //Technician Associations
   private List<TimeSlot> timeSlots;
+  private List<Appointment> appointments;
   
-  @ManyToMany
+  @OneToMany
   public List<TimeSlot> getTimeSlots() {
     return timeSlots;
   }
@@ -20,4 +22,12 @@ public class Technician extends Person
     this.timeSlots = timeSlots;
   }
 
+  @OneToMany
+  public List<Appointment> getAppointments() {
+    return appointments;
+  }
+
+  public void setAppointments(List<Appointment> appointments) {
+    this.appointments = appointments;
+  }
 }

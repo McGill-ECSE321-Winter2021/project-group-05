@@ -8,6 +8,7 @@ public class TechnicianDto {
     private String email;
     private Long id;
     private PersonType personType;
+    private TimeSlotDto timeSlotDto;
 
     public void setPersonType(PersonType personType) {
         this.personType = personType;
@@ -35,6 +36,14 @@ public class TechnicianDto {
 
     public String getPassword() {
         return password;
+    }
+
+    public TimeSlotDto getTimeSlotDto() {
+        return timeSlotDto;
+    }
+
+    public void setTimeSlotDto(TimeSlotDto timeSlotDto) {
+        this.timeSlotDto = timeSlotDto;
     }
 
     public void setPassword(String password) {
