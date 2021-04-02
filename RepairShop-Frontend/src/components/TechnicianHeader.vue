@@ -38,7 +38,7 @@ export default {
         logout: function(){
             Router.push({
                 path: "/",
-                name: "LoginPage",
+                name: "HomePage",
             })
         },
 

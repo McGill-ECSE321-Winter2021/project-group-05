@@ -108,8 +108,9 @@ export default {
         },
 
         logout: function(){
-          Router.replace({path: "/",
-            name: 'LoginPage'})
+          Router.replace({
+            path: "/",
+            name: "HomePage"})
         },
 
         goToAdminAppointmentPage: function(){
