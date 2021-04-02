@@ -2,6 +2,9 @@ import axios from "axios";
 import CustomerHeader from "./CustomerHeader";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
+import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
@@ -11,6 +14,8 @@ var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
   "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
+
+Vue.use(VueToast);
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
@@ -92,12 +97,16 @@ const CustomerAppointmentPage = {
   methods: {
     editAppointment: function(id) {
       this.show = true;
+      Vue.$toast.warning('Implement method', {
+      duration: 6000});
     },
     cancelAppointment: function(id) {
       AXIOS.delete(`/appointment/${id}`)
         .then(response => {
           //toast message for success
           console.log("suceess");
+        Vue.$toast.warning('Implement method', {
+        duration: 6000});
         })
         .catch(error => {
           this.error = error;
@@ -182,6 +191,7 @@ const CustomerAppointmentPage = {
         .catch(error => {
           this.error = error;
         });
+
     }
   }
 };

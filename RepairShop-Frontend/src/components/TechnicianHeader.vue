@@ -8,7 +8,7 @@
             <span></span>
             <button id="appointment" v-on:click="goToTechnicianAppointmentPage()">Appointment</button>
             <span></span>
-            <button id="account" v-on:click="goToTechnicianAccountPage()">My Account </button>
+            <button id="account" v-on:click="goToTechnicianAccountPage()">My Account</button>
             <span></span>
             <button id="logout" v-on:click="logout()">Logout</button>
             <span></span>
@@ -31,7 +31,7 @@ export default {
         goToTechnicianAccountPage: function(){
             Router.push({
                 path: "/TechnicianAccountPage",
-                name: "/TechnicianAccountPage"
+                name: "TechnicianAccountPage"
             })
         },
 
@@ -74,6 +74,10 @@ button {
     background-color: Transparent;
     color: white;
     border: none;
+}
+button:hover {
+    background-color: firebrick;
+    border-radius: 10px;
 }
 
 #container{
