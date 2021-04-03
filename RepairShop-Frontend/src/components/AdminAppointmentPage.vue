@@ -29,10 +29,10 @@
         </div>
         <!-- Table -->
 
-       <table id="table__container" class="table table-striped table-dark table-hover">
-            <thead>
+       <table id="table__container"  class="table table-hover table-bordered border-primary">
+            <thead class="table-dark">
                 <tr>
-                <th scope="col">Appointment id</th>
+                <th scope="col">Appointment #</th>
                 <th scope="col">Appointment Date</th>
                 <th scope="col">Appointment StartTime</th>
                 <th scope="col">Appointment EndTime</th>
@@ -42,12 +42,12 @@
             </thead>
             <tbody>
                 <tr v-bind:key="content.appointment.id" v-for="content in appointmentOfTechnicians">
-                <th scope="row">{{content.appointment.id}}</th>
-                <td>{{content.appointment.timeSlot.date}}</td>
-                <td>{{content.appointment.timeSlot.startTime}}</td>
-                <td>{{content.appointment.timeSlot.endTime}}</td>
-                    <td>{{content.technician.email}}</td>
-                <td>{{content.appointment.customer.email}} </td>
+                <th>{{content.appointment.id}}</th>
+                <th>{{content.appointment.timeSlot.date}}</th>
+                <th>{{content.appointment.timeSlot.startTime}}</th>
+                <th>{{content.appointment.timeSlot.endTime}}</th>
+                <th>{{content.technician.email}}</th>
+                <th>{{content.appointment.customer.email}} </th>
                 </tr>
             </tbody>
         </table>

@@ -2,7 +2,7 @@
     <div>
         <TechnicianHeader />
         <div>
-         <table id="table__container" class="table table-striped table-dark table-hover">
+         <table id="table__container" >
             <thead>
                 <tr>
                 <th scope="col">Appointment id</th>
