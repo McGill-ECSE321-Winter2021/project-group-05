@@ -37,6 +37,11 @@
     </div>
 
     <br>
+    <div class="teaser" style="text-align:center;">
+      <video src="../assets/teaser.mp4" controls style="width:100%;
+      max-width: 80vh;"/>
+    </div>
+    <br>
     <div class="service">
       <h2 style="display: block; margin-left: 10px;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experience Ever With Us</h2>
