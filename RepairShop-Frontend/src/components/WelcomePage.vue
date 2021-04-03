@@ -58,10 +58,10 @@
       <h2>Contact Us</h2>
       <p>Email us at <a href = "mailto: repairshop@mail.ca" target="_blank">repairshop@mail.ca</a></p>
 
-      <button id="button" style="vertical-align:middle">
+      <button id="button" style="vertical-align:middle;">
         <span>
           <a href="mailto: repairshop@mail.ca" target="_blank"
-             style="color:white;text-decoration:none">Contact Us </a>
+             style="color:black;text-decoration:none">Contact Us </a>
         </span>
       </button>
       <hr>
@@ -102,6 +102,7 @@ export default {
     }
 
   },
+
   methods: {
     // Next/previous controls
     plusSlides: function(n) {
@@ -221,7 +222,6 @@ footer, .social_media{
 
 /* Hide the images by default */
 .mySlides {
-  display: none;
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
   animation-name: fade;

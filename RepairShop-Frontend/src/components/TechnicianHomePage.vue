@@ -1,11 +1,13 @@
 <template>
-    <div>
-
-            <TechnicianHeader />
-            <div >
-              <WelcomePage  />
-            </div>
-        </div>
+   <div>
+      <TechnicianHeader v-if="this.render"/>
+    <div v-if="this.render">
+       <WelcomePage  />
+    </div>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
+   </div>
 
 </template>
 

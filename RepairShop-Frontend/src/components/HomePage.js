@@ -26,7 +26,7 @@ const HomePage = {
 
       pageTitle: "Welcome to RepairShop, your satisfaction is our top concern",
       error: "",
-      login: "log-in",
+      login: "Login",
       link: "/LoginPage",
 
     };
