@@ -1,10 +1,10 @@
 <template>
-  <div align=CENTER>
+  <div align=CENTER id="container">
       <AdminHeader v-if="this.render" />
     <div align=CENTER id="CreateService" v-if="this.render">
-    <h1 align=CENTER> </h1>
 
-    <table align=CENTER id="availableServices" style="display: inline-block;" width="auto">
+
+    <table cellpadding="10" align=CENTER id="availableServices" style="display: inline-block;margin-top: 20px" width="auto">
       <tr>
           <td>
               <h4 align=CENTER>Available services</h4>
@@ -15,7 +15,7 @@
       <tr align=CENTER>
           <td>
               <select v-model="selectedService" multiple :size="services.length" @click="getServiceByName(selectedService)">
-                  <option v-for="service in services" name="serviceList" style="width:150px">
+                  <option v-for="service in services" name="serviceList" style="width:100%;text-align: center;">
                       {{service.name}}
                   </option>
               </select>
@@ -25,7 +25,7 @@
       </tr>
     </table>
 
-    <table align=CENTER id="createServices" style="display: inline-block;" width="auto">
+    <table cellpadding="10" align=CENTER id="createServices" style="display: inline-block;" width="auto">
         <tr>
             <td>
                 <h4 align=CENTER>Create Service</h4>
@@ -36,11 +36,13 @@
                 <input type="text" v-model="newService" placeholder="Enter name" size="25">
             </td>
         </tr>
+
         <tr>
             <td>
                 <input type="number" step="0.01" v-model="newCost" placeholder="Enter cost" size="25">
             </td>
         </tr>
+
         <tr>
             <td>
                 <input type="number" v-model="newDuration" placeholder="Enter duration (minutes)" size="25">
@@ -54,7 +56,7 @@
     </table>
 
 
-    <table align=CENTER id="editServices" v-if="returnedService" style="display: inline-block;" width="auto">
+    <table cellpadding="10" align=CENTER id="editServices" v-if="returnedService" style="display: inline-block;" width="auto">
         <tr>
             <td>
                 <h4 align=CENTER>Edit service</h4>
@@ -63,12 +65,14 @@
         </tr>
         <tr>
             <td>
-                <input type="text" v-model="updatedName" :placeholder="returnedService.name" size="25">
+                <input type="text" v-model="updatedName" :placeholder="returnedService.name"
+                       style="width:200px">
             </td>
         </tr>
         <tr>
             <td>
-                <input type="number" step="0.01" v-model="updatedCost" :placeholder="returnedService.cost" size="25">
+                <input type="number" step="0.01" v-model="updatedCost" :placeholder="returnedService.cost"
+                      size="25">
             </td>
         </tr>
         <tr>
@@ -106,7 +110,15 @@
   #CreateService {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
-    background: #f2ece8;
+
   }
+  input{
+    width: 200px;
+  }
+
+  select{
+    width:100%;
+  }
+
 
 </style>
