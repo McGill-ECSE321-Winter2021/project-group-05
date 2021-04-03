@@ -48,23 +48,26 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experienc
     <!--service display-->
     <div class="row">
 
-      <div class="column">
-        <img src="../assets/changeTire.jpg" alt="Change Tire" style="width:100%;margin-left: 20px;
+
+      <table align=Center>
+        <tr>
+           <td>
+        <img src="../assets/changeTire.png" alt="Change Tire" style="width:100%;margin-left: 20px;
         height: 40vh;max-width: 80vh">
-        <p align="center" style="margin-top: 10px; ">Change Tire</p>
-      </div>
-      <div class="column">
-        <img src="../assets/wash_car.jpg" alt="Wash Car" style="width:100%;margin-right: 20px;height: 40vh;max-width: 80vh">
-        <p align="center" style="margin-top: 10px">Wash Car</p>
-      </div>
-      <div class="column">
-        <img src="../assets/fuel.jpeg" alt="fuel" style="width:100%;margin-left: 20px;height: 40vh;max-width: 80vh">
-        <p align="center" style="margin-top: 10px">Fuel Up</p>
-      </div>
-      <div class="column">
-        <img src="../assets/windowReplacement.jpeg" alt="windowReplacement" style="width:100%;margin-right: 20px;height: 40vh;max-width: 80vh">
-        <p align="center" style="margin-top: 10px">Window Replacement</p>
-      </div>
+            </td>
+            <td>
+        <img src="../assets/wash_car.png" alt="Wash Car" style="width:100%;margin-right: 20px;height: 40vh;max-width: 80vh">
+            </td>
+        </tr>
+        <tr>
+            <td>
+        <img src="../assets/fuel.png" alt="fuel" style="width:100%;margin-left: 20px;height: 40vh;max-width: 80vh">
+            </td>
+            <td>
+        <img src="../assets/windowReplacement.png" alt="windowReplacement" style="width:100%;margin-right: 20px;height: 40vh;max-width: 80vh">
+            </td>
+        </tr>
+      </table>
     </div>
     </div>
 
