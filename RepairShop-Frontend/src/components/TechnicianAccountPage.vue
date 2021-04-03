@@ -1,7 +1,7 @@
 <template>
   <div id="accountPage">
-    <TechnicianHeader />
-    <div id="accountForm">
+    <TechnicianHeader v-if="this.render"/>
+    <div id="accountForm" v-if="this.render">
       <form>
 
 
@@ -26,6 +26,9 @@
         delete</button>
 
     </form>
+    </div>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
     </div>
   </div>
 </template>

@@ -1,6 +1,7 @@
 <template>
     <div>
-            <TechnicianHeader />
+        <div v-if="this.render">
+            <TechnicianHeader v-if="this.render"/>
             <div id="techHome" align=CENTER>
 
               <div class="bookHeader__container">
@@ -10,6 +11,10 @@
               <button id="viewAppointmentcalendar" v-on:click=" " style="border-radius: 10px;">Appointment Calendar</button>
               <button id="logout"v-on:click=" " style="border-radius: 10px;">Logout </button>
             </div>
+            </div>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
     </div>
 </template>
 
@@ -20,7 +25,21 @@ export default {
     name: "TechnicianHomePage",
     components: {
         TechnicianHeader
+    },
+  data() {
+    return {
+      render: true
+    };
+  },
+  created: function() {
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
     }
+    else {
+      this.render = true;
+    }
+  }
 }
 </script>
 

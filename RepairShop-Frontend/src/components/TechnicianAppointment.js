@@ -31,12 +31,20 @@ export default {
   data() {
     return {
       allAppointments: [],
-      currentUser: {}
+      currentUser: {},
+      render: true
     };
   },
   created() {
-    this.currentUser = getCurrentUser();
-    this.getAllAppointments();
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+      this.render = true;
+      this.currentUser = getCurrentUser();
+      this.getAllAppointments();
+    }
   },
 
   methods: {
