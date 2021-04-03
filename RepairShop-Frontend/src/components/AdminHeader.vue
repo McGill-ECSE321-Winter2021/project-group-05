@@ -19,10 +19,12 @@
             <span></span>
               <button id="present" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
               <button id="absent" v-if="!adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
+
             <span></span>
             <span></span>
               <button id="present" v-if="addStaffTab" v-on:click="goToAddStaffPage()">Add Staff</button>
               <button id="absent" v-if="!addStaffTab" v-on:click="goToAddStaffPage()">Add Staff</button>
+
             <span></span>
               <button id="logout" v-on:click="logout()">Logout</button>
             <span></span>
@@ -129,8 +131,9 @@ export default {
         },
 
         logout: function(){
-          Router.replace({path: "/",
-            name: 'LoginPage'})
+          Router.replace({
+            path: "/",
+            name: "HomePage"})
         },
 
         goToAdminAppointmentPage: function(){

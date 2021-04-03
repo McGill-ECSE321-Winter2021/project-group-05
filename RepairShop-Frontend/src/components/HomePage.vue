@@ -1,15 +1,17 @@
 <template>
 
   <div class ="outer_container">
-  <div class="header">
-  <CustomerHeader />
-  </div>
-  <WelcomePage/>
+    <div class="header">
+      <AuthHeader v-bind:pageTitle="pageTitle"
+                  v-bind:button="login"/>
+
+    </div>
+    <WelcomePage/>
 
   </div>
 </template>
 
-<script src="./CustomerHomePage.js">
+<script src="./HomePage.js">
 
 
 </script>

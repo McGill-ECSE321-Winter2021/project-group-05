@@ -4,7 +4,7 @@
 
         <div id="container">
         <!---- technician select--->
-        <div id="technician__container"> 
+        <div id="technician__container">
         <select v-model="technicianEmail"  class="custom-select custom-select-sm">
             <option v-bind:key="technician.email" v-for="technician in allTechnicians" v-bind:value="technician.email" selected>
                 {{technician.email}}
