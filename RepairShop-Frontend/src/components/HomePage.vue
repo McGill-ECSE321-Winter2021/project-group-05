@@ -6,7 +6,9 @@
                   v-bind:button="login"/>
 
     </div>
+    <br>
     <WelcomePage/>
+    <br>
 
   </div>
 </template>
@@ -55,7 +57,6 @@ footer, .social_media{
 
 /* Hide the images by default */
 .mySlides {
-  display: none;
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
   animation-name: fade;
