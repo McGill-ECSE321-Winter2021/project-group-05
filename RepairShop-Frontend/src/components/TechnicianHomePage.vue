@@ -1,25 +1,16 @@
 <template>
-    <div id="techHome">
+    <div>
             <TechnicianHeader />
-            <div id="techHome">
+            <div id="techHome" align=CENTER>
 
-                         <div class="bookHeader__container">
-                                        <h4 class="bookHeader">Welcome, Technician</h4>
-                          </div>
-
-                          <button id="Account"v-on:click=" " style="border-radius: 10px;">
-                                 Account</button>
-
-
-
-                               <button id="viewAppointmentcalendar"v-on:click=" " style="border-radius: 10px;">
-                                                       Appointment Calendar</button>
-
-
-                                  <button id="logout"v-on:click=" " style="border-radius: 10px;">
-                                                                            Logout </button>
+              <div class="bookHeader__container">
+                  <h4 class="bookHeader">Welcome, Technician</h4>
+              </div>
+              <button id="Account"v-on:click=" " style="border-radius: 10px;">Account</button>
+              <button id="viewAppointmentcalendar" v-on:click=" " style="border-radius: 10px;">Appointment Calendar</button>
+              <button id="logout"v-on:click=" " style="border-radius: 10px;">Logout </button>
             </div>
-        </div>
+    </div>
 </template>
 
 <script>
@@ -64,6 +55,5 @@ export default {
   background-color:firebrick;
   color: white;
   margin-top: 25px;
-   margin-left: 350px;
 }
 </style>

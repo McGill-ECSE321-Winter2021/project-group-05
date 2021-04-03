@@ -2,25 +2,25 @@
     <nav id="header">
         <img class ="logo" src="../assets/logo_draft1.png" v-on:click="goToAdminHomePage()"/>
         <div id="container">
-            <button id="homepagePresent" v-if="homepageTab" v-on:click="goToAdminHomePage()">Home</button>
-            <button id="homepageAbsent" v-if="!homepageTab" v-on:click="goToAdminHomePage()">Home</button>
+              <button id="present" v-if="homepageTab" v-on:click="goToAdminHomePage()">Home</button>
+              <button id="absent" v-if="!homepageTab" v-on:click="goToAdminHomePage()">Home</button>
             <span></span>
-            <button id="appointmentPresent" v-if="appointmentManagerTab" v-on:click="goToAdminAppointmentPage()">Appointment Manager</button>
-            <button id="appointmentAbsent" v-if="!appointmentManagerTab" v-on:click="goToAdminAppointmentPage()">Appointment Manager</button>
+              <button id="present" v-if="appointmentManagerTab" v-on:click="goToAdminAppointmentPage()">Appointment Manager</button>
+              <button id="absent" v-if="!appointmentManagerTab" v-on:click="goToAdminAppointmentPage()">Appointment Manager</button>
             <span></span>
-             <button id="servicePresent" v-if="serviceManagerTab" v-on:click="goToServicePage()">Service Manager</button>
-             <button id="serviceAbsent" v-if="!serviceManagerTab" v-on:click="goToServicePage()">Service Manager</button>
+             <button id="present" v-if="serviceManagerTab" v-on:click="goToServicePage()">Service Manager</button>
+             <button id="absent" v-if="!serviceManagerTab" v-on:click="goToServicePage()">Service Manager</button>
             <span></span>
-             <button id="timeslotPresent" v-if="timeslotManagerTab" v-on:click="goToTimeSlotPage()">TimeSlot Manager</button>
-             <button id="timeslotAbsent" v-if="!timeslotManagerTab" v-on:click="goToTimeSlotPage()">TimeSlot Manager</button>
+             <button id="present" v-if="timeslotManagerTab" v-on:click="goToTimeSlotPage()">TimeSlot Manager</button>
+             <button id="absent" v-if="!timeslotManagerTab" v-on:click="goToTimeSlotPage()">TimeSlot Manager</button>
             <span></span>
-             <button id="businessPresent" v-if="businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
-             <button id="businessAbsent" v-if="!businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
+             <button id="present" v-if="businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
+             <button id="absent" v-if="!businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
             <span></span>
-            <button id="accountPresent" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
-            <button id="accountAbsent" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
+              <button id="present" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
+              <button id="absent" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
             <span></span>
-            <button id="logout" v-on:click="logout()">Logout</button>
+              <button id="logout" v-on:click="logout()">Logout</button>
             <span></span>
         </div>
     </nav>
@@ -159,109 +159,19 @@ export default {
     width: 75px;
     margin: 4px;
 }
-#businessAbsent {
+#absent {
     background-color: Transparent;
     color: white;
     border: none;
     border-radius: 10px;
 }
-#businessAbsent:hover {
+#absent:hover {
     background-color: firebrick;
     color: white;
     border: none;
     border-radius: 10px;
 }
-#businessPresent{
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#homepageAbsent {
-    background-color: Transparent;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#homepageAbsent:hover {
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#homepagePresent{
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#appointmentAbsent {
-    background-color: Transparent;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#appointmentAbsent:hover {
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#appointmentPresent{
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#serviceAbsent {
-    background-color: Transparent;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#serviceAbsent:hover {
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#servicePresent{
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#timeslotAbsent {
-    background-color: Transparent;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#timeslotAbsent:hover {
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#timeslotPresent{
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#accountAbsent {
-    background-color: Transparent;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#accountAbsent:hover {
-    background-color: firebrick;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-#accountPresent{
+#present{
     background-color: firebrick;
     color: white;
     border: none;
