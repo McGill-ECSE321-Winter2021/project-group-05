@@ -34,7 +34,7 @@ export default {
     },
 
     created: function(){
-        if(this.$router.history.current.path.localeCompare("/") === 0) {
+        if(this.$router.history.current.path.localeCompare("/CustomerHomePage") === 0) {
             console.log(this.$router.history.current.path);
             this.homeTab = true;
             this.appointmentTab = false;
