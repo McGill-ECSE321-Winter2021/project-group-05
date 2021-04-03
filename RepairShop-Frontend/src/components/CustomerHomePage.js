@@ -3,7 +3,7 @@ import CustomerHeader from "./CustomerHeader";
 import "vueperslides/dist/vueperslides.css";
 import { VueMailchimpEmailSignupForm } from "vue-mailchimp-email-signup-form";
 import "vue-mailchimp-email-signup-form/dist/vue-mailchimp-email-signup-form.css";
-import WelcomePage from "./WelcomePage";
+import WelcomePage from "../components/WelcomePage.vue";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
