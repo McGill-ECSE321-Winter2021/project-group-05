@@ -18,7 +18,7 @@
              <button id="absent" v-if="!businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
             <span></span>
               <button id="present" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
-              <button id="absent" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
+              <button id="absent" v-if="!adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
             <span></span>
               <button id="logout" v-on:click="logout()">Logout</button>
             <span></span>

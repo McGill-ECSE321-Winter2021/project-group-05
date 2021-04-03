@@ -23,7 +23,7 @@
                         >
                         </b-form-checkbox-group>
                     </div>
-                    
+
                 </div>
             </div>
               <!-- services selected-->
@@ -34,8 +34,8 @@
             <div id="bookbtn__container">
                 <b-button block id="bookbtn" @click="showBillModal()">Book an appointment</b-button>
                 <b-modal
-                 v-model="showBill" 
-                 title="Payment Information" 
+                 v-model="showBill"
+                 title="Payment Information"
                  @ok="handleBillOk()"
                  >
                     <p id="cost__container">Cost of Appointment <strong>{{cost}}</strong></p>
@@ -71,7 +71,7 @@
                                 required>
                             </b-form-input>
                         </b-form-group>
-                        
+
                         <b-form-group
                         label="Date (YYYY-MM-DD)"
                         label-for="name-input"
@@ -82,9 +82,9 @@
                                 required>
                             </b-form-input>
                         </b-form-group>
-                <!----payement information---> 
+                <!----payement information--->
                     <form ref="form" @submit.stop.prevent="handleSubmit">
-                     
+
                     </form>
                 </b-modal>
             </div>
@@ -126,7 +126,7 @@
                             <b-container fluid>
                                 <b-row class="mb-4">
                                 <b-col cols="2">Date</b-col>
-                                
+
                                 <b-col>
                                 <div>
                                     <b-form-select v-model="updatedDate" :options="allTimeSlotsDates"  value-field="id" text-field="date"></b-form-select>
@@ -137,15 +137,15 @@
 
                                 <b-row class="mb-4">
                                 <b-col cols="2">Services</b-col>
-                            
+
                                 <b-col>
                                 <div>
                                     <b-form-select multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
-                                    <div class="mt-3">Selected Serivces: <p>{{ updatedServices }}</p></div>
+                                    <div class="mt-3">Selected Services: <p>{{ updatedServices }}</p></div>
                                 </div>
                                 </b-col>
                                 </b-row>
-                                
+
                             </b-container>
                     </b-modal>
                 </td>
@@ -221,7 +221,7 @@
 }
 
 #bookbtn__container{
-    
+
 }
 #bookbtn{
     outline:none;
@@ -267,7 +267,7 @@
    /* align-items: flex-end; */
    padding-left: 100px;
    padding-right: 100px;
-   
+
 }
 
 #serviceList__container{

@@ -70,7 +70,8 @@ export default {
         },
 
         logout: function(){
-         Router.replace({path: "/",
+         Router.replace(
+           {path: "/",
            name: 'HomePage'})
 
         },
