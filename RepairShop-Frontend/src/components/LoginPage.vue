@@ -41,6 +41,21 @@
           </div>
 
         </form>
+        <table>
+          <tr>
+            <a href="http://127.0.0.1:8087/#/LoginPage">
+            <td>
+              <img width="200px" v-on="" src="../assets/google.png" />
+            </td>
+            <td>
+              <img width="220px" v-on="" src="../assets/fb.png" />
+            </td>
+            <td>
+              <img width="200px" v-on="" src="../assets/twitter.png" />
+            </td>
+            </a>
+          </tr>
+        </table>
       </div>
     </div>
 
@@ -60,7 +75,7 @@ body{
     align-items: center;
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 form{
@@ -85,6 +100,7 @@ form{
 #forgotPassword__button{
   background-color: Transparent;
   background-repeat:no-repeat;
+  color: blue;
   border: none;
   cursor:pointer;
   overflow: hidden;

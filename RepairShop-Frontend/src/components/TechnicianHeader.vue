@@ -12,7 +12,7 @@
               <button id="present" v-if="technicianAccountTab" v-on:click="goToTechnicianAccountPage()">My Account</button>
               <button id="absent" v-if="!technicianAccountTab" v-on:click="goToTechnicianAccountPage()">My Account</button>
             <span></span>
-            <button id="logout" v-on:click="logout()">Logout</button>
+              <button id="logout" v-on:click="logout()">Logout</button>
             <span></span>
         </div>
     </nav>
