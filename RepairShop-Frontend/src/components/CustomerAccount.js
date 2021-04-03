@@ -40,14 +40,24 @@ export default {
       email: "",
       password:"",
       confirmPassword:"",
-      error: ""
+      error: "",
+      render: true
 
     };
   },
 
   created: function() {
-    this.username = localStorage.getItem('savedCustomerName');
-    this.email = localStorage.getItem('savedCustomerEmail');
+  console.log(localStorage.getItem('loggedInEmail').localeCompare("null"));
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+      this.render = false;
+      console.log(this.render);
+    }
+    else{
+      this.render = true;
+      console.log(this.render);
+      this.username = localStorage.getItem('savedCustomerName');
+      this.email = localStorage.getItem('savedCustomerEmail');
+    }
 
   },
 

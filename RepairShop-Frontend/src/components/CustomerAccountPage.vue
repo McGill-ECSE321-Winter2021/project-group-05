@@ -1,7 +1,7 @@
 <template>
   <div id="accountPage">
     <CustomerHeader />
-    <div id="accountForm">
+    <div id="accountForm" v-if="this.render">
       <form>
 
 
