@@ -141,7 +141,7 @@
                                 <b-col>
                                 <div>
                                     <b-form-select multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
-                                    <div class="mt-3">Selected Serivces: <p>{{ updatedServices }}</p></div>
+                                    <div class="mt-3">Selected Services: <p>{{ updatedServices }}</p></div>
                                 </div>
                                 </b-col>
                                 </b-row>

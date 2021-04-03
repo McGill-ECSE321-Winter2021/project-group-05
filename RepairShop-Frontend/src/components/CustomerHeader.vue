@@ -70,9 +70,12 @@ export default {
         },
 
         logout: function(){
-         localStorage.setItem('loggedInEmail', "null");
-         Router.replace({path: "/",
-           name: 'LoginPage'})
+
+        localStorage.setItem('loggedInEmail', "null");
+         Router.replace(
+           {path: "/",
+           name: 'HomePage'})
+
 
         },
         goToCustomerAppointmentPage: function(){

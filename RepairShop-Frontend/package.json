@@ -20,6 +20,7 @@
     "jquery": "^3.6.0",
     "popper.js": "^1.12.9",
     "vue": "^2.6.12",
+    "vue-cal": "^3.10.1",
     "vue-ctk-date-time-picker": "^2.5.0",
     "vue-mailchimp-email-signup-form": "^1.1.2",
     "vue-my-toasts": "^1.1.1",
