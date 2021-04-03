@@ -39,12 +39,21 @@ const BusinessPage = {
       error: "",
       showDelete: false,
       showUpdate: false,
-      id: ""
+      id: "",
+      render: true
     };
   },
   created() {
-    this.id = 1;
-    this.getBusiness(this.id);
+
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+          this.render = false;
+          console.log(this.render);
+    }
+    else {
+      this.render = true;
+        this.id = 1;
+        this.getBusiness(this.id);
+    }
   },
   methods: {
     createBusiness: function(name, address, phoneNumber, email) {

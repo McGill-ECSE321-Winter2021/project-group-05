@@ -1,6 +1,7 @@
 <template>
-  <div id="CustomerService">
-      <CustomerHeader />
+  <div>
+      <CustomerHeader v-if="this.render"/>
+    <div id="CustomerService" v-if="this.render">
     <label align=CENTER></label>
 
     <table align=CENTER id="servicesTable">
@@ -73,6 +74,10 @@
     <p align=CENTER>
       <span align=CENTER v-if="errorCreateService" style="color:red">{{errorCreateService}}</span>
     </p>
+  </div>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
   </div>
 </template>
 

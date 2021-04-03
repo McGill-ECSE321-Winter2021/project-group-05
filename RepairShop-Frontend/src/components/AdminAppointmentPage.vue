@@ -1,8 +1,8 @@
 <template>
     <div>
-        <AdminHeader />
+        <AdminHeader v-if="this.render"/>
 
-        <div id="container">
+        <div id="container" v-if="this.render">
         <!---- technician select--->
         <div id="technician__container">
         <select v-model="technicianEmail"  class="custom-select custom-select-sm">
@@ -52,6 +52,11 @@
             </tbody>
         </table>
     </div>
+
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
+
     </div>
 </template>
 

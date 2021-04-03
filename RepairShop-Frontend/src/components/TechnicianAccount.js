@@ -1,12 +1,10 @@
-import TechnicianHeader from './TechnicianHeader'
+import TechnicianHeader from "./TechnicianHeader";
 import axios from "axios";
 import Router from "../router";
 import currentUser from "./LoginPage.js";
-import Vue from 'vue';
-import VueToast from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
-
-
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -38,62 +36,105 @@ const TechnicianAccountPage = {
       technicians: [],
       username: "",
       email: "",
-      password:"",
-      confirmPassword:"",
-      error: ""
+      password: "",
+      confirmPassword: "",
+      error: "",
+      showDelete: false,
+      showUpdate: false,
+      render: true
     };
   },
 
   created: function() {
-      this.username = localStorage.getItem('savedTechnicianName');
-      this.email = localStorage.getItem('savedTechnicianEmail');
-      this.password = localStorage.getItem('savedTechnicianPassword');
+    this.username = localStorage.getItem("savedTechnicianName");
+    this.email = localStorage.getItem("savedTechnicianEmail");
+    this.password = localStorage.getItem("savedTechnicianPassword");
+    this.confirmPassword = localStorage.getItem("savedTechnicianPassword");
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
+      this.render = true;
+      this.username = localStorage.getItem("savedTechnicianName");
+      this.email = localStorage.getItem("savedTechnicianEmail");
+      this.password = localStorage.getItem("savedTechnicianPassword");
+    }
   },
 
-
   methods: {
-    updateAccount: function(username, email, password,confirmPassword) {
-      if (password == confirmPassword){
-
-      const technicianDTO = new TechnicianDto(username,email,password);
-      console.log(technicianDTO);
-      AXIOS.put(`/person/technician/${email}/`, technicianDTO)
-        .then(response => {
-          this.technicians.push(response.data);
-          console.log(response.data);
-          Vue.$toast.success('Account credentials successfully updated', {
-          duration: 6000});
-
-        })
-        .catch(e => {
-          console.log(e);
-          this.error = e.message;
-          Vue.$toast.error(e.response.data, {
-          duration: 6000});
+    showUpdateModal: function() {
+      if (this.email === "" || this.email === null) {
+        Vue.$toast.error(`Email cannot be empty`, {
+          duration: 2000
         });
+        return;
       }
-      else{
+      if (this.username === "" || this.username === null) {
+        Vue.$toast.error(`Username cannot be empty`, {
+          duration: 2000
+        });
+        return;
+      }
+      if (this.password === "" || this.confirmPassword === "") {
+        Vue.$toast.error(`Username cannot be empty`, {
+          duration: 2000
+        });
+        return;
+      }
+      if (this.password !== this.confirmPassword) {
+        Vue.$toast.error(`Passwords do not match`, {
+          duration: 2000
+        });
+        return;
+      }
+      this.showUpdate = true;
+    },
+    updateAccount: function(username, email, password, confirmPassword) {
+      if (password == confirmPassword) {
+        const technicianDTO = new TechnicianDto(username, email, password);
+        console.log(technicianDTO);
+        AXIOS.put(`/person/technician/${email}/`, technicianDTO)
+          .then(response => {
+            this.technicians.push(response.data);
+            console.log(response.data);
+            Vue.$toast.success("Account credentials successfully updated", {
+              duration: 6000
+            });
+          })
+          .catch(e => {
+            console.log(e);
+            this.error = e.message;
+            Vue.$toast.error(e.response.data, {
+              duration: 6000
+            });
+          });
+      } else {
         //alert("confirm password doesn't match with the password")
         Vue.$toast.error("Passwords do not match", {
-        duration: 6000});
+          duration: 6000
+        });
       }
     },
-    deleteAccount: function(email){
+    showDeleteModal: function() {
+      this.showDelete = true;
+    },
+    deleteAccount: function(email) {
       AXIOS.delete(`/person/technician/${email}/`)
         .then(response => {
           this.technicians.pop();
           console.log(response.data);
           this.gotoLogin();
-          Vue.$toast.success('Account successfully deleted', {
-          duration: 6000});
+          Vue.$toast.success("Account successfully deleted", {
+            duration: 6000
+          });
         })
         .catch(e => {
           console.log(e);
           this.error = e.message;
           Vue.$toast.error(e.response.data, {
-          duration: 6000});
+            duration: 6000
+          });
         });
-
     },
     gotoLogin: function() {
       Router.push({
@@ -102,7 +143,6 @@ const TechnicianAccountPage = {
       });
     }
   }
-
 };
 
 export default TechnicianAccountPage;

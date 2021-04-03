@@ -1,11 +1,11 @@
 <template>
     <div id="businessPage">
-        <AdminHeader />
-    
-    <div class="container">
+        <AdminHeader v-if="this.render"/>
+
+    <div class="container" v-if="this.render">
     <div class="row gutters">
-    
-    <!----PERSONAL DETAILS TEXT --> 
+
+    <!----PERSONAL DETAILS TEXT -->
     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
       <div class="card-body">
@@ -27,7 +27,7 @@
     </div>
     </div>
 
-    <!------PERSONAL DETAILS  FORM--> 
+    <!------PERSONAL DETAILS  FORM-->
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
       <div class="card-body">
@@ -61,7 +61,7 @@
           </div>
         </div>
 
-        <!---buttons ---> 
+        <!---buttons --->
         <div class="row gutters">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="text-center">
@@ -79,6 +79,9 @@
     </div>
     </div>
     </div>
+    </div>
+    <div v-if="!this.render">
+       <label>Please login to continue</label>
     </div>
     </div>
 </template>

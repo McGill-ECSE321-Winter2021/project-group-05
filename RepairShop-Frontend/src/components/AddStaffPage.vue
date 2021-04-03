@@ -1,10 +1,10 @@
 <template>
     <div>
-        <AdminHeader />
-         <div class="container">
+        <AdminHeader v-if="this.render"/>
+         <div class="container" v-if="this.render">
     <div class="row gutters">
 
-    <!------PERSONAL DETAILS  FORM--> 
+    <!------PERSONAL DETAILS  FORM-->
     <div class="col-xl-12 col-lg-9 col-md-12 col-sm-12 col-12">
 
   <div class="card">
@@ -33,8 +33,8 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <h6 class="mb-2 text-primary">Staff's Detail</h6>
           </div>
-          
-        
+
+
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
               <label for="fullName">Staff's Username</label>
@@ -64,7 +64,7 @@
         </div>
 
 
-        <!---buttons ---> 
+        <!---buttons --->
         <div class="row gutters">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="text-center">
@@ -84,6 +84,9 @@
 
     </div>
     </div>
+    </div>
+    <div v-if="!this.render">
+       <label>Please login to continue</label>
     </div>
     </div>
 </template>

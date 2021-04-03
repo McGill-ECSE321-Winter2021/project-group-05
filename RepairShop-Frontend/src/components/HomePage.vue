@@ -6,7 +6,9 @@
                   v-bind:button="login"/>
 
     </div>
+    <br>
     <WelcomePage/>
+    <br>
 
   </div>
 </template>
@@ -28,44 +30,7 @@
   margin-right: 30%;
 
 }
-#button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: lightskyblue;
-  border: none;
-  text-align: center;
-  font-size: 20px;
-  padding: 8px;
-  width: 150px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-}
 
-#button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-#button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-#button:hover span {
-  padding-right: 25px;
-}
-
-#button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
 
 .contactUs{
   margin-bottom: 20px;
@@ -92,7 +57,6 @@ footer, .social_media{
 
 /* Hide the images by default */
 .mySlides {
-  display: none;
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
   animation-name: fade;

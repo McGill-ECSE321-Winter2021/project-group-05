@@ -45,22 +45,30 @@ export default {
       updatedName: "",
       updatedCost: "",
       updatedDuration: "",
-      response: []
+      response: [],
+      render: true
     };
   },
 
   created: function() {
-    // Initializing services from backend
-    AXIOS.get("/bookableServices")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.services = response.data;
-      })
-      .catch(e => {
-        this.errorCreateService = e;
-        Vue.$toast.error(e.response.data, {
-        duration: 6000});
-      });
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+      this.render = true;
+      // Initializing services from backend
+      AXIOS.get("/bookableServices")
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.services = response.data;
+        })
+        .catch(e => {
+          this.errorCreateService = e;
+          Vue.$toast.error(e.response.data, {
+          duration: 6000});
+        });
+    }
   },
 
   methods: {

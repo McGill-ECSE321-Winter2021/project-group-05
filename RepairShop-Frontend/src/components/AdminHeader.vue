@@ -196,13 +196,13 @@ export default {
     border-radius: 10px;
 }
 #absent:hover {
-    background-color: firebrick;
+    background-color: lightskyblue;
     color: white;
     border: none;
     border-radius: 10px;
 }
 #present{
-    background-color: firebrick;
+    background-color: lightskyblue;
     color: white;
     border: none;
     border-radius: 10px;
@@ -215,7 +215,7 @@ export default {
     border-radius: 10px;
 }
 #logout:hover {
-    background-color: firebrick;
+    background-color: lightskyblue;
     color: white;
     border: none;
     border-radius: 10px;

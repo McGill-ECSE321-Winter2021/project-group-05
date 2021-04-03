@@ -126,16 +126,24 @@ const CustomerAppointmentPage = {
       cardNumber: "",
       cvv: "",
       expiry: "",
-      username: ""
+      username: "",
+      render: true
     };
   },
   created() {
-    this.currentUser = getCurrentUser();
-    this.username = this.currentUser.username;
-    this.getAllAppointments(this.currentUser.email);
-    this.getAllTimeSlots();
-    this.getAllServices();
-    this.getCardInfo();
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+    this.render = true;
+      this.currentUser = getCurrentUser();
+      this.username = this.currentUser.username;
+      this.getAllAppointments(this.currentUser.email);
+      this.getAllTimeSlots();
+      this.getAllServices();
+      this.getCardInfo();
+    }
   },
   methods: {
     editAppointment: function(id) {

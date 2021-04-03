@@ -1,7 +1,7 @@
 <template>
     <div id="container">
-        <CustomerHeader id="header"/>
-        <div id="appointmentpage__container">
+        <CustomerHeader id="header" v-if="this.render"/>
+        <div id="appointmentpage__container" v-if="this.render">
             <div class="bookHeader__container">
                 <h4 class="bookHeader">Book Appointment</h4>
             </div>
@@ -90,9 +90,9 @@
             </div>
         </div>
 
-        <!--UPCOMING APPOINTMENS-->
+        <!--UPCOMING APPOINTMENTS-->
 
-        <div id="upcoming__container">
+        <div id="upcoming__container" v-if="this.render">
               <div class="bookHeader__container">
                  <h4 class="bookHeader">Future Appointments</h4>
               </div>
@@ -119,7 +119,7 @@
                     </div>
                 </td>
                 <td>
-                    <!---EDIT APPOINTMEN----->
+                    <!---EDIT APPOINTMENT----->
 
                     <button v-b-modal.appointment.id @click="editAppointment(appointment.id)" class="update__button" id="edit__button">Edit</button>
                     <b-modal v-model="show" title="Edit Appointment" @ok="handleEdit(appointment.id, updatedDate)">
@@ -166,13 +166,15 @@
         </div>
 
         <!---PAST APPOINTMENT-->
-        <div id="past__container">
+        <div id="past__container" v-if="this.render">
             <div class="bookHeader__container">
                 <h4 class="bookHeader">Past Appointment</h4>
             </div>
             <b-table striped hover :items="pastAppointments"></b-table>
         </div>
-
+      <div v-if="!this.render">
+         <label>Please login to continue</label>
+      </div>
     </div>
 </template>
 

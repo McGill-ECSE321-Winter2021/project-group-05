@@ -33,8 +33,19 @@ export default {
       password: "",
       confirmPassword: "",
       personType: "",
-      show: false
+      show: false,
+      render: true
     };
+  },
+
+  created: function() {
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+          this.render = false;
+          console.log(this.render);
+    }
+    else {
+      this.render = true;
+    }
   },
   methods: {
     createAccount: async function(
