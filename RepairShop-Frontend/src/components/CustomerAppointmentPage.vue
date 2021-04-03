@@ -1,7 +1,7 @@
 <template>
     <div id="container">
-        <CustomerHeader id="header"/>
-        <div id="appointmentpage__container">
+        <CustomerHeader id="header" v-if="this.render"/>
+        <div id="appointmentpage__container" v-if="this.render">
             <div class="bookHeader__container">
                 <h4 class="bookHeader">Book Appointment</h4>
             </div>
@@ -23,7 +23,7 @@
                         >
                         </b-form-checkbox-group>
                     </div>
-                    
+
                 </div>
             </div>
               <!-- services selected-->
@@ -34,8 +34,8 @@
             <div id="bookbtn__container">
                 <b-button block id="bookbtn" @click="showBillModal()">Book an appointment</b-button>
                 <b-modal
-                 v-model="showBill" 
-                 title="Payment Information" 
+                 v-model="showBill"
+                 title="Payment Information"
                  @ok="handleBillOk()"
                  >
                     <p id="cost__container">Cost of Appointment <strong>{{cost}}</strong></p>
@@ -71,7 +71,7 @@
                                 required>
                             </b-form-input>
                         </b-form-group>
-                        
+
                         <b-form-group
                         label="Date (YYYY-MM-DD)"
                         label-for="name-input"
@@ -82,17 +82,17 @@
                                 required>
                             </b-form-input>
                         </b-form-group>
-                <!----payement information---> 
+                <!----payement information--->
                     <form ref="form" @submit.stop.prevent="handleSubmit">
-                     
+
                     </form>
                 </b-modal>
             </div>
         </div>
 
-        <!--UPCOMING APPOINTMENS-->
+        <!--UPCOMING APPOINTMENTS-->
 
-        <div id="upcoming__container">
+        <div id="upcoming__container" v-if="this.render">
               <div class="bookHeader__container">
                  <h4 class="bookHeader">Future Appointments</h4>
               </div>
@@ -119,14 +119,14 @@
                     </div>
                 </td>
                 <td>
-                    <!---EDIT APPOINTMEN----->
+                    <!---EDIT APPOINTMENT----->
 
                     <button v-b-modal.appointment.id @click="editAppointment(appointment.id)" class="update__button" id="edit__button">Edit</button>
                     <b-modal v-model="show" title="Edit Appointment" @ok="handleEdit(appointment.id, updatedDate)">
                             <b-container fluid>
                                 <b-row class="mb-4">
                                 <b-col cols="2">Date</b-col>
-                                
+
                                 <b-col>
                                 <div>
                                     <b-form-select v-model="updatedDate" :options="allTimeSlotsDates"  value-field="id" text-field="date"></b-form-select>
@@ -137,7 +137,7 @@
 
                                 <b-row class="mb-4">
                                 <b-col cols="2">Services</b-col>
-                            
+
                                 <b-col>
                                 <div>
                                     <b-form-select multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
@@ -145,7 +145,7 @@
                                 </div>
                                 </b-col>
                                 </b-row>
-                                
+
                             </b-container>
                     </b-modal>
                 </td>
@@ -166,13 +166,15 @@
         </div>
 
         <!---PAST APPOINTMENT-->
-        <div id="past__container">
+        <div id="past__container" v-if="this.render">
             <div class="bookHeader__container">
                 <h4 class="bookHeader">Past Appointment</h4>
             </div>
             <b-table striped hover :items="pastAppointments"></b-table>
         </div>
-
+      <div v-if="!this.render">
+         <label>Please login to continue</label>
+      </div>
     </div>
 </template>
 
@@ -221,7 +223,7 @@
 }
 
 #bookbtn__container{
-    
+
 }
 #bookbtn{
     outline:none;
@@ -267,7 +269,7 @@
    /* align-items: flex-end; */
    padding-left: 100px;
    padding-right: 100px;
-   
+
 }
 
 #serviceList__container{

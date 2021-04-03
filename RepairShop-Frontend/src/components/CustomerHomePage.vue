@@ -1,7 +1,7 @@
 <template>
 
   <div class ="outer_container">
-  <div class="header">
+  <div class="header" v-if="this.render">
   <!-- <AuthHeader v-bind:pageTitle="pageTitle"
   v-bind:button="login"/> -->
   <CustomerHeader />
@@ -9,7 +9,7 @@
 
 
   <!-- Slideshow container -->
-  <div class="slideshow-container">
+  <div class="slideshow-container" v-if="this.render">
 
     <!-- Full-width images with number and caption text -->
     <div class="mySlides">
@@ -37,20 +37,20 @@
   <br>
 
   <!-- The dots/circles -->
-  <div style="text-align:center">
+  <div style="text-align:center" v-if="this.render">
     <span class="dot" v-on:click="currentSlide(1)"></span>
     <span class="dot" v-on:click="currentSlide(2)"></span>
     <span class="dot" v-on:click="currentSlide(3)"></span>
   </div>
 
     <br>
-  <div class="map">
+  <div class="map" v-if="this.render">
 
   </div>
 
 
 
-    <div class="subscribe">
+    <div class="subscribe" v-if="this.render">
       <vue-mailchimp-email-signup-form
         :element-id="'first-email-signup-form'"
         :url="'https://gmail.us1.list-manage.com/subscribe/post?u=e052a68428b7bbf7ea4807ebc&amp;id=ad5339535a'"
@@ -59,7 +59,7 @@
       />
     </div>
 
-    <div class="contactUs">
+    <div class="contactUs" v-if="this.render">
       <h2>Contact Us</h2>
       <p>Email us at <a href = "mailto: repairshop@mail.ca" target="_blank">repairshop@mail.ca</a></p>
 
@@ -72,7 +72,7 @@
       <hr>
     </div>
 
-    <div>
+    <div v-if="this.render">
       <div class="social_media">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -80,12 +80,14 @@
         <a href="#" class="fa fa-facebook" style="text-decoration:none"></a>
         <a href="#" class="fa fa-twitter" style="text-decoration:none"></a>
       </div>
-      <footer>
+      <footer v-if="this.render">
         <p>© 2021 Repair Shop</p>
 
      </footer>
     </div>
-
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
   </div>
 </template>
 
