@@ -18,7 +18,11 @@
              <button id="absent" v-if="!businessTab" v-on:click="goToBusinessPage()">Business Manager</button>
             <span></span>
               <button id="present" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
-              <button id="absent" v-if="adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
+              <button id="absent" v-if="!adminAccountTab" v-on:click="goToAccountPage()">My Account </button>
+            <span></span>
+            <span></span>
+              <button id="present" v-if="addStaffTab" v-on:click="goToAddStaffPage()">Add Staff</button>
+              <button id="absent" v-if="!addStaffTab" v-on:click="goToAddStaffPage()">Add Staff</button>
             <span></span>
               <button id="logout" v-on:click="logout()">Logout</button>
             <span></span>
@@ -39,7 +43,8 @@ export default {
         appointmentManagerTab: false,
         serviceManagerTab: false,
         timeslotManagerTab: false,
-        adminAccountTab: false
+        adminAccountTab: false,
+        addStaffTab: false
       };
     },
     created: function(){
@@ -51,6 +56,7 @@ export default {
             this.serviceManagerTab = false;
             this.timeslotManagerTab = false;
             this.adminAccountTab = false;
+            this.addStaffTab = false;
         } else if (this.$router.history.current.path.localeCompare("/AdminHomePage") === 0) {
             console.log(this.$router.history.current.path);
             this.businessTab = false;
@@ -59,6 +65,7 @@ export default {
             this.serviceManagerTab = false;
             this.timeslotManagerTab = false;
             this.adminAccountTab = false;
+            this.addStaffTab = false;
         } else if (this.$router.history.current.path.localeCompare("/AdminAppointmentPage") === 0) {
             console.log(this.$router.history.current.path);
             this.businessTab = false;
@@ -67,6 +74,7 @@ export default {
             this.serviceManagerTab = false;
             this.timeslotManagerTab = false;
             this.adminAccountTab = false;
+            this.addStaffTab = false;
         } else if (this.$router.history.current.path.localeCompare("/ServicePageAdmin") === 0) {
             console.log(this.$router.history.current.path);
             this.businessTab = false;
@@ -75,6 +83,7 @@ export default {
             this.serviceManagerTab = true;
             this.timeslotManagerTab = false;
             this.adminAccountTab = false;
+            this.addStaffTab = false;
         } else if (this.$router.history.current.path.localeCompare("/TimeSlotPage") === 0) {
             console.log(this.$router.history.current.path);
             this.businessTab = false;
@@ -83,6 +92,7 @@ export default {
             this.serviceManagerTab = false;
             this.timeslotManagerTab = true;
             this.adminAccountTab = false;
+            this.addStaffTab = false;
         } else if (this.$router.history.current.path.localeCompare("/AdminAccountPage") === 0) {
             console.log(this.$router.history.current.path);
             this.businessTab = false;
@@ -91,6 +101,17 @@ export default {
             this.serviceManagerTab = false;
             this.timeslotManagerTab = false;
             this.adminAccountTab = true;
+            this.addStaffTab = false;
+        }
+        else if (this.$router.history.current.path.localeCompare("/AddStaffPage") === 0) {
+            console.log(this.$router.history.current.path);
+            this.businessTab = false;
+            this.homepageTab = false;
+            this.appointmentManagerTab = false;
+            this.serviceManagerTab = false;
+            this.timeslotManagerTab = false;
+            this.adminAccountTab = false;
+            this.addStaffTab = true;
         }
     },
     methods: {
@@ -135,6 +156,12 @@ export default {
             Router.push({
                 path: "/ServicePageAdmin",
                 name: "ServicePageAdmin"
+            })
+        },
+        goToAddStaffPage: function(){
+            Router.push({
+                path: "/AddStaffPage",
+                name: "AddStaffPage"
             })
         }
     }

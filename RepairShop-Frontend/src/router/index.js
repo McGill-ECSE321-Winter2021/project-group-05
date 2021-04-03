@@ -13,7 +13,7 @@ import ServiceCustomer from "../components/ServiceCustomer";
 import TechnicianHomePage from "../components/TechnicianHomePage";
 import TechnicianAppointmentPage from "../components/TechnicianAppointmentPage";
 import TechnicianAccountPage from "../components/TechnicianAccountPage";
-
+import AddStaffPage from "../components/AddStaffPage";
 
 Vue.use(Router);
 
@@ -24,9 +24,7 @@ export default new Router({
       path: "/",
       name: "CustomerHomePage",
       component: require("../components/CustomerHomePage.vue").default
-
     },
-
 
     {
       path: "/CustomerRegisterPage",
@@ -38,7 +36,6 @@ export default new Router({
       path: "/LoginPage",
       name: "LoginPage",
       component: require("../components/LoginPage.vue").default
-
     },
 
     {
@@ -100,7 +97,11 @@ export default new Router({
       path: "/TechnicianAccountPage",
       name: "TechnicianAccountPage",
       component: require("../components/TechnicianAccountPage.vue").default
-
+    },
+    {
+      path: "/AddStaffPage",
+      name: "AddStaffPage",
+      component: require("../components/AddStaffPage.vue").default
     }
   ]
 });
