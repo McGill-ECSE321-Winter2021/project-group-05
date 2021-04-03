@@ -85,28 +85,6 @@
     </div>
     </div>
   </div>
-    <!-- <div id="adminAccountForm">
-      <form>
-        <label>Username: </label>
-        <input required v-model="username" placeholder={{}}>
-
-        <label>Email:</label>
-        <input required type="email" v-model="email">
-
-        <label>Password:</label>
-        <input required type="password" v-model="password">
-
-        <label>Confirm Password</label>
-        <input required  v-model="confirmPassword" type="password">
-
-        <button id="save"v-on:click="updateAccount(username, email, password,confirmPassword)" style="border-radius: 10px;">
-          save</button>
-        <button id="delete" v-on:click="deleteAccount(email)" style="border-radius: 10px;">
-          delete</button>
-      </form>
-    </div>
-
-  </div> -->
 </template>
 
 <script src="./AdminAccountPage.js">
@@ -174,6 +152,9 @@ body {
 }
 
 .card {
+    margin-top: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.6s;
     background: #ffffff;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

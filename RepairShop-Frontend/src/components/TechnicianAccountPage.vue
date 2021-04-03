@@ -57,9 +57,7 @@
               <input v-model="confirmPassword" type="password" class="form-control" id="website" placeholder="Confirm password">
             </div>
           </div>
-        </div>
-
-        
+        </div>       
 
         <!---buttons ---> 
         <div class="row gutters">
@@ -68,7 +66,7 @@
               <b-button @click="showDeleteModal()" variant="outline-danger" type="button" id="submit" name="submit" >Delete Account</b-button>
               <b-modal v-model="showDelete" title="Delete Account" @ok="deleteAccount(email)">
                 <p id="warning">Are you sure you want to delete your account? This process is irreversible.</p>
-              </b-modal>z
+              </b-modal>
               <button @click="showUpdateModal()" type="button" id="submit" name="submit" class="btn btn-primary">
                 Update
               </button>
@@ -153,6 +151,9 @@ body {
 }
 
 .card {
+    margin-top: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
     background: #ffffff;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
