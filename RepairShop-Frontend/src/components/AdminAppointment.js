@@ -68,17 +68,21 @@ export default {
       );
     },
     assignAppointment: async function(appointmentId, technicianEmail) {
-      const response = await AXIOS.put(
+      const appointment = await AXIOS.put(
         `/assignAppointment/${appointmentId}` +
           `?` +
           `email=` +
           `${technicianEmail}`
       );
-      const technician = AXIOS.get(`/person/technician/${technicianEmail}`);
-      this.appointmentOfTechnicians.push({
-        apppointment: response.data,
-        technician: technician
-      });
+      AXIOS.get(`/person/technician/${technicianEmail}`)
+        .then(response => {
+          this.appointmentOfTechnicians.push({
+            apppointment: appointment.data,
+            technician: response.data
+          });
+          console.log(this.appointmentOfTechnicians);
+        })
+        .catch(error => {});
     },
     getAllAppointmentsOfTechnicians: function() {
       this.allTechnicians.forEach(technician => {
