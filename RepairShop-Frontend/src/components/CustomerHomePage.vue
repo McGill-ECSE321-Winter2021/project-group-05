@@ -2,11 +2,14 @@
 
   <div class ="outer_container">
 
-  <div class="header">
+  <div class="header" v-if="this.render">
   <CustomerHeader />
   </div>
-  <WelcomePage/>
-  </div>
+  <WelcomePage v-if="this.render"/>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
+
   </div>
 </template>
 

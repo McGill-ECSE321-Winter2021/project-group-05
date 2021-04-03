@@ -1,13 +1,16 @@
 <template>
   <div id="container">
-    <div id="adminHomeHeader">
+    <div id="adminHomeHeader" v-if="this.render">
 
         <AdminHeader />
 
     </div>
-    <div >
+    <div v-if="this.render">
       <WelcomePage />
     </div>
+     <div v-if="!this.render">
+       <label>Please login to continue</label>
+     </div>
   </div>
 </template>
 
@@ -24,7 +27,23 @@ export default {
 
         AdminHeader,
         WelcomePage
+    },
+  data() {
+    return {
+      render: true
+    };
+  },
+
+  created: function() {
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
     }
+    else {
+      this.render = true;
+    }
+  }
+
 
 }
 </script>
