@@ -12,7 +12,7 @@ public class TimeSlot
   private Date date;
   private Time startTime;
   private Time endTime;
-  private Long id;
+  private  Long id;
 
   //TimeSlot Associations
   private RepairShop repairShop;
