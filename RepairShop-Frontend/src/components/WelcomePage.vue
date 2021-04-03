@@ -1,27 +1,25 @@
 <template>
 
   <div class ="outer_container">
-
-
     <!-- Slideshow container -->
     <div class="slideshow-container">
 
       <!-- Full-width images with number and caption text -->
       <div class="mySlides">
         <div class="numbertext">1 / 3</div>
-        <img src="../assets/repairShop.png" style="width:100%">
+        <img src="../assets/promotion.jpg" style="width:100%;height: 500px">
         <div class="text">Caption Text</div>
       </div>
 
       <div class="mySlides">
         <div class="numbertext">2 / 3</div>
-        <img src="../assets/logo_draft1.png" style="width:100%">
+        <img src="../assets/logo_draft1.png" style="width:100%;height: 500px">
         <div class="text">Caption Two</div>
       </div>
 
       <div class="mySlides">
         <div class="numbertext">3 / 3</div>
-        <img src="../assets/logo.png" style="width:100%">
+        <img src="../assets/logo.png" style="width:100%;height: 500px">
         <div class="text">Caption Three</div>
       </div>
 
@@ -39,11 +37,35 @@
     </div>
 
     <br>
+    <div class="service">
+      <h2 style="display: block; margin-left: 10px;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experience Ever With Us</h2>
+    <!--service display-->
+    <div class="row">
+
+      <div class="column">
+        <img src="../assets/changeTire.jpg" alt="Change Tire" style="width:100%;margin-left: 20px;
+        height: 40vh;max-width: 80vh">
+        <p align="center" style="margin-top: 10px; ">Change Tire</p>
+      </div>
+      <div class="column">
+        <img src="../assets/wash_car.jpg" alt="Wash Car" style="width:100%;margin-right: 20px;height: 40vh;max-width: 80vh">
+        <p align="center" style="margin-top: 10px">Wash Car</p>
+      </div>
+      <div class="column">
+        <img src="../assets/fuel.jpeg" alt="fuel" style="width:100%;margin-left: 20px;height: 40vh;max-width: 80vh">
+        <p align="center" style="margin-top: 10px">Fuel Up</p>
+      </div>
+      <div class="column">
+        <img src="../assets/windowReplacement.jpeg" alt="windowReplacement" style="width:100%;margin-right: 20px;height: 40vh;max-width: 80vh">
+        <p align="center" style="margin-top: 10px">Window Replacement</p>
+      </div>
+    </div>
+    </div>
+
     <div class="map">
 
     </div>
-
-
 
     <div class="subscribe">
       <vue-mailchimp-email-signup-form
@@ -88,13 +110,21 @@
 
 import {VueMailchimpEmailSignupForm} from "vue-mailchimp-email-signup-form";
 
+
 export default {
   name: "WelcomePage",
   created(){
     this.showSlides(1);
+    var slides = document.getElementsByClassName("mySlides");
+    console.log("in created");
+    console.log(slides);
+    slides[0].style.display="block";
+    console.log(slides[0].style.display);
+
   },
   components: {
-    "vue-mailchimp-email-signup-form": VueMailchimpEmailSignupForm
+    "vue-mailchimp-email-signup-form": VueMailchimpEmailSignupForm,
+
   },
   data(){
     return{
@@ -128,6 +158,7 @@ export default {
 
       console.log(slides.length); // todo: slides length is 0
       console.log(slides);
+      if (slides.length != 0){
       for (var i = 0; i < slides.length; i++) {
         slides[i].style.background = "blue";
         slides[i].style.display = "none";
@@ -141,12 +172,27 @@ export default {
       slides.item(this.slideIndex - 1).style.display = "block";
       dots[this.slideIndex - 1].className += " active";
     }
+    }
   }
 }
 
 </script>
 
 <style>
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 50%;
+  padding: 20px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 
 .outer_container{
   width: 100%;
@@ -226,6 +272,7 @@ footer, .social_media{
   -webkit-animation-duration: 1.5s;
   animation-name: fade;
   animation-duration: 1.5s;
+  display: none;
 }
 
 /* Next & previous buttons */
@@ -301,5 +348,6 @@ footer, .social_media{
   from {opacity: .4}
   to {opacity: 1}
 }
+
 
 </style>
