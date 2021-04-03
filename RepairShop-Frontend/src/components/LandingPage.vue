@@ -12,7 +12,7 @@
 </div>
 </template>
 
-<script src="./LoginPage.js>
+<script src="./LandingPage.js">
 
 </script>
 

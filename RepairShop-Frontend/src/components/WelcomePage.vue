@@ -211,6 +211,8 @@ export default {
 </script>
 
 <style>
+body {background-color: white;}
+
 
 /* Three image containers (use 25% for four, and 50% for two, etc) */
 .column {
