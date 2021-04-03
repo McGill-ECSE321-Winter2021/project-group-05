@@ -1,9 +1,9 @@
 <template>
     <div>
         <TechnicianHeader />
-        <div>
-         <table id="table__container" >
-            <thead>
+        <div id="container"> 
+         <table class="table table-striped ">
+            <thead class="table-dark " >
                 <tr>
                 <th scope="col">Appointment id</th>
                 <th scope="col">Appointment Date</th>
@@ -30,5 +30,10 @@
 </script>
 
 <style scoped>
-
+#container{
+ margin-top: 20px;  
+ margin: 8px;
+ box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+ transition: 0.3s; 
+}
 </style>
