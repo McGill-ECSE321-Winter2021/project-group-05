@@ -32,7 +32,9 @@
           <div id="forgotAndSignContainer">
             <button id="forgotPassword__button">Forgot password?</button>
 
-            <button id="signin__button"  v-bind:disabled= "!currentUser.password|| !currentUser.email" v-on:click="loginUser(currentUser.email,currentUser.password, currentUser.personType )">Sign in </button>
+            <button id="signin__button"  v-bind:disabled= "!currentUser.password|| !currentUser.email"
+                    v-on:click="loginUser(currentUser.email,currentUser.password, currentUser.personType )"
+                   >Sign in </button>
 
           </div>
           <!-- Don't have an account-->
