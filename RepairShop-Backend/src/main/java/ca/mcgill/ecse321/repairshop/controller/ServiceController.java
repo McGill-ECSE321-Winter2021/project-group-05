@@ -83,4 +83,15 @@ public class ServiceController {
         }
         return new ResponseEntity<>("The service has been successfully deleted", HttpStatus.OK);
     }
+
+    //returns the cost given a list of services
+    @GetMapping(value = {"/costOfService", "/costOfService/"})
+    public ResponseEntity<?> getCostOfService(@RequestParam(value = "services") List<String> serviceNames){
+        float cost = 0f;
+        for(String name : serviceNames) {
+            BookableService bookableService = repairShopService.getService(name);
+            cost += bookableService.getCost();
+        }
+        return new ResponseEntity<>(cost, HttpStatus.OK);
+    }
 }

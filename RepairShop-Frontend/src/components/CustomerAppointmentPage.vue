@@ -11,7 +11,17 @@
                 </div>
                 <div id="selectdiv__container">
                    <div>
-                        <b-form-select id="select__container" multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select>
+                        <!-- <b-form-select id="select__container" multiple v-model="updatedServices" :options="allServiceNames" :select-size="8"></b-form-select> -->
+                        <b-form-checkbox-group
+                            v-model="updatedServices"
+                            :options="allServiceNames"
+                            class="mb-3"
+                            value-field="item"
+                            text-field="name"
+                            disabled-field="notEnabled"
+                            stacked
+                        >
+                        </b-form-checkbox-group>
                     </div>
                     
                 </div>
@@ -22,9 +32,60 @@
             </div>
 
             <div id="bookbtn__container">
-                <button id="bookbtn" @click="showBillModal()">Book an appointment</button>
-                <b-modal v-model="showBill" title="Modal Variants" @ok="handleBillOk()">
+                <b-button block id="bookbtn" @click="showBillModal()">Book an appointment</b-button>
+                <b-modal
+                 v-model="showBill" 
+                 title="Payment Information" 
+                 @ok="handleBillOk()"
+                 >
+                    <p id="cost__container">Cost of Appointment <strong>{{cost}}</strong></p>
+                       <b-form-group
+                        label="Name On Credit Card"
+                        label-for="name-input"
+                        invalid-feedback="Name is required">
+                            <b-form-input
+                                id="name-input"
+                                v-model="username"
+                                required>
+                            </b-form-input>
+                       </b-form-group>
 
+                        <b-form-group
+                        label="Card Number"
+                        label-for="name-input"
+                        invalid-feedback="Card Number is required">
+                            <b-form-input
+                                id="name-input"
+                                v-model="cardNumber"
+                                required>
+                            </b-form-input>
+                        </b-form-group>
+
+                        <b-form-group
+                        label="CVV"
+                        label-for="name-input"
+                        invalid-feedback="CVV is required">
+                            <b-form-input
+                                v-model="cvv"
+                                id="name-input"
+                                required>
+                            </b-form-input>
+                        </b-form-group>
+                        
+                        <b-form-group
+                        label="Date (YYYY-MM-DD)"
+                        label-for="name-input"
+                        invalid-feedback="Date is required">
+                            <b-form-input
+                                id="name-input"
+                                v-model="expiry"
+                                required>
+                            </b-form-input>
+                        </b-form-group>
+                <!----payement information---> 
+                    <form ref="form" @submit.stop.prevent="handleSubmit">
+                     
+                    </form>
                 </b-modal>
             </div>
         </div>
@@ -35,8 +96,8 @@
               <div class="bookHeader__container">
                  <h4 class="bookHeader">Future Appointments</h4>
               </div>
-            <table id="requested_appointments" class="table table-hover table-dark ">
-                <thead>
+            <table id="requested_appointments" class="table table-hover table-bordered border-primary" >
+                <thead class="table-dark">
                 <tr>
                     <th>Date</th>
                     <th>Start Time</th>
@@ -44,23 +105,24 @@
                     <th>Services</th>
                     <th>Edit Appointment</th>
                     <th>Cancel Appointment</th>
+
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-bind:key="appointment.id" v-for="appointment in upcomingAppointments">
-                <td>{{ appointment.timeSlot.date }}</td>
-                <td>{{ appointment.timeSlot.startTime }}</td>
-                <td>{{ appointment.timeSlot.endTime }}</td>
+                <td> <strong>{{ appointment.timeSlot.date }}</strong></td>
+                <td><strong>{{ appointment.timeSlot.startTime }}</strong></td>
+                <td><strong>{{ appointment.timeSlot.endTime }}</strong></td>
                 <td>
                     <div  v-bind:key="service.id" v-for="service in appointment.services">
-                        <tr>{{service.name}}</tr>
+                        <tr><strong>{{service.name}}</strong></tr>
                     </div>
                 </td>
                 <td>
                     <!---EDIT APPOINTMEN----->
 
                     <button v-b-modal.appointment.id @click="editAppointment(appointment.id)" class="update__button" id="edit__button">Edit</button>
-                    <b-modal v-model="show" title="Modal Variants" @ok="handleOk(appointment.id, updatedDate)">
+                    <b-modal v-model="show" title="Edit Appointment" @ok="handleEdit(appointment.id, updatedDate)">
                             <b-container fluid>
                                 <b-row class="mb-4">
                                 <b-col cols="2">Date</b-col>
@@ -92,9 +154,9 @@
 
                 <td>
                     <button @click="cancelAppointment(appointment.id)" class="update__button" id="cancel__button">Cancel</button>
-                    <b-modal  v-model="showCancel" title="Modal Variants" @ok="handleCancel(appointment.id)">
+                    <b-modal  v-model="showCancel" title="Cancel Appointment" @ok="handleCancel(appointment.id)">
                         <div class="d-block text-center">
-                          <h3>Are you sure you want to cancel this appointment?</h3>
+                          <h3 id="cancel__warning">Are you sure you want to cancel this appointment?</h3>
                         </div>
                     </b-modal>
                 </td>
@@ -123,6 +185,16 @@
     transition: 0.3s;
 }
 #container{
+    background-color: lightgray;
+}
+
+#cancel__warning{
+    color: red;
+}
+
+#cost__container{
+    font-size: 25;
+    margin-left: 120px;
 }
 #appointmentpage__container{
     display: flex;
@@ -130,6 +202,9 @@
     justify-content: flex-start;
     margin: 16px;
     background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 8px;
 }
 #upcomingappontmenpage__container{
     display: flex;
@@ -146,9 +221,7 @@
 }
 
 #bookbtn__container{
-    width: 25%;
-    align-self: center;
-    display: flex;
+    
 }
 #bookbtn{
     outline:none;
@@ -168,18 +241,21 @@
 }
 
 .bookHeader{
+    padding-top: 8px;
     margin: 0 auto;
     width: 20%;
     font-family: Arial, Helvetica, sans-serif;
 }
 #date__container{
-    margin-left: 16px;
+    /* margin-left: 16px; */
 }
 
 #dateAndService__container{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    margin-left: 50px;
+    margin-right: 50px;
+    justify-content:center
 }
 
 #select__container{
@@ -188,7 +264,10 @@
 }
 
 #selectdiv__container{
-   align-items: flex-end;
+   /* align-items: flex-end; */
+   padding-left: 100px;
+   padding-right: 100px;
+   
 }
 
 #serviceList__container{
@@ -202,6 +281,8 @@
     margin: 16px;
     border-radius: 16px;
     background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
 
 h5{
