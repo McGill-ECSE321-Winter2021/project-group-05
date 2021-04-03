@@ -64,8 +64,19 @@ const AdminAppointmentPage = {
       allAppointmentsFormated: [],
       upcomingAppointments: [],
       pastAppointments: [],
-      error: ""
+      error: "",
+      render: true
     };
+  },
+
+  created: function() {
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+      this.render = true;
+    }
   },
   methods: {
     getAllAppointments: function() {
