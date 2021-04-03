@@ -1,7 +1,7 @@
 <template>
     <div id="adminHomeHeader">
-        <AdminHeader />
-        <div id="adminHome">
+        <AdminHeader v-if="this.render"/>
+        <div id="adminHome" v-if="this.render">
 
                      <div class="bookHeader__container">
                                     <h4 class="bookHeader">Welcome, Admin</h4>
@@ -22,6 +22,9 @@
                               <button id="logout"v-on:click=" " style="border-radius: 10px;">
                                                                         Logout </button>
         </div>
+        <div v-if="!this.render">
+           <label>Please login to continue</label>
+        </div>
     </div>
 </template>
 
@@ -36,7 +39,21 @@ export default {
     name: "AdminHomePage",
     components: {
         AdminHeader
-    }
+    },
+    data() {
+        return {
+          render: true
+        };
+    },
+    created: function() {
+        if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+           this.render = false;
+           console.log(this.render);
+        }
+        else {
+          this.render = true;
+        }
+      }
 }
 </script>
 

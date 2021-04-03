@@ -45,14 +45,22 @@ export default {
       showUpdate: false,
       cvv: "",
       cardNumber: "",
-      expiry: ""
+      expiry: "",
+      render: true
     };
   },
 
   created: function() {
-    this.username = localStorage.getItem("savedCustomerName");
-    this.email = localStorage.getItem("savedCustomerEmail");
-    this.getCustomer();
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+      this.render = true;
+      this.username = localStorage.getItem("savedCustomerName");
+      this.email = localStorage.getItem("savedCustomerEmail");
+      this.getCustomer();
+    }
   },
 
   methods: {

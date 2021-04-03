@@ -70,6 +70,7 @@ export default {
         },
 
         logout: function(){
+         localStorage.setItem('loggedInEmail', "null");
          Router.replace({path: "/",
            name: 'LoginPage'})
 

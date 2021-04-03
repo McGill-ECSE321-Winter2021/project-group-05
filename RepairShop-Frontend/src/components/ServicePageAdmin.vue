@@ -1,6 +1,7 @@
 <template>
-  <div id="CreateService" align=CENTER>
-      <AdminHeader />
+  <div align=CENTER>
+      <AdminHeader v-if="this.render" />
+    <div align=CENTER id="CreateService" v-if="this.render">
     <h1 align=CENTER> </h1>
 
     <table align=CENTER id="availableServices" style="display: inline-block;" width="auto">
@@ -90,6 +91,10 @@
       <span align=CENTER v-if="errorEditService" style="color:red">{{errorEditService}}</span>
       <span align=CENTER v-if="errorDeleteService" style="color:red">{{errorDeleteService}}</span>-->
     </p>
+  </div>
+  <div v-if="!this.render">
+    <label>Please login to continue</label>
+  </div>
   </div>
 </template>
 
