@@ -53,6 +53,30 @@ const TechnicianAccountPage = {
 
   methods: {
     showUpdateModal: function() {
+      if (this.email === "" || this.email === null) {
+        Vue.$toast.error(`Email cannot be empty`, {
+          duration: 2000
+        });
+        return;
+      }
+      if (this.username === "" || this.username === null) {
+        Vue.$toast.error(`Username cannot be empty`, {
+          duration: 2000
+        });
+        return;
+      }
+      if (this.password === "" || this.confirmPassword === "") {
+        Vue.$toast.error(`Username cannot be empty`, {
+          duration: 2000
+        });
+        return;
+      }
+      if (this.password !== this.confirmPassword) {
+        Vue.$toast.error(`Passwords do not match`, {
+          duration: 2000
+        });
+        return;
+      }
       this.showUpdate = true;
     },
     updateAccount: function(username, email, password, confirmPassword) {

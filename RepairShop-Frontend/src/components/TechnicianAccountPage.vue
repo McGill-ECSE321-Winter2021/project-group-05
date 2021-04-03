@@ -68,11 +68,11 @@
               <b-button @click="showDeleteModal()" variant="outline-danger" type="button" id="submit" name="submit" >Delete Account</b-button>
               <b-modal v-model="showDelete" title="Delete Account" @ok="deleteAccount(email)">
                 <p id="warning">Are you sure you want to delete your account? This process is irreversible.</p>
-              </b-modal>
+              </b-modal>z
               <button @click="showUpdateModal()" type="button" id="submit" name="submit" class="btn btn-primary">
                 Update
               </button>
-               <b-modal v-model="showUpdate" title="Update Account" @ok="updateAccount(username, email, password,confirmPassword, cvv, cardNumber, expiry)">
+               <b-modal v-model="showUpdate" title="Update Account" @ok="updateAccount(username, email, password,confirmPassword)">
                 <p id="update">Are you sure you want to update your account details?</p>
               </b-modal>
             </div>
@@ -85,35 +85,6 @@
     </div>
     </div>
   </div>
-
-    <!-- <div id="accountForm">
-      <form>
-
-
-        <label>Username</label>
-        <input required v-model="username" v-bind:placeholder=$data.username>
-
-
-        <label>Email</label>
-        <input required type="email" v-model="email"  v-bind:placeholder=$data.email>
-
-
-        <label>Password</label>
-        <input required  v-model="password" type="password">
-
-        <label>Confirm Password</label>
-        <input required  v-model="confirmPassword" type="password">
-
-
-     <button id="save"v-on:click="updateAccount(username, email, password,confirmPassword)" style="border-radius: 10px;">
-       save</button>
-      <button id="delete" v-on:click="deleteAccount(email)" style="border-radius: 10px;">
-        delete</button>
-
-
-    </form>
-    </div>
-  </div> -->
 </template>
 
 <script src = "./TechnicianAccount.js">
