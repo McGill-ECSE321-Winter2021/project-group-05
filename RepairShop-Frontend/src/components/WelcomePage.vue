@@ -7,20 +7,20 @@
       <!-- Full-width images with number and caption text -->
       <div class="mySlides">
         <div class="numbertext">1 / 3</div>
-        <img src="../assets/promotion.jpg" style="width:100%;height: 500px">
-        <div class="text">Caption Text</div>
+        <img src="../assets/promotion.jpg" style="width:100%;height: 500px; display: block">
+
       </div>
 
       <div class="mySlides">
         <div class="numbertext">2 / 3</div>
-        <img src="../assets/logo_draft1.png" style="width:100%;height: 500px">
-        <div class="text">Caption Two</div>
+        <img src="../assets/welcome.jpg" style="width:100%;height: 500px">
+
       </div>
 
       <div class="mySlides">
         <div class="numbertext">3 / 3</div>
-        <img src="../assets/logo.png" style="width:100%;height: 500px">
-        <div class="text">Caption Three</div>
+        <img src="../assets/repairShop.jpg" style="width:100%;height: 500px">
+
       </div>
 
       <!-- Next and previous buttons -->
@@ -63,11 +63,35 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experienc
     </div>
     </div>
 
-    <div class="map">
-
+    <div class="map" >
+      <h2 style="display: block; margin-left: 20px;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Where to Find Us?</h2>
+      <div class="row">
+      <div class="column">
+      <GmapMap map-type-id="roadmap" :zoom="15"
+               :center="{lat: 45.5047884, lng: -73.5793451}"
+               :position="{lat: 45.5047884, lng: -73.5793451}"
+               style="width: 100%; height: 400px; margin-left: 20px;max-width: 80vh">
+      </GmapMap>
+      </div>
+      <div class="column">
+        <h2 style="display: block;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Address:</h2>
+        <br>
+        <h3 tyle="display: block;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">845 Sherbrooke St W, Montreal, Quebec H3A 0G4</h3>
+        <br>
+        <h2 style="display: block;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Business Phone Number:</h2>
+        <br>
+        <h3 tyle="display: block;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">514-849-0000</h3>
+        </div>
     </div>
+      </div>
+    <br>
 
-    <div class="subscribe">
+    <div class="subscribe" align="center">
       <vue-mailchimp-email-signup-form
         :element-id="'first-email-signup-form'"
         :url="'https://gmail.us1.list-manage.com/subscribe/post?u=e052a68428b7bbf7ea4807ebc&amp;id=ad5339535a'"
@@ -109,17 +133,20 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experienc
 <script>
 
 import {VueMailchimpEmailSignupForm} from "vue-mailchimp-email-signup-form";
+import * as VueGoogleMaps from 'vue2-google-maps';
+import Vue from 'vue';
 
+Vue.use( VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyAynLP1uHulI_p5eXizGNNbx0nhkALPydM',
+    libraries: 'places',
+  },
+})
 
 export default {
   name: "WelcomePage",
   created(){
     this.showSlides(1);
-    var slides = document.getElementsByClassName("mySlides");
-    console.log("in created");
-    console.log(slides);
-    slides[0].style.display="block";
-    console.log(slides[0].style.display);
 
   },
   components: {
@@ -199,9 +226,9 @@ export default {
 }
 
 .subscribe{
-
-  margin-left: 30%;
-  margin-right: 30%;
+    margin-left: 30%;
+    margin-right: 30%;
+    width:auto;
 
 }
 #button {
@@ -261,7 +288,7 @@ footer, .social_media{
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
+  max-width: 2000px;
   position: relative;
   margin: auto;
 }
