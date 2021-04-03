@@ -3,8 +3,8 @@
     <AdminHeader v-if="this.render" />
     <div class="container"  v-if="this.render">
     <div class="row gutters">
-    
-    <!----PERSONAL DETAILS TEXT --> 
+
+    <!----PERSONAL DETAILS TEXT -->
     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
       <div class="card-body">
@@ -25,7 +25,7 @@
     </div>
     </div>
 
-    <!------PERSONAL DETAILS  FORM--> 
+    <!------PERSONAL DETAILS  FORM-->
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
       <div class="card-body">
@@ -36,19 +36,19 @@
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
               <label for="fullName">Username</label>
-              <input  v-model="username" type="text" class="form-control" id="fullName" placeholder="Enter full name">
+              <input  v-model="username" type="text" class="form-control" id="fullName" placeholder="Enter username">
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
               <label for="eMail">Email</label>
-              <input v-model="email"  type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+              <input v-model="email"  type="email" class="form-control" id="eMail" placeholder="Enter email">
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
               <label for="phone">Password</label>
-              <input v-model="password" type="password" class="form-control" id="phone" placeholder="Enter Password">
+              <input v-model="password" type="password" class="form-control" id="phone" placeholder="Enter password">
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -59,9 +59,9 @@
           </div>
         </div>
 
-        
 
-        <!---buttons ---> 
+
+        <!---buttons --->
         <div class="row gutters">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="text-right">

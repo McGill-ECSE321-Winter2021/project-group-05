@@ -38,7 +38,7 @@
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
               <label for="fullName">Business Name</label>
-              <input  v-model="name" type="text" class="form-control" id="fullName" placeholder="Enter full name">
+              <input  v-model="name" type="text" class="form-control" id="fullName" placeholder="Enter business name">
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -50,13 +50,13 @@
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
               <label for="phone">Business Address</label>
-              <input v-model="address" type="text" class="form-control" id="phone" placeholder="Enter Password">
+              <input v-model="address" type="text" class="form-control" id="phone" placeholder="Enter business address">
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div class="form-group">
-              <label for="website">Business PhoneNumber</label>
-              <input v-model="phoneNumber" type="text" class="form-control" id="website" placeholder="Confirm password">
+              <label for="website">Business Phone Number</label>
+              <input v-model="phoneNumber" type="text" class="form-control" id="website" placeholder="Enter phone number">
             </div>
           </div>
         </div>
