@@ -40,14 +40,22 @@ const TechnicianAccountPage = {
       email: "",
       password:"",
       confirmPassword:"",
-      error: ""
+      error: "",
+      render: true
     };
   },
 
   created: function() {
-      this.username = localStorage.getItem('savedTechnicianName');
-      this.email = localStorage.getItem('savedTechnicianEmail');
-      this.password = localStorage.getItem('savedTechnicianPassword');
+      if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+          this.render = false;
+          console.log(this.render);
+      }
+      else {
+        this.render = true;
+        this.username = localStorage.getItem('savedTechnicianName');
+        this.email = localStorage.getItem('savedTechnicianEmail');
+        this.password = localStorage.getItem('savedTechnicianPassword');
+      }
   },
 
 

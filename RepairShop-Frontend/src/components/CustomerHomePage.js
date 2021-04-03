@@ -23,7 +23,14 @@ const CustomerHomePage = {
     WelcomePage
   },
   created() {
-    this.showSlides(1);
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+      this.render = true;
+      this.showSlides(1);
+    }
   },
   data() {
     return {
@@ -37,7 +44,8 @@ const CustomerHomePage = {
       error: "",
       login: "log-in",
       link: "/LoginPage",
-      slideIndex: 0
+      slideIndex: 0,
+      render: true
     };
   }
 };

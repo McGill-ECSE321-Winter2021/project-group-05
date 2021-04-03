@@ -34,21 +34,29 @@ export default {
       },
       errorCreateService: "",
       returnedService: "",
-      response: []
+      response: [],
+      render: true
     };
   },
 
   created: function() {
-    // new added
-    // Initializing services from backend
-    AXIOS.get("/bookableServices")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.services = response.data;
-      })
-      .catch(e => {
-        this.errorCreateService = e;
-      });
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+        console.log(this.render);
+    }
+    else {
+      this.render = true;
+      // new added
+      // Initializing services from backend
+      AXIOS.get("/bookableServices")
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.services = response.data;
+        })
+        .catch(e => {
+          this.errorCreateService = e;
+        });
+    }
   },
 
   methods: {

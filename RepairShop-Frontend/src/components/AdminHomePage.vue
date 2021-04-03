@@ -1,6 +1,7 @@
 <template>
   <div id="container">
     <div id="adminHomeHeader">
+
         <AdminHeader />
 
     </div>
@@ -20,9 +21,11 @@ import WelcomePage from '../components/WelcomePage.vue'
 export default {
     name: "AdminHomePage",
     components: {
+
         AdminHeader,
         WelcomePage
     }
+
 }
 </script>
 

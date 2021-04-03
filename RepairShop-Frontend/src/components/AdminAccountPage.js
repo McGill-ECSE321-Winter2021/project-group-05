@@ -35,14 +35,21 @@ const AdminAccountPage =  {
       email: "",
       password:"",
       confirmPassword:'',
-      error: ""
+      error: "",
+      render: true
     };
   },
 
   created: function() {
-      this.username = localStorage.getItem('savedAdminName');
-      this.email = localStorage.getItem('savedAdminEmail');
-      this.password = localStorage.getItem('savedAdminPassword');
+      if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+        this.render = false;
+      }
+      else {
+        this.render = true;
+        this.username = localStorage.getItem('savedAdminName');
+        this.email = localStorage.getItem('savedAdminEmail');
+        this.password = localStorage.getItem('savedAdminPassword');
+      }
   },
 
 

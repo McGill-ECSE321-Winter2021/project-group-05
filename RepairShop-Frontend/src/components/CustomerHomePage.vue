@@ -1,11 +1,12 @@
 <template>
 
   <div class ="outer_container">
+
   <div class="header">
   <CustomerHeader />
   </div>
   <WelcomePage/>
-
+  </div>
   </div>
 </template>
 

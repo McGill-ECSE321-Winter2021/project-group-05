@@ -1,5 +1,6 @@
 <template>
-  <div id="CreateService">
+  <div>
+    <div id="CreateService" v-if="this.render">
     <h2>RepairShop</h2>
     <label align=CENTER>Create new service</label>
     <label align=CENTER> </label>
@@ -29,6 +30,10 @@
     <p>
       <span v-if="errorCreateService" style="color:red">Error: {{errorCreateService}}</span>
     </p>
+    </div>
+    <div v-if="!this.render">
+       <label>Please login to continue</label>
+    </div>
   </div>
 </template>
 

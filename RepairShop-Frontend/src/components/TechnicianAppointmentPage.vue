@@ -1,7 +1,7 @@
 <template>
     <div>
-        <TechnicianHeader />
-        <div>
+        <TechnicianHeader v-if="this.render"/>
+        <div v-if="this.render">
          <table id="table__container" >
             <thead>
                 <tr>
@@ -23,6 +23,9 @@
             </tbody>
         </table>
         </div>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
     </div>
 </template>
 

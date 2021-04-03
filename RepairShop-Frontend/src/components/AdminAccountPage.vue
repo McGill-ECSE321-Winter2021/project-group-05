@@ -1,7 +1,7 @@
 <template>
   <div>
-    <AdminHeader />
-    <div id="adminAccountForm">
+    <AdminHeader v-if="this.render" />
+    <div id="adminAccountForm" v-if="this.render">
       <form>
         <label>Username: </label>
         <input required v-model="username" placeholder={{}}>
@@ -20,6 +20,9 @@
         <button id="delete" v-on:click="deleteAccount(email)" style="border-radius: 10px;">
           delete</button>
       </form>
+    </div>
+    <div v-if="!this.render">
+       <label>Please login to continue</label>
     </div>
 
   </div>
