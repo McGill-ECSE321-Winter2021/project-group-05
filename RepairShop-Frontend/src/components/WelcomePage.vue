@@ -82,7 +82,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Address:</h2>
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">845 Sherbrooke St W, Montreal, Quebec H3A 0G4</h3>
         <br>
         <h2 style="display: block;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Business Phone Number:</h2>
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Phone Number:</h2>
         <br>
         <h3 tyle="display: block;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">514-849-0000</h3>
