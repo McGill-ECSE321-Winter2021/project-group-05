@@ -4,7 +4,9 @@ import AuthHeader from "./AuthHeader";
 import Vue from 'vue';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
-
+import CustomerHomePage from '@/components/CustomerHomePage';
+import AdminHomePage from '@/components/AdminHomePage';
+import TechnicianHomePage from '@/components/TechnicianHomePage';
 
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -47,19 +49,21 @@ export default {
 
   methods: {
     loginUser: function(email, password, personType) {
+
       if (personType == "Customer") {
         this.loginCustomer(email, password);
-        this.currentUser.email= email;
-        this.currentUser.password= password;
         return;
+
       }
       if (personType == "Technician") {
         this.loginTechnician(email, password);
         return;
+
       }
       if (personType == "Admin") {
         this.loginAdmin(email, password);
         return;
+
       }
       this.error = "You need to select a role";
       Vue.$toast.error('You need to select a role', {
@@ -67,19 +71,11 @@ export default {
     },
 
     loginCustomer: function(email, password) {
+      console.log("goto-->");
       const customerDto = new CustomerDto(email, password);
       AXIOS.post("person/customer/login", customerDto)
         .then(response => {
-//          console.log(response.data);
-//          console.log(response.data);
-//          this.currentUser.username = response.data.username;
-//          this.currentUser.email = response.data.email;
-//          this.currentUser.password = response.data.password;
-//          this.currentUser.personType = response.data.personType;
-//          console.log(this.currentUser.username);
-//          console.log(this.currentUser.email);
-//          console.log(this.currentUser.password);
-//          console.log(this.currentUser.personType);
+
           localStorage.setItem('savedCustomerEmail', response.data.email);
           localStorage.setItem('savedCustomerName', response.data.username);
           localStorage.setItem('savedCustomerPassword', response.data.password);
@@ -106,6 +102,7 @@ export default {
           localStorage.setItem('savedTechnicianName', response.data.username);
           localStorage.setItem('savedTechnicianPassword', response.data.password);
           localStorage.setItem('loggedInEmail', response.data.email);
+          console.log("going in...");
           this.goToTechinicianHomePage();
         })
         .catch(e => {
@@ -137,6 +134,7 @@ export default {
         });
     },
     goToCreateAccountPage: function() {
+
       Router.push({
         path: "/CustomerRegisterPage",
         name: "CustomerRegisterPage"
