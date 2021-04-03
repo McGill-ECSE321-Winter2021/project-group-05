@@ -35,7 +35,7 @@ export default {
       console.log(this.render);
     }
     else {
-      this.render = false;
+      this.render = true;
       this.getAllTechnicians();
       this.getAllAppointments();
       this.getAllTimeSlots();

@@ -320,7 +320,7 @@ The project report for this deliverable can be found [here](https://github.com/M
         <ul>
           <li>Person classes </li>
         </ul></td>
-    <td align="center">22</td>
+    <td align="center">30</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
