@@ -14,7 +14,7 @@
     <div id="dateAndService__container">
       <div id="date__container">
         <VueCtkDateTimePicker v-bind:format="'YYYY-MM-DD hh:mm a'"
-                              v-model="date" />
+                           v-model="date"  />
       </div>
     </div>
 
@@ -33,23 +33,23 @@
       <button @click="minSplitWidth = minSplitWidth ? 0 : 200">
         {{ minSplitWidth ? 'min split width: 200px' : 'Add min split width' }}
       </button>
-      <button @click="stickySplitLabels = !stickySplitLabels">
-        Sticky Split Labels
-      </button>
       <button @click="splitDays[1].hide = !splitDays[1].hide">
         Show/Hide Dad
       </button>
 
-      <vue-cal
-               :time-from="8 * 60"
+      <vue-cal v-model="date"
+               :time-from="9 * 60"
+               :time-to="19 * 60"
                :time-step="30"
                :disable-views="['years', 'year', 'month']"
                editable-events
                :events="events"
                :split-days="splitDays"
-               :sticky-split-labels="stickySplitLabels"
                :min-cell-width="minCellWidth"
-               :min-split-width="minSplitWidth">
+               :min-split-width="minSplitWidth"
+               :todayButton="true"
+               @ready="events"
+               >
       </vue-cal>
 
     </div>
@@ -72,8 +72,9 @@
   text-align: center;
   margin:5% auto;
   margin-left: 10px;
-
+  margin-right: 10px;
 
 }
+.vue-cal__now-line {color: #06c;}
 
 </style>
