@@ -13,8 +13,7 @@ import ServiceCustomer from "../components/ServiceCustomer";
 import TechnicianHomePage from "../components/TechnicianHomePage";
 import TechnicianAppointmentPage from "../components/TechnicianAppointmentPage";
 import TechnicianAccountPage from "../components/TechnicianAccountPage";
-
-import WelcomePage from "../components/WelcomePage";
+import slides_gallery from "../components/slides_gallery"
 
 
 import AddStaffPage from "../components/AddStaffPage";
@@ -25,6 +24,7 @@ Vue.use(Router);
 export default new Router({
   mode: "hash",
   routes: [
+
     {
     path: "/",
     name: "HomePage",
