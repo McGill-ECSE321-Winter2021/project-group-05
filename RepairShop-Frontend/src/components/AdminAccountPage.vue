@@ -1,7 +1,7 @@
 <template>
   <div>
-    <AdminHeader />
-    <div class="container">
+    <AdminHeader v-if="this.render" />
+    <div class="container"  v-if="this.render">
     <div class="row gutters">
     
     <!----PERSONAL DETAILS TEXT --> 
@@ -84,6 +84,10 @@
     </div>
     </div>
     </div>
+    <div v-if="!this.render">
+       <label>Please login to continue</label>
+    </div>
+
   </div>
 </template>
 

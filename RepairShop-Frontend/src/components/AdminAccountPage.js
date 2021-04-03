@@ -37,7 +37,8 @@ const AdminAccountPage = {
       confirmPassword: "",
       error: "",
       showDelete: false,
-      showUpdate: false
+      showUpdate: false,
+      render: true
     };
   },
 
@@ -46,6 +47,14 @@ const AdminAccountPage = {
     this.email = localStorage.getItem("savedAdminEmail");
     this.password = localStorage.getItem("savedAdminPassword");
     this.confirmPassword = localStorage.getItem("savedAdminPassword");
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+    } else {
+      this.render = true;
+      this.username = localStorage.getItem("savedAdminName");
+      this.email = localStorage.getItem("savedAdminEmail");
+      this.password = localStorage.getItem("savedAdminPassword");
+    }
   },
 
   methods: {

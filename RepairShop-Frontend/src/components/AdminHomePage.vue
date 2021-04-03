@@ -1,28 +1,14 @@
 <template>
+  <div id="container">
     <div id="adminHomeHeader">
+
         <AdminHeader />
-        <div id="adminHome">
 
-                     <div class="bookHeader__container">
-                                    <h4 class="bookHeader">Welcome, Admin</h4>
-                      </div>
-
-                      <button id="Account"v-on:click=" " style="border-radius: 10px;">
-                             Account</button>
-
-                         <button id="business" v-on:click="" style="border-radius: 10px;">
-                              Business Manager</button>
-
-                           <button id="viewAppointmentcalendar"v-on:click=" " style="border-radius: 10px;">
-                                                   Appointment Manager</button>
-
-                            <button id="service"v-on:click=" " style="border-radius: 10px;">
-                                                                        Service Manager </button>
-
-                              <button id="logout"v-on:click=" " style="border-radius: 10px;">
-                                                                        Logout </button>
-        </div>
     </div>
+    <div >
+      <WelcomePage />
+    </div>
+  </div>
 </template>
 
 
@@ -31,12 +17,15 @@
 
 <script>
 import AdminHeader from './AdminHeader'
-
+import WelcomePage from '../components/WelcomePage.vue'
 export default {
     name: "AdminHomePage",
     components: {
-        AdminHeader
+
+        AdminHeader,
+        WelcomePage
     }
+
 }
 </script>
 

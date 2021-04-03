@@ -25,14 +25,22 @@ export default {
       appointmentOfTechnicians: [],
       allTimeslots: [],
       appointmentId: "",
-      technicianEmail: ""
+      technicianEmail: "",
+      render: true
     };
   },
   created() {
-    this.getAllTechnicians();
-    this.getAllAppointments();
-    this.getAllTimeSlots();
-    this.getAllAppointmentsOfTechnicians();
+    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+      this.render = false;
+      console.log(this.render);
+    }
+    else {
+      this.render = false;
+      this.getAllTechnicians();
+      this.getAllAppointments();
+      this.getAllTimeSlots();
+      this.getAllAppointmentsOfTechnicians();
+    }
   },
 
   methods: {

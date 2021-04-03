@@ -82,6 +82,9 @@
     </div>
     </div>
     </div>
+    <div v-if="!this.render">
+      <label>Please login to continue</label>
+    </div>
   </div>
 </template>
 

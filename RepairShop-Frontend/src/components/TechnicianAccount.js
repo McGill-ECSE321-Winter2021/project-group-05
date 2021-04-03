@@ -40,7 +40,8 @@ const TechnicianAccountPage = {
       confirmPassword: "",
       error: "",
       showDelete: false,
-      showUpdate: false
+      showUpdate: false,
+      render: true
     };
   },
 
@@ -49,6 +50,15 @@ const TechnicianAccountPage = {
     this.email = localStorage.getItem("savedTechnicianEmail");
     this.password = localStorage.getItem("savedTechnicianPassword");
     this.confirmPassword = localStorage.getItem("savedTechnicianPassword");
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
+      this.render = true;
+      this.username = localStorage.getItem("savedTechnicianName");
+      this.email = localStorage.getItem("savedTechnicianEmail");
+      this.password = localStorage.getItem("savedTechnicianPassword");
+    }
   },
 
   methods: {

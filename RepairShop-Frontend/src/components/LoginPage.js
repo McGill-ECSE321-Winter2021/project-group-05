@@ -83,6 +83,7 @@ export default {
           localStorage.setItem('savedCustomerEmail', response.data.email);
           localStorage.setItem('savedCustomerName', response.data.username);
           localStorage.setItem('savedCustomerPassword', response.data.password);
+          localStorage.setItem('loggedInEmail', response.data.email);
           this.error = "";
           this.goToCustomerHomePage();
         })
@@ -104,6 +105,7 @@ export default {
           localStorage.setItem('savedTechnicianEmail', response.data.email);
           localStorage.setItem('savedTechnicianName', response.data.username);
           localStorage.setItem('savedTechnicianPassword', response.data.password);
+          localStorage.setItem('loggedInEmail', response.data.email);
           this.goToTechinicianHomePage();
         })
         .catch(e => {
@@ -124,6 +126,7 @@ export default {
           localStorage.setItem('savedAdminEmail', response.data.email);
           localStorage.setItem('savedAdminName', response.data.username);
           localStorage.setItem('savedAdminPassword', response.data.password);
+          localStorage.setItem('loggedInEmail', response.data.email);
           this.goToAdminHomePage();
         })
         .catch(e => {
