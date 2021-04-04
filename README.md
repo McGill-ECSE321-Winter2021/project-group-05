@@ -303,12 +303,13 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td align="center">Himel Saha</td>
     <td>
         <ul>
-          <li>BookableService classes</li>
+          <li>Frontend  UI implementstion</li>
             <ul>
-                <li>RepairShopService </li>
-                <li>BookableServiceDTO </li>
-                <li>ServiceController </li>
-                <li>TestRepairShopService </li>
+                <li>Create/Edit/Delete Service (Admin) </li>
+                <li>View all available services (Customer)</li>
+                <li>Landing page </li>
+                <li>Customer/Technician/Admin home page</li>
+                <li>Preventing unregistered users from accessing pages that require users to be logged in</li>
               </ul>
         </ul>
     </td>
