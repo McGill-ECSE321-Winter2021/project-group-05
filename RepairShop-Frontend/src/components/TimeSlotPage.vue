@@ -2,8 +2,13 @@
   <div id="container">
     <AdminHeader id="header"/>
     <!---- technician select--->
+    <div>
+      <span></span>
+      <p></p>
+    </div>
     <div id="technician__container">
-      <select v-model="technicianEmail"  class="custom-select custom-select-sm">
+      <select v-model="technicianEmail" class="custom-select custom-select-sm">
+      <option disabled value="">Select technician</option>
         <option v-bind:key="technician.email"
                 v-for="technician in allTechnicians" v-bind:value="technician.email" selected>
           {{technician.email}}
@@ -16,6 +21,10 @@
         <VueCtkDateTimePicker v-bind:format="'YYYY-MM-DD hh:mm a'"
                            v-model="date"  />
       </div>
+    </div>
+    <div>
+      <span></span>
+      <p></p>
     </div>
 
     <!-----assign button -->
@@ -33,9 +42,7 @@
       <button @click="minSplitWidth = minSplitWidth ? 0 : 200">
         {{ minSplitWidth ? 'min split width: 200px' : 'Add min split width' }}
       </button>
-      <button @click="splitDays[1].hide = !splitDays[1].hide">
-        Show/Hide Dad
-      </button>
+
 
       <vue-cal v-model="date"
                :time-from="9 * 60"

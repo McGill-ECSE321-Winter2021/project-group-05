@@ -38,13 +38,13 @@
 
     <br>
     <div class="teaser" style="text-align:center;">
-      <video src="../assets/teaser.mp4" controls style="width:100%;
+      <video src="../assets/teaser.mp4" controls autoplay style="width:100%;
       max-width: 80vh;"/>
     </div>
     <br>
     <div class="service">
-      <h2 style="display: block; margin-left: 10px;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experience Ever With Us</h2>
+      <h2 align=CENTER style="display: block; margin-left: 20px;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: blue">The Best Experience Ever With Us</h2>
     <!--service display-->
     <div class="row">
 
@@ -72,11 +72,11 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">The Best Experienc
     </div>
 
     <div class="map" >
-      <h2 style="display: block; margin-left: 20px;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Where to Find Us?</h2>
+      <h2 align=CENTER style="display: block; margin-left: 20px;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: blue">Where to Find Us?</h2>
       <div class="row">
-      <div class="column">
-      <GmapMap map-type-id="roadmap" :zoom="15"
+      <div class="column" align=CENTER>
+      <GmapMap align=CENTER map-type-id="roadmap" :zoom="15"
                :center="{lat: 45.5047884, lng: -73.5793451}"
                :position="{lat: 45.5047884, lng: -73.5793451}"
                style="width: 100%; height: 400px; margin-left: 20px;max-width: 80vh">
