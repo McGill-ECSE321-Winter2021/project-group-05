@@ -47,6 +47,12 @@ We are 5 McGill University students from the Faculty of Engineering
   </tr>
 </table>
 
+## How ro run the application?
+### Frontend:
+run the folloiwng command in terminal `npm run dev`
+### Backend:
+run the folloiwng command in terminal `./gradlew bootrun`
+
 ## Overview Tables
 
 ### Summary
@@ -70,7 +76,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Software Developer</td>
     <td align="center">23</td>
     <td align="center">30</td>
-    <td align="center">Sprint 3</td>
+    <td align="center">7</td>
     <td align="center">Sprint 4</td>
   </tr>
   <tr>
@@ -78,7 +84,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Testing Lead</td>
     <td align="center">23.5</td>
     <td align="center">28</td>
-    <td align="center">Sprint 3</td>
+    <td align="center">46</td>
     <td align="center">Sprint 4</td>
   </tr>
  <tr>
@@ -86,7 +92,7 @@ We are 5 McGill University students from the Faculty of Engineering
      <td align="center">Project Manager</td>
     <td align="center">18</td>
     <td align="center">22</td>
-    <td align="center">Sprint 3</td>
+    <td align="center">30</td>
     <td align="center">Sprint 4</td>
   </tr>
   <tr>
@@ -94,7 +100,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Testing Lead</td>
     <td align="center">24</td>
     <td align="center">35</td>
-    <td align="center">Sprint 3</td>
+    <td align="center">40</td>
     <td align="center">Sprint 4</td>
   </tr>
   <tr>
@@ -102,7 +108,7 @@ We are 5 McGill University students from the Faculty of Engineering
     <td align="center">Documentation Lead</td>
     <td align="center">25</td>
     <td align="center">35</td>
-    <td align="center">Sprint 3</td>
+    <td align="center">20</td>
     <td align="center">Sprint 4</td>
   </tr>
 </table>
