@@ -289,16 +289,14 @@ The project report for this deliverable can be found [here](https://github.com/M
         <ul>
           <li>TimeSlot Classes</li>
               <ul>
-                <li>TimeSlotService </li>
-                <li>TimeSlotDTO </li>
-                <li>TimeSlotController </li>
-                <li>TestTimeSlotService </li>
+                <li>Editing of Sprint 2</li>
               </ul>
-          <li>Enter No Show (all classes)</li>
-          <li>Get Appointment History (Controller)</li>
+          <li>Architechture description</li>
+          <li>Web Layout design</li>
+          <li>Slides for presentation</li>
         </ul>
     </td>
-    <td align="center">30</td>
+    <td align="center">7</td>
   <tr>
     <td align="center">Himel Saha</td>
     <td>
@@ -313,14 +311,19 @@ The project report for this deliverable can be found [here](https://github.com/M
               </ul>
         </ul>
     </td>
-    <td align="center">28</td>
+    <td align="center">46</td>
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
     <td> 
-        <ul>
-          <li>Person classes </li>
-        </ul></td>
+           <ul>
+           <li>AdminHomePage </li>
+           <li>CustomerHomePage </li>
+           <li>TechnicianHomePage</li>
+           <li>teaser video</li>
+           <li>logo design</li>
+           </ul>
+    </td>
     <td align="center">30</td>
   </tr>
   <tr>
@@ -328,46 +331,23 @@ The project report for this deliverable can be found [here](https://github.com/M
     <td>
         <ul>
           <li>Domain model modification</li>
-          <li>Business classes 
-              <ul>
-                <li> BusinessService </li>
-                <li>BusinessDTO </li>
-                <li>BusinessController </li>
-                <li>TestBusinessService </li>
-              </ul>
-              <li>Person classes 
-              <ul>
-                <li>PersonService </li>
-                <li>PersonDTO </li>
-                <li>PersonController </li>
-                <li>TestPersonService </li>
-              </ul>
-               <li>Controller Tests</li>
+          <li>UI mock up design</li>
+          <li>Frontend implementation</li>
         </ul>
       </td>    
- <td align="center">35</td>
+ <td align="center">40</td>
   </tr>
   <tr>
-    <td align="center">Yichen Wu</td>
+   <td align="center">Yichen Wu</td>
     <td>
         <ul>
-          <li>Domain model modification</li>
-          <li>Appointment classes 
-             <ul>
-               <li>AppointmentService</li>
-               <li>AppointmentDto</li>
-               <li>AppointmentController</li>
-               <li>TestAppointmentService</li>
-             </ul>
-           <li>Customer classes</li>
-             <ul>
-               <li>PersonService</li>
-               <li>CustomerDto</li>
-             </ul>
-          <li>Documentation</li>
-          <li>Controller Tests</li>
+          <li>Architecture Modelling</li>
+          <li>UI mock up design</li>
+         <li>Frontend implementation</li>
         </ul>
       </td> 
-    <td align="center">35</td>
+    <td align="center">20</td>
+  
   </tr>
 </table>
+
