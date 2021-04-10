@@ -23,10 +23,10 @@ public class PersonController {
 
     // CUSTOMER
     /**
-     * Registers a new customer
+     * create customer method registers a new customer
      * 
-     * @param customerDto
-     * @return
+     * @param customerDto the customer transfer object
+     * @return response entity
      */
     @PostMapping(value = { "/person/customer/register", "/person/customer/register/" })
     public ResponseEntity<?> createCustomer(@RequestBody CustomerDto customerDto) {
@@ -40,10 +40,10 @@ public class PersonController {
     }
 
     /**
-     * Login customer
+     * Login customer method logs in a customer to their account
      * 
-     * @param customerDto
-     * @return
+     * @param customerDto  the customer transfer object
+     * @return response entity
      */
     @PostMapping(value = { "/person/customer/login", "/person/customer/login/" })
     public ResponseEntity<?> loginCustomer(@RequestBody CustomerDto customerDto) {
@@ -56,10 +56,10 @@ public class PersonController {
     }
 
     /**
-     * returns a customer with the given email
+     * get customer method returns a customer with the given email
      * 
-     * @param email
-     * @return
+     * @param email the customer email
+     * @return customer response entity
      */
     @GetMapping(value = { "/person/customer/{email}", "/person/customer/{email}/" })
     public ResponseEntity<?> getCustomer(@PathVariable String email) {
@@ -72,11 +72,11 @@ public class PersonController {
     }
 
     /**
-     * updates the information of a customer in the database
+     * update customer method updates the information of a customer in the database
      * 
-     * @param email
-     * @param customerDto
-     * @return
+     * @param email the customer email
+     * @param customerDto the customer transfer object
+     * @return response entity
      */
     @PutMapping(value = { "/person/customer/{email}", "/person/customer/{email}/" })
     public ResponseEntity<?> updateCustomer(@PathVariable String email, @RequestBody CustomerDto customerDto) {
@@ -89,10 +89,10 @@ public class PersonController {
     }
 
     /**
-     * deletes a customer from the database
+     * delete customer method deletes a customer from the database
      * 
-     * @param email
-     * @return
+     * @param email customer email
+     * @return response entity
      */
     @DeleteMapping(value = { "/person/customer/{email}", "/person/customer/{email}/" })
     public ResponseEntity<?> deleteCustomer(@PathVariable String email) {
@@ -107,10 +107,10 @@ public class PersonController {
     // TECHINICIAN
 
     /**
-     * Register a new technician
+     * create technician method Register a new technician
      * 
-     * @param technicianDto
-     * @return
+     * @param technicianDto technician transfer object
+     * @return response entity technician
      */
     @PostMapping(value = { "/person/technician/register", "/person/technician/register/" })
     public ResponseEntity<?> createTechnician(@RequestBody TechnicianDto technicianDto) {
@@ -124,10 +124,10 @@ public class PersonController {
     }
 
     /**
-     * Login technician
+     * Login technician method logs in the technician
      * 
-     * @param technicianDto
-     * @return
+     * @param technicianDto technician transfer object
+     * @return response entity
      */
     @PostMapping(value = { "/person/technician/login", "/person/technician/login/" })
     public ResponseEntity<?> loginTechnician(@RequestBody TechnicianDto technicianDto) {
@@ -141,11 +141,11 @@ public class PersonController {
     }
 
     /**
-     * updates the information of a technician in the database
+     * update technician method updates the information of a technician in the database
      * 
-     * @param email
-     * @param technicianDto
-     * @return
+     * @param email the technician email
+     * @param technicianDto the technician transfer object
+     * @return response entity
      */
     @PutMapping(value = { "/person/technician/{email}", "/person/technician/{email}/" })
     public ResponseEntity<?> updateTechnician(@PathVariable String email, @RequestBody TechnicianDto technicianDto) {
@@ -158,10 +158,10 @@ public class PersonController {
     }
 
     /**
-     * gets a technician with the given email
+     * get technician method gets a technician with the given email
      * 
-     * @param email
-     * @return
+     * @param email technician email
+     * @return response entity
      */
     @GetMapping(value = { "/person/technician/{email}", "/person/technician/{email}/" })
     public ResponseEntity<?> getTechnician(@PathVariable String email) {
@@ -174,10 +174,10 @@ public class PersonController {
     }
 
     /**
-     * deletes a technician with the given email
+     * delete technician deletes a technician with the given email
      * 
-     * @param email
-     * @return
+     * @param email technician email
+     * @return response entity
      */
     @DeleteMapping(value = { "/person/technician/{email}", "/person/technician/{email}/" })
     public ResponseEntity<?> deleteTechnician(@PathVariable String email) {
@@ -193,10 +193,10 @@ public class PersonController {
     // ADMINISTRATOR
 
     /**
-     * Registers a new administrator
+     * create admin method registers a new administrator
      * 
-     * @param administratorDto
-     * @return
+     * @param administratorDto admin transfer object
+     * @return response entity
      */
     @PostMapping(value = { "/person/administrator/register", "/person/administrator/register/" })
     public ResponseEntity<?> createAdministrator(@RequestBody AdministratorDto administratorDto) {
@@ -210,10 +210,10 @@ public class PersonController {
     }
 
     /**
-     * Login administrator
+     * Login administrator method logs in admin to their account
      * 
-     * @param administratorDto
-     * @return
+     * @param administratorDto the admin transfer object
+     * @return response entity
      */
     @PostMapping(value = { "/person/administrator/login", "/person/administrator/login/" })
     public ResponseEntity<?> loginAdministrator(@RequestBody AdministratorDto administratorDto) {
@@ -227,11 +227,11 @@ public class PersonController {
     }
 
     /**
-     * updates the information of a administrator in the database
+     * update admin method updates the information of a administrator in the database
      * 
-     * @param email
-     * @param administratorDto
-     * @return
+     * @param email admin email
+     * @param administratorDto admin transfer object
+     * @return response entity
      */
     @PutMapping(value = { "/person/administrator/{email}", "/person/administrator/{email}/" })
     public ResponseEntity<?> updateAdministrator(@PathVariable String email,
@@ -245,10 +245,10 @@ public class PersonController {
     }
 
     /**
-     * gets an administrator
+     * get an administrator method gets an administrator from an email
      * 
-     * @param email
-     * @return
+     * @param email admin email
+     * @return response entity
      */
 
     @GetMapping(value = { "/person/administrator/{email}", "/person/administrator/{email}/" })
@@ -262,10 +262,10 @@ public class PersonController {
     }
 
     /**
-     * deletes an administrator
+     * delete admin method deletes an administrator
      * 
-     * @param email
-     * @return
+     * @param email admin email
+     * @return response entity
      */
     @DeleteMapping(value = { "/person/administrator/{email}", "/person/administrator/{email}/" })
     public ResponseEntity<?> deleteAdministrator(@PathVariable String email) {
@@ -278,7 +278,9 @@ public class PersonController {
     }
 
     /**
-     * get all technicans
+     * get all technicans method return list of all technicians
+     *
+     * @return list of technicians
      */
     @GetMapping(value = {"/person/technician/", "/person/technician"})
     public ResponseEntity<?> getAllTechnicians(){
