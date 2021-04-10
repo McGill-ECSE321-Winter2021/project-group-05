@@ -20,7 +20,10 @@ public class ServiceController {
     private RepairShopService repairShopService;
 
     /**
-     * create new service
+     * create bookable service creates a new service
+     *
+     * @param bookableServiceDto service transfer object
+     * @return response entity
      */
     @PostMapping(value = { "/bookableService", "/bookableService/" })
     public ResponseEntity<?> createBookableService(@RequestBody BookableServiceDto bookableServiceDto) {
@@ -34,7 +37,13 @@ public class ServiceController {
     }
 
     /**
-     * edit service
+     * edit sevice method edits an existing service
+     *
+     * @param name service name
+     * @param bookableServiceDto service transfer object
+     * @return response entity
+     * @throws IllegalArgumentException
+     * @throws BookableServiceException
      */
     @PutMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
     public ResponseEntity<?> editBookableService(@PathVariable("name") String name,
@@ -52,6 +61,12 @@ public class ServiceController {
         }
     }
 
+    /**
+     * get bookable service method returns service from a name
+     *
+     * @param name name of service
+     * @return response entity
+     */
     @GetMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
     public BookableServiceDto getBookableService(@PathVariable("name") String name) {
         return RepairShopUtil.convertToDto(repairShopService.getService(name));
@@ -67,7 +82,10 @@ public class ServiceController {
     }
 
     /**
-     * delete service
+     * delete service method deletes an existing service
+     *
+     * @param name name of service
+     * @return response entity
      */
     @DeleteMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
     public ResponseEntity<?> deleteBookableService(@PathVariable("name") String name){
@@ -84,7 +102,12 @@ public class ServiceController {
         return new ResponseEntity<>("The service has been successfully deleted", HttpStatus.OK);
     }
 
-    //returns the cost given a list of services
+    /**
+     * get cost of services method returns the cost given a list of services
+     *
+     * @param serviceNames list of all service names trying to calculate cost for
+     * @return
+     */
     @GetMapping(value = {"/costOfService", "/costOfService/"})
     public ResponseEntity<?> getCostOfService(@RequestParam(value = "services") List<String> serviceNames){
         float cost = 0f;

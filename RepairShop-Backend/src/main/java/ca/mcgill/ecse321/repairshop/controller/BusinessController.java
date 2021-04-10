@@ -18,9 +18,10 @@ public class BusinessController {
     BusinessService businessService;
 
     /**
-     * Gets the business of the system given the name
-     * @param id
-     * @return
+     * get business method gets the business of the system given the name
+     *
+     * @param id the business id
+     * @return response entity
      */
     @GetMapping(value = {"/business/{id}", "/business/{id}/"})
     public ResponseEntity<?> getBusiness(@PathVariable("id") Long id){
@@ -29,9 +30,10 @@ public class BusinessController {
     }
 
     /**
-     * creates a business if it does not exist
-     * @param businessDto
-     * @return
+     * create business method creates a business if it does not exist
+     *
+     * @param businessDto is the transfer object for the business
+     * @return response entity
      */
     @PostMapping(value = {"/business", "/business/"})
     public ResponseEntity<?> createBusiness(@RequestBody BusinessDto businessDto) {
@@ -44,10 +46,11 @@ public class BusinessController {
     }
 
     /**
-     * edits the business informations
-     * @param id
-     * @param businessDto
-     * @return
+     * update business method edits the business informations
+     *
+     * @param id the business id
+     * @param businessDto the business transfer object
+     * @return response entity
      */
     @PutMapping(value = {"/business/{id}", "/business/{id}/"})
     public ResponseEntity<?> updateBusiness(@PathVariable("id") Long id, @RequestBody BusinessDto businessDto){
@@ -60,9 +63,10 @@ public class BusinessController {
     }
 
     /**
-     * deletes a business || NOTE: only for test purpose
-     * @param id
-     * @return
+     * delete business method deletes a business || NOTE: only for test purpose
+     *
+     * @param id the business id
+     * @return response entity
      */
     @DeleteMapping(value = {"/business/{id}", "/business/{id}/"})
     public ResponseEntity<?> deleteBusiness(@PathVariable("id") Long id){

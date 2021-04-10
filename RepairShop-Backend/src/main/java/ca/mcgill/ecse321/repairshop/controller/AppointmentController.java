@@ -48,7 +48,13 @@ public class AppointmentController {
     }
 
     /**
-     * edit appointment
+     * edit appointment method allows appointments to be edited by any user
+     *
+     * @param id the current appointment id
+     * @param timeSlotId the id of the corresponding timeslot of the appointment
+     * @param serviceNames all the services attached to current appointment
+     * @return ResponseEntity corresponding to edited appointment
+     * @throws AppointmentException
      */
     @PutMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
@@ -76,7 +82,10 @@ public class AppointmentController {
 
 
     /**
-     * delete appointment
+     * delete appointment method cancels an appointment, can be used by any user
+     *
+     * @param id the appointment id for the appointment to be deleted
+     * @throws AppointmentException
      */
     @DeleteMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public ResponseEntity<?> deleteAppointment(@PathVariable("id") Long id) throws AppointmentException {
@@ -96,7 +105,14 @@ public class AppointmentController {
     }
 
     /**
-     * create appointment with timeslot
+     * create appointment method creates an appointment to a current timeslot for a specific customer with a list of services for the appointment
+     *
+     * @param customerEmail is the email of the customer making an appointment
+     * @param serviceNames is the list of all services desired by customer for this appointment
+     * @param startTime is the start time of the timeslot of the appointment
+     * @param date is the date of the timeslot of the appointment
+     * @return appointment created
+     * @throws AppointmentException
      */
 
     @PostMapping(value = {"/appointment", "/appointment/"})
@@ -131,6 +147,14 @@ public class AppointmentController {
         }
     }
 
+    /**
+     * get appointment history method returns all appointments for one specific custer
+     *
+     * @param email is the customer email
+     * @return list of appointments
+     * @throws AppointmentException
+     */
+
     @GetMapping(value = { "/appointment/person/{email}", "/appointment/person/{email}/"})
     public List<AppointmentDto> getAppointmentHistory(@PathVariable("email") String email) throws AppointmentException {
         Customer customer = null;
@@ -145,6 +169,14 @@ public class AppointmentController {
         }
         return apptsCustDtos;
     }
+
+    /**
+     * Enter no show method allows technician or admin to register a no show for a customer if they are at least 15 minutes late for their appointment
+     *
+     * @param id is the id of the appointment
+     * @return response entity
+     * @throws AppointmentException
+     */
 
     @PutMapping(value = { "/appointmentNoShow/{id}", "/appointmentNoShow/{id}/" })
     public ResponseEntity<?> enterNoShow(@PathVariable("id") Long id) throws AppointmentException{
@@ -161,7 +193,13 @@ public class AppointmentController {
         }
     }
 
-    //This function returns all the appointments of a technician
+    /**
+     * get appointments of technician method returns all the appointments assigned to one technician
+     *
+     * @param email is the technicians email
+     * @return list of appointments
+     * @throws PersonException
+     */
     @GetMapping(value = {"/appointmentOfTechnician/{emai}/", "/appointmentOfTechnician/{email}"})
     public List<AppointmentDto> getAppointmentOfTechnician (@PathVariable String email) throws PersonException {
         Technician technician = personService.getTechnician(email);
@@ -173,6 +211,11 @@ public class AppointmentController {
         return list;
     }
 
+    /**
+     * get all appointment methods returns all created appointments regardless of customer or technician
+     *
+     * @return list of appointments
+     */
     @GetMapping(value = {"/allappointments/", "/allappointments"})
     public List<AppointmentDto> getAllAppointments(){
         List<Appointment> appointments = appointmentService.getAllAppointments();
@@ -188,7 +231,10 @@ public class AppointmentController {
      */
 
     /**
-     * check if the time and date on timeSlot is 24 hours before the current time
+     * can cancel and delete method check if the time and date on timeSlot is 24 hours before the current time
+     *
+     * @param timeSlot is the timeslot for the appointment looking to be edited or canceled
+     * @return boolean if can or can't delete
      */
     private boolean canCancelAndDelete(TimeSlot timeSlot){
 
@@ -217,6 +263,12 @@ public class AppointmentController {
         }
     }
 
+    /**
+     * can enter no show method checks that it is at least 15 minutes after start of appointment
+     *
+     * @param timeslot the timeslot of corresponding appointment
+     * @return boolean if can enter no show
+     */
     private boolean canEnterNoShow(TimeSlot timeslot){
         LocalTime timeNow =  LocalTime.now();
         LocalDate today = LocalDate.now();
@@ -226,11 +278,16 @@ public class AppointmentController {
             return true;
         }
         return false;
-        //Date tsDate = timeslot.getDate();
-        // LocalTime tsStartTime = timeslot.getStartTime().toLocalTime();
-        //LocalTime tsStartTime = timeNow.minusHours(2);
+
     }
 
+    /**
+     * set end time based on duration method calculates the end time of an appointment based on when the appointment starts and the services chosen
+     *
+     * @param startTime is the start time of the appointment
+     * @param duration is the duration of the service(s) for the appointment
+     * @return String corresponding to end time
+     */
     private static String setEndTimeOfAppointmentBasedOnDuration(String startTime, int duration){
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Date d = null;
