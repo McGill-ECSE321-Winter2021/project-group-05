@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/RepairShopAndroid.iml" filepath="$PROJECT_DIR$/.idea/RepairShopAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RepairShop-Backend/RepairShopAndroid.RepairShop-Backend.iml" filepath="$PROJECT_DIR$/.idea/modules/RepairShop-Backend/RepairShopAndroid.RepairShop-Backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/project-group-05.iml" filepath="$PROJECT_DIR$/.idea/project-group-05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RepairShop-Backend/project-group-05.RepairShop-Backend.iml" filepath="$PROJECT_DIR$/.idea/modules/RepairShop-Backend/project-group-05.RepairShop-Backend.iml" />
     </modules>
   </component>
 </project>
