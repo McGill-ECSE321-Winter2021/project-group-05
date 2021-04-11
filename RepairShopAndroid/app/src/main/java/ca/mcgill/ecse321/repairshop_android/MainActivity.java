@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop_android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         error += e.getMessage();
                     }
                     refreshErrorMessage();
+
                 }
 
             });
