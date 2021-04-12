@@ -14,16 +14,14 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.EditDeleteService;
-import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerHomePage;
-import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
+import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.util.EntityUtils;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -117,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // log in as tech
         else if (techCheckbox.isChecked()){
+
             HttpUtils.post("person/technician/login",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES CUSTOMER TO RIGHT SCREEN
     private void goToCustomerHomePage(){
-        Intent intent = new Intent(this, CustomerHomePage.class);
+        Intent intent = new Intent(this, CustomerMainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -159,14 +158,14 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES ADMIN TO RIGHT SCREEN
     private void goToAdminHomePage(){
-        Intent intent = new Intent(this, AdminHomePage.class);
+        Intent intent = new Intent(this, AdminMainActivity.class);
         startActivity(intent);
         finish();
     }
 
     //NAVIGATES TECHNICIAN TO RIGHT SCREEN
     private void goToTechnicianHomePage(){
-        Intent intent = new Intent(this, TechnicianHomePage.class);
+        Intent intent = new Intent(this, TechnicianMainActivity.class);
         startActivity(intent);
         finish();
     }
