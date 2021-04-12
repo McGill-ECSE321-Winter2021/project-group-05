@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.repairshop_android;
+package ca.mcgill.ecse321.repairshop_android.Activities.Utility;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

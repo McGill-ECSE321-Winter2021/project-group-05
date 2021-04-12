@@ -1,10 +1,10 @@
-package ca.mcgill.ecse321.repairshop_android;
+package ca.mcgill.ecse321.repairshop_android.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -14,6 +14,11 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
+import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
 
 
@@ -24,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_main);
         refreshErrorMessage();
-        setMyAccountTextField();
     }
 
     private void refreshErrorMessage() {
@@ -54,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         RequestParams requestParams = new RequestParams();
         requestParams.add("email", tv_email.getText().toString());
         requestParams.add("password",tv_password.getText().toString());
-
         /* for debugging
         String x = tv_email.getText().toString();
         String y = tv_password.getText().toString();
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
+                    goToCustomerHomePage();
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
+                    goToAdminHomePage();
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
+                    goToTechnicianHomePage();
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -138,42 +144,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signup(View v){
-        error="";
-        final TextView tv_email = (TextView) findViewById(R.id.email);
-        final TextView tv_password = (TextView) findViewById(R.id.password);
-        final TextView tv_username = (TextView) findViewById(R.id.username);
-
-        String email = tv_email.getText().toString();
-        String username = tv_username.getText().toString();
-        String password = tv_password.getText().toString();
-
-        RequestParams requestParams = new RequestParams();
-        requestParams.add("email", email);
-        requestParams.add("password",password);
-        requestParams.add("username",username);
-
-        HttpUtils.post("person/customer/register/",requestParams, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
-                tv_email.setText("");
-                tv_password.setText("");
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    tv_password.setText("");
-                    error += errorResponse.get("message").toString();
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                }
-                refreshErrorMessage();
-            }
-
-        });
+        goToSignUpPage();
     }
 
-    public void setMyAccountTextField(int view){
-        View current_view = (View) view;
+    //NAVIGATES CUSTOMER TO RIGHT SCREEN
+    private void goToCustomerHomePage(){
+        Intent intent = new Intent(this, CustomerHomePage.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+    //NAVIGATES ADMIN TO RIGHT SCREEN
+    private void goToAdminHomePage(){
+        Intent intent = new Intent(this, AdminHomePage.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+    //NAVIGATES TECHNICIAN TO RIGHT SCREEN
+    private void goToTechnicianHomePage(){
+        Intent intent = new Intent(this, TechnicianHomePage.class);
+        startActivity(intent);
+        finish();
+    }
+
+    //NAVIGATES NEW USERS TO SIGN UP PAGE
+    private void goToSignUpPage(){
+        Intent intent = new Intent(this, SignUpPage.class);
+        startActivity(intent);
     }
 }
