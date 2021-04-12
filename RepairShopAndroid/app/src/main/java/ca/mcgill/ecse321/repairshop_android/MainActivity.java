@@ -3,10 +3,8 @@ package ca.mcgill.ecse321.repairshop_android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.transition.Scene;
-import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -26,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login);
         refreshErrorMessage();
+        setMyAccountTextField();
     }
 
     private void refreshErrorMessage() {
@@ -172,7 +171,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
 
-
+    public void setMyAccountTextField(int view){
+        View current_view = (View) view;
     }
 }
