@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Admin.EditDeleteService"></activity>
+        <activity android:name=".Activities.AdminNavigation"></activity>
+        <activity android:name=".Activities.Admin.EditDeleteService" />
         <activity
             android:name=".Activities.Admin.CreateService"
             android:label="@string/title_activity_create_service"

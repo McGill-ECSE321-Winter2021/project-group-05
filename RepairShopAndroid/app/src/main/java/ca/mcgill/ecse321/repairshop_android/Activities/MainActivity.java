@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Admin.EditDeleteService;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerHomePage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianHomePage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, SignUpPage.class);
+        Intent intent = new Intent(this, EditDeleteService.class);
         startActivity(intent);
     }
 }
