@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Admin;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +20,6 @@ import cz.msebera.android.httpclient.Header;
 public class CreateService extends AppCompatActivity {
 
     private String error = null;
-    private String successMessage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +40,6 @@ public class CreateService extends AppCompatActivity {
         }
     }
 
-    private void refreshSuccessMessage() {
-        TextView tvSuccess = (TextView) findViewById(R.id.successNotification);
-        tvSuccess.setText(successMessage);
-
-        if (successMessage == null || successMessage.length() == 0) {
-            tvSuccess.setVisibility(View.GONE);
-        } else {
-            tvSuccess.setVisibility(View.VISIBLE);
-        }
-    }
 
     public void createService(View v){
 
@@ -70,8 +60,10 @@ public class CreateService extends AppCompatActivity {
                 tv_service_name.setText("");
                 tv_service_cost.setText("");
                 tv_service_duration.setText("");
-                successMessage = "Service successful created";
-                refreshSuccessMessage();
+                // Notify with successful message
+                Toast.makeText
+                        (getApplicationContext(), "Service successfully created", Toast.LENGTH_SHORT)
+                        .show();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
