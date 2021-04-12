@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
+
     <TextView
         android:id="@+id/error"
-        android:layout_width="21dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:textColor="#FF0000"
-        android:textSize="30sp"
+        android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,25 +21,29 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="457dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="354dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="monospace"
         android:hint="@string/password"
+        android:inputType="textPassword"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <Button
-        android:id="@+id/loginBtn"
+
+        android:id="@+id/login"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="170dp"
         android:layout_height="67dp"
         android:layout_gravity="end"
-        android:layout_marginBottom="208dp"
+        android:background="@drawable/mybutton"
         android:backgroundTint="#72A8E1"
         android:fontFamily="monospace"
+        android:onClick="login"
         android:text="@string/login"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FFFFFF"
@@ -46,31 +51,96 @@
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.213" />
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="364dp"
         android:layout_height="330dp"
-        android:layout_marginTop="300dp"
         android:contentDescription="logo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.62"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.156"
         app:srcCompat="@drawable/logo" />
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="457dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="444dp"
+        android:layout_width="354dp"
+        android:layout_height="59dp"
         android:fontFamily="monospace"
         android:hint="@string/email"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.616" />
+
+    <Button
+        android:id="@+id/signup"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="Sign up"
+        android:textColor="#72A8E1"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintVertical_bias="0.37"
+        android:onClick="signup"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.524">
+
+        <RadioButton
+            android:id="@+id/customerCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="44dp"
+            android:text="Customer"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.205"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioButton
+            android:id="@+id/adminCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="44dp"
+            android:text="Admin"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/techCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Technician"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="11dp"
+            tools:layout_editor_absoluteY="527dp" />
+
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
