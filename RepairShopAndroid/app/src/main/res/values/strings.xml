@@ -3,5 +3,11 @@
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="login">login</string>
+
     <string name="userName">username</string>
+
+    <string name="newServiceName">New service name</string>
+    <string name="newServiceCost">Service Cost</string>
+    <string name="newServiceDuration">Service Duration</string>
+
 </resources>
