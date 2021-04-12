@@ -63,13 +63,14 @@ public class CreateService extends AppCompatActivity {
         requestParams.add("newServiceCost",tv_service_cost.getText().toString());
         requestParams.add("newServiceDuration",tv_service_duration.getText().toString());
 
-        HttpUtils.post("person/customer/login",requestParams, new JsonHttpResponseHandler() {
+        HttpUtils.post("/bookableService", requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 tv_service_name.setText("");
                 tv_service_cost.setText("");
                 tv_service_duration.setText("");
+                successMessage = "Service successful created";
                 refreshSuccessMessage();
             }
             @Override
