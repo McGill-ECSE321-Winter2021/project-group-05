@@ -6,6 +6,10 @@ import android.widget.TextView;
 
 public class RepairShopUtil {
 
+    public static String loginUserName="";
+    public static String loginUserEmail="";
+
+
     public static void refreshErrorMessage(View view, int id, String error) {
         // set the error message
         TextView tvError = (TextView) view.findViewById(id);
@@ -16,5 +20,10 @@ public class RepairShopUtil {
         } else {
             tvError.setVisibility(View.VISIBLE);
         }
+    }
+
+    public static void setCurrentUser(String username, String email) {
+        loginUserName = username;
+        loginUserEmail = email;
     }
 }
