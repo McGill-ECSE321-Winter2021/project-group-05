@@ -5,17 +5,18 @@
     android:id="@+id/create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
+    tools:context=".Activities.Admin.CreateService">
 
     <Button
-        android:id="@+id/Create"
+        android:id="@+id/CreateServiceButton"
         android:layout_width="133dp"
         android:layout_height="56dp"
         android:background="@drawable/mybutton"
         android:backgroundTint="#72A8E1"
         android:fontFamily="monospace"
-        android:text="Create Service"
+        android:text="@string/title_activity_create_service"
         android:textColor="#FFFFFF"
+        android:onClick="create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
         app:layout_constraintVertical_bias="0.199" />
 
     <EditText
-        android:id="@+id/editTextNumber2"
+        android:id="@+id/newServiceDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -53,7 +54,7 @@
         app:layout_constraintVertical_bias="0.478" />
 
     <EditText
-        android:id="@+id/editTextNumberDecimal"
+        android:id="@+id/newServiceCost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -66,5 +67,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.333" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.814" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
