@@ -19,8 +19,11 @@ import ca.mcgill.ecse321.repairshop_android.Activities.Admin.EditDeleteService;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerHomePage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianHomePage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.util.EntityUtils;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -59,11 +62,6 @@ public class MainActivity extends AppCompatActivity {
         RequestParams requestParams = new RequestParams();
         requestParams.add("email", tv_email.getText().toString());
         requestParams.add("password",tv_password.getText().toString());
-        /* for debugging
-        String x = tv_email.getText().toString();
-        String y = tv_password.getText().toString();
-
-         */
 
         // log in as customer
         if (customerCheckBox.isChecked()){
@@ -72,9 +70,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     refreshErrorMessage();
+                    setCurrentCustomer(tv_email.getText().toString());
                     tv_email.setText("");
                     tv_password.setText("");
                     goToCustomerHomePage();
+
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             HttpUtils.post("person/administrator/login", requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
+                    setCurrentAdmin(tv_email.getText().toString());
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             HttpUtils.post("person/technician/login",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    setCurrentTechnician(tv_email.getText().toString());
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -175,5 +176,84 @@ public class MainActivity extends AppCompatActivity {
     private void goToSignUpPage(){
         Intent intent = new Intent(this, EditDeleteService.class);
         startActivity(intent);
+    }
+
+    // UPDATE THE MY ACCOUNT DEFAULT INFORMATION
+    private void setCurrentCustomer(final String email){
+
+         HttpUtils.get("person/customer/"+ email,new RequestParams(),  new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                try {
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+
+        });
+    }
+
+    // UPDATE THE MY ACCOUNT DEFAULT INFORMATION
+    private void setCurrentAdmin(final String email) {
+        HttpUtils.get("person/administrator/"+ email,new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                try {
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+
+        });
+    }
+
+    // UPDATE THE MY ACCOUNT DEFAULT INFORMATION
+    private void setCurrentTechnician(final String email) {
+        HttpUtils.get("person/technician/"+ email,new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                try {
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+
+        });
     }
 }

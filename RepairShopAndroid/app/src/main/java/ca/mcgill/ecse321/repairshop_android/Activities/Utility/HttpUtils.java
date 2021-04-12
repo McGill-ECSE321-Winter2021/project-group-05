@@ -6,6 +6,8 @@ import com.loopj.android.http.RequestParams;
 
 public class HttpUtils {
 
+
+
     public static final String DEFAULT_BASE_URL =  "https://repairshop-backend-group05.herokuapp.com/";
 
     private static String baseUrl;
@@ -43,5 +45,7 @@ public class HttpUtils {
     private static String getAbsoluteUrl(String relativeUrl) {
         return baseUrl + relativeUrl;
     }
+
+
 }
 
