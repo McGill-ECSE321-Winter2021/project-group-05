@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
     //NAVIGATES TECHNICIAN TO RIGHT SCREEN
     private void goToTechnicianHomePage(){
         Intent intent = new Intent(this, TechnicianHomePage.class);

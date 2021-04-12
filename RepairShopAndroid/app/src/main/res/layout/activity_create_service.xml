@@ -106,6 +106,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:menu="@navigation/admin_navigation" />
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="413dp"
         android:layout_height="77dp"
