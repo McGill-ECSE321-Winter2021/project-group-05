@@ -5,7 +5,7 @@
     android:id="@+id/create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <Button
         android:id="@+id/Create"
@@ -29,7 +29,7 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="textPersonName"
-        android:text="New service name"
+        android:hint="@string/newServiceName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -44,7 +44,7 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="number"
-        android:text="Service duration"
+        android:hint="@string/newServiceDuration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -59,7 +59,7 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="numberDecimal"
-        android:text="Service cost"
+        android:hint="@string/newServiceCost"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
