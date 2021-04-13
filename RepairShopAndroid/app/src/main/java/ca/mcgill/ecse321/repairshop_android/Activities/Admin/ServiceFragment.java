@@ -6,9 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,13 @@ import cz.msebera.android.httpclient.Header;
 public class ServiceFragment extends Fragment {
 
     private String error = null;
+
+    private Button createServiceButton;
+    private EditText tv_service_name = null;
+    private EditText tv_service_cost = null;
+    private EditText tv_service_duration = null;
+
+    private TextView tvError = null;
 
     public ServiceFragment() {
         // Required empty public constructor
@@ -44,14 +54,12 @@ public class ServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        System.out.println("here2");
+        setView(view);
     }
 
 
     private void refreshErrorMessage(View view) {
-        // set the error message
-        TextView tvError = (TextView) view.findViewById(R.id.error);
-        tvError.setText(error);
-
         if (error == null || error.length() == 0) {
             tvError.setVisibility(View.GONE);
         } else {
@@ -59,23 +67,41 @@ public class ServiceFragment extends Fragment {
         }
     }
 
+    public void setView(View view) {
+        createServiceButton = view.findViewById(R.id.CreateServiceButton);
+        tv_service_name = (EditText) view.findViewById(R.id.newServiceName);
+        tv_service_cost = (EditText) view.findViewById(R.id.newServiceCost);
+        tv_service_duration = (EditText) view.findViewById(R.id.newServiceDuration);
+        tvError = (TextView) view.findViewById(R.id.errorService);
+        createServiceButtonHandler();
+    }
 
-    public void createService(final View v){
+    public void createServiceButtonHandler(){
+        createServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createService(view);
+            }
+        });
+    }
+
+
+    public void createService(final View view){
 
         error="";
-        final TextView tv_service_name = (TextView) v.findViewById(R.id.newServiceName);
-        final TextView tv_service_cost = (TextView) v.findViewById(R.id.newServiceCost);
-        final TextView tv_service_duration = (TextView) v.findViewById(R.id.newServiceDuration);
-
         RequestParams requestParams = new RequestParams();
         requestParams.add("newServiceName", tv_service_name.getText().toString());
         requestParams.add("newServiceCost",tv_service_cost.getText().toString());
         requestParams.add("newServiceDuration",tv_service_duration.getText().toString());
 
+        Toast.makeText
+                (getActivity(), "INSIDE", Toast.LENGTH_SHORT)
+                .show();
+
         HttpUtils.post("/bookableService", requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage(v);
+                refreshErrorMessage(view);
                 tv_service_name.setText("");
                 tv_service_cost.setText("");
                 tv_service_duration.setText("");
@@ -83,6 +109,7 @@ public class ServiceFragment extends Fragment {
                 Toast.makeText
                         (getActivity(), "Service successfully created", Toast.LENGTH_SHORT)
                         .show();
+
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -91,7 +118,8 @@ public class ServiceFragment extends Fragment {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage(v);
+                refreshErrorMessage(view);
+                System.out.println(error);
             }
 
         });
