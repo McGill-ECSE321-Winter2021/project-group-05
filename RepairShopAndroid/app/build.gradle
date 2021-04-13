@@ -37,5 +37,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     implementation "com.google.android.material:material:${designSupportVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerViewVersion}"
+    implementation 'com.github.mahimrocky:EventCalender:v1.0.0'
+    implementation 'com.github.tizisdeepan:eventscalendar:1.5.2'
+
 
 }

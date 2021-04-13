@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         // log in as customer
         if (customerCheckBox.isChecked()){
-
+            goToCustomerHomePage();
             HttpUtils.post("person/customer/login",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     setCurrentCustomer(tv_email.getText().toString());
                     tv_email.setText("");
                     tv_password.setText("");
-                    goToCustomerHomePage();
 
                 }
                 @Override
