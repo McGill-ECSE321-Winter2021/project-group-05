@@ -73,23 +73,6 @@ public class TechnicianDto {
         return password;
     }
 
-    /**
-     * returns timeslot
-     *
-     * @return time slot transfer object
-     */
-    public TimeSlotDto getTimeSlotDto() {
-        return timeSlotDto;
-    }
-
-    /**
-     * set timeslot
-     *
-     * @param timeSlotDto timeslot transfer object
-     */
-    public void setTimeSlotDto(TimeSlotDto timeSlotDto) {
-        this.timeSlotDto = timeSlotDto;
-    }
 
     /**
      * sets password for technician
