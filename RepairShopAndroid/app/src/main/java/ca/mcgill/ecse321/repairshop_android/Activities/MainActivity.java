@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
-import ca.mcgill.ecse321.repairshop_android.Activities.Admin.EditDeleteService;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
