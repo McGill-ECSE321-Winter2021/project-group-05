@@ -26,16 +26,23 @@ public class TechnicianMainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
+                String title = "";
                 switch (item.getItemId()) {
                     case R.id.action_technician_home:
                         fragment = new TechnicianHomeFragment();
+                        title = "Home";
                         break;
                     case R.id.action_technician_profile:
                         fragment = new ProfileFragment();
+                        title = "My Account";
                         break;
                     default:
                         fragment = new TechnicianHomeFragment();
+                        title = "Home";
                         break;
+                }
+                if (fragment != null) {
+                    getSupportActionBar().setTitle(title);
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;

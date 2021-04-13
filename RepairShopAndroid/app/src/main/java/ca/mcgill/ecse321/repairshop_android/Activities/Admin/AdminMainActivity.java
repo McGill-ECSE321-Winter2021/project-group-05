@@ -26,20 +26,30 @@ public class AdminMainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
+                String title = "";
                 switch (item.getItemId()) {
                     case R.id.action_admin_home:
                         fragment = new AdminHomeFragment();
+                        title = "Home";
                         break;
                     case R.id.action_admin_profile:
                         fragment = new ProfileFragment();
+                        title = "My Account";
                         break;
                     case R.id.action_admin_service:
                         fragment = new ServiceFragment();
+                        title = "Create Service";
                         break;
                     default:
                         fragment = new AdminHomeFragment();
+                        title = "Home";
                         break;
                 }
+
+                if (fragment != null) {
+                    getSupportActionBar().setTitle(title);
+                }
+
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }

@@ -25,19 +25,27 @@ public class CustomerMainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
+                String title = "";
                 switch (item.getItemId()) {
                     case R.id.action_customer_home:
                         fragment = new CustomerHomeFragment();
+                        title = "Home";
                         break;
                     case R.id.action_customer_profile:
                         fragment = new ProfileFragment();
+                        title = "My Account";
                         break;
                     case R.id.action_customer_compose:
                         fragment = new BookAppointmentFragment();
+                        title = "Book Appointment";
                         break;
                     default:
                         fragment = new CustomerHomeFragment();
+                        title = "Home";
                         break;
+                }
+                if (fragment != null) {
+                    getSupportActionBar().setTitle(title);
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
