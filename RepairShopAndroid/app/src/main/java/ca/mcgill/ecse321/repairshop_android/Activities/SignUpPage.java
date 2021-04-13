@@ -13,7 +13,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerHomePage;
+import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -95,7 +95,7 @@ public class SignUpPage extends AppCompatActivity {
 
     //NAVIGATES CUSTOMER TO RIGHT SCREEN
     private void goToCustomerHomePage(){
-        Intent intent = new Intent(this, CustomerHomePage.class);
+        Intent intent = new Intent(this, CustomerMainActivity.class);
         startActivity(intent);
         finish();
     }
