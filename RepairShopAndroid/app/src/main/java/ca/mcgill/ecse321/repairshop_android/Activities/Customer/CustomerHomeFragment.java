@@ -1,26 +1,33 @@
 package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
-import android.graphics.Color;
-import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.skyhope.eventcalenderlibrary.CalenderEvent;
-import com.skyhope.eventcalenderlibrary.model.Event;
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.applandeo.materialcalendarview.listeners.OnDayLongClickListener;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import ca.mcgill.ecse321.repairshop_android.R;
 
 public class CustomerHomeFragment extends Fragment {
-    private CalenderEvent calendarEvent;
+    private CalendarView calendarView;
+    private TextView tvSelectedDate;
+    private List<EventDay> events;
 
     public CustomerHomeFragment() {
         // Required empty public constructor
@@ -42,20 +49,40 @@ public class CustomerHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setViews(view);
+
+        Calendar calendar = Calendar.getInstance();
+        events.add(new EventDay(calendar, R.drawable.ic_round_event_24));
+        calendarView.setEvents(events);
+
+        onDayClickHandler();
+        onLongClickHandler();
     }
 
     private void setViews(View views){
-        calendarEvent = views.findViewById(R.id.calender_event);
+        calendarView = views.findViewById(R.id.calendarView);
+        tvSelectedDate = views.findViewById(R.id.tvSelectedDate);
+        events = new ArrayList<>();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setEvent(){
-        Calendar calendar = Calendar.getInstance();
-        Event event = new Event(calendar.getTimeInMillis(), "Test");
-// to set desire day time milli second in first parameter
-//or you set color for each event
-        Event event2 = new Event(calendar.getTimeInMillis(), "Test", Color.RED);
-        calendarEvent.addEvent(event2);
+    private void onDayClickHandler(){
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
+            @Override
+            public void onDayClick(EventDay eventDay) {
+                Calendar clickedDayCalendar = eventDay.getCalendar();
+                Log.d("Tag", clickedDayCalendar.getTime().toString());
+                tvSelectedDate.setText(clickedDayCalendar.getTime().toString());
+            }
+        });
+    }
+
+    private void onLongClickHandler(){
+        calendarView.setOnDayLongClickListener(new OnDayLongClickListener() {
+            @Override
+            public void onDayLongClick(EventDay eventDay) {
+                Calendar clickedDayCalendar = eventDay.getCalendar();
+                Log.d("Tag", "here");
+            }
+        });
     }
 
 }
