@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, CustomerMainActivity.class);
+        Intent intent = new Intent(this, AdminMainActivity.class);
         startActivity(intent);
     }
 
