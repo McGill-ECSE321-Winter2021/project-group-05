@@ -35,8 +35,8 @@ import cz.msebera.android.httpclient.Header;
 public class ProfileFragment extends Fragment {
 
     private String error = null;
-    Button updateButton;
-    Button deleteButton;
+    private Button updateButton;
+    private Button deleteButton;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment {
         /**
          * throw error if the password != confirm password is the same
          */
-        if (! tvPassword.getText().toString().equals(tvPasswordConfirm.getText().toString())){
+        if (!tvPassword.getText().toString().equals(tvPasswordConfirm.getText().toString())){
 
             Toast.makeText
                     (getActivity(), "Error : Confirm password doesn't match with the password", Toast.LENGTH_SHORT)
@@ -262,7 +262,7 @@ public class ProfileFragment extends Fragment {
                         } catch (JSONException e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                         //refreshErrorMessage();
@@ -277,7 +277,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public void deleteAccount(){
-        Log.e("tag2","deleteing the account");
+        Log.e("tag2","deleting the account");
         // DELETE CUSTOMER ACCOUNT
         switch (RepairShopUtil.userType) {
             case "customer":
@@ -302,7 +302,7 @@ public class ProfileFragment extends Fragment {
                         } catch (JSONException e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                         //refreshErrorMessage();
@@ -337,7 +337,7 @@ public class ProfileFragment extends Fragment {
                         } catch (JSONException e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                         //refreshErrorMessage();
@@ -372,7 +372,7 @@ public class ProfileFragment extends Fragment {
                         } catch (JSONException e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                         //refreshErrorMessage();
