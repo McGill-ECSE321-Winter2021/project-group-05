@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.EditDeleteService;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
+import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, EditDeleteService.class);
+        Intent intent = new Intent(this, AdminMainActivity.class);
         startActivity(intent);
     }
 
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 try {
-                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
                     error += e.getMessage();
                 }
@@ -210,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 try {
-                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email, "admin");
                 } catch (Exception e) {
                     error += e.getMessage();
                 }
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 try {
-                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email,"technician");
                 } catch (Exception e) {
                     error += e.getMessage();
                 }

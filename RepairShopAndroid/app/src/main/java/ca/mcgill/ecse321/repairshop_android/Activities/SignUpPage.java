@@ -73,7 +73,7 @@ public class SignUpPage extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 //refreshErrorMessage();
                 try {
-                    RepairShopUtil.setCurrentUser(response.getString("username"),email);
+                    RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
                     error += e.getMessage();
                 }
