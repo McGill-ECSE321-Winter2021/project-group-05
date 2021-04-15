@@ -42,12 +42,14 @@ public class SignUpPage extends AppCompatActivity {
         requestParams.add("password",password);
         requestParams.add("username",username);
 
-        HttpUtils.post("person/customer/register/",requestParams, new JsonHttpResponseHandler() {
+        HttpUtils.post("person/customer/register/app",requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                tv_email.setText("");
-                tv_password.setText("");
+
                 setCurrentCustomer(tv_email.getText().toString());
+                tv_email.setText("");
+                tv_username.setText("");
+                tv_password.setText("");
                 goToCustomerHomePage();
 
             }

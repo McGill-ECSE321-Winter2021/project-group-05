@@ -24,7 +24,7 @@
 
     <TimePicker
         android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/datePicker"
         android:layout_alignParentStart="true"
@@ -40,11 +40,14 @@
 
     <Button
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:paddingLeft="16px"
         android:id="@+id/btnBookAppointment"
-        android:text="Book Appointment"
-        android:background="@color/colorAccent"
+        android:text="Book"
+        android:background="@drawable/appointbtn"
         android:textColor="@color/cardview_light_background"
         style="?attr/materialButtonOutlinedStyle"        />
 
