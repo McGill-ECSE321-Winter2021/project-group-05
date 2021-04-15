@@ -44,7 +44,7 @@ public class ServiceController {
      * @param serviceDuration as RequestParams
      * @return response entity
      */
-    @PostMapping(value = { "/bookableService", "/bookableService/" })
+    @PostMapping(value = { "/bookableService/app", "/bookableService/app/" })
     public ResponseEntity<?> createBookableService(@RequestParam(value = "serviceName") String serviceName,
                                                    @RequestParam(value = "serviceCost") String serviceCost,
                                                    @RequestParam(value = "serviceDuration") String serviceDuration) {
@@ -99,7 +99,7 @@ public class ServiceController {
      * @throws IllegalArgumentException
      * @throws BookableServiceException
      */
-    @PutMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
+    @PutMapping(value = { "/bookableService/app/{name}", "/bookableService/app/{name}/" })
     public ResponseEntity<?> editBookableService(@RequestParam(value = "oldName") String oldName,
                                                  @RequestParam(value = "newName") String newName,
                                                  @RequestParam(value = "newCost") String newCost,
