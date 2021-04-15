@@ -16,7 +16,9 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -27,6 +29,7 @@ public class BookAppointmentFragment extends Fragment {
     private LinearLayout parentLayout;
     private Button btnBookAppointment;
     private HashMap<Integer, String> services;
+    private List<String> selectedServices;
 
     public BookAppointmentFragment() {
         // Required empty public constructor
@@ -49,7 +52,7 @@ public class BookAppointmentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setViews(view);
         queryServices();
-        displayAvailableServices();     //TODO  :: call after fetching, not here
+        displayAvailableServices();
         setBookAppointmentHandler();
     }
 
@@ -58,19 +61,25 @@ public class BookAppointmentFragment extends Fragment {
         timePicker = view.findViewById(R.id.timePicker);
         parentLayout = view.findViewById(R.id.parentLayout);
         btnBookAppointment = view.findViewById(R.id.btnBookAppointment);
+        services = new HashMap<>();
+        selectedServices = new ArrayList<>();
     }
 
     private void queryServices(){
-        test();
-        //TODO get a list of all services
+        List<String> allServices = CustomerMainActivity.getAllServices();
+        for(int i = 0; i < allServices.size(); ++i) {
+            services.put(i, allServices.get(i));
+        }
     }
 
     private void displayAvailableServices(){
-      for(Map.Entry<Integer, String> entry : services.entrySet()){
+        for(Map.Entry<Integer, String> entry : services.entrySet()){
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setText(entry.getValue());
             checkBox.setId(entry.getKey());
             checkBox.setGravity(Gravity.CENTER);
+            checkBox.setOnClickListener(getOnSelected(checkBox));
+            checkBox.setSelected(false);
             parentLayout.addView(checkBox);
         }
     }
@@ -84,15 +93,19 @@ public class BookAppointmentFragment extends Fragment {
         });
     }
 
-    private void test(){
-        this.services = new HashMap<>();
-        this.services.put(1, "wash");
-        this.services.put(2, "cleaning");
-        this.services.put(3, "Dry");
-        this.services.put(4, "cut");
+    private List<String> selectedServices(View view) {
+        for (Map.Entry<Integer, String> entry : services.entrySet()) {
+            int checkboxId = entry.getKey();
+        }
+        return null;
     }
 
-    public HashMap<Integer, String> getAllServices(){
-        return services;
+    View.OnClickListener getOnSelected(final Button button) {
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("and text***" + button.getText().toString());
+                selectedServices.add(button.getText().toString());
+            }
+        };
     }
 }

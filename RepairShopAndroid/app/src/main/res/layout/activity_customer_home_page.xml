@@ -20,7 +20,7 @@
         app:labelVisibilityMode="selected"
         android:layout_alignParentBottom="true"
         android:background="#72A8E1"
-        app:itemTextColor="@color/colorPrimary"
+        app:itemTextColor="#ffffff"
         app:menu="@menu/menu_bottom_navigation" />
     <View
         android:id="@+id/snackbar"
