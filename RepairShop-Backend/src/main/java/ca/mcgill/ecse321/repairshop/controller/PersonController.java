@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PreUpdate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class PersonController {
     // CUSTOMER
     /**
      * create customer method registers a new customer
-     * 
+     * used for the web
+     *
      * @param customerDto the customer transfer object
      * @return response entity
      */
@@ -33,6 +35,28 @@ public class PersonController {
         try {
             Customer customer = personService.createCustomer(customerDto.getEmail(), customerDto.getUsername(),
                     customerDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * create customer method registers a new customer
+     * used for the app
+     *
+     * @param username the username of the new customer
+     * @param password the password of the new customer
+     * @param email the email of the new customer
+     * @return response entity
+     */
+    @PostMapping(value = { "/person/customer/register/app", "/person/customer/register/app/" })
+    public ResponseEntity<?> createCustomer(@RequestParam(value="username")String username,
+                                            @RequestParam(value="email") String email,
+                                            @RequestParam(value="password") String password) {
+        try {
+            Customer customer = personService.createCustomer(email, username,
+                    password);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -64,7 +88,7 @@ public class PersonController {
      * @param password password of the customer
      * @return response entity
      */
-    @PostMapping(value = { "/person/customer/login", "/person/customer/login/" })
+    @PostMapping(value = { "/person/customer/login/app", "/person/customer/login/app/" })
     public ResponseEntity<?> loginCustomer(@RequestParam(value="email")String email, @RequestParam(value="password") String password ) {
         try {
             Customer customer = personService.loginCustomer(email, password);
@@ -92,7 +116,8 @@ public class PersonController {
 
     /**
      * update customer method updates the information of a customer in the database
-     * 
+     * used for the web
+     *
      * @param email the customer email
      * @param customerDto the customer transfer object
      * @return response entity
@@ -101,6 +126,33 @@ public class PersonController {
     public ResponseEntity<?> updateCustomer(@PathVariable String email, @RequestBody CustomerDto customerDto) {
         try {
             Customer customer = personService.updateCustomer(email, customerDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * update customer method updates the information of a customer in the database
+     * used for the app
+     *
+     * @param oldEmail the customer's old email
+     * @param newEmail the customer's new email
+     * @param password the customer's new password
+     * @param username the customer's new username
+     * @return response entity
+     */
+    @PutMapping(value = { "/person/customer/", "/person/customer" })
+    public ResponseEntity<?> updateCustomer(@RequestParam(value="oldEmail") String oldEmail,
+                                            @RequestParam(value="newEmail") String newEmail,
+                                            @RequestParam(value="password")String password,
+                                            @RequestParam(value="username")String username) {
+        try {
+            CustomerDto customerDto = new CustomerDto();
+            customerDto.setEmail(newEmail);
+            customerDto.setPassword(password);
+            customerDto.setUsername(username);
+            Customer customer = personService.updateCustomer(oldEmail, customerDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -144,7 +196,8 @@ public class PersonController {
 
     /**
      * Login technician method logs in the technician
-     * used for the webset
+     * used for the website
+     *
      * @param technicianDto technician transfer object
      * @return response entity
      */
@@ -167,7 +220,7 @@ public class PersonController {
      * @param password password of the technician
      * @return response entity
      */
-    @PostMapping(value = { "/person/technician/login", "/person/technician/login/" })
+    @PostMapping(value = { "/person/technician/login/app", "/person/technician/login/app/" })
     public ResponseEntity<?> loginTechnician(@RequestParam(value="email")String email,
                                              @RequestParam(value="password") String password) {
         try {
@@ -180,7 +233,8 @@ public class PersonController {
 
     /**
      * update technician method updates the information of a technician in the database
-     * 
+     * used for website
+     *
      * @param email the technician email
      * @param technicianDto the technician transfer object
      * @return response entity
@@ -189,6 +243,34 @@ public class PersonController {
     public ResponseEntity<?> updateTechnician(@PathVariable String email, @RequestBody TechnicianDto technicianDto) {
         try {
             Technician technician = personService.updateTechnician(email, technicianDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * update technician method updates the information of a technician in the database
+     * used for app
+     *
+     * @param oldEmail the technician's old email
+     * @param newEmail the technician's new email
+     * @param password the technician's new password
+     * @param username the technician's new password
+     * @return response entity
+     */
+    @PutMapping(value = { "/person/technician", "/person/technician/" })
+    public ResponseEntity<?> updateTechnician(@RequestParam(value="oldEmail") String oldEmail,
+                                              @RequestParam(value="newEmail") String newEmail,
+                                              @RequestParam(value="password") String password,
+                                              @RequestParam(value="username") String username) {
+        try {
+            TechnicianDto technicianDto = new TechnicianDto();
+            technicianDto.setEmail(newEmail);
+            technicianDto.setPassword(password);
+            technicianDto.setUsername(username);
+
+            Technician technician = personService.updateTechnician(oldEmail, technicianDto);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -273,7 +355,7 @@ public class PersonController {
      * @param password password of the admin
      * @return response entity
      */
-    @PostMapping(value = { "/person/administrator/login", "/person/administrator/login/" })
+    @PostMapping(value = { "/person/administrator/login/app", "/person/administrator/login/app/" })
     public ResponseEntity<?> loginAdministrator(@RequestParam(value="email")String email, @RequestParam("password") String password) {
         try {
             Administrator administrator = personService.loginAdministrator(email, password);
@@ -285,7 +367,8 @@ public class PersonController {
 
     /**
      * update admin method updates the information of a administrator in the database
-     * 
+     * used for web
+     *
      * @param email admin email
      * @param administratorDto admin transfer object
      * @return response entity
@@ -300,6 +383,35 @@ public class PersonController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * update admin method updates the information of a administrator in the database
+     * used for app
+     *
+     * @param oldEmail admin's old email
+     * @param newEmail admin's new email
+     * @param password admin's new password
+     * @param username admin's new username
+     * @return response entity
+     */
+    @PutMapping(value = { "/person/administrator", "/person/administrator/" })
+    public ResponseEntity<?> updateAdministrator(@RequestParam(value="oldEmail") String oldEmail,
+                                                 @RequestParam(value="newEmail") String newEmail,
+                                                 @RequestParam(value="password") String password,
+                                                 @RequestParam(value="username") String username) {
+        try {
+            AdministratorDto administratorDto = new AdministratorDto();
+            administratorDto.setEmail(newEmail);
+            administratorDto.setPassword(password);
+            administratorDto.setUsername(username);
+
+            Administrator administrator = personService.updateAdministrator(oldEmail, administratorDto);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     /**
      * get an administrator method gets an administrator from an email
