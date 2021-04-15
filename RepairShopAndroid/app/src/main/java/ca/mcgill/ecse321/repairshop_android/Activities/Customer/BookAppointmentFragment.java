@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,5 +90,9 @@ public class BookAppointmentFragment extends Fragment {
         this.services.put(2, "cleaning");
         this.services.put(3, "Dry");
         this.services.put(4, "cut");
+    }
+
+    public HashMap<Integer, String> getAllServices(){
+        return services;
     }
 }

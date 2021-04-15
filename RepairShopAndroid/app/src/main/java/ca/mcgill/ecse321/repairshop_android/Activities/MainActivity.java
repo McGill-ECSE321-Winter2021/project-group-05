@@ -28,7 +28,6 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class MainActivity extends AppCompatActivity {
-
     private String error = null;
 
     @Override
@@ -98,12 +97,13 @@ public class MainActivity extends AppCompatActivity {
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
+                    System.out.println("succes in request");
                     goToAdminHomePage();
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-
+                        System.out.println(errorResponse);
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {

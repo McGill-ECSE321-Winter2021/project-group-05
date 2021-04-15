@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +72,7 @@ public class CustomerHomeFragment extends Fragment {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
                 Log.d("Tag", clickedDayCalendar.getTime().toString());
                 tvSelectedDate.setText(clickedDayCalendar.getTime().toString());
+                showUpdateDialog(1);
             }
         });
     }
@@ -81,8 +83,20 @@ public class CustomerHomeFragment extends Fragment {
             public void onDayLongClick(EventDay eventDay) {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
                 Log.d("Tag", "here");
+                showCancelDialog(1);
             }
         });
     }
 
+    private void showCancelDialog(int appointmentId){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        CancelAppointmentDialogFragment alertDialog = CancelAppointmentDialogFragment.newInstance("Cancel Appointment", appointmentId); //TODO: FIX ID
+        alertDialog.show(fm, "fragment_alert");
+    }
+
+    private void showUpdateDialog(int appointmentId){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        UpdateAppointmentDialogFragment dialogFragment = UpdateAppointmentDialogFragment.newInstance("Update Appointment");
+        dialogFragment.show(fm, "fragment_update");
+    }
 }
