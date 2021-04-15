@@ -303,4 +303,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * black the '<' key
+     */
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        Toast.makeText(MainActivity.this,"please sign in first",Toast.LENGTH_LONG).show();
+        return;
+    }
 }

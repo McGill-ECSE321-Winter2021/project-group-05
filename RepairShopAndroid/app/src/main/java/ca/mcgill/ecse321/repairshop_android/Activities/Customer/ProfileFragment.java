@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAccount(view);
+                updateAccount();
             }
         });
     }
@@ -123,36 +123,42 @@ public class ProfileFragment extends Fragment {
         goToLogin();
     }
 
-    public void updateAccount(View view){
+    public void updateAccount(){
 
         error = "";
 
-        final TextView tvUserName = (TextView) view.findViewById(R.id.editTextUserName);
+        TextView tvUserName = (TextView) this.getView().findViewById(R.id.editTextUserName);
 
-        final TextView tvEmail = (TextView) view.findViewById(R.id.editTextEmailAddress);
+         TextView tvEmail = (TextView) this.getView().findViewById(R.id.editTextEmailAddress);
 
-        final TextView tvPassword = (TextView) view.findViewById(R.id.editTextPassword);
+         TextView tvPassword = (TextView) this.getView().findViewById(R.id.editTextPassword);
 
-        final TextView tvPasswordConfirm = (TextView) view.findViewById(R.id.editTextPasswordConfirm);
+         TextView tvPasswordConfirm = (TextView) this.getView().findViewById(R.id.editTextPasswordConfirm);
 
         /**
          * throw error if the password != confirm password is the same
          */
-        if (tvUserName==null ){
+        if (tvUserName.getText()=="" ){
             Toast.makeText
-                    (getActivity(), "username", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old username", Toast.LENGTH_SHORT)
                     .show();
         }
-        if (tvPassword==null ){
+        else if (tvEmail.getText()==""){
             Toast.makeText
-                    (getActivity(), "pass is null", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old email", Toast.LENGTH_SHORT)
                     .show();
         }
-        if(tvPasswordConfirm ==null ){
+        else if (tvPassword.getText()=="" ){
             Toast.makeText
-                    (getActivity(), "pass confirm", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old password", Toast.LENGTH_SHORT)
                     .show();
         }
+        else if(tvPasswordConfirm.getText()=="" ){
+            Toast.makeText
+                    (getActivity(), "please enter the new/old passwird", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
 
         if (tvPassword==null || tvPasswordConfirm ==null ||
                 tvUserName==null ||tvEmail ==null ){
@@ -195,13 +201,13 @@ public class ProfileFragment extends Fragment {
                             tvPassword.setText("");
                             tvPasswordConfirm.setText("");
                             Toast.makeText
-                                    (getActivity(), "Success : Account has been updated successfully", Toast.LENGTH_SHORT)
+                                    (getActivity(), "Account has been updated successfully", Toast.LENGTH_SHORT)
                                     .show();
 
                         } catch (Exception e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : fail to set the current user because of:\n"+error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Failed to set the current user because of:\n"+error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                     }
