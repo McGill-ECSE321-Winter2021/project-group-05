@@ -22,7 +22,7 @@ public class ServiceController {
     /**
      * create bookable service creates a new service
      *
-     * @param bookableServiceDto service transfer object
+     * @param bookableServiceDto service transfer object as RequestBody
      * @return response entity
      */
     @PostMapping(value = { "/bookableService", "/bookableService/" })
@@ -37,7 +37,33 @@ public class ServiceController {
     }
 
     /**
-     * edit sevice method edits an existing service
+     * create bookable service creates a new service
+     *
+     * @param serviceName as RequestParams
+     * @param serviceCost as RequestParams
+     * @param serviceDuration as RequestParams
+     * @return response entity
+     */
+    @PostMapping(value = { "/bookableService", "/bookableService/" })
+    public ResponseEntity<?> createBookableService(@RequestParam(value = "serviceName") String serviceName,
+                                                   @RequestParam(value = "serviceCost") String serviceCost,
+                                                   @RequestParam(value = "serviceDuration") String serviceDuration) {
+        try {
+
+            float cost = Float.valueOf(serviceCost);
+            int duration = Integer.valueOf(serviceDuration);
+
+            BookableService bookableService = repairShopService.createService(serviceName, cost,
+                    duration);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(bookableService), HttpStatus.OK);
+        }catch (BookableServiceException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * edit service method edits an existing service
      *
      * @param name service name
      * @param bookableServiceDto service transfer object
@@ -60,6 +86,40 @@ public class ServiceController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    /**
+     * edit service method edits an existing service
+     *
+     * @param oldName service old name as RequestParam
+     * @param newName service old name as RequestParam
+     * @param newCost service old name as RequestParam
+     * @param newDuration service old name as RequestParam
+     * @return response entity
+     * @throws IllegalArgumentException
+     * @throws BookableServiceException
+     */
+    @PutMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
+    public ResponseEntity<?> editBookableService(@RequestParam(value = "oldName") String oldName,
+                                                 @RequestParam(value = "newName") String newName,
+                                                 @RequestParam(value = "newCost") String newCost,
+                                                 @RequestParam(value = "newDuration") String newDuration)
+            throws IllegalArgumentException, BookableServiceException {
+        try{
+            BookableService originalService = repairShopService.getService(oldName);
+            float cost_new = Float.valueOf(newCost);
+            int duration_new = Integer.valueOf(newDuration);
+
+            BookableService newService =  repairShopService.editService(originalService, newName,
+                    cost_new, duration_new);
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(newService), HttpStatus.OK);
+        }
+        catch (BookableServiceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 
     /**
      * get bookable service method returns service from a name
