@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -190,13 +189,14 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.put("person/customer/",requestParams, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         try {
 
 
                             // set the current user with updated account info
                             RepairShopUtil.setCurrentUser(tvUserName.getText().toString(),tvEmail.getText().toString(), "customer");
+
                             // reset the password field
                             tvPassword.setText("");
                             tvPasswordConfirm.setText("");
@@ -229,8 +229,6 @@ public class ProfileFragment extends Fragment {
                                 (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                 .show();
                     }
-
-                        //refreshErrorMessage();
                     }
 
                 });
@@ -326,7 +324,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -346,7 +344,7 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.delete("person/customer/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -366,7 +364,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -401,7 +399,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -415,7 +413,7 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.delete("person/administrator/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -436,7 +434,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
