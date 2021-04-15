@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,10 +93,14 @@ public class MainActivity extends AppCompatActivity {
         }
         // log in as admin
         else if (adminCheckbox.isChecked()){
+            Log.d("tag1","is admin!");
             HttpUtils.post("person/administrator/login", requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("tag2","success");
                     setCurrentAdmin(tv_email.getText().toString());
+                    Log.d("current email: ",RepairShopUtil.loginUserEmail);
+                    Log.d("current username: ",RepairShopUtil.loginUserName);
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -104,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-
+                        Log.d("tag3","failure");
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {
