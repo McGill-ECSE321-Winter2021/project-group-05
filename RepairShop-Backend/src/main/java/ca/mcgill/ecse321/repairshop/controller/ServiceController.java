@@ -131,6 +131,11 @@ public class ServiceController {
         return RepairShopUtil.convertToDto(repairShopService.getService(name));
     }
 
+    /**
+     * gets all bookable services of the repair shop
+     *
+     * @return response entity
+     */
     @GetMapping(value = { "/bookableServices", "/bookableServices/" })
     public List<BookableServiceDto> getAllBookableServices() {
         List<BookableServiceDto> bookableServiceDtoList = new ArrayList<>();
