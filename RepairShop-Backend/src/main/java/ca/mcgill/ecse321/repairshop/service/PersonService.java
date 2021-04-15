@@ -26,7 +26,13 @@ public class PersonService {
     CustomerRepository customerRepository;
 
     /**
-     * Customer
+     * creates a customer account
+     *
+     * @param email customer email
+     * @param username customer username
+     * @param password customer password
+     * @return customer
+     * @throws PersonException
      */
     @Transactional
     public Customer createCustomer(String email, String username, String password) throws PersonException {
@@ -47,6 +53,14 @@ public class PersonService {
         return customer;
     }
 
+    /**
+     * logs in a customer to an existing account
+     *
+     * @param email customer email
+     * @param password customer password
+     * @return customer
+     * @throws PersonException
+     */
     @Transactional
     public Customer loginCustomer(String email, String password) throws PersonException{
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
@@ -60,6 +74,13 @@ public class PersonService {
         return customer;
     }
 
+    /**
+     * returns a customer
+     *
+     * @param email customer email
+     * @return customer
+     * @throws PersonException
+     */
     @Transactional
     public Customer getCustomer(String email) throws PersonException{
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
@@ -69,6 +90,14 @@ public class PersonService {
         return customerOptional.get();
     }
 
+    /**
+     * updates a customer account
+     *
+     * @param email customer email
+     * @param customerDto customer transfer object
+     * @return customer
+     * @throws PersonException
+     */
     @Transactional
     public Customer updateCustomer(String email, CustomerDto customerDto) throws PersonException{
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
@@ -97,11 +126,23 @@ public class PersonService {
         return customer;
     }
 
+    /**
+     * gets all customers
+     *
+     * @return list of customers
+     */
     @Transactional
     public List<Customer> getAllCustomers() {
         return RepairShopUtil.toList(customerRepository.findAll());
     }
 
+    /**
+     * deletes a customer account
+     *
+     * @param email customer email
+     * @return customer
+     * @throws PersonException
+     */
     @Transactional
     public Customer deleteCustomer(String email) throws PersonException{
         Optional<Customer> customerOptional = Optional.ofNullable(customerRepository.findCustomerByEmail(email));
@@ -115,7 +156,13 @@ public class PersonService {
     }
 
     /**
-     * Technician
+     * creates a technician
+     *
+     * @param email technician email
+     * @param username tech username
+     * @param password tech password
+     * @return technician
+     * @throws PersonException
      */
     @Transactional
     public Technician createTechnician(String email, String username, String password) throws PersonException{
@@ -135,6 +182,14 @@ public class PersonService {
         return technician;
     }
 
+    /**
+     * login to tech account
+     *
+     * @param email tech email
+     * @param password tech password
+     * @return technician
+     * @throws PersonException
+     */
     @Transactional
     public Technician loginTechnician(String email, String password) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
@@ -148,6 +203,13 @@ public class PersonService {
         return technician;
     }
 
+    /**
+     * finds a technician
+     *
+     * @param email technician email
+     * @return technician
+     * @throws PersonException
+     */
     @Transactional
     public Technician getTechnician(String email) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
@@ -157,6 +219,13 @@ public class PersonService {
         return technicianOptional.get();
     }
 
+    /**
+     * deletes a tech account
+     *
+     * @param email technician email
+     * @return technician
+     * @throws PersonException
+     */
     @Transactional
     public Technician deleteTechnician(String email) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
@@ -169,11 +238,24 @@ public class PersonService {
         return technician;
     }
 
+    /**
+     * returns all technicians
+     *
+     * @return list of technicians
+     */
     @Transactional
     public List<Technician> getAllTechnician() {
         return RepairShopUtil.toList(technicianRepository.findAll());
     }
 
+    /**
+     * updates technician account
+     *
+     * @param email tehcnician email
+     * @param technicianDto transfer object
+     * @return technician
+     * @throws PersonException
+     */
     @Transactional
     public Technician updateTechnician(String email, TechnicianDto technicianDto) throws PersonException{
         Optional<Technician> technicianOptional = Optional.ofNullable(technicianRepository.findTechnicianByEmail(email));
@@ -204,6 +286,16 @@ public class PersonService {
     /**
      * Administrator
      */
+
+    /**
+     * creates admin account
+     *
+     * @param email admin email
+     * @param username admin username
+     * @param password admin password
+     * @return admin
+     * @throws PersonException
+     */
     @Transactional
     public Administrator createAdministrator(String email, String username, String password) throws PersonException{
         String error = getErrorFromData(email, username, password);
@@ -222,6 +314,14 @@ public class PersonService {
         return administrator;
     }
 
+    /**
+     * login to admin account
+     *
+     * @param email admin email
+     * @param password admin password
+     * @return admin
+     * @throws PersonException
+     */
     @Transactional
     public Administrator loginAdministrator(String email, String password) throws PersonException{
         Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
@@ -235,6 +335,13 @@ public class PersonService {
         return administrator;
     }
 
+    /**
+     * find admin
+     *
+     * @param email admin email
+     * @return admin
+     * @throws PersonException
+     */
     @Transactional
     public Administrator getAdministrator(String email) throws PersonException {
         Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
@@ -244,6 +351,13 @@ public class PersonService {
         return administratorOptional.get();
     }
 
+    /**
+     * delete admin account
+     *
+     * @param email admin email
+     * @return admin
+     * @throws PersonException
+     */
     @Transactional
     public Administrator deleteAdministrator(String email) throws PersonException{
         Optional<Administrator> administratorOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
@@ -256,9 +370,22 @@ public class PersonService {
         return administrator;
     }
 
+    /**
+     * get a list of all admins
+     *
+     * @return list of admins
+     */
     @Transactional
     public List<Administrator> getAllAdministrator() {return RepairShopUtil.toList(administratorRepository.findAll()); }
 
+    /**
+     * update admin account
+     *
+     * @param email admin email
+     * @param administratorDto transfer object
+     * @return admin
+     * @throws PersonException
+     */
     @Transactional
     public Administrator updateAdministrator(String email, AdministratorDto administratorDto) throws PersonException{
         Optional<Administrator> technicianOptional = Optional.ofNullable(administratorRepository.findAdministratorByEmail(email));
@@ -286,6 +413,15 @@ public class PersonService {
     }
 
     //HELPER METHODS
+
+    /**
+     * return error string
+     *
+     * @param email user string
+     * @param username username
+     * @param password password
+     * @return error (String)
+     */
     private String getErrorFromData(String email, String username, String password){
         if(email == null || email.equals("") ){
            return "Email cannot be empty";
@@ -303,6 +439,12 @@ public class PersonService {
         return "";
     }
 
+    /**
+     * checks for duplicates of the email
+     *
+     * @param email user email
+     * @return String
+     */
     private String checkDuplicateEmail(String email){
         if(customerRepository.findCustomerByEmail(email) == null
                 || administratorRepository.findAdministratorByEmail(email) == null

@@ -41,6 +41,9 @@ public class TestAppointmentPersistence {
     private TimeSlotRepository timeSlotRepository;
 
 
+    /**
+     * clear database
+     */
     @AfterEach
     public void clearDatabase() {
 
@@ -52,6 +55,9 @@ public class TestAppointmentPersistence {
         timeSlotRepository.deleteAll();
     }
 
+    /**
+     * testing persistence of appointment
+     */
     public void testPersistAndLoadAppointment() {
 
         String name = "TestCustomer";

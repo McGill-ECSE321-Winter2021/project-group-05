@@ -21,6 +21,9 @@ class TestBookableServicePersistence {
     private ServiceRepository serviceRepository;
 
 
+    /**
+     * clear database
+     */
     @AfterEach
     public void clearDatabase() {
         serviceRepository.deleteAll();

@@ -28,6 +28,15 @@ public class AppointmentService {
     @Autowired
     TechnicianRepository technicianRepository;
 
+    /**
+     * creates an appointment
+     *
+     * @param services list of services
+     * @param customer appointment customer
+     * @param timeslot appointment timeslot
+     * @return appointment
+     * @throws AppointmentException
+     */
     @Transactional
     public Appointment createAppointment(List<BookableService> services, Customer customer, TimeSlot timeslot)
             throws AppointmentException {
@@ -60,12 +69,27 @@ public class AppointmentService {
         return appointment;
     }
 
+    /**
+     * returns an appointment from an id
+     *
+     * @param id appointment id
+     * @return appointment
+     */
     @Transactional
     public Appointment getAppointment(Long id) {
         Appointment appointment = appointmentRepository.findAppointmentById(id);
         return appointment;
     }
 
+    /**
+     * edits an existing appointment
+     *
+     * @param appointment existing appointment
+     * @param service_new list of new services
+     * @param timeSlot appointment timeslot
+     * @return appointment
+     * @throws AppointmentException
+     */
     @Transactional
     public Appointment editAppointment (Appointment appointment,List<BookableService> service_new,
                                         TimeSlot timeSlot) throws AppointmentException {
@@ -99,12 +123,18 @@ public class AppointmentService {
     }
 
 
+    /**
+     * deletes an existing appointment
+     *
+     * @param appointment existing appointment
+     * @throws AppointmentException
+     */
     @Transactional
     public void deleteAppointment (Appointment appointment) throws AppointmentException {
         if (appointment == null){
             throw new AppointmentException("Cannot delete a null appointment");
         }
-        Bill bill = appointment.getBill();
+
         List<Technician> technicians = RepairShopUtil.toList(technicianRepository.findAll());
         for(Technician technician : technicians){
             for (Appointment appointment1 : technician.getAppointments()){
@@ -116,9 +146,16 @@ public class AppointmentService {
             }
         }
         appointmentRepository.deleteById(appointment.getId());
-        //billRepository.deleteById(bill.getId());  //TODO
+
     }
 
+    /**
+     *returns a list of appointments for a customer
+     *
+     * @param customer appointment customer
+     * @return list of appointments
+     * @throws AppointmentException
+     */
     @Transactional
     public List<Appointment> getAppointmentsBookedByCustomer(Customer customer) throws AppointmentException {
         if (customer == null){
@@ -128,6 +165,12 @@ public class AppointmentService {
         return appointmentsBookedByCustomer;
     }
 
+    /**
+     * enters a no show for a customer
+     *
+     * @param appointment appointment for no show
+     * @throws AppointmentException
+     */
     @Transactional
     public void enterNoShow(Appointment appointment) throws AppointmentException {
         Customer customer = appointment.getCustomer();
@@ -136,6 +179,11 @@ public class AppointmentService {
         customerRepository.save(customer);
     }
 
+    /**
+     * returns a list of all appointments
+     *
+     * @return list of appointments
+     */
     @Transactional
     public List<Appointment> getAllAppointments(){
         return RepairShopUtil.toList(appointmentRepository.findAll());

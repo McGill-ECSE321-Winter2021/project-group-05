@@ -23,7 +23,13 @@ public class RepairShopService {
     AppointmentRepository appointmentRepository;
 
     /**
-     * create new Service
+     * creates a new service
+     *
+     * @param name service name
+     * @param cost service cost
+     * @param duration service duration
+     * @return service
+     * @throws BookableServiceException
      */
     @Transactional
     public BookableService createService(String name, float cost, int duration) throws BookableServiceException {
@@ -49,6 +55,13 @@ public class RepairShopService {
 
     /**
      * edit existing Service
+     *
+     * @param service service name
+     * @param newName new name
+     * @param newCost new cost
+     * @param newDuration new duration
+     * @return service
+     * @throws BookableServiceException
      */
     @Transactional
     public BookableService editService(BookableService service, String newName, float newCost, int newDuration) throws BookableServiceException {
@@ -78,18 +91,35 @@ public class RepairShopService {
         return service;
     }
 
+    /**
+     * find a service by id
+     *
+     * @param Id service id
+     * @return service
+     */
     @Transactional
     public BookableService getService(Long Id) {
         BookableService service = serviceRepository.findServiceById(Id);
         return service;
     }
 
+    /**
+     * find a service by name
+     *
+     * @param name service name
+     * @return name
+     */
     @Transactional
     public BookableService getService(String name) {
         BookableService service = serviceRepository.findServiceByName(name);
         return service;
     }
 
+    /**
+     * find all services
+     *
+     * @return list of service
+     */
     @Transactional
     public List<BookableService> getAllService() {
         return RepairShopUtil.toList(serviceRepository.findAll());
@@ -97,6 +127,9 @@ public class RepairShopService {
 
     /**
      * delete existing service
+     *
+     * @param bookableService service
+     * @throws BookableServiceException
      */
     @Transactional
     public void deleteBookableService (BookableService bookableService) throws BookableServiceException {

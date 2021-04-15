@@ -27,6 +27,9 @@ public class TestBillPersistence {
     @Autowired
     private BillRepository billRepository;
 
+    /**
+     * clear database
+     */
     @AfterEach
     public void clearDatabase() {
 
@@ -36,7 +39,7 @@ public class TestBillPersistence {
 
     }
     /**
-     * testing Bill
+     * testing Bill persistence
      */
     public void testPersistAndLoadBill() {
 
