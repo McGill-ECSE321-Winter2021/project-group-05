@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-                        System.out.println("failure");
+
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {

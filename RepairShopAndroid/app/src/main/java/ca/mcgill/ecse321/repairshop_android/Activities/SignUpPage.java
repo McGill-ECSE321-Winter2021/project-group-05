@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -61,7 +62,7 @@ public class SignUpPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                //RepairShopUtil.refreshErrorMessage(view, R.id.error, error);
+
             }
 
         });
@@ -73,11 +74,14 @@ public class SignUpPage extends AppCompatActivity {
         HttpUtils.get("person/customer/"+ email,new RequestParams(),  new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //refreshErrorMessage();
+
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
                     error += e.getMessage();
+                    Toast.makeText
+                            (SignUpPage.this, "set current customer failed:\n"+ error, Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
@@ -89,7 +93,11 @@ public class SignUpPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                //refreshErrorMessage();
+
+                Toast.makeText
+                        (SignUpPage.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                        .show();
+
             }
 
         });
