@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
 
 public class BookAppointmentFragment extends Fragment {
@@ -54,6 +55,7 @@ public class BookAppointmentFragment extends Fragment {
         queryServices();
         displayAvailableServices();
         setBookAppointmentHandler();
+        System.out.println(RepairShopUtil.loginUserEmail);
     }
 
     private void setViews(View view){
@@ -67,6 +69,9 @@ public class BookAppointmentFragment extends Fragment {
 
     private void queryServices(){
         List<String> allServices = CustomerMainActivity.getAllServices();
+        if(allServices == null){
+            return;
+        }
         for(int i = 0; i < allServices.size(); ++i) {
             services.put(i, allServices.get(i));
         }
