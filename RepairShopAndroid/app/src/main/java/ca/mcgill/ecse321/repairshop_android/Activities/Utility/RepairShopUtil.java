@@ -8,6 +8,7 @@ public class RepairShopUtil {
 
     public static String loginUserName="";
     public static String loginUserEmail="";
+    public static String userType="";
 
 
     public static void refreshErrorMessage(View view, int id, String error) {
@@ -22,8 +23,9 @@ public class RepairShopUtil {
         }
     }
 
-    public static void setCurrentUser(String username, String email) {
+    public static void setCurrentUser(String username, String email, String loginUserType) {
         loginUserName = username;
         loginUserEmail = email;
+        userType = loginUserType;
     }
 }

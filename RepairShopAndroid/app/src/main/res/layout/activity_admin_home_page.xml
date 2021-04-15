@@ -17,10 +17,10 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
         android:layout_alignParentBottom="true"
-        android:background="@color/material_on_surface_stroke"
+        android:background="#72A8E1"
         app:itemTextColor="@color/colorPrimary"
+        app:labelVisibilityMode="selected"
         app:menu="@menu/menu_bottom_navigation_admin" />
     <View
         android:id="@+id/snackbar"

@@ -2,6 +2,7 @@
     <string name="app_name">RepairShop</string>
     <string name="email">email</string>
     <string name="password">password</string>
+    <string name="confirm_password">confirm password</string>
     <string name="login">login</string>
 
     <string name="userName">username</string>
@@ -13,6 +14,9 @@
     <string name="newServiceCost">Service Cost</string>
     <string name="newServiceDuration">Service Duration</string>
     <string name="title_activity_create_service">Create Service</string>
+    <string name="nav_create_service">Create</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
     <!-- Admin -->
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -17,9 +17,9 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="selected"
         android:layout_alignParentBottom="true"
-        android:background="@color/material_on_surface_stroke"
+        android:background="#72A8E1"
         app:itemTextColor="@color/colorPrimary"
         app:menu="@menu/menu_bottom_navigation" />
     <View
