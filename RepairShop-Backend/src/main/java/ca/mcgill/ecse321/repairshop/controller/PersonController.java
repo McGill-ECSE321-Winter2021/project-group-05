@@ -41,7 +41,8 @@ public class PersonController {
 
     /**
      * Login customer method logs in a customer to their account
-     * 
+     * Used in the web
+     *
      * @param customerDto  the customer transfer object
      * @return response entity
      */
@@ -49,6 +50,24 @@ public class PersonController {
     public ResponseEntity<?> loginCustomer(@RequestBody CustomerDto customerDto) {
         try {
             Customer customer = personService.loginCustomer(customerDto.getEmail(), customerDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Login customer method logs in a customer to their account
+     * Used in the android app
+     *
+     * @param email  the email of the customer
+     * @param password password of the customer
+     * @return response entity
+     */
+    @PostMapping(value = { "/person/customer/login", "/person/customer/login/" })
+    public ResponseEntity<?> loginCustomer(@RequestParam(value="email")String email, @RequestParam(value="password") String password ) {
+        try {
+            Customer customer = personService.loginCustomer(email, password);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(customer), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -125,7 +144,7 @@ public class PersonController {
 
     /**
      * Login technician method logs in the technician
-     * 
+     * used for the webset
      * @param technicianDto technician transfer object
      * @return response entity
      */
@@ -134,6 +153,25 @@ public class PersonController {
         try {
             Technician technician = personService.loginTechnician(technicianDto.getEmail(),
                     technicianDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Login technician method logs in the technician
+     * used for the app
+     *
+     * @param email email of the technician
+     * @param password password of the technician
+     * @return response entity
+     */
+    @PostMapping(value = { "/person/technician/login", "/person/technician/login/" })
+    public ResponseEntity<?> loginTechnician(@RequestParam(value="email")String email,
+                                             @RequestParam(value="password") String password) {
+        try {
+            Technician technician = personService.loginTechnician(email, password);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(technician), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -211,7 +249,8 @@ public class PersonController {
 
     /**
      * Login administrator method logs in admin to their account
-     * 
+     * used for web
+     *
      * @param administratorDto the admin transfer object
      * @return response entity
      */
@@ -220,6 +259,24 @@ public class PersonController {
         try {
             Administrator administrator = personService.loginAdministrator(administratorDto.getEmail(),
                     administratorDto.getPassword());
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Login administrator method logs in admin to their account
+     * Used for the App
+     *
+     * @param email email of the admin
+     * @param password password of the admin
+     * @return response entity
+     */
+    @PostMapping(value = { "/person/administrator/login", "/person/administrator/login/" })
+    public ResponseEntity<?> loginAdministrator(@RequestParam(value="email")String email, @RequestParam("password") String password) {
+        try {
+            Administrator administrator = personService.loginAdministrator(email, password);
             return new ResponseEntity<>(RepairShopUtil.convertToDto(administrator), HttpStatus.OK);
         } catch (PersonException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
