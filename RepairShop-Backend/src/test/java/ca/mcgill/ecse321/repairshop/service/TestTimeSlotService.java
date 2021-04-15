@@ -64,6 +64,9 @@ public class TestTimeSlotService {
     private static final Long APPOINTMENT_KEY = 0L;
     private static final Long APPOINTMENT_NONEXISTING_KEY = -1L;
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput() {
 
@@ -172,9 +175,9 @@ public class TestTimeSlotService {
     }
 
 
-
-    // TODO: test for creating timeSlot in the past --> fail
-
+    /**
+     * negative create timeslot [end time before start time]
+     */
     @Test
     public void testTimeSlotEndTimeBeforeStartTime() {
         // CREATING A TIMESLOT WHICH ENDS BEFORE EVEN STRATS
@@ -199,6 +202,9 @@ public class TestTimeSlotService {
         assertEquals("start time must be before end time", error);
     }
 
+    /**
+     * positive create timeslot
+     */
     @Test
     public void testTimeSlotStartTimeBeforeEndTime() {
         Calendar c = Calendar.getInstance();
@@ -223,6 +229,9 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * negative delete timeslot [null time slot]
+     */
     @Test
     public void testDeleteNullTimeSlot(){
         TimeSlot timeSlot = null;
@@ -239,6 +248,9 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * positive delete timeslot
+     */
     @Test
     public void testDeleteTimeSlot(){
         Calendar c = Calendar.getInstance();
@@ -264,6 +276,9 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * negative create timeslot [too late]
+     */
     @Test
     public void testEnterTimeSlotTooLate(){
         LocalDate dateToday = LocalDate.now();
@@ -289,6 +304,9 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * positive get open timeslots
+     */
     @Test
     public void testGetOpenSlots(){
         Calendar c = Calendar.getInstance();
@@ -328,39 +346,10 @@ public class TestTimeSlotService {
 
 
 
-    private BookableService createTestService(){
-        try {
-            float serviceCost = 10;
-            int serviceDuration = 60;
-            BookableService service = repairShopService.createService("testservice", serviceCost, serviceDuration);
 
-            return service;
-        }
-        catch (BookableServiceException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
 
-    private List<BookableService> createTestListServices(){
-        List<BookableService> bookableServices = new ArrayList<>();
-        bookableServices.add(createTestService());
-        return bookableServices;
-    }
 
-    private Customer createTestCustomer(){
-        // CREATING CUSTOMER
-        String customerUsername = "Bob";
-        String customerPassword = "abc123";
-        Customer testCustomer = null;
-        try {
-            testCustomer = personService.createCustomer("flor@abc.com", customerUsername, customerPassword);
-        } catch (PersonException e) {
-            e.printStackTrace();
-        }
-        testCustomer.setEmail("flor@abc.com");
-        return testCustomer;
-    }
+
 
 
 }

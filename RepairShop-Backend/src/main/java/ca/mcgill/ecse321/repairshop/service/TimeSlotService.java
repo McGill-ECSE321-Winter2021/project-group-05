@@ -25,6 +25,15 @@ public class TimeSlotService {
     @Autowired
     AppointmentRepository appointmentRepository;
 
+    /**
+     * create a time slot
+     *
+     * @param date timeslot date
+     * @param startTime timeslot start time
+     * @param endTime timeslot end time
+     * @return timeslot
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public TimeSlot createTimeSlot(Date date, Time startTime, Time endTime) throws IllegalArgumentException{
         if(startTime.toLocalTime().isAfter(endTime.toLocalTime())) {
@@ -41,6 +50,14 @@ public class TimeSlotService {
         return timeSlot;
     }
 
+    /**
+     * for purposed of testing no show to create a timeslot for now
+     *
+     * @param date timeslot date
+     * @param startTime timeslot start time
+     * @param endTime timeslot end time
+     * @return timeslot
+     */
    @Transactional
     public TimeSlot createTimeSlotforTestingNoShow(Date date, Time startTime, Time endTime){
         TimeSlot timeSlot = createInstanceOfTimeSlot(date, startTime, endTime);
@@ -48,25 +65,46 @@ public class TimeSlotService {
         return timeSlot;
     }
 
+    /**
+     * delete a timeslot
+     *
+     * @param timeslot timeslot
+     */
     @Transactional
     public void deleteTimeSlot(TimeSlot timeslot) {
         if(timeslot == null){
             throw new IllegalArgumentException("Timeslot is null");
         }
-        timeSlotRepository.deleteById(timeslot.getId()); //??????
+        timeSlotRepository.deleteById(timeslot.getId());
     }
 
+    /**
+     * find timeslot
+     *
+     * @param id timeslot id
+     * @return
+     */
     @Transactional
     public TimeSlot getTimeSlot(Long id) {
         TimeSlot timeSlot = timeSlotRepository.findTimeSlotById(id);
         return timeSlot;
     }
 
+    /**
+     * find all timeslots
+     *
+     * @return list of timeslots
+     */
     @Transactional
     public List<TimeSlot> getAllTimeSlot() {
         return timeSlotRepository.findAll();
     }
 
+    /**
+     * find all nonreserved timeslots
+     *
+     * @return list of timeslots
+     */
     @Transactional
     public List<TimeSlot> getAllOpenTimeSlot() {
         List<TimeSlot> allSlots = getAllTimeSlot();
@@ -74,8 +112,8 @@ public class TimeSlotService {
         List<TimeSlot> openSlots = new ArrayList<>();
         boolean legal = true;
         for(TimeSlot slot : allSlots){
-            for(Appointment a : allAppts){
-                if(a.getTimeslot().equals(slot)) {
+            for(Appointment apt : allAppts){
+                if(apt.getTimeslot().equals(slot)) {
                     legal = false;
                 }
             }
@@ -88,13 +126,18 @@ public class TimeSlotService {
         return openSlots;
     }
 
-    /**
-     * creation of a timeslot by the administrator and assigning it to a technician
-     */
+
 
     //HELPER FUNCTIONS
 
-    //Construct a timeSlot
+    /**
+     * create instance of slot
+     *
+     * @param date date
+     * @param startTime start time
+     * @param endTime end time
+     * @return slot
+     */
     public TimeSlot createInstanceOfTimeSlot(Date date, Time startTime, Time endTime){
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setDate(date);

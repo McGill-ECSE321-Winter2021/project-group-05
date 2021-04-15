@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @SuppressWarnings("serial")
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class TimeSlotException extends Exception{
+    /**
+     * return an exception
+     *
+     * @param message exception
+     */
     public TimeSlotException(String message){
         super(message);
     }

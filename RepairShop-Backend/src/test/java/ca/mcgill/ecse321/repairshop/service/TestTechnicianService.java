@@ -39,6 +39,9 @@ public class TestTechnicianService {
     private static final String TECH_PASSWORD = "678";
     private static final Long TECH_ID = 14L;
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput() {
         //Technician by email
@@ -58,7 +61,9 @@ public class TestTechnicianService {
 
     //CUSTOMER
 
-    //positive create Technician
+    /**
+     * positive create Technician
+     */
     @Test
     public void testCreateTechnician() {
         Technician Technician = new Technician();
@@ -77,7 +82,9 @@ public class TestTechnicianService {
         assertEquals(createdTechnician.getEmail(), Technician.getEmail());
     }
 
-    //negative create Technician [missing email]
+    /**
+     * negative create Technician [missing email]
+     */
     @Test
     public void testCreateTechnicianWithoutEmail() {
         Technician Technician = new Technician();
@@ -94,7 +101,9 @@ public class TestTechnicianService {
     }
 
 
-    //negative create customer [missing username]
+    /**
+     * negative create customer [missing username]
+     */
     @Test
     public void testCreateTechnicianWithoutUsername() {
         Technician Technician = new Technician();
@@ -110,7 +119,9 @@ public class TestTechnicianService {
         assertNull(createdTechnician);
     }
 
-    //negative create customer [missing password]
+    /**
+     * negative create customer [missing password]
+     */
     @Test
     public void testCreateTechnicianWithoutPassword() {
         Technician Technician = new Technician();
@@ -126,7 +137,9 @@ public class TestTechnicianService {
         assertNull(createdTechnician);
     }
 
-    //positive login test
+    /**
+     * positive login test
+     */
     @Test
     public void testLoginTechnician() {
         Technician Technician = new Technician();
@@ -143,7 +156,9 @@ public class TestTechnicianService {
         assertNotNull(createdTechnician);
     }
 
-    //negative login test [customer does not exist]
+    /**
+     * negative login test [customer does not exist]
+     */
     @Test
     public void testLoginTechnicianWithWrongEmail() {
         Technician Technician = new Technician();
@@ -159,7 +174,9 @@ public class TestTechnicianService {
         }
     }
 
-    //negative login test [wrong password]
+    /**
+     * negative login test [wrong password]
+     */
     @Test
     public void testLoginTechnicianWithWrongPassword() {
         Technician Technician = new Technician();
@@ -175,7 +192,9 @@ public class TestTechnicianService {
         }
     }
 
-    //positive get test
+    /**
+     * positive get test
+     */
     @Test
     public void testGetTechnician() {
         Technician Technician = new Technician();
@@ -192,7 +211,9 @@ public class TestTechnicianService {
         assertNotNull(createdTechnician);
     }
 
-    //positive get test
+    /**
+     * negative get test [wrong email]
+     */
     @Test
     public void testGetTechnicianWithWrongEmail() {
         Technician Technician = new Technician();
@@ -208,7 +229,9 @@ public class TestTechnicianService {
         }
     }
 
-    //positive update test
+    /**
+     * positive update test
+     */
     @Test
     public void testUpdateTechnician() {
         TechnicianDto TechnicianDto = new TechnicianDto();
@@ -225,7 +248,9 @@ public class TestTechnicianService {
         assertNotNull(updatedTechnician);
     }
 
-    //negative update test [wrong email]
+    /**
+     * negative update test [wrong email]
+     */
     @Test
     public void testUpdateTechnicianWithWrongEmail() {
         TechnicianDto TechnicianDto = new TechnicianDto();
@@ -241,7 +266,9 @@ public class TestTechnicianService {
         }
     }
 
-    //negative update test [dulicate email]
+    /**
+     * negative update test [duplicate email]
+     */
     @Test
     public void testUpdateTechnicianWithDuplicateEmail() {
         TechnicianDto technicianDto = new TechnicianDto();
@@ -257,7 +284,9 @@ public class TestTechnicianService {
         }
     }
 
-    //positive delete
+    /**
+     * positive delete
+     */
     @Test
     public void testDeleteTechnician() {
         Technician Technician = null;
@@ -270,7 +299,9 @@ public class TestTechnicianService {
     }
 
 
-    //nagative delete
+    /**
+     * negative delete test [null tech]
+     */
     @Test
     public void testDeleteNonExistingTechnician() {
 

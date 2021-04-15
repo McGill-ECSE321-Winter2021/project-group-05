@@ -58,6 +58,9 @@ public class TestCustomerService {
     private static final Long OWNER_ID = 15L;
 
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput() {
 
@@ -107,7 +110,9 @@ public class TestCustomerService {
 
     //CUSTOMER
 
-    //positive create customer
+    /**
+     * positive create customer
+     */
     @Test
     public void testCreateCustomer() {
         Customer customer = new Customer();
@@ -126,7 +131,9 @@ public class TestCustomerService {
         assertEquals(createdCustomer.getEmail(), customer.getEmail());
     }
 
-    //negative create customer [missing email]
+    /**
+     * negative create customer [missing email]
+     */
     @Test
     public void testCreateCustomerWithoutEmail() {
         Customer customer = new Customer();
@@ -142,7 +149,9 @@ public class TestCustomerService {
         assertNull(createdCustomer);
     }
 
-    //negative create customer [missing username]
+    /**
+     * negative create customer [missing username]
+     */
     @Test
     public void testCreateCustomerWithoutUsername() {
         Customer customer = new Customer();
@@ -158,7 +167,9 @@ public class TestCustomerService {
         assertNull(createdCustomer);
     }
 
-    //negative create customer [missing password]
+    /**
+     * negative create customer [missing password]
+     */
     @Test
     public void testCreateCustomerWithoutPassword() {
         Customer customer = new Customer();
@@ -174,7 +185,9 @@ public class TestCustomerService {
         assertNull(createdCustomer);
     }
 
-    //positive login test
+    /**
+     * positive login test
+     */
     @Test
     public void testLoginCustomer() {
         Customer customer = new Customer();
@@ -191,7 +204,9 @@ public class TestCustomerService {
         assertNotNull(createdCustomer);
     }
 
-    //negative login test [customer does not exist]
+    /**
+     * negative login test [customer does not exist]
+     */
     @Test
     public void testLoginCustomerWithWrongEmail() {
         Customer customer = new Customer();
@@ -207,7 +222,9 @@ public class TestCustomerService {
         }
     }
 
-    //negative login test [wrong password]
+    /**
+     * negative login test [wrong password]
+     */
     @Test
     public void testLoginCustomerWithWrongPassword() {
         Customer customer = new Customer();
@@ -223,7 +240,9 @@ public class TestCustomerService {
         }
     }
 
-    //positive get test
+    /**
+     * positive get test
+     */
     @Test
     public void testGetCustomer() {
         Customer customer = new Customer();
@@ -240,7 +259,9 @@ public class TestCustomerService {
         assertNotNull(createdCustomer);
     }
 
-    //positive get test
+    /**
+     * negative get test [wrong email]
+     */
     @Test
     public void testGetCustomerWithWrongEmail() {
         Customer customer = new Customer();
@@ -256,7 +277,9 @@ public class TestCustomerService {
         }
     }
 
-    //positive update test
+    /**
+     * positive update test
+     */
     @Test
     public void testUpdateCustomer() {
         CustomerDto customer = new CustomerDto();
@@ -273,7 +296,9 @@ public class TestCustomerService {
         assertNotNull(updatedCustomer);
     }
 
-    //negative update test [wrong email]
+    /**
+     * negative update test [wrong email]
+     */
     @Test
     public void testUpdateCustomerWithWrongEmail() {
         CustomerDto customer = new CustomerDto();
@@ -289,7 +314,9 @@ public class TestCustomerService {
         }
     }
 
-    //negative update test [dulicate email]
+    /**
+     * negative update test [dulicate email]
+     */
     @Test
     public void testUpdatCustomerWithDuplicateEmail() {
         CustomerDto customerDto = new CustomerDto();
@@ -305,7 +332,9 @@ public class TestCustomerService {
         }
     }
 
-    //positive delete
+    /**
+     * positive delete test
+     */
     @Test
     public void testDeleteCustomer() {
         Customer customer = null;
@@ -317,7 +346,9 @@ public class TestCustomerService {
         assertNotNull(customer);
     }
 
-    //nagative delete
+    /**
+     * negative delete test [null admin]
+     */
     @Test
     public void testDeleteNonExistingAdministrator() {
 

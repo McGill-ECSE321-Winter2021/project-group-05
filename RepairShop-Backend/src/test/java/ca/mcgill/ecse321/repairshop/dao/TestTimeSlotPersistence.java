@@ -25,6 +25,9 @@ public class TestTimeSlotPersistence {
     @Autowired
     private TimeSlotRepository timeSlotRepository;
 
+    /**
+     * clear database
+     */
     @AfterEach
     public void clearDatabase() {
 

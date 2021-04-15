@@ -33,6 +33,9 @@ public class TestPersonPersistence {
     @Autowired
     private TimeSlotRepository timeSlotRepository;
 
+    /**
+     * clear database
+     */
     @AfterEach
     public void clearDatabase() {
 
@@ -43,7 +46,7 @@ public class TestPersonPersistence {
 
     }
     /**
-     * testing customer
+     * testing customer persistence
      */
 
     public void testPersistAndLoadCustomer() {
@@ -135,7 +138,7 @@ public class TestPersonPersistence {
     }
 
     /**
-     * testing Administrator
+     * testing Administrator persistence
      */
     public void testPersistAndLoadAdministrator() {
 
