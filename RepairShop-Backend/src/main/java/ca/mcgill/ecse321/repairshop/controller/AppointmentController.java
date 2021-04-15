@@ -50,14 +50,48 @@ public class AppointmentController {
     /**
      * edit appointment method allows appointments to be edited by any user
      *
-     * @param id the current appointment id
-     * @param timeSlotId the id of the corresponding timeslot of the appointment
+     * @param id           the current appointment id
+     * @param timeSlotId   the id of the corresponding timeslot of the appointment
      * @param serviceNames all the services attached to current appointment
      * @return ResponseEntity corresponding to edited appointment
      * @throws AppointmentException
      */
     @PutMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public ResponseEntity<?> editAppointment(@PathVariable("id") Long id,
+                                             @RequestParam(value = "timeSlotId") Long timeSlotId,
+                                             @RequestParam(value = "serviceNames") List<String> serviceNames) {
+        try {
+            TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
+            if (canCancelAndDelete(timeSlot)) {
+                Appointment appointment = appointmentService.getAppointment(id);
+
+                List<BookableService> service_new = new ArrayList<>();
+                for (String serviceName : serviceNames) {
+                    BookableService bookableService = repairShopService.getService(serviceName);
+                    service_new.add(bookableService);
+                }
+
+                Appointment newAppointment = appointmentService.editAppointment(appointment, service_new, timeSlot);
+                return new ResponseEntity<>(RepairShopUtil.convertToDto(newAppointment), HttpStatus.OK);
+            }
+            throw new AppointmentException("Cannot edit appointment before 24hr");
+        } catch (AppointmentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * edit appointment method allows appointments to be edited by any user
+     *
+     * @param id           the current appointment id
+     * @param timeSlotId   the id of the corresponding timeslot of the appointment
+     * @param serviceNames all the services attached to current appointment
+     * @return ResponseEntity corresponding to edited appointment
+     * @throws AppointmentException
+     */
+    @PutMapping(value = {"/appointment/", "/appointment"})
+    public ResponseEntity<?> editAppointment2(@RequestParam(value = "id") Long id,
                                              @RequestParam(value = "timeSlotId") Long timeSlotId,
                                              @RequestParam(value = "serviceNames") List<String> serviceNames) {
         try {
@@ -89,6 +123,30 @@ public class AppointmentController {
      */
     @DeleteMapping(value = {"/appointment/{id}", "/appointment/{id}/"})
     public ResponseEntity<?> deleteAppointment(@PathVariable("id") Long id) throws AppointmentException {
+        Appointment appointment = appointmentService.getAppointment(id);
+        if (appointment == null) {
+            throw new AppointmentException("Cannot delete a null appointment");
+        }
+        TimeSlot timeSlot = appointment.getTimeslot();
+        // check if it's within 24 hr
+        if (canCancelAndDelete(timeSlot)) {
+            // find the appointment using id
+            appointmentService.deleteAppointment(appointment);
+            return new ResponseEntity<>("Appointment has been deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Cannot delete appointment 24hrs before start time", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * delete appointment method cancels an appointment, can be used by any user
+     *
+     * @param id the appointment id for the appointment to be deleted
+     * @throws AppointmentException
+     */
+    @DeleteMapping(value = {"/appointment", "/appointment/"})
+    public ResponseEntity<?> deleteAppointment2(@RequestParam(value = "id") Long id) throws AppointmentException {
         Appointment appointment = appointmentService.getAppointment(id);
         if (appointment == null) {
             throw new AppointmentException("Cannot delete a null appointment");
@@ -202,6 +260,24 @@ public class AppointmentController {
      */
     @GetMapping(value = {"/appointmentOfTechnician/{emai}/", "/appointmentOfTechnician/{email}"})
     public List<AppointmentDto> getAppointmentOfTechnician (@PathVariable String email) throws PersonException {
+        Technician technician = personService.getTechnician(email);
+        List<Appointment> appointments = technician.getAppointments();
+        List<AppointmentDto> list = new ArrayList<>();
+        for(Appointment appointment : appointments){
+            list.add(RepairShopUtil.convertToDto(appointment));
+        }
+        return list;
+    }
+
+    /**
+     * get appointments of technician method returns all the appointments assigned to one technician
+     *
+     * @param email is the technicians email
+     * @return list of appointments
+     * @throws PersonException
+     */
+    @GetMapping(value = {"/appointmentOfTechnician", "/appointmentOfTechnician/}"})
+    public List<AppointmentDto> getAppointmentOfTechnician2(@RequestParam(value = "email") String email) throws PersonException {
         Technician technician = personService.getTechnician(email);
         List<Appointment> appointments = technician.getAppointments();
         List<AppointmentDto> list = new ArrayList<>();
