@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +37,12 @@ import cz.msebera.android.httpclient.Header;
 public class AdminHomeFragment extends Fragment {
 
     private String error = "";
+    private Button deleteServiceButton;
     private List<String> spinnerArray = new ArrayList<>();
     private EditText text_edit_service_name = null;
     private EditText text_edit_service_cost = null;
     private EditText text_edit_service_duration = null;
+    String selectedItemText = null;
     Spinner spinner = null;
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -59,16 +63,10 @@ public class AdminHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        super.onCreate(savedInstanceState);
+        setView(view);
 
-        spinner = (Spinner) view.findViewById(R.id.spinner);
 
-        text_edit_service_name = (EditText) view.findViewById(R.id.newServiceName);
-        text_edit_service_cost = (EditText) view.findViewById(R.id.newServiceCost);
-        text_edit_service_duration = (EditText) view.findViewById(R.id.newServiceDuration);
 
-        spinnerArray.add("Select a service");
-        getServices(view);
         //System.out.println(spinnerArray.toString() + " ===================================================");
     }
 
@@ -129,7 +127,7 @@ public class AdminHomeFragment extends Fragment {
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedItemText = (String) parent.getItemAtPosition(position);
+                        selectedItemText = (String) parent.getItemAtPosition(position);
                         // If user change the default selection
                         // First item is disable and it is used for hint
                         if(position > 0){
@@ -172,9 +170,6 @@ public class AdminHomeFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                 try {
-                    System.out.println(((JSONObject) response).get("name").toString());
-                    System.out.println(((JSONObject) response).get("cost").toString());
-                    System.out.println(((JSONObject) response).get("duration").toString());
                     text_edit_service_name.setText(((JSONObject) response).get("name").toString());
                     text_edit_service_cost.setText(((JSONObject) response).get("cost").toString());
                     text_edit_service_duration.setText(((JSONObject) response).get("duration").toString());
@@ -198,5 +193,65 @@ public class AdminHomeFragment extends Fragment {
         });
     }
 
+
+    public void setView(View view) {
+        deleteServiceButton = view.findViewById(R.id.delete);
+        System.out.println("inside setVIEW  ==================================");
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        text_edit_service_name = (EditText) view.findViewById(R.id.newServiceName);
+        text_edit_service_cost = (EditText) view.findViewById(R.id.newServiceCost);
+        text_edit_service_duration = (EditText) view.findViewById(R.id.newServiceDuration);
+
+        spinnerArray.add("Select a service");
+        getServices(view);
+        deleteButtonHandler();
+
+    }
+
+    public void deleteButtonHandler(){
+        System.out.println("inside HANDLER7  ==================================");
+        deleteServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteService();
+            }
+        });
+    }
+
+    public void deleteService() {
+        HttpUtils.delete("/bookableService/" + selectedItemText, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                System.out.println("-----------------------------------------------");
+                Toast.makeText
+                        (getActivity(), "Service successfully deleted", Toast.LENGTH_SHORT)
+                        .show();
+
+                //getServices(view);
+
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                super.onFailure(statusCode, headers, responseString, throwable);
+                System.out.println("#################################");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                    System.out.println("inside try : "+error);
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                    System.out.println("catch : "+error);
+                }
+
+            }
+        });
+    }
 
 }
