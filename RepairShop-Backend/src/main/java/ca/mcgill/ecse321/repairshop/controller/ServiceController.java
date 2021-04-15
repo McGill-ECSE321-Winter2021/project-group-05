@@ -99,7 +99,7 @@ public class ServiceController {
      * @throws IllegalArgumentException
      * @throws BookableServiceException
      */
-    @PutMapping(value = { "/bookableService/app/{name}", "/bookableService/app/{name}/" })
+    @PutMapping(value = { "/bookableService/app/", "/bookableService/app" })
     public ResponseEntity<?> editBookableService(@RequestParam(value = "oldName") String oldName,
                                                  @RequestParam(value = "newName") String newName,
                                                  @RequestParam(value = "newCost") String newCost,
@@ -118,7 +118,6 @@ public class ServiceController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
 
     /**
