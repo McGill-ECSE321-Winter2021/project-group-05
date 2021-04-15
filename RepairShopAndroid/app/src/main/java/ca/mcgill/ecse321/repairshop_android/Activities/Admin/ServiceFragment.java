@@ -85,15 +85,13 @@ public class ServiceFragment extends Fragment {
 
         error="";
         RequestParams requestParams = new RequestParams();
-        requestParams.add("newServiceName", tv_service_name.getText().toString());
-        requestParams.add("newServiceCost",tv_service_cost.getText().toString());
-        requestParams.add("newServiceDuration",tv_service_duration.getText().toString());
+        requestParams.add("serviceName", tv_service_name.getText().toString());
+        requestParams.add("serviceCost",tv_service_cost.getText().toString());
+        requestParams.add("serviceDuration",tv_service_duration.getText().toString());
 
-        Toast.makeText
-                (getActivity(), "INSIDE", Toast.LENGTH_SHORT)
-                .show();
 
-        HttpUtils.post("/bookableService", requestParams, new JsonHttpResponseHandler() {
+
+        HttpUtils.post("/bookableService/app", requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage(view);
@@ -101,6 +99,7 @@ public class ServiceFragment extends Fragment {
                 tv_service_cost.setText("");
                 tv_service_duration.setText("");
                 // Notify with successful message
+                System.out.println("WORKS");
                 Toast.makeText
                         (getActivity(), "Service successfully created", Toast.LENGTH_SHORT)
                         .show();
