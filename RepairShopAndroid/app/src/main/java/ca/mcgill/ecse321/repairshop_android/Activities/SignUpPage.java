@@ -29,6 +29,10 @@ public class SignUpPage extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_page);
     }
 
+    /**
+     * Signs up a new customer account
+     * @param view
+     */
     public void signup(View view){
         final TextView tv_email = (TextView) findViewById(R.id.email);
         final TextView tv_password = (TextView) findViewById(R.id.password);

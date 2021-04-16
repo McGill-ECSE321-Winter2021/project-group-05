@@ -121,6 +121,7 @@ public class ProfileFragment extends Fragment {
 
 
     public void logout(){
+        RepairShopUtil.setCurrentUser("", "", "");
         goToLogin();
     }
 
@@ -137,7 +138,7 @@ public class ProfileFragment extends Fragment {
         final TextView tvPasswordConfirm = (TextView) view.findViewById(R.id.editTextPasswordConfirm);
 
         /**
-         * throw error if the password != confirm password is the same
+         * throw error if the password != confirm password
          */
         if (tvUserName==null ){
             Toast.makeText
