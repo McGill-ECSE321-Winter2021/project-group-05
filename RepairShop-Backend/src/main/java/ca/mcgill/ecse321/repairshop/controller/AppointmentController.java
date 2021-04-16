@@ -253,6 +253,7 @@ public class AppointmentController {
 
     /**
      * get appointments of technician method returns all the appointments assigned to one technician
+     * used for the web
      *
      * @param email is the technicians email
      * @return list of appointments
@@ -271,6 +272,7 @@ public class AppointmentController {
 
     /**
      * get appointments of technician method returns all the appointments assigned to one technician
+     * used for tha app
      *
      * @param email is the technicians email
      * @return list of appointments
