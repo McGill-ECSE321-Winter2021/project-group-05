@@ -1,6 +1,8 @@
+//admin appt view page
 import AdminHeader from "./AdminHeader";
 import axios from "axios";
 
+//configurations
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -11,6 +13,7 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+//show upcoming appts only
 const filterUpcomingAppointments = appointmentDate => {
   const currentDate = new Date();
   const currentDayOfMonth = currentDate.getDate();
@@ -36,7 +39,7 @@ const filterUpcomingAppointments = appointmentDate => {
     currentYear === appointmenntYear
   );
 };
-
+//format the appt
 const formatAppointment = appointment => {
   const serviceNames = [];
   appointment.services.forEach(item => {
@@ -52,7 +55,7 @@ const formatAppointment = appointment => {
     endTime: endTime
   };
 };
-
+//the page view
 const AdminAppointmentPage = {
   name: "AdminAppointmentPage",
   components: {
@@ -69,6 +72,7 @@ const AdminAppointmentPage = {
     };
   },
 
+//if logged in
   created: function() {
     if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
         this.render = false;
@@ -79,6 +83,7 @@ const AdminAppointmentPage = {
     }
   },
   methods: {
+  //return all appts
     getAllAppointments: function() {
       AXIOS.get(`/appointments`)
         .then(response => {

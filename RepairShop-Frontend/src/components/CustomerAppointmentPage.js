@@ -1,3 +1,4 @@
+//customer appointment page
 import axios from "axios";
 import CustomerHeader from "./CustomerHeader";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
@@ -10,6 +11,7 @@ import "vue-toast-notification/dist/theme-sugar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -22,6 +24,7 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+//show only upcoming appts
 const filterUpcomingAppointments = appointmentDate => {
   const currentDate = new Date();
   const currentDayOfMonth = currentDate.getDate();
@@ -42,6 +45,7 @@ const filterUpcomingAppointments = appointmentDate => {
   }
   return false;
 };
+//show only past appts
 const filterPastAppointments = appointmentDate => {
   const currentDate = new Date();
   const currentDayOfMonth = currentDate.getDate();
@@ -97,6 +101,7 @@ const getDateAndTime = time => {
   };
 };
 
+//page
 const CustomerAppointmentPage = {
   name: "CustomerAppointmentPage",
   components: {
@@ -130,6 +135,7 @@ const CustomerAppointmentPage = {
       render: true
     };
   },
+  //if logged in
   created() {
     if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
         this.render = false;
@@ -146,12 +152,15 @@ const CustomerAppointmentPage = {
     }
   },
   methods: {
+  //edit appt
     editAppointment: function(id) {
       this.show = true;
     },
+    //cancel appt
     cancelAppointment: function(id) {
       this.showCancel = true;
     },
+    //get card info
     getCardInfo: async function() {
       const response = await AXIOS.get(
         `/person/customer/${this.currentUser.email}`
@@ -160,7 +169,7 @@ const CustomerAppointmentPage = {
       this.cvv = response.data.cvv;
       this.expiry = response.data.expiry;
     },
-
+  //cancel
     handleCancel: function(id) {
       AXIOS.delete(`/appointment/${id}`)
         .then(response => {
@@ -180,7 +189,7 @@ const CustomerAppointmentPage = {
           });
         });
     },
-
+    //get all appts
     getAllAppointments: function(email) {
       AXIOS.get(`/appointment/person/${email}`)
         .then(response => {
@@ -197,21 +206,21 @@ const CustomerAppointmentPage = {
           });
         });
     },
-
+    //get upcoming appts
     getUpcomingAppointments: function(appointment) {
       const bool = filterUpcomingAppointments(appointment.timeSlot.date);
       if (bool) {
         this.upcomingAppointments.push(appointment);
       }
     },
-
+    //get past appts
     getPastAppointments: function(appointment) {
       const bool = filterPastAppointments(appointment.timeSlot.date);
       if (bool) {
         this.pastAppointments.push(customizeAppointment(appointment));
       }
     },
-
+    //get all time slots
     getAllTimeSlots: function() {
       AXIOS.get(`/timeslotAvailable`)
         .then(response => {
@@ -228,7 +237,7 @@ const CustomerAppointmentPage = {
           });
         });
     },
-
+    //get all services
     getAllServices: function() {
       AXIOS.get(`bookableServices`)
         .then(response => {
@@ -246,7 +255,7 @@ const CustomerAppointmentPage = {
           });
         });
     },
-
+    //edit appts
     handleEdit(id, timeSlotId) {
       let services = "";
       this.updatedServices.forEach(str => {
@@ -285,6 +294,7 @@ const CustomerAppointmentPage = {
           });
         });
     },
+    //show bill
     showBillModal: async function() {
       if (
         (this.date !== null || this.date !== "") &&
@@ -312,6 +322,7 @@ const CustomerAppointmentPage = {
         );
       }
     },
+    //bill
     handleBillOk: function() {
       let services = "";
       this.updatedServices.forEach(str => {
@@ -350,6 +361,7 @@ const CustomerAppointmentPage = {
           );
         });
     },
+    //return cost
     getServiceCost: async function(serviceName) {
       const response = await AXIOS.get(`/bookableService/${serviceName}`);
       return response.data.cost;

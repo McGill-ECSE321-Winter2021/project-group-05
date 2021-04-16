@@ -1,3 +1,4 @@
+//view service for customer
 import axios from "axios";
 import CustomerHeader from "./CustomerHeader";
 
@@ -13,6 +14,7 @@ var AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+//creates service dto
 function BookableServiceDto(name, cost, duration) {
   this.name = name;
   this.cost = cost;
@@ -60,6 +62,7 @@ export default {
   },
 
   methods: {
+    //create a service
     createServiceAdmin: function(serviceName, serviceCost, serviceDuration) {
       console.log(serviceName, serviceCost, serviceDuration);
       const bookableServiceDto = new BookableServiceDto(
@@ -82,7 +85,7 @@ export default {
           this.errorCreateService = errorMsg;
         });
     },
-
+    //get service
     getServiceByName: function(serviceName){
     console.log(serviceName);
     AXIOS.get("/bookableService/".concat(serviceName))

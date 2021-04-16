@@ -1,3 +1,4 @@
+//customer registration
 import axios from "axios";
 import AuthHeader from "./AuthHeader";
 import Router from "../router";
@@ -5,6 +6,7 @@ import Vue from 'vue';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -17,6 +19,7 @@ var AXIOS = axios.create({
 
 Vue.use(VueToast);
 
+//page
 export default {
   name: "CustomerRegisterPage",
   components: {
@@ -39,6 +42,7 @@ export default {
   },
 
   methods: {
+    //create customer account
     createCustomer: function(username, email, password, confirmPass) {
       console.log(username, email, password);
       if (password != confirmPass){
@@ -70,6 +74,7 @@ export default {
           duration: 6000});
         });}
     },
+    //go to customer homepage
     gotoCustomerHomePage: function() {
       Router.push({
         path: "/CustomerHomePage",

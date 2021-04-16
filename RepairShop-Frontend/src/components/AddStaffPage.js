@@ -1,9 +1,11 @@
+//this adds the staff page
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
 import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -14,6 +16,7 @@ var AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+//creates a person dto
 function createPersonDto(username, password, email, personType) {
   this.username = username;
   this.password = password;
@@ -21,6 +24,7 @@ function createPersonDto(username, password, email, personType) {
   this.personType = personType;
 }
 
+//export user
 export default {
   name: "AddStaffPage",
   components: {
@@ -38,6 +42,7 @@ export default {
     };
   },
 
+//if logged in return true
   created: function() {
     if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
           this.render = false;
@@ -48,6 +53,7 @@ export default {
     }
   },
   methods: {
+  //create account
     createAccount: async function(
       username,
       email,
@@ -61,6 +67,7 @@ export default {
         this.createAdmin(username, password, email, personType);
       }
     },
+    //create technician
     createTechnician: function(username, password, email, personType) {
       const technicianDto = new createPersonDto(
         username,
@@ -80,6 +87,7 @@ export default {
         })
         .catch(error => {});
     },
+    //create admin
     createAdmin: function(username, password, email, personType) {
       const adminDto = new createPersonDto(
         username,
@@ -99,6 +107,7 @@ export default {
         })
         .catch(error => {});
     },
+    //show add
     showAddModal: function() {
       if (this.personType === "" || this.personType === null) {
         //error

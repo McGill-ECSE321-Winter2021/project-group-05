@@ -1,3 +1,5 @@
+//time slot page
+
 import AdminHeader from './AdminHeader';
 import axios from "axios";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
@@ -6,7 +8,7 @@ import Vue from "vue";
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
 
-
+//configurations
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -17,6 +19,7 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+//get current date and time
 const getDateAndTime = time => {
   return {
     date: time.substring(0, 10),
@@ -25,6 +28,7 @@ const getDateAndTime = time => {
   };
 };
 
+//page
 export default {
   name: "TimeSlotPage",
   components: {
@@ -55,7 +59,7 @@ export default {
 
   },
   methods: {
-
+    //get all techn
     getAllTechnicians: async function () {
       const response = await AXIOS.get(`/person/technician/`);
       this.allTechnicians = response.data;
@@ -69,7 +73,7 @@ export default {
       })
 
     },
-
+    //create timeslot
     createTimeSlot(startDate, startTime, endingTime) {
 
       AXIOS.post(`/timeSlot/` +
@@ -99,6 +103,7 @@ export default {
         });
 
     },
+    //create timeslot and assign
     createTimeSlotAndAssign: async function (technicianEmail) {
       const dateAndTime = getDateAndTime(this.date);
       console.log("date from the calendar" + this.date);
@@ -130,7 +135,7 @@ export default {
       this.assignTimeslot(this.timeslot[this.timeslotLength].id, technicianEmail,techid, startDate,startTime, endTime);
 
     },
-
+    //assign timeslot
     assignTimeslot: async function (timeSlotId, techicianEmail,technicianId,startDate,startTime,endTime) {
       const response = await AXIOS.post(
         `/assignSlot/${timeSlotId}` + `?` + `email=` + `${techicianEmail}`

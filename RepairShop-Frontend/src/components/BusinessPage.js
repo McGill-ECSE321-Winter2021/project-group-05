@@ -1,9 +1,11 @@
+//business page
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
 import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configurations
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -23,7 +25,7 @@ function BusinessDto(name, address, phoneNumber, email) {
   this.phoneNumber = phoneNumber;
   this.email = email;
 }
-
+//business page view
 const BusinessPage = {
   name: "BusinessPage",
   components: {
@@ -43,6 +45,7 @@ const BusinessPage = {
       render: true
     };
   },
+  //if logged in
   created() {
 
     if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
@@ -56,6 +59,7 @@ const BusinessPage = {
     }
   },
   methods: {
+  //create business
     createBusiness: function(name, address, phoneNumber, email) {
       const businessDto = new BusinessDto(name, address, phoneNumber, email);
       AXIOS.put("/business/", {
@@ -74,6 +78,7 @@ const BusinessPage = {
           });
         });
     },
+    //get business
     getBusiness: function(id) {
       AXIOS.get(`/business/${id}`)
         .then(response => {
@@ -91,9 +96,11 @@ const BusinessPage = {
           });
         });
     },
+    //show new business info
     showUpdateModal: function() {
       this.showUpdate = true;
     },
+    //update business info
     updateBusiness: function(name, address, phoneNumber, email) {
       const id = this.business.pop().id;
       const businessDto = new BusinessDto(name, address, phoneNumber, email);

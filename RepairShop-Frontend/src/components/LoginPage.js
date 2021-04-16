@@ -1,3 +1,4 @@
+//login page
 import axios from "axios";
 import Router from "../router/index";
 import AuthHeader from "./AuthHeader";
@@ -8,6 +9,7 @@ import CustomerHomePage from '@/components/CustomerHomePage';
 import AdminHomePage from '@/components/AdminHomePage';
 import TechnicianHomePage from '@/components/TechnicianHomePage';
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -20,11 +22,13 @@ var AXIOS = axios.create({
 
 Vue.use(VueToast);
 
+//creates customer dto
 function CustomerDto(email, password) {
   this.email = email;
   this.password = password;
 }
 
+//page view
 export default {
   name: "LoginPage",
   components: {
@@ -48,6 +52,7 @@ export default {
 
 
   methods: {
+    //login
     loginUser: function(email, password, personType) {
 
       if (personType == "Customer") {
@@ -70,6 +75,7 @@ export default {
       duration: 6000});
     },
 
+    // login customer
     loginCustomer: function(email, password) {
       console.log("goto-->");
       const customerDto = new CustomerDto(email, password);
@@ -91,6 +97,7 @@ export default {
           duration: 6000});
         });
     },
+    //login technician
     loginTechnician: function(email, password) {
       const customerDto = new CustomerDto(email, password);
       AXIOS.post("person/technician/login", customerDto)
@@ -113,6 +120,7 @@ export default {
 
         });
     },
+    //login admin
     loginAdmin: function(email, password) {
       const customerDto = new CustomerDto(email, password);
       AXIOS.post("person/administrator/login", customerDto)
@@ -133,6 +141,7 @@ export default {
           duration: 6000});
         });
     },
+    //go to create account
     goToCreateAccountPage: function() {
 
       Router.push({
@@ -140,18 +149,21 @@ export default {
         name: "CustomerRegisterPage"
       });
     },
+    //go to home page (customer)
     goToCustomerHomePage: function() {
       Router.push({
         path: "/CustomerHomePage",
         name: "CustomerHomePage"
       });
     },
+    //go to home page (admin)
     goToAdminHomePage: function() {
       Router.push({
         path: "/AdminHomePage",
         name: "AdminHomePage"
       });
     },
+    //go to home page (technician)
     goToTechinicianHomePage: function() {
       Router.push({
         path: "/TechnicianHomePage",
