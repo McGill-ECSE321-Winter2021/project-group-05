@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.SignUpPage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -173,7 +174,7 @@ public class ProfileFragment extends Fragment {
 
             RequestParams requestParams = new RequestParams();
             requestParams.add("username",tvUserName.getText().toString());
-            requestParams.add("oldEmail",RepairShopUtil.loginUserEmail);
+            requestParams.add("oldEmail",RepairShopUtil.getLoginUserEmail());
             requestParams.add("newEmail",tvEmail.getText().toString());
             requestParams.add("password",tvPassword.getText().toString());
             /**
@@ -224,8 +225,16 @@ public class ProfileFragment extends Fragment {
                                 (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                 .show();
                     }
-
                         //refreshErrorMessage();
+                    }
+                    @Override
+                    public void onFailure(int statusCode,
+                                          Header[] headers,
+                                          String responseString,
+                                          Throwable throwable){
+                        Toast.makeText
+                                (getActivity(), responseString, Toast.LENGTH_SHORT)
+                                .show();
                     }
 
                 });
@@ -277,6 +286,15 @@ public class ProfileFragment extends Fragment {
                         }
                         //refreshErrorMessage();
                     }
+                    @Override
+                    public void onFailure(int statusCode,
+                                          Header[] headers,
+                                          String responseString,
+                                          Throwable throwable){
+                        Toast.makeText
+                                (getActivity(), responseString, Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
                 });
 
@@ -327,6 +345,15 @@ public class ProfileFragment extends Fragment {
                         }
                         //refreshErrorMessage();
                     }
+                    @Override
+                    public void onFailure(int statusCode,
+                                          Header[] headers,
+                                          String responseString,
+                                          Throwable throwable){
+                        Toast.makeText
+                                (getActivity(), responseString, Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
                 });
 
@@ -367,6 +394,15 @@ public class ProfileFragment extends Fragment {
                         }
                         //refreshErrorMessage();
                     }
+                    @Override
+                    public void onFailure(int statusCode,
+                                          Header[] headers,
+                                          String responseString,
+                                          Throwable throwable){
+                        Toast.makeText
+                                (getActivity(), responseString, Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
                 });
 
@@ -402,6 +438,15 @@ public class ProfileFragment extends Fragment {
                         }
                         //refreshErrorMessage();
                     }
+                    @Override
+                    public void onFailure(int statusCode,
+                                          Header[] headers,
+                                          String responseString,
+                                          Throwable throwable){
+                        Toast.makeText
+                                (getActivity(), responseString, Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
                 });
 
@@ -436,6 +481,15 @@ public class ProfileFragment extends Fragment {
                                     .show();
                         }
                         //refreshErrorMessage();
+                    }
+                    @Override
+                    public void onFailure(int statusCode,
+                                          Header[] headers,
+                                          String responseString,
+                                          Throwable throwable){
+                        Toast.makeText
+                                (getActivity(), responseString, Toast.LENGTH_SHORT)
+                                .show();
                     }
 
                 });

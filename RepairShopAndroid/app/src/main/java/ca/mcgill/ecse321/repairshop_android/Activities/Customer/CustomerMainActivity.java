@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -20,11 +22,20 @@ import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
+import ca.mcgill.ecse321.repairshop_android.Model.Appointment;
+import ca.mcgill.ecse321.repairshop_android.Model.User;
 
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
@@ -81,7 +92,6 @@ public class CustomerMainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dark_button, menu);
-        getMenuInflater().inflate(R.menu.logout, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -99,24 +109,27 @@ public class CustomerMainActivity extends AppCompatActivity {
 
         }
 
-        if (id == R.id.logout) {
-            RepairShopUtil.setCurrentUser("", "", "");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * returns all the services fetch from the data base
+     * @return
+     */
     public static List<String> getAllServices(){
         return allServices;
     }
 
+    /**
+     * Fetches the all the services available in the system
+     */
     private void queryServices(){
         HttpUtils.get("bookableServices", null, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 try {
-                    allServices = fromJsonArray(response);
+                    allServices = getServiceNames(response);
+                    Log.d("app", "as");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -126,10 +139,25 @@ public class CustomerMainActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (CustomerMainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
+            }
         });
     }
 
-    public static List<String> fromJsonArray(JSONArray jsonArray) throws JSONException {
+    /**
+     * formats all the services fetch from the data base
+     * @param jsonArray
+     * @return
+     * @throws JSONException
+     */
+    public static List<String> getServiceNames(JSONArray jsonArray) throws JSONException {
         List<String> services = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -137,4 +165,23 @@ public class CustomerMainActivity extends AppCompatActivity {
         }
         return services;
     }
+
+    /**
+     * converts a string into a date
+     * @param dateString
+     * @return
+     */
+    public static Date convertToDate(String dateString){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format.parse(dateString);
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+
 }
