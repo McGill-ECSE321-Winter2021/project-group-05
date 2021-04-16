@@ -37,6 +37,9 @@ public class TestBusinessService {
     private static final long ID = 0L;
     private static final Long NONEXISTING_ID=1L;
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutPut(){
         lenient().when(businessRepository.findById(anyLong())).thenAnswer((InvocationOnMock invocation) -> {
@@ -60,6 +63,9 @@ public class TestBusinessService {
         System.out.println(returnParameterAsAnswer);
     }
 
+    /**
+     * positive test create business
+     */
     @Test
     public void testCreateBusiness(){
         BusinessDto businessDto = new BusinessDto();
@@ -82,6 +88,9 @@ public class TestBusinessService {
           assertEquals(createdBusiness.getEmail(), businessDto.getEmail());
     }
 
+    /**
+     * negative test create business [business exists]
+     */
     @Test
     public void testCreateBusinessWithBusinessAlreadyExist(){
         BusinessDto businessDto = new BusinessDto();
@@ -106,8 +115,11 @@ public class TestBusinessService {
         }catch (BusinessException e){
             assertEquals("A business has already been created", e.getMessage());
         }
-
     }
+
+    /**
+     * negative test create business [no email]
+     */
     @Test
     public void testCreateBusinessWithEmptyEmail(){
         BusinessDto businessDto = new BusinessDto();
@@ -123,6 +135,9 @@ public class TestBusinessService {
         }
     }
 
+    /**
+     * negative test create business [no name]
+     */
     @Test
     public void testCreateBusinessWithEmptyName(){
         BusinessDto businessDto = new BusinessDto();
@@ -138,6 +153,9 @@ public class TestBusinessService {
         }
     }
 
+    /**
+     * negative test create business [no phone number]
+     */
     @Test
     public void testCreateBusinessWithEmptyPhoneNumber(){
         BusinessDto businessDto = new BusinessDto();
@@ -152,6 +170,9 @@ public class TestBusinessService {
         }
     }
 
+    /**
+     * negative test create business [no address]
+     */
     @Test
     public void testCreateBusinessWithEmptyAdress(){
         BusinessDto businessDto = new BusinessDto();
@@ -166,6 +187,9 @@ public class TestBusinessService {
         }
     }
 
+    /**
+     * positive test update business
+     */
     @Test
     public void testUpdateBusiness(){
         BusinessDto businessDto = new BusinessDto();
@@ -189,6 +213,9 @@ public class TestBusinessService {
         assertEquals(createdBusiness.getEmail(), businessDto.getEmail());
     }
 
+    /**
+     * negative test update business [null business]
+     */
     @Test
     public void testUpdateBusinessNotExist(){
         BusinessDto businessDto = new BusinessDto();
@@ -209,6 +236,9 @@ public class TestBusinessService {
     }
 
 
+    /**
+     * negative test update business [no phone number]
+     */
     @Test
     public void testUpdateBusinessWithNoPhoneNumber(){
         BusinessDto businessDto = new BusinessDto();
@@ -223,6 +253,9 @@ public class TestBusinessService {
         }
     }
 
+    /**
+     * negative test update business [no address]
+     */
     @Test
     public void testUpdateBusinessWithNoAddress() {
         BusinessDto businessDto = new BusinessDto();
@@ -238,6 +271,9 @@ public class TestBusinessService {
 
     }
 
+    /**
+     * negative test update business [no name]
+     */
     @Test
     public void testUpdateBusinessWithNoName(){
         BusinessDto businessDto = new BusinessDto();
@@ -253,6 +289,9 @@ public class TestBusinessService {
         }
     }
 
+    /**
+     * negative test update business [no email]
+     */
     @Test
     public void testUpdateBusinessWithNoEmail(){
         BusinessDto businessDto = new BusinessDto();
@@ -268,7 +307,7 @@ public class TestBusinessService {
     }
 
     /**
-     * NEGATIVE
+     * negative test get business [invalid id]
      */
     @Test
     public void testGetBusinessWithInvalidID(){
@@ -283,8 +322,7 @@ public class TestBusinessService {
     }
 
     /**
-     * TESTING deleteBusiness
-     * POSITIVE
+     * positive test delete business
      */
     @Test
     public void testDeleteBusiness(){
@@ -307,8 +345,9 @@ public class TestBusinessService {
         assertEquals(deletedBusiness.getName(), businessDto.getName());
         assertEquals(deletedBusiness.getEmail(), businessDto.getEmail());
     }
+
     /**
-     * NEGATIVE
+     * negative test delete business [null business]
      */
     @Test
     public void testDeleteBusinessNotExist(){

@@ -10,6 +10,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("ca.mcgill.ecse321.repairshop.model")
 public class RepairShopApplication {
 
+	/**
+	 * run application
+	 *
+	 * @param args main
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(RepairShopApplication.class, args);
 	}

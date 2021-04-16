@@ -70,6 +70,9 @@ public class TestRepairShopService {
     private static final String CUSTOMER_ID_2 = "anna-taylorjoy@mcgill.ca";
     private static final Long APPOINTMENT_ID = 0L;
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutPut(){
         lenient().when(serviceRepository.findServiceByName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
@@ -237,7 +240,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test createService(name, cost, duration); POSITIVE
+     * positive test create service
      */
     @Test
     public void testCreateServiceSuccessfully(){
@@ -262,7 +265,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test createService(name, cost, duration); error check; name = null
+     * negative test create service [no name]
      */
     @Test
     public void testCreateServiceWithNullName(){
@@ -283,7 +286,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test createService(name, cost, duration); error check; name = "  "
+     * negative test create service [empty name]
      */
     @Test
     public void testCreateServiceWithEmptyName(){
@@ -303,7 +306,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test createService(name, cost, duration); error check; negative cost
+     * negative test create service [negative cost]
      */
     @Test
     public void testCreateServiceWithNegativeCost(){
@@ -323,7 +326,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test createService(name, cost, duration); error check; duration = 0
+     * negative test create service [0 duration]
      */
     @Test
     public void testCreateServiceWithZeroDuration(){
@@ -344,7 +347,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test createService(name, cost, duration); error check; duration is negative
+     * negative test create service [negative duration]
      */
     @Test
     public void testCreateServiceWithNegativeDuration(){
@@ -365,7 +368,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test createService(name, cost, duration); error check; service already exists
+     * negative test create service [already exists]
      */
     @Test
     public void testCreateServiceThatAlreadyExists(){
@@ -382,7 +385,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test editService(service, newName, newCost, newDuration); POSITIVE
+     * positive test update service
      */
     @Test
     public void testEditServiceSuccessfully() {
@@ -413,7 +416,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; service = null
+     * negative test update service [null service]
      */
     @Test
     public void testEditServiceWithNullService() {
@@ -449,7 +452,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; newName = "   "
+     * negative test update service [empty name]
      */
     @Test
     public void testEditServiceWithEmptyNewServiceName() {
@@ -484,7 +487,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; newName = null
+     * negative test update service [null name]
      */
     @Test
     public void testEditServiceWithNullNewServiceName() {
@@ -517,7 +520,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; negative cost
+     * negative test update service [negative cost]
      */
     @Test
     public void testEditServiceWithNegativeNewCost() {
@@ -550,7 +553,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; newDuration = 0
+     * negative test update service [0 duration]
      */
     @Test
     public void testEditServiceWithZeroNewDuration() {
@@ -585,7 +588,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; newDuration is negative
+     * negative test update service [negative duration]
      */
     @Test
     public void testEditServiceWithNegativeNewDuration() {
@@ -620,7 +623,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test editService(service, newName, newCost, newDuration); error check; new service name already exists
+     * negative test update service [name exists]
      */
     @Test
     public void testEditServiceWithNewNameThatAlreadyExists() {
@@ -653,7 +656,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test deleteService(service); POSITIVE
+     * positive test delete service
      */
     @Test
     public void testDeleteServiceSuccessfully() {
@@ -754,7 +757,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test deleteService(service); error check; service does not exist
+     * negative test delete service [null service]
      */
     @Test
     public void testDeleteServiceThatDoesNotExist() {
@@ -848,7 +851,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test deleteService(service); error check; service = null
+     * negative test delete service [invalid input]
      */
     @Test
     public void testDeleteServiceWithInvalidInput() {
@@ -863,7 +866,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test deleteService(service); error check; service with future appointments
+     * negative test delete service [future appts]
      */
     @Test
     public void testDeleteServiceWithFutureAppointments() {
@@ -961,7 +964,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test deleteService(service); error check; service with same-day appointments
+     * negative test delete service [same day services]
      */
     @Test
     public void testDeleteServiceWithAppointmentsOnSameDay() {
@@ -1062,7 +1065,7 @@ public class TestRepairShopService {
 
 
     /**
-     * test getService(Long Id); POSITIVE
+     * positive test get service
      */
     @Test
     public void testGetServiceByIDForExistingService() {
@@ -1072,7 +1075,7 @@ public class TestRepairShopService {
         assertEquals(DURATION, repairShopService.getService(EXISTING_SERVICE_ID).getDuration());
     }
     /**
-     * test getService(Long Id); NEGATIVE
+     * negative test get service [null service]
      */
     @Test
     public void testGetServiceByIdForNonExistingService() {
@@ -1080,7 +1083,7 @@ public class TestRepairShopService {
     }
 
     /**
-     * test getService(String name); POSITIVE
+     * positive test get service
      */
     @Test
     public void testGetServiceByNameForExistingService() {
@@ -1090,13 +1093,16 @@ public class TestRepairShopService {
         assertEquals(DURATION, repairShopService.getService(NAME).getDuration());
     }
     /**
-     * test getService(String name); NEGATIVE
+     * negative test get service [null service]
      */
     @Test
     public void testGetServiceByNameForNonExistingService() {
         assertNull(repairShopService.getService(NON_EXISTING_SERVICE));
     }
 
+    /**
+     * positive test get all services
+     */
     @Test
     public void testGetAllServiceForExistingService() {
         try {
@@ -1111,7 +1117,7 @@ public class TestRepairShopService {
         assertEquals(EXISTING_SERVICE_ID, repairShopService.getAllService().get(0).getId());
     }
     /**
-     * test getAllService(); NEGATIVE
+     * negative test get all service [null service]
      */
     @Test
     public void testGetAllServiceForNonExistingService() {

@@ -74,7 +74,9 @@ public class TestAppointmentService {
     private static final int DURATION = 20;
     private static Long EXISTING_SERVICE_ID_2 = 3L;
 
-    // IN ORDER TO TEST GET GETAPPOINTMENT
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput() {
 
@@ -198,7 +200,9 @@ public class TestAppointmentService {
      * TESTING CREATE APPOINTMENT
      */
 
-    // POSITIVE TEST
+    /**
+     * POSITIVE TEST create appointment
+     */
     @Test
     public void testCreateAppointment() {
         //CREATING TIMESLOT
@@ -226,7 +230,9 @@ public class TestAppointmentService {
     }
 
 
-    // NEGATIVE TEST
+    /**
+     * negative create appointment [null appointment]
+     */
     @Test
     public void testCreateAppointmentNull() {
 
@@ -248,7 +254,9 @@ public class TestAppointmentService {
         assertEquals("Customer, services and timeslot must all be selected for the appointment!", error);
     }
 
-    // NEGATIVE TEST
+    /**
+     * negative test create appointment [customer and timeslot don't exist]
+     */
     @Test
     public void testAppointmentCustomerAndTimeSlotDoNotExist() {
         // CREATING A CUSTOMER WITHOUT SAVING IT TO DATABASE
@@ -288,7 +296,9 @@ public class TestAppointmentService {
         assertEquals("Customer, Timeslot don't exist!", error);
     }
 
-    // NEGATIVE TEST
+    /**
+     * negative test create appt [service doesn't exist]
+     */
     @Test
     public void testAppointmentServiceDoNotExist() {
         // CREATING A WORKABLE CUSTOMER
@@ -332,12 +342,17 @@ public class TestAppointmentService {
     /**
      * TESTING getAppointment
      */
-    // POSITIVE TEST
+    /**
+     * positive test get appt
+     */
     @Test
     public void testGetExistingAppointment() {
         assertEquals(APPOINTMENT_KEY, appointmentService.getAppointment(APPOINTMENT_KEY).getId());
     }
-    // NEGATIVE TEST
+
+    /**
+     * negative test get appt [null appt]
+     */
     @Test
     public void testGetNonExistingAppointment() {
         assertNull(appointmentService.getAppointment(APPOINTMENT_NONEXISTING_KEY));
@@ -346,7 +361,9 @@ public class TestAppointmentService {
     /**
      * TESTING getAppointmentsBookedByCustomer
      */
-    // POSITIVE TEST
+    /**
+     * positive test get appt by customer
+     */
     @Test
     public void testGetAppointmentByExisitingCustomer() {
 
@@ -364,7 +381,10 @@ public class TestAppointmentService {
 
 
     }
-    // NEGATIVE TEST
+
+    /**
+     * negative test get appt by customer [null customer]
+     */
     @Test
     public void testGetAppointmentByNullCustomer() {
         // CUSTOMER IS NOT SAVED
@@ -379,7 +399,9 @@ public class TestAppointmentService {
         assertEquals(error, "customer cannot be null");
     }
 
-    // NEGATIVE TEST
+    /**
+     * negative test get appt by customer [non existent customer]
+     */
     @Test
     public void testGetAppointmentByNonExistingCustomer() {
        try {
@@ -396,7 +418,9 @@ public class TestAppointmentService {
     /**
      * TESTING editAppointment
      */
-    // POSITIVE TEST
+    /**
+     * positive test edit appt
+     */
     @Test
     public void testEditAppointment(){
         try {
@@ -454,12 +478,12 @@ public class TestAppointmentService {
         }
 
     }
-    // NEGATIVE TEST
+    /**
+     * negative test edit appt [must have a service]
+     */
     @Test
     public void testEditAppointmentNegative(){
-        /**
-         * The original Appointment
-         */
+
         //CREATING TIMESLOT
         Calendar c = Calendar.getInstance();
         c.set(2021, Calendar.MAY, 1, 9, 0, 0);
@@ -489,7 +513,9 @@ public class TestAppointmentService {
     /**
      * TESTING deleteAppointment
      */
-    // NEGATIVE TEST
+    /**
+     * negative test delete appt [null appt]
+     */
     @Test
     public void testDeleteNullAppointment(){
         Appointment appointment = null;
@@ -502,7 +528,9 @@ public class TestAppointmentService {
             assertEquals("Cannot delete a null appointment",error);
         }
     }
-    // POSITIVE TEST
+    /**
+     * positive test delete appt
+     */
     @Test
     public void testDeleteAppointment(){
         //CREATING TIMESLOT
@@ -534,7 +562,7 @@ public class TestAppointmentService {
     }
 
     /**
-     * test enter no-show
+     * negative test enter no-show [wrong time]
      */
 
     @Test
@@ -563,6 +591,9 @@ public class TestAppointmentService {
 
     }
 
+    /**
+     * negative test enter no-show [null appt]
+     */
     @Test
     public void testEnterNoShowtoNullAppointment() {
 
@@ -609,6 +640,17 @@ public class TestAppointmentService {
     /**
      * PRIVATE HELPERS
      */
+
+    /**
+     * check appt
+     *
+     * @param appointment
+     * @param bookableServices
+     * @param customerID
+     * @param appointmentDate
+     * @param startTime
+     * @param endTime
+     */
     private void checkResultAppointment(Appointment appointment, List<BookableService> bookableServices,
                                         String customerID, Date appointmentDate,
                                         LocalTime startTime, LocalTime endTime) {
@@ -629,6 +671,11 @@ public class TestAppointmentService {
 
     }
 
+    /**
+     * create a testable service
+     *
+     * @return service
+     */
     private BookableService createTestService(){
         try {
 
@@ -645,12 +692,22 @@ public class TestAppointmentService {
         }
     }
 
+    /**
+     * creae testable services
+     *
+     * @return services
+     */
     private List<BookableService> createTestListServices(){
         List<BookableService> bookableServices = new ArrayList<>();
         bookableServices.add(createTestService());
         return bookableServices;
     }
 
+    /**
+     * create testable customer
+     *
+     * @return customer
+     */
     private Customer createTestCustomer(){
         // CREATING CUSTOMER
         Customer customer = new Customer();                 // create customer

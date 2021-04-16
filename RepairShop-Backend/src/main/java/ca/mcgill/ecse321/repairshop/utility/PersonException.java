@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @SuppressWarnings("serial")
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class PersonException extends Exception{
+    /**
+     * return an exception
+     *
+     * @param message exception
+     */
     public PersonException(String message){
         super(message);
     }

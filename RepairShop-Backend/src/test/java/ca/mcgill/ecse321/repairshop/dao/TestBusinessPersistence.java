@@ -17,6 +17,9 @@ public class TestBusinessPersistence {
     @Autowired
     private BusinessRepository businessRepository;
 
+    /**
+     * clear database
+     */
     @AfterEach
     public void clearDatabase() {
         // First, we clear business to avoid exceptions due to inconsistencies
