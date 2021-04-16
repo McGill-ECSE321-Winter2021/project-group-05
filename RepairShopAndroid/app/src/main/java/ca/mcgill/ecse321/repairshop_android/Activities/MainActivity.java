@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, AdminMainActivity.class);
+        Intent intent = new Intent(this, SignUpPage.class);
         startActivity(intent);
     }
 
@@ -380,12 +380,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * black the '<' key
+     * Block the '<' key
      */
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
-        Toast.makeText(MainActivity.this,"please sign in first",Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this,"Please sign in first",Toast.LENGTH_LONG).show();
         return;
     }
 }
