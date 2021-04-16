@@ -167,6 +167,27 @@ public class ServiceController {
     }
 
     /**
+     * deletes an existing service
+     *
+     * @param name name of service as RequestParam
+     * @return response entity
+     */
+    @DeleteMapping(value = { "/bookableService/app", "/bookableService/app/" })
+    public ResponseEntity<?> deleteExistingBookableService(@RequestParam(value = "name") String name){
+        BookableService bookableService = repairShopService.getService(name);
+        if (bookableService == null) {
+            return new ResponseEntity<>("Cannot delete a null service", HttpStatus.BAD_REQUEST);
+        }
+        // find the appointment using id
+        try {
+            repairShopService.deleteBookableService(bookableService);
+        } catch (BookableServiceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("The service has been successfully deleted", HttpStatus.OK);
+    }
+
+    /**
      * get cost of services method returns the cost given a list of services
      *
      * @param serviceNames list of all service names trying to calculate cost for
