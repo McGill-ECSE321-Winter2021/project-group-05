@@ -92,9 +92,9 @@ public class ServiceController {
      * edit service method edits an existing service
      *
      * @param oldName service old name as RequestParam
-     * @param newName service old name as RequestParam
-     * @param newCost service old name as RequestParam
-     * @param newDuration service old name as RequestParam
+     * @param newName service new name as RequestParam
+     * @param newCost service new cost as RequestParam
+     * @param newDuration service new duration as RequestParam
      * @return response entity
      * @throws IllegalArgumentException
      * @throws BookableServiceException
@@ -169,7 +169,7 @@ public class ServiceController {
     /**
      * deletes an existing service
      *
-     * @param name name of service as RequestParam
+     * @param name service name as RequestParam
      * @return response entity
      */
     @DeleteMapping(value = { "/bookableService/app", "/bookableService/app/" })
