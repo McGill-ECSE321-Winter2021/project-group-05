@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // log in as customer
         if (customerCheckBox.isChecked()){
 
-            HttpUtils.post("person/customer/login",requestParams, new JsonHttpResponseHandler() {
+            HttpUtils.post("person/customer/login/app",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     refreshErrorMessage();
@@ -85,17 +87,24 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    refreshErrorMessage();
+                    //refreshErrorMessage();
+                    Toast.makeText
+                            (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             });
         }
         // log in as admin
         else if (adminCheckbox.isChecked()){
-            HttpUtils.post("person/administrator/login", requestParams, new JsonHttpResponseHandler() {
+            Log.d("tag1","is admin!");
+            HttpUtils.post("person/administrator/login/app", requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("tag2","success");
                     setCurrentAdmin(tv_email.getText().toString());
+                    Log.d("current email: ",RepairShopUtil.loginUserEmail);
+                    Log.d("current username: ",RepairShopUtil.loginUserName);
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -104,14 +113,17 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-
+                        System.out.println("failure");
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    refreshErrorMessage();
 
+                    //refreshErrorMessage();
+                    Toast.makeText
+                            (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             });
@@ -119,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         // log in as tech
         else if (techCheckbox.isChecked()){
 
-            HttpUtils.post("person/technician/login",requestParams, new JsonHttpResponseHandler() {
+            HttpUtils.post("person/technician/login/app",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     setCurrentTechnician(tv_email.getText().toString());
@@ -136,14 +148,23 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    refreshErrorMessage();
+                    //refreshErrorMessage();
+                    Toast.makeText
+                            (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             });
         }
         else{
+            /*
             error+="You need to select the role!";
             refreshErrorMessage();
+
+             */
+            Toast.makeText
+                    (MainActivity.this, "Please select a role", Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
@@ -175,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, AdminMainActivity.class);
+        Intent intent = new Intent(this, SignUpPage.class);
         startActivity(intent);
     }
 

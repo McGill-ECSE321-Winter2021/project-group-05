@@ -25,8 +25,10 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
+
+
 import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
+
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -37,6 +39,7 @@ public class ProfileFragment extends Fragment {
     private String error = null;
     private Button updateButton;
     private Button deleteButton;
+    private Button logoutButton;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -59,12 +62,14 @@ public class ProfileFragment extends Fragment {
 
         updateButtonHandler();
         deleteButtonHandler();
+        logoutButtonHandler();
 
     }
 
     public void setView(View view){
         updateButton = view.findViewById(R.id.updateButton);
         deleteButton = view.findViewById(R.id.deleteButton);
+        logoutButton = view.findViewById(R.id.logoutButton);
     }
 
     @Override
@@ -92,6 +97,18 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    public void logoutButtonHandler(){
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
+
+
+
+
     public void deleteButtonHandler(){
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +118,10 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
+    public void logout(){
+        goToLogin();
+    }
 
     public void updateAccount(View view){
 
@@ -117,7 +138,32 @@ public class ProfileFragment extends Fragment {
         /**
          * throw error if the password != confirm password is the same
          */
-        if (!tvPassword.getText().toString().equals(tvPasswordConfirm.getText().toString())){
+        if (tvUserName==null ){
+            Toast.makeText
+                    (getActivity(), "username", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        if (tvPassword==null ){
+            Toast.makeText
+                    (getActivity(), "pass is null", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        if(tvPasswordConfirm ==null ){
+            Toast.makeText
+                    (getActivity(), "pass confirm", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        if (tvPassword==null || tvPasswordConfirm ==null ||
+                tvUserName==null ||tvEmail ==null ){
+            Toast.makeText
+                    (getActivity(), "Error : Please fill in all fields", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        /**
+         * throw error if the password != confirm password is the same
+         */
+        else if (!tvPassword.getText().toString().equals(tvPasswordConfirm.getText().toString())){
 
             Toast.makeText
                     (getActivity(), "Error : Confirm password doesn't match with the password", Toast.LENGTH_SHORT)
@@ -127,7 +173,8 @@ public class ProfileFragment extends Fragment {
 
             RequestParams requestParams = new RequestParams();
             requestParams.add("username",tvUserName.getText().toString());
-            requestParams.add("email",tvEmail.getText().toString());
+            requestParams.add("oldEmail",RepairShopUtil.loginUserEmail);
+            requestParams.add("newEmail",tvEmail.getText().toString());
             requestParams.add("password",tvPassword.getText().toString());
             /**
              * update customer account
@@ -135,18 +182,19 @@ public class ProfileFragment extends Fragment {
             if (RepairShopUtil.getUserType().equals("customer")){
 
                 HttpUtils.put("person/customer/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
 
                         try {
-                            // reset the password field
-                            tvPassword.setText("");
-                            tvPasswordConfirm.setText("");
+
 
                             // set the current user with updated account info
                             RepairShopUtil.setCurrentUser(tvUserName.getText().toString(),tvEmail.getText().toString(), "customer");
-
+                            // reset the password field
+                            tvPassword.setText("");
+                            tvPasswordConfirm.setText("");
                             Toast.makeText
                                     (getActivity(), "Success : Account has been updated successfully", Toast.LENGTH_SHORT)
                                     .show();
@@ -158,17 +206,25 @@ public class ProfileFragment extends Fragment {
                                     .show();
                         }
                     }
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        try {
 
-                            error += errorResponse.get("message").toString();
-                        } catch (JSONException e) {
-                            error += e.getMessage();
-                            Toast.makeText
-                                    (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
-                                    .show();
-                        }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers,  Throwable throwable, JSONObject errorResponse) {
+
+                    try {
+                        error += errorResponse.get("message").toString();
+                        Toast.makeText
+                                (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
+                                .show();
+                        System.out.println("inside failure");
+                    }
+                    catch (JSONException e){
+                        error += e.getMessage();
+                        Toast.makeText
+                                (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
                         //refreshErrorMessage();
                     }
 
@@ -181,7 +237,9 @@ public class ProfileFragment extends Fragment {
             else if (RepairShopUtil.getUserType().equals("admin")){
 
 
+
                 HttpUtils.put("person/administrator/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -230,7 +288,9 @@ public class ProfileFragment extends Fragment {
             else if (RepairShopUtil.getUserType().equals("technician")){
 
 
+
                 HttpUtils.put("person/technicians/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -386,31 +446,43 @@ public class ProfileFragment extends Fragment {
 
     }
 
-
-    protected Dialog onCreateDialog(){
-                Log.e("tag1","create new dialog");
-                return new AlertDialog.Builder(this.getContext())
-
-                        .setTitle("Warning")
-                        .setMessage("Delete account is irreversible, are you sure to proceed?")
-                        .setPositiveButton("DELETE",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        deleteAccount();
-                                    }
-                                }
-                        )
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        // do nothing
-                                    }
-                                }
-                        ).create();
+    // GO TO LOGIN PAGE
+    private void goToLogin(){
+        Intent intent = new Intent(this.getContext(), MainActivity.class);
+        startActivity(intent);
 
     }
+
+    // WARNING DIALOG
+    protected void onCreateDialog(){
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
+        alertDialogBuilder.setTitle("Warning: Account Deletion");
+        alertDialogBuilder.setMessage("Delete account is irreversible. Are you sure to proceed?");
+
+        alertDialogBuilder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                deleteAccount();
+                goToLogin();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               // DO NOTHING
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+    }
+
+
+
 
 
 }

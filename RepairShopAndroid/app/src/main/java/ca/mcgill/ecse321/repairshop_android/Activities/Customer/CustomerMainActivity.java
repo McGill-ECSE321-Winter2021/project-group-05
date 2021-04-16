@@ -12,20 +12,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
+
 import ca.mcgill.ecse321.repairshop_android.R;
+import cz.msebera.android.httpclient.Header;
 
 public class CustomerMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
+    private static List<String> allServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home_page);
         setViews();
+        queryServices();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -91,5 +105,36 @@ public class CustomerMainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static List<String> getAllServices(){
+        return allServices;
+    }
+
+    private void queryServices(){
+        HttpUtils.get("bookableServices", null, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                try {
+                    allServices = fromJsonArray(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+
+    public static List<String> fromJsonArray(JSONArray jsonArray) throws JSONException {
+        List<String> services = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            services.add(jsonObject.getString("name"));
+        }
+        return services;
     }
 }
