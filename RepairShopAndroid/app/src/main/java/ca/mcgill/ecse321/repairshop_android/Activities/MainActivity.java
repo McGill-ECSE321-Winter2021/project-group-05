@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Logs a user into his/her respective account
+     * @param v
+     */
     public void login(View v){
 
         error="";
@@ -91,6 +95,15 @@ public class MainActivity extends AppCompatActivity {
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                             .show();
                 }
+                @Override
+                public void onFailure(int statusCode,
+                                      Header[] headers,
+                                      String responseString,
+                                      Throwable throwable){
+                    Toast.makeText
+                            (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                            .show();
+                }
 
             });
         }
@@ -121,6 +134,15 @@ public class MainActivity extends AppCompatActivity {
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                             .show();
                 }
+                @Override
+                public void onFailure(int statusCode,
+                                      Header[] headers,
+                                      String responseString,
+                                      Throwable throwable){
+                    Toast.makeText
+                            (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                            .show();
+                }
 
             });
         }
@@ -147,6 +169,15 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                @Override
+                public void onFailure(int statusCode,
+                                      Header[] headers,
+                                      String responseString,
+                                      Throwable throwable){
+                    Toast.makeText
+                            (MainActivity.this, responseString, Toast.LENGTH_SHORT)
                             .show();
                 }
 
@@ -192,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, SignUpPage.class);
+        Intent intent = new Intent(this, AdminMainActivity.class);
         startActivity(intent);
     }
 
@@ -224,6 +255,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+             @Override
+             public void onFailure(int statusCode,
+                                   Header[] headers,
+                                   String responseString,
+                                   Throwable throwable){
+                 Toast.makeText
+                         (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                         .show();
+             }
 
         });
     }
@@ -256,6 +296,15 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
+            }
 
         });
     }
@@ -286,20 +335,35 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                 }
             }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
+            }
 
         });
     }
 
-    // create an action bar button
+    /**
+     * creates an action bar button
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.dark_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle dark button activities
+    /**
+     * handles dark mode button activities
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

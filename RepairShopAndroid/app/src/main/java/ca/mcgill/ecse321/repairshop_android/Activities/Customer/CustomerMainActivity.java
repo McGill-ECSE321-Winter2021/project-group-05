@@ -88,14 +88,22 @@ public class CustomerMainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
     }
 
-    // create an action bar button
+    /**
+     * creates an action bar button
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dark_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle dark button activities
+    /**
+     * handles dark mode button activities
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
