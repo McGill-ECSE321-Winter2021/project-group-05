@@ -55,7 +55,6 @@ public class BookAppointmentFragment extends Fragment {
         queryServices();
         displayAvailableServices();
         setBookAppointmentHandler();
-        System.out.println(RepairShopUtil.loginUserEmail);
     }
 
     private void setViews(View view){
