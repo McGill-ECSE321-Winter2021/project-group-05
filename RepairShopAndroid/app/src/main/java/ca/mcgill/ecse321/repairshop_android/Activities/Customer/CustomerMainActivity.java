@@ -23,6 +23,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +38,6 @@ public class CustomerMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
     private static List<String> allServices;
-    private static List<Appointment> allAppointments;
-    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class CustomerMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_home_page);
         setViews();
         queryServices();
-        queryAppointments();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -135,34 +133,7 @@ public class CustomerMainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Fetches all the appointment of the customer
-     */
-    private void queryAppointments() {
-        user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
-        String customerEmail = user.getEmail();
-        String url = "appointment/person/" + customerEmail;
-        HttpUtils.get(url, null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                try {
-                    allAppointments = getAllAppointments(response);
-                    Log.d("app", "size = " + allAppointments.size());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.d("app", "here");
-            }
-        });
-    }
-
-    private static List<String> getServiceNames(JSONArray jsonArray) throws JSONException {
+    public static List<String> getServiceNames(JSONArray jsonArray) throws JSONException {
         List<String> services = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -171,31 +142,8 @@ public class CustomerMainActivity extends AppCompatActivity {
         return services;
     }
 
-    private static List<Appointment> getAllAppointments(JSONArray jsonArray) throws JSONException {
-        Log.d("TAG", "getAllAppointments: " + jsonArray);
-        List<Appointment> appointments = new ArrayList<Appointment>();
-        for(int i = 0; i  < jsonArray.length(); ++i){
-            Appointment appointment = new Appointment();
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            List<String> serviceNames = getServiceNames(jsonObject.getJSONArray("services"));
-            Date date = parseDate(jsonObject);
-            appointment.setDate(date);
-            appointment.setServices(serviceNames);
-            appointments.add(appointment);
-        }
-        return appointments;
-    }
-
-    private static Date parseDate(JSONObject appointment) throws JSONException {
-        JSONObject timeSlot = appointment.getJSONObject("timeSlot");
-        String dateStringFormat = timeSlot.getString("date");
-        String startTimeStringFormat = timeSlot.getString("startTime");
-        String dateString = dateStringFormat + " " + startTimeStringFormat;
-        return convertToDate(dateString);
-    }
-
-    private static Date convertToDate(String dateString){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static Date convertToDate(String dateString){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = format.parse(dateString);
@@ -205,4 +153,6 @@ public class CustomerMainActivity extends AppCompatActivity {
         }
         return date;
     }
+
+
 }

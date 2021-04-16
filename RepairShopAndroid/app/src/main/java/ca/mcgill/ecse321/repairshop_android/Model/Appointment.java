@@ -9,6 +9,10 @@ public class Appointment {
     private Date date;
     private Time endTime;
     private Time startTime;
+    public int MONTH;
+    public int DAY;
+    public int YEAR;
+    private String id;
 
     public List<String> getServices() {
         return services;
@@ -40,5 +44,13 @@ public class Appointment {
 
     public void setStartTime(Time startTime) {
         this.startTime = startTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
