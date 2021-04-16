@@ -14,6 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.R;
 
+/*
+Admin main activity 
+*/
 public class AdminMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
