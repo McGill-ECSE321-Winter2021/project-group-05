@@ -58,6 +58,9 @@ public class ServiceFragment extends Fragment {
         createServiceButtonHandler();
     }
 
+    /**
+     * sets create button on-click function
+     */
     public void createServiceButtonHandler(){
         createServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,14 +71,15 @@ public class ServiceFragment extends Fragment {
     }
 
 
+    /**
+     * creates a new service when create button is pressed with all fields filled
+     */
     public void createService(final View view){
 
         RequestParams requestParams = new RequestParams();
         requestParams.add("serviceName", tv_service_name.getText().toString());
         requestParams.add("serviceCost",tv_service_cost.getText().toString());
         requestParams.add("serviceDuration",tv_service_duration.getText().toString());
-
-
 
         HttpUtils.post("/bookableService/app", requestParams, new JsonHttpResponseHandler() {
             @Override

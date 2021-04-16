@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class AdminHomeFragment extends Fragment {
     private String error = "";
     private Button deleteServiceButton;
     private Button updateServiceButton;
-    private List<String> spinnerArray = new ArrayList<>();
+    private List<String> serviceList = new ArrayList<>();
     private EditText text_edit_service_name = null;
     private EditText text_edit_service_cost = null;
     private EditText text_edit_service_duration = null;
@@ -63,6 +62,25 @@ public class AdminHomeFragment extends Fragment {
         setView(view);
     }
 
+    public void setView(View view) {
+        deleteServiceButton = view.findViewById(R.id.delete);
+        updateServiceButton = view.findViewById(R.id.update);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        text_edit_service_name = (EditText) view.findViewById(R.id.newServiceName);
+        text_edit_service_cost = (EditText) view.findViewById(R.id.newServiceCost);
+        text_edit_service_duration = (EditText) view.findViewById(R.id.newServiceDuration);
+
+        getServices(view);
+        deleteButtonHandler();
+        updateButtonHandler();
+
+    }
+
+    /**
+     * Gets all the available services and adds to the spinner
+     * @param view
+     */
 
     private void getServices(final View view) {
         RequestParams requestParams = new RequestParams();
@@ -71,22 +89,21 @@ public class AdminHomeFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 for(int i = 0; i < response.length(); i++) {
                     try {
-                        spinnerArray = JsonHelper.toList(response);
+                        serviceList = JsonHelper.toList(response);
                     }catch (JSONException e) {
                         Toast.makeText
                                 (getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }
-                spinnerArray.add(0, "Select a service");
+                serviceList.add(0, "Select a service");
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, serviceList) {
                     @Override
                     public boolean isEnabled(int position){
                         if(position == 0)
                         {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
+                            // Disable the first item from Spinner as first item will be use for hint
                             return false;
                         }
                         else
@@ -128,7 +145,6 @@ public class AdminHomeFragment extends Fragment {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 
@@ -153,7 +169,11 @@ public class AdminHomeFragment extends Fragment {
     }
 
 
-
+    /**
+     * Displays details of the select service from the spinner
+     * @param serviceName
+     * @param view
+     */
     public void getServiceByName(String serviceName, final View view) {
         HttpUtils.get("/bookableService/"+serviceName, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -188,21 +208,9 @@ public class AdminHomeFragment extends Fragment {
     }
 
 
-    public void setView(View view) {
-        deleteServiceButton = view.findViewById(R.id.delete);
-        updateServiceButton = view.findViewById(R.id.update);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-
-        text_edit_service_name = (EditText) view.findViewById(R.id.newServiceName);
-        text_edit_service_cost = (EditText) view.findViewById(R.id.newServiceCost);
-        text_edit_service_duration = (EditText) view.findViewById(R.id.newServiceDuration);
-
-        getServices(view);
-        deleteButtonHandler();
-        updateButtonHandler();
-
-    }
-
+    /**
+     * sets delete button on-click function
+     */
     public void deleteButtonHandler(){
         deleteServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +220,9 @@ public class AdminHomeFragment extends Fragment {
         });
     }
 
+    /**
+     * sets update button on-click function
+     */
     public void updateButtonHandler(){
         updateServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,6 +232,9 @@ public class AdminHomeFragment extends Fragment {
         });
     }
 
+    /**
+     * deletes a service when delete button is pressed for a service
+     */
     public void deleteService() {
         String serviceToDelete = selectedItemText;
         RequestParams requestParams = new RequestParams();
@@ -260,6 +274,9 @@ public class AdminHomeFragment extends Fragment {
     }
 
 
+    /**
+     * updates a service when update button is pressed for a service
+     */
     public void updateService() {
         RequestParams requestParams = new RequestParams();
         requestParams.add("oldName", selectedItemText);
