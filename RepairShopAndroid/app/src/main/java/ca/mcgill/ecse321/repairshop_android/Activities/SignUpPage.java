@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -63,6 +64,15 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 //RepairShopUtil.refreshErrorMessage(view, R.id.error, error);
             }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (SignUpPage.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
+            }
 
         });
     }
@@ -90,6 +100,15 @@ public class SignUpPage extends AppCompatActivity {
                     error += e.getMessage();
                 }
                 //refreshErrorMessage();
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (SignUpPage.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });
