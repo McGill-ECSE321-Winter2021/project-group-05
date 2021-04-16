@@ -2,11 +2,9 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Admin;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +15,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
-
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.JsonHelper;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -65,10 +58,6 @@ public class AdminHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setView(view);
-
-
-
-        //System.out.println(spinnerArray.toString() + " ===================================================");
     }
 
 
@@ -80,16 +69,13 @@ public class AdminHomeFragment extends Fragment {
                 for(int i = 0; i < response.length(); i++) {
                     try {
                         spinnerArray = JsonHelper.toList(response);
-//                        for(String service : JsonHelper.toList(response)) {
-//                            spinnerArray.add(service);
-//                        }
                     }catch (JSONException e) {
-                        System.out.println(e.getMessage());
+                        Toast.makeText
+                                (getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
+                                .show();
                     }
                 }
                 spinnerArray.add(0, "Select a service");
-                System.out.println("ONSUCCESS ============== " + spinnerArray);
-
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray) {
                     @Override
@@ -114,9 +100,6 @@ public class AdminHomeFragment extends Fragment {
                             // Set the hint text color gray
                             tv.setTextColor(Color.GRAY);
                         }
-                        else {
-                            tv.setTextColor(Color.BLACK);
-                        }
                         return view;
                     }
                 };
@@ -134,7 +117,7 @@ public class AdminHomeFragment extends Fragment {
                         if(position > 0){
                             // Notify the selected item text
                             Toast.makeText
-                                    (getActivity(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Selected service: " + selectedItemText, Toast.LENGTH_SHORT)
                                     .show();
                             getServiceByName(selectedItemText, view);
                         }
@@ -151,17 +134,20 @@ public class AdminHomeFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
                     error += errorResponse.get("message").toString();
-                    System.out.println("inside try : "+error);
+                    Toast.makeText
+                            (getActivity(), error, Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
                     error += e.getMessage();
-                    System.out.println("catch : "+error);
+                    Toast.makeText
+                            (getActivity(), error, Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
 
         });
     }
-
 
 
 
@@ -183,10 +169,14 @@ public class AdminHomeFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
                     error += errorResponse.get("message").toString();
-                    System.out.println("inside try : "+error);
+                    Toast.makeText
+                            (getActivity(), error, Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
                     error += e.getMessage();
-                    System.out.println("catch : "+error);
+                    Toast.makeText
+                            (getActivity(), error, Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
@@ -198,14 +188,12 @@ public class AdminHomeFragment extends Fragment {
     public void setView(View view) {
         deleteServiceButton = view.findViewById(R.id.delete);
         updateServiceButton = view.findViewById(R.id.update);
-        System.out.println("inside setVIEW  ==================================");
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
         text_edit_service_name = (EditText) view.findViewById(R.id.newServiceName);
         text_edit_service_cost = (EditText) view.findViewById(R.id.newServiceCost);
         text_edit_service_duration = (EditText) view.findViewById(R.id.newServiceDuration);
 
-        spinnerArray.add("Select a service");
         getServices(view);
         deleteButtonHandler();
         updateButtonHandler();
@@ -213,7 +201,6 @@ public class AdminHomeFragment extends Fragment {
     }
 
     public void deleteButtonHandler(){
-        System.out.println("inside HANDLER7  ==================================");
         deleteServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,7 +210,6 @@ public class AdminHomeFragment extends Fragment {
     }
 
     public void updateButtonHandler(){
-        System.out.println("inside HANDLER7  ==================================");
         updateServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,15 +219,18 @@ public class AdminHomeFragment extends Fragment {
     }
 
     public void deleteService() {
-        System.out.println("TRYING TO DELETE ===================== " + selectedItemText);
         String serviceToDelete = selectedItemText;
         RequestParams requestParams = new RequestParams();
         requestParams.add("name", serviceToDelete);
         HttpUtils.delete("/bookableService/app", requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                text_edit_service_name.setText("");
+                text_edit_service_cost.setText("");
+                text_edit_service_duration.setText("");
+                spinner.setSelection(0, true);
                 Toast.makeText
-                        (getActivity(), "Service successfully deleted", Toast.LENGTH_SHORT)
+                        (getActivity(), "Service deleted successfully", Toast.LENGTH_SHORT)
                         .show();
 
                 //getServices(view);
@@ -255,6 +244,12 @@ public class AdminHomeFragment extends Fragment {
                 Toast.makeText
                         (getActivity(), responseString, Toast.LENGTH_SHORT)
                         .show();
+                if(statusCode == 200) {
+                    text_edit_service_name.setText("");
+                    text_edit_service_cost.setText("");
+                    text_edit_service_duration.setText("");
+                    spinner.setSelection(0, true);
+                }
             }
 
         });

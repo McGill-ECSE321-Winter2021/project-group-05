@@ -51,8 +51,8 @@
 
     <EditText
         android:id="@+id/newServiceName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="322dp"
+        android:layout_height="44dp"
         android:ems="10"
         android:fontFamily="monospace"
         android:hint="@string/serviceName"
@@ -66,8 +66,8 @@
 
     <EditText
         android:id="@+id/newServiceDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="322dp"
+        android:layout_height="44dp"
         android:ems="10"
         android:fontFamily="monospace"
         android:hint="@string/newServiceDuration"
@@ -81,8 +81,8 @@
 
     <EditText
         android:id="@+id/newServiceCost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="322dp"
+        android:layout_height="44dp"
         android:ems="10"
         android:fontFamily="monospace"
         android:hint="@string/newServiceCost"

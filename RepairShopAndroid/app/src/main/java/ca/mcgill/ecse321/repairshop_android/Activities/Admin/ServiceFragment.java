@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.repairshop_android.Activities.Admin;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import org.json.JSONException;
 import org.json.JSONObject;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -22,13 +20,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class ServiceFragment extends Fragment {
 
-    private String error = null;
 
     private Button createServiceButton;
     private EditText tv_service_name = null;
     private EditText tv_service_cost = null;
     private EditText tv_service_duration = null;
-
     private TextView tvError = null;
 
     public ServiceFragment() {
@@ -53,14 +49,6 @@ public class ServiceFragment extends Fragment {
     }
 
 
-    private void refreshErrorMessage(View view) {
-        if (error == null || error.length() == 0) {
-            tvError.setVisibility(View.GONE);
-        } else {
-            tvError.setVisibility(View.VISIBLE);
-        }
-    }
-
     public void setView(View view) {
         createServiceButton = view.findViewById(R.id.CreateServiceButton);
         tv_service_name = (EditText) view.findViewById(R.id.newServiceName);
@@ -82,7 +70,6 @@ public class ServiceFragment extends Fragment {
 
     public void createService(final View view){
 
-        error="";
         RequestParams requestParams = new RequestParams();
         requestParams.add("serviceName", tv_service_name.getText().toString());
         requestParams.add("serviceCost",tv_service_cost.getText().toString());
@@ -93,12 +80,9 @@ public class ServiceFragment extends Fragment {
         HttpUtils.post("/bookableService/app", requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage(view);
                 tv_service_name.setText("");
                 tv_service_cost.setText("");
                 tv_service_duration.setText("");
-                // Notify with successful message
-                System.out.println("WORKS");
                 Toast.makeText
                         (getActivity(), "Service successfully created", Toast.LENGTH_SHORT)
                         .show();
@@ -113,7 +97,6 @@ public class ServiceFragment extends Fragment {
                         (getActivity(), responseString, Toast.LENGTH_SHORT)
                         .show();
             }
-
         });
     }
 }
