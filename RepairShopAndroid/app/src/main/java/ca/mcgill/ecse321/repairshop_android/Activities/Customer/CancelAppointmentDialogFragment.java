@@ -17,6 +17,10 @@ import org.json.JSONObject;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import cz.msebera.android.httpclient.Header;
 
+
+/*
+Cancels an appointment
+*/
 public class CancelAppointmentDialogFragment extends DialogFragment {
     public CancelAppointmentDialogFragment() {
         // Empty constructor required for DialogFragment
