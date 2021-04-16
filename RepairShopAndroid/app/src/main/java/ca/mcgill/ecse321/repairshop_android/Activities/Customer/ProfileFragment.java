@@ -178,7 +178,7 @@ public class ProfileFragment extends Fragment {
 
             RequestParams requestParams = new RequestParams();
             requestParams.add("username",tvUserName.getText().toString());
-            requestParams.add("oldEmail",RepairShopUtil.loginUserEmail);
+            requestParams.add("oldEmail",RepairShopUtil.getLoginUserEmail());
             requestParams.add("newEmail",tvEmail.getText().toString());
             requestParams.add("password",tvPassword.getText().toString());
             /**

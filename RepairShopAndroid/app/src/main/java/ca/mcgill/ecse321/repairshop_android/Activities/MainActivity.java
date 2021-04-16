@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    //refreshErrorMessage();
+
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                             .show();
@@ -103,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("tag2","success");
                     setCurrentAdmin(tv_email.getText().toString());
-                    Log.d("current email: ",RepairShopUtil.loginUserEmail);
-                    Log.d("current username: ",RepairShopUtil.loginUserName);
+
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -113,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {
@@ -191,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, SignUpPage.class);
+        Intent intent = new Intent(this, TechnicianMainActivity.class);
         startActivity(intent);
     }
 
