@@ -41,18 +41,6 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
         return frag;
     }
 
-    public static UpdateAppointmentDialogFragment newInstance(String title, HashMap<Integer, String> services){
-        UpdateAppointmentDialogFragment frag = new UpdateAppointmentDialogFragment();
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        for(Map.Entry<Integer, String> entry : services.entrySet()){
-            args.putString(entry.getKey().toString(), entry.getValue());
-        }
-        allServices = services;
-        frag.setArguments(args);
-        return frag;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,11 +66,18 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
 
     }
 
+    /**
+     * sets the title of the dialog
+     */
     private void setTitleOfDialog(){
         String title = getArguments().getString("title");
         getDialog().setTitle(title);
     }
 
+    /**
+     * sets the view of the dialog
+     * @param view
+     */
     private void setViews(View view){
         datePicker = view.findViewById(R.id.datePicker);
         timePicker = view.findViewById(R.id.timePicker);
@@ -90,11 +85,33 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
         parentLayout = view.findViewById(R.id.parentLayout);
     }
 
+    /**
+     * populates the dialog with all the services in the system
+     */
     private void inflateServiceList(){
-        CheckBox checkBox = new CheckBox(getContext());
-        checkBox.setText("wash");
-        checkBox.setGravity(Gravity.CENTER);
-        parentLayout.addView(checkBox);
+        for(int i = 0; i < CustomerMainActivity.getAllServices().size(); ++i) {
+            allServices.put(i, CustomerMainActivity.getAllServices().get(i));
+            CheckBox checkBox = new CheckBox(getContext());
+            checkBox.setText(allServices.get(i));
+            checkBox.setId(i);
+            checkBox.setGravity(Gravity.CENTER);
+            parentLayout.addView(checkBox);
+        }
+    }
 
+    /**
+     * handles the update of an appointment
+     */
+    private void updateAppointmentHandler(){
+        btnUpdateAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateAppointment();
+            }
+        });
+    }
+
+    private void updateAppointment(){
+        //TODO: handle update
     }
 }

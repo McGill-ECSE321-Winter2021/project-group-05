@@ -88,7 +88,13 @@ public class CustomerHomeFragment extends Fragment {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
                 Log.d("Tag", clickedDayCalendar.getTime().toString());
                 tvSelectedDate.setText(formatLongToDate(clickedDayCalendar.getTimeInMillis()));
-                showUpdateDialog(1);
+                String date = formatLongToDate(clickedDayCalendar.getTimeInMillis());
+                int id = getAppointmentId(date);
+                System.out.println(id);
+                if(id == 0){
+                    return;
+                }
+                showUpdateDialog(id);
             }
         });
     }
