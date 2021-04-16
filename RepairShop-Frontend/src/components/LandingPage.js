@@ -23,7 +23,6 @@ export default{
     setTimeout(this.toggle,5);
   },
   methods: {
-    play video
   	play: function() {
       Router.push({
         path: "/welcome",
