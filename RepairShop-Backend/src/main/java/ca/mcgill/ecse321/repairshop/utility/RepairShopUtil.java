@@ -10,10 +10,20 @@ public class RepairShopUtil {
 
     public static Person currentUser;
 
+    /**
+     * returns user
+     *
+     * @return Person
+     */
     public static Person getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * sets user
+     *
+     * @param currentUser Person
+     */
     public static void setCurrentUser(Person currentUser) {
         RepairShopUtil.currentUser = currentUser;
     }
@@ -23,7 +33,7 @@ public class RepairShopUtil {
      * 
      * @param iterable
      * @param <T>
-     * @return
+     * @return list<T>
      */
     public static <T> List<T> toList(Iterable<T> iterable) {
         List<T> resultList = new ArrayList<T>();
@@ -33,6 +43,12 @@ public class RepairShopUtil {
         return resultList;
     }
 
+    /**
+     * covert appointnment to transfer object
+     *
+     * @param appointment appointment
+     * @return appointment dto
+     */
     public static AppointmentDto convertToDto(Appointment appointment) {
         if (appointment == null) {
             throw new IllegalArgumentException("There is no such Appointment!");
@@ -44,6 +60,12 @@ public class RepairShopUtil {
         return appointmentDto;
     }
 
+    /**
+     * convert timeslot to dto
+     *
+     * @param timeSlot timeslot
+     * @return timeslot dto
+     */
     public static TimeSlotDto convertToDto(TimeSlot timeSlot) {
         if (timeSlot == null) {
             throw new IllegalArgumentException("There is no such TimeSlot!");
@@ -54,6 +76,12 @@ public class RepairShopUtil {
         return timeSlotDto;
     }
 
+    /**
+     * convert service to dto
+     *
+     * @param service service
+     * @return service dto
+     */
     public static BookableServiceDto convertToDto(BookableService service) {
         if (service == null) {
             throw new IllegalArgumentException("There is no such Service!");
@@ -65,6 +93,12 @@ public class RepairShopUtil {
         return serviceDto;
     }
 
+    /**
+     * convert list of services to list of dtos
+     *
+     * @param services list of services
+     * @return list of dtos
+     */
     public static List<BookableServiceDto> convertToDto(List<BookableService> services) {
         List<BookableServiceDto> serviceDtos = new ArrayList<>();
         if (services == null) {
@@ -76,6 +110,12 @@ public class RepairShopUtil {
         return serviceDtos;
     }
 
+    /**
+     * convert customer to dto
+     *
+     * @param customer customer
+     * @return dto
+     */
     public static CustomerDto convertToDto(Customer customer) {
         if (customer == null) {
             throw new IllegalArgumentException("There is no such Customer!");
@@ -87,6 +127,12 @@ public class RepairShopUtil {
         return customerDto;
     }
 
+    /**
+     * convert bill to dto
+     *
+     * @param bill bill
+     * @return dto
+     */
     public static BillDto convertToDto(Bill bill) {
         if (bill == null) {
             //throw new IllegalArgumentException("There is no such Bill!");
@@ -96,6 +142,12 @@ public class RepairShopUtil {
         return billDto;
     }
 
+    /**
+     * convert business to dto
+     *
+     * @param business business
+     * @return business
+     */
     public static BusinessDto convertToDto(Business business) {
         if (business == null) {
             throw new IllegalArgumentException("There is no such Bill!");
@@ -105,6 +157,12 @@ public class RepairShopUtil {
         return businessDto;
     }
 
+    /**
+     * convert list of bills to list of dtos
+     *
+     * @param bills list of bills
+     * @return list of dtos
+     */
     public static List<BillDto> convertBillToDto(List<Bill> bills) {
         List<BillDto> billDtoList = new ArrayList<BillDto>();
         for (Bill b : bills) {
@@ -113,6 +171,12 @@ public class RepairShopUtil {
         return billDtoList;
     }
 
+    /**
+     * converts list of appointments to list of dtos
+     *
+     * @param appointments list of appointments
+     * @returnlist of dtos
+     */
     public static List<AppointmentDto> convertAppointmentsToDto(List<Appointment> appointments) {
         List<AppointmentDto> appointmentDtoList = new ArrayList<AppointmentDto>();
         for (Appointment app : appointments) {
@@ -121,6 +185,12 @@ public class RepairShopUtil {
         return appointmentDtoList;
     }
 
+    /**
+     * returns total cost of an appointment
+     *
+     * @param appointment appointment
+     * @return cost
+     */
     public static float getTotalCostOfAppointment(Appointment appointment) {
         float sum = 0L;
         for (BookableService bookableService : appointment.getServices()) {
@@ -129,6 +199,12 @@ public class RepairShopUtil {
         return sum;
     }
 
+    /**
+     * convert technician to dto
+     *
+     * @param technician technician
+     * @return dto
+     */
     public static TechnicianDto convertToDto(Technician technician) {
         TechnicianDto technicianDto = new TechnicianDto();
         technicianDto.setEmail(technician.getEmail());
@@ -140,6 +216,12 @@ public class RepairShopUtil {
         return technicianDto;
     }
 
+    /**
+     * convert admin to dto
+     *
+     * @param administrator admin
+     * @return dot
+     */
     public static AdministratorDto convertToDto(Administrator administrator) {
         AdministratorDto administratorDto = new AdministratorDto();
         administratorDto.setEmail(administrator.getEmail());
@@ -150,6 +232,13 @@ public class RepairShopUtil {
         administratorDto.setPersonType(administrator.getPersonType());
         return administratorDto;
     }
+
+    /**
+     * convert dto to appt
+     *
+     * @param appointmentDto dto
+     * @return appointment
+     */
     public static Appointment convertToEntity(AppointmentDto appointmentDto) {
         Appointment appointment = new Appointment();
         appointment.setServices(convertToListOfEntity(appointmentDto.getServices()));
@@ -159,6 +248,12 @@ public class RepairShopUtil {
         return appointment;
     }
 
+    /**
+     * convert dto to service
+     *
+     * @param bookableServiceDto dto
+     * @return sevice
+     */
     public static BookableService convertToEntity(BookableServiceDto bookableServiceDto) {
         BookableService bookableService = new BookableService();
         bookableService.setName(bookableServiceDto.getName());
@@ -168,6 +263,12 @@ public class RepairShopUtil {
         return bookableService;
     }
 
+    /**
+     * convert list of dtos to list of services
+     *
+     * @param bookableServiceDtos dtos
+     * @return services
+     */
     public static List<BookableService> convertToListOfEntity(List<BookableServiceDto> bookableServiceDtos) {
         List<BookableService> bookableServices = new ArrayList<>();
         for (BookableServiceDto bookableServiceDto : bookableServiceDtos) {
@@ -176,6 +277,12 @@ public class RepairShopUtil {
         return bookableServices;
     }
 
+    /**
+     * convert dto to timeslot
+     *
+     * @param timeSlotDto dto
+     * @return timeslot
+     */
     public static TimeSlot convertToEntity(TimeSlotDto timeSlotDto) {
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setDate(timeSlotDto.getDate());
@@ -185,6 +292,12 @@ public class RepairShopUtil {
         return timeSlot;
     }
 
+    /**
+     * convert dto to customer
+     *
+     * @param customerDto dto
+     * @return customer
+     */
     public static Customer convertToEntity(CustomerDto customerDto) {
         Customer customer = new Customer();
         customer.setNoShow(customerDto.getNoShow());

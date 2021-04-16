@@ -19,8 +19,9 @@ public class BusinessService {
 
     /**
      * creates a business if it does not exist
-     * @param businessDto
-     * @return
+     *
+     * @param businessDto business transfer object
+     * @return business
      * @throws BusinessException
      */
     @Transactional
@@ -41,8 +42,9 @@ public class BusinessService {
 
     /**
      * gets the business, given the Id
-     * @param id
-     * @return
+     *
+     * @param id business id
+     * @return business
      */
     @Transactional
     public Business getBusiness(Long id) {
@@ -53,9 +55,10 @@ public class BusinessService {
 
     /**
      * edits the business given an id
-     * @param id
-     * @param businessDto
-     * @return
+     *
+     * @param id business id
+     * @param businessDto business transfer object
+     * @return business
      * @throws BusinessException
      */
     @Transactional
@@ -79,8 +82,9 @@ public class BusinessService {
 
     /**
      * deletes the business from the system  || just for test purpose
-     * @param id
-     * @return
+     *
+     * @param id business id
+     * @return business
      */
     @Transactional
     public Business deleteBusiness(Long id) throws BusinessException{
@@ -97,8 +101,9 @@ public class BusinessService {
 
     /**
      * converts the DTO to a business entity
-     * @param businessDto
-     * @return
+     *
+     * @param businessDto business transfer object
+     * @return business
      */
     public Business convertToEntity(BusinessDto businessDto){
         Business business = new Business();
@@ -110,6 +115,12 @@ public class BusinessService {
         return business;
     }
 
+    /**
+     * returns the error
+     *
+     * @param businessDto business transfer object
+     * @return error (String)
+     */
     private String getErrorFromData(BusinessDto businessDto) {
         if(businessDto.getName() == null || businessDto.getName().equals("")){
             return "Business name cannot be empty";

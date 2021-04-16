@@ -40,6 +40,9 @@ public class TestAdministratorService {
     private static final String ADMIN_PASSWORD = "456";
     private static final Long ADMIN_ID = 13L;
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput() {
         //admin by email
@@ -57,9 +60,13 @@ public class TestAdministratorService {
         });
     }
 
-    //CUSTOMER
 
-    //positive create administrator
+
+
+
+    /**
+     * create admin successful
+     */
     @Test
     public void testCreateAdministrator() {
         Administrator administrator = new Administrator();
@@ -78,7 +85,9 @@ public class TestAdministratorService {
         assertEquals(createdAdministrator.getEmail(), administrator.getEmail());
     }
 
-    //negative create admin [missing email]
+    /**
+     * negative create admin [missing email]
+     */
     @Test
     public void testCreateAdministratorWithoutEmail() {
         Administrator administrator = new Administrator();
@@ -94,7 +103,9 @@ public class TestAdministratorService {
         assertNull(createdAdmin);
     }
 
-    //negative create customer [missing username]
+    /**
+     * negative create customer [missing username]
+     */
     @Test
     public void testCreateAdministratorWithoutUsername() {
         Administrator administrator = new Administrator();
@@ -110,7 +121,9 @@ public class TestAdministratorService {
         assertNull(createdAdmin);
     }
 
-    //negative create customer [missing password]
+    /**
+     * negative create customer [missing password]
+     */
     @Test
     public void testCreateAdministratorWithoutPassword() {
         Administrator administrator = new Administrator();
@@ -126,7 +139,9 @@ public class TestAdministratorService {
         assertNull(createdAdmin);
     }
 
-    //positive login test
+    /**
+     * positive login test
+     */
     @Test
     public void testLoginAdministrator() {
         Administrator administrator = new Administrator();
@@ -143,7 +158,9 @@ public class TestAdministratorService {
         assertNotNull(createdAdmin);
     }
 
-    //negative login test [customer does not exist]
+    /**
+     * negative login test [customer does not exist]
+     */
     @Test
     public void testLoginAdministratorWithWrongEmail() {
         Administrator administrator = new Administrator();
@@ -159,7 +176,9 @@ public class TestAdministratorService {
         }
     }
 
-    //negative login test [wrong password]
+    /**
+     * negative login test [wrong password]
+     */
     @Test
     public void testLoginAdministratorWithWrongPassword() {
         Administrator administrator = new Administrator();
@@ -175,7 +194,9 @@ public class TestAdministratorService {
         }
     }
 
-    //positive get test
+    /**
+     * positive get test
+     */
     @Test
     public void testGetAdministrator() {
         Administrator administrator = new Administrator();
@@ -192,7 +213,9 @@ public class TestAdministratorService {
         assertNotNull(createdAdmin);
     }
 
-    //positive get test
+    /**
+     * positive get test
+     */
     @Test
     public void testGetAdministratorWithWrongEmail() {
         Administrator administrator = new Administrator();
@@ -208,7 +231,9 @@ public class TestAdministratorService {
         }
     }
 
-    //positive update test
+    /**
+     * positive update test
+     */
     @Test
     public void testUpdateAdministrator() {
         AdministratorDto administratorDto = new AdministratorDto();
@@ -225,7 +250,9 @@ public class TestAdministratorService {
         assertNotNull(updatedAdmin);
     }
 
-    //negative update test [wrong email]
+    /**
+     * negative update test [wrong email]
+     */
     @Test
     public void testUpdateAdministratorWithWrongEmail() {
         AdministratorDto administratorDto = new AdministratorDto();
@@ -241,7 +268,9 @@ public class TestAdministratorService {
         }
     }
 
-    //negative update test [invalid email]
+    /**
+     * negative update test [invalid email]
+     */
     @Test
     public void testUpdateAdministratorWithInvalidEmail() {
         AdministratorDto administratorDto = new AdministratorDto();
@@ -257,7 +286,9 @@ public class TestAdministratorService {
         }
     }
 
-    //negative update test [dulicate email]
+    /**
+     * negative update test [dulicate email]
+     */
     @Test
     public void testUpdateAdministratorWithDuplicateEmail() {
         AdministratorDto administratorDto = new AdministratorDto();
@@ -273,7 +304,9 @@ public class TestAdministratorService {
         }
     }
 
-    //positive delete
+    /**
+     * positive delete
+     */
     @Test
     public void testDeleteAdministrator() {
         Administrator administrator = null;
@@ -285,7 +318,9 @@ public class TestAdministratorService {
         assertNotNull(administrator);
     }
 
-    //nagative delete
+    /**
+     * negative delete
+     */
     @Test
     public void testDeleteNonExistingAdministrator() {
 

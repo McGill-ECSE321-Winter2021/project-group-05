@@ -99,7 +99,7 @@ public class ServiceController {
      * @throws IllegalArgumentException
      * @throws BookableServiceException
      */
-    @PutMapping(value = { "/bookableService/app/{name}", "/bookableService/app/{name}/" })
+    @PutMapping(value = { "/bookableService/app/", "/bookableService/app" })
     public ResponseEntity<?> editBookableService(@RequestParam(value = "oldName") String oldName,
                                                  @RequestParam(value = "newName") String newName,
                                                  @RequestParam(value = "newCost") String newCost,
@@ -120,7 +120,6 @@ public class ServiceController {
     }
 
 
-
     /**
      * get bookable service method returns service from a name
      *
@@ -132,6 +131,11 @@ public class ServiceController {
         return RepairShopUtil.convertToDto(repairShopService.getService(name));
     }
 
+    /**
+     * gets all bookable services of the repair shop
+     *
+     * @return response entity
+     */
     @GetMapping(value = { "/bookableServices", "/bookableServices/" })
     public List<BookableServiceDto> getAllBookableServices() {
         List<BookableServiceDto> bookableServiceDtoList = new ArrayList<>();
@@ -149,6 +153,27 @@ public class ServiceController {
      */
     @DeleteMapping(value = { "/bookableService/{name}", "/bookableService/{name}/" })
     public ResponseEntity<?> deleteBookableService(@PathVariable("name") String name){
+        BookableService bookableService = repairShopService.getService(name);
+        if (bookableService == null) {
+            return new ResponseEntity<>("Cannot delete a null service", HttpStatus.BAD_REQUEST);
+        }
+        // find the appointment using id
+        try {
+            repairShopService.deleteBookableService(bookableService);
+        } catch (BookableServiceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("The service has been successfully deleted", HttpStatus.OK);
+    }
+
+    /**
+     * deletes an existing service
+     *
+     * @param name name of service as RequestParam
+     * @return response entity
+     */
+    @DeleteMapping(value = { "/bookableService/app", "/bookableService/app/" })
+    public ResponseEntity<?> deleteExistingBookableService(@RequestParam(value = "name") String name){
         BookableService bookableService = repairShopService.getService(name);
         if (bookableService == null) {
             return new ResponseEntity<>("Cannot delete a null service", HttpStatus.BAD_REQUEST);
