@@ -176,8 +176,8 @@ public class AppointmentController {
     @PostMapping(value = {"/appointment", "/appointment/"})
     public ResponseEntity<?> createAppointment(@RequestParam(value = "customerEmail") String customerEmail,
                                                @RequestParam(value = "serviceNames") List<String> serviceNames,
-                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-                                               @RequestParam java.sql.Date date) {
+                                               @RequestParam(value = "startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
+                                               @RequestParam(value = "date") java.sql.Date date) {
         try {
             Customer customer = personService.getCustomer(customerEmail);
             //CONVERT BOOKABLE SERVICE DTO --> DAO
