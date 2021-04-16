@@ -4,6 +4,9 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
+/*
+Technician homepage
+*/
 public class Appointment {
     private List<String> services;
     private Date date;
