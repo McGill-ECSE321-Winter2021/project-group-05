@@ -101,7 +101,13 @@ public class CustomerHomeFragment extends Fragment {
             @Override
             public void onDayLongClick(EventDay eventDay) {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
-                showCancelDialog(1);
+                String date = formatLongToDate(clickedDayCalendar.getTimeInMillis());
+                int id = getAppointmentId(date);
+                System.out.println(id);
+                if(id == 0){
+                    return;
+                }
+                showCancelDialog(id);
             }
         });
     }
@@ -169,7 +175,7 @@ public class CustomerHomeFragment extends Fragment {
             calendar.set(Calendar.MINUTE, 13);
             calendar.set(Calendar.HOUR, 7);
             calendar.set(Calendar.MONTH, appointment.MONTH - 1);
-            calendar.set(Calendar.DAY_OF_MONTH, appointment.DAY + 1);
+            calendar.set(Calendar.DAY_OF_MONTH, appointment.DAY);
             calendar.set(Calendar.YEAR, appointment.YEAR);
 
             events.add(new EventDay(calendar, R.drawable.event));
@@ -219,7 +225,7 @@ public class CustomerHomeFragment extends Fragment {
      * @return
      */
     private String convertDateToString(Date date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateTime = dateFormat.format(date);
         System.out.println("Current Date Time : " + dateTime);
         return dateTime;
@@ -243,7 +249,6 @@ public class CustomerHomeFragment extends Fragment {
             }
             s += date.charAt(i);
         }
-        s = s.substring(0, 2);
         ans[idx] = Integer.parseInt(s);
         return ans;
     }
@@ -254,7 +259,17 @@ public class CustomerHomeFragment extends Fragment {
      * @return
      */
     private String formatLongToDate(long date){
-        String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(date));
+        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date(date));
         return dateString;
+    }
+
+    private int getAppointmentId(String date){
+        for(Appointment appointment : allAppointments){
+            String appointmentDate = convertDateToString(appointment.getDate());
+            if(date.equals(appointmentDate)){
+                return Integer.parseInt(appointment.getId());
+            }
+        }
+        return 0;
     }
 }
