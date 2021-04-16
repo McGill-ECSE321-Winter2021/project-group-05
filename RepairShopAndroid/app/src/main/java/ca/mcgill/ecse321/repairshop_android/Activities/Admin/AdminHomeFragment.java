@@ -1,10 +1,13 @@
 package ca.mcgill.ecse321.repairshop_android.Activities.Admin;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -229,11 +232,11 @@ public class AdminHomeFragment extends Fragment {
                 text_edit_service_cost.setText("");
                 text_edit_service_duration.setText("");
                 spinner.setSelection(0, true);
+                refresh();
                 Toast.makeText
                         (getActivity(), "Service deleted successfully", Toast.LENGTH_SHORT)
                         .show();
 
-                //getServices(view);
 
             }
             @Override
@@ -249,6 +252,7 @@ public class AdminHomeFragment extends Fragment {
                     text_edit_service_cost.setText("");
                     text_edit_service_duration.setText("");
                     spinner.setSelection(0, true);
+                    refresh();
                 }
             }
 
@@ -270,8 +274,11 @@ public class AdminHomeFragment extends Fragment {
                 Toast.makeText
                         (getActivity(), "Service updated successfully", Toast.LENGTH_SHORT)
                         .show();
-
-                //getServices(view);
+                text_edit_service_name.setText("");
+                text_edit_service_cost.setText("");
+                text_edit_service_duration.setText("");
+                spinner.setSelection(0, true);
+                refresh();
 
             }
             @Override
@@ -284,6 +291,17 @@ public class AdminHomeFragment extends Fragment {
                         .show();
             }
         });
+    }
+
+    /**
+     * this method refreshes the view of the fragment
+     */
+    public void refresh() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if (Build.VERSION.SDK_INT >= 26) {
+            ft.setReorderingAllowed(false);
+        }
+        ft.detach(AdminHomeFragment.this).attach(AdminHomeFragment.this).commit();
     }
 
 }
