@@ -25,6 +25,9 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,10 +133,11 @@ public class BookAppointmentFragment extends Fragment {
     private void bookAppointment(){
         user = (User) Parcels.unwrap(getActivity().getIntent().getParcelableExtra("user"));
         String email = user.getEmail();
-        String date = datePicker.getYear() + "-" + datePicker.getMonth() + "-" + datePicker.getDayOfMonth();
+        String date = datePicker.getYear() + "-" + (Integer.valueOf(datePicker.getMonth()) + 1) + "-" + datePicker.getDayOfMonth();
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
-        String time = hour + "" + minute + "";
+        String time = hour + ":" + minute + "";
+
 
         if(date == null || time == null){
             Toast.makeText(getContext(), "Date and time need to be selected", Toast.LENGTH_SHORT).show();
@@ -146,23 +150,36 @@ public class BookAppointmentFragment extends Fragment {
 
         RequestParams requestParams = new RequestParams();
         requestParams.put("customerEmail", email);
-        requestParams.put("startTime", time);
-        requestParams.put("date", date);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requestParams.put("startTime", LocalTime.of(hour, minute));
+        }
+        requestParams.put("date", java.sql.Date.valueOf(date));
         requestParams.put("serviceNames", selectedServices);
 
-        HttpUtils.post("appointment", requestParams, new JsonHttpResponseHandler(){
+        System.out.println(email);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            System.out.println(LocalTime.of(hour, minute));
+        }
+        System.out.println(java.sql.Date.valueOf(date));
+        System.out.println(selectedServices);
+
+        HttpUtils.post("/appointment", requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getContext(), "Successfully booked appointment", Toast.LENGTH_SHORT).show();
             }
 
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                System.out.println(errorResponse);
+                //super.onFailure(statusCode, headers, throwable, errorResponse);
+                System.out.println(errorResponse.toString());
+                Toast.makeText(getContext(), errorResponse.toString(), Toast.LENGTH_SHORT).show();
+                System.out.println(statusCode);
             }
+
+
         });
     }
 
