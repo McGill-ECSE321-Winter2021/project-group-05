@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("tag2","success");
                     setCurrentAdmin(tv_email.getText().toString());
-                    Log.d("current email: ",RepairShopUtil.loginUserEmail);
-                    Log.d("current username: ",RepairShopUtil.loginUserName);
+                    Log.d("current email: ",RepairShopUtil.getLoginUserEmail());
+                    Log.d("current username: ",RepairShopUtil.getLoginUserName());
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");

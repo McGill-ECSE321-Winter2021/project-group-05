@@ -6,9 +6,9 @@ import android.widget.TextView;
 
 public class RepairShopUtil {
 
-    public static String loginUserName="";
-    public static String loginUserEmail="";
-    public static String userType="";
+    private static String loginUserName="";
+    private static String loginUserEmail="";
+    private static String userType="";
 
 
     public static void refreshErrorMessage(View view, int id, String error) {
@@ -27,5 +27,17 @@ public class RepairShopUtil {
         loginUserName = username;
         loginUserEmail = email;
         userType = loginUserType;
+    }
+
+    public static String getLoginUserName() {
+        return loginUserName;
+    }
+
+    public static String getLoginUserEmail() {
+        return loginUserEmail;
+    }
+
+    public static String getUserType() {
+        return userType;
     }
 }
