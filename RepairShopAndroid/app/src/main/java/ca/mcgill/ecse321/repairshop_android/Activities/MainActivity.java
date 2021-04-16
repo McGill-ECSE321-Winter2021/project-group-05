@@ -18,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
@@ -25,6 +26,7 @@ import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
+import ca.mcgill.ecse321.repairshop_android.Model.User;
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
 
@@ -68,16 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
         // log in as customer
         if (customerCheckBox.isChecked()){
-
             HttpUtils.post("person/customer/login/app",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     refreshErrorMessage();
                     setCurrentCustomer(tv_email.getText().toString());
+                    goToCustomerHomePage();
                     tv_email.setText("");
                     tv_password.setText("");
-                    goToCustomerHomePage();
-
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -174,7 +174,11 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES CUSTOMER TO RIGHT SCREEN
     private void goToCustomerHomePage(){
+        TextView email = findViewById(R.id.email);
+        TextView password = findViewById(R.id.password);
+        User user = new User(email.getText().toString(), password.getText().toString());
         Intent intent = new Intent(this, CustomerMainActivity.class);
+        intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);
         finish();
     }
