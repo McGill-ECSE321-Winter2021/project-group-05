@@ -38,6 +38,7 @@ public class AdminHomeFragment extends Fragment {
 
     private String error = "";
     private Button deleteServiceButton;
+    private Button updateServiceButton;
     private List<String> spinnerArray = new ArrayList<>();
     private EditText text_edit_service_name = null;
     private EditText text_edit_service_cost = null;
@@ -196,6 +197,7 @@ public class AdminHomeFragment extends Fragment {
 
     public void setView(View view) {
         deleteServiceButton = view.findViewById(R.id.delete);
+        updateServiceButton = view.findViewById(R.id.update);
         System.out.println("inside setVIEW  ==================================");
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
@@ -206,6 +208,7 @@ public class AdminHomeFragment extends Fragment {
         spinnerArray.add("Select a service");
         getServices(view);
         deleteButtonHandler();
+        updateButtonHandler();
 
     }
 
@@ -219,12 +222,23 @@ public class AdminHomeFragment extends Fragment {
         });
     }
 
+    public void updateButtonHandler(){
+        System.out.println("inside HANDLER7  ==================================");
+        updateServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateService();
+            }
+        });
+    }
+
     public void deleteService() {
+        System.out.println("TRYING TO DELETE =====================");
         HttpUtils.delete("/bookableService/" + selectedItemText, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                System.out.println("-----------------------------------------------");
+
                 Toast.makeText
                         (getActivity(), "Service successfully deleted", Toast.LENGTH_SHORT)
                         .show();
@@ -232,6 +246,7 @@ public class AdminHomeFragment extends Fragment {
                 //getServices(view);
 
             }
+
             @Override
             public void onFailure(int statusCode,
                                   Header[] headers,
@@ -243,6 +258,7 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
+                    System.out.println("-----------------------------------------------");
                     error += errorResponse.get("message").toString();
                     System.out.println("inside try : "+error);
                 } catch (JSONException e) {
@@ -250,6 +266,48 @@ public class AdminHomeFragment extends Fragment {
                     System.out.println("catch : "+error);
                 }
 
+            }
+        });
+    }
+
+
+    public void updateService() {
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("oldName", selectedItemText);
+        requestParams.add("newName", text_edit_service_name.getText().toString());
+        requestParams.add("newCost", text_edit_service_cost.getText().toString());
+        requestParams.add("newDuration", text_edit_service_duration.getText().toString());
+
+        HttpUtils.put("/bookableService/app/", requestParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                Toast.makeText
+                        (getActivity(), "Service updated successfully", Toast.LENGTH_SHORT)
+                        .show();
+
+                //getServices(view);
+
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    System.out.println("-----------------------------------------------");
+                    error += errorResponse.get("message").toString();
+                    System.out.println("inside try : "+error);
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                    System.out.println("catch : "+error);
+                }
+
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                super.onFailure(statusCode, headers, responseString, throwable);
+                System.out.println("#################################");
             }
         });
     }

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
 
 public class AdminMainActivity extends AppCompatActivity {
@@ -69,6 +70,7 @@ public class AdminMainActivity extends AppCompatActivity {
         // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
         // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.dark_button, menu);
+        getMenuInflater().inflate(R.menu.logout, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -83,6 +85,11 @@ public class AdminMainActivity extends AppCompatActivity {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
+
+        }
+
+        if (id == R.id.logout) {
+            RepairShopUtil.setCurrentUser("", "", "");
 
         }
         return super.onOptionsItemSelected(item);

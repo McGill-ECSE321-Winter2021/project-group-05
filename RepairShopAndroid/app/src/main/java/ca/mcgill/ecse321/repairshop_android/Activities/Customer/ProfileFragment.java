@@ -78,8 +78,8 @@ public class ProfileFragment extends Fragment {
 
         TextView tvEmail = (TextView) view.findViewById(R.id.editTextEmailAddress);
 
-        tvUserName.setText(RepairShopUtil.loginUserName);
-        tvEmail.setText(RepairShopUtil.loginUserEmail);
+        tvUserName.setText(RepairShopUtil.getLoginUserName());
+        tvEmail.setText(RepairShopUtil.getLoginUserEmail());
 
     }
 
@@ -132,9 +132,9 @@ public class ProfileFragment extends Fragment {
             /**
              * update customer account
              */
-            if (RepairShopUtil.userType.equals("customer")){
+            if (RepairShopUtil.getUserType().equals("customer")){
 
-                HttpUtils.put("person/customer/"+ RepairShopUtil.loginUserEmail,requestParams, new JsonHttpResponseHandler() {
+                HttpUtils.put("person/customer/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -178,10 +178,10 @@ public class ProfileFragment extends Fragment {
             /**
              * update admin account
              */
-            else if (RepairShopUtil.userType.equals("admin")){
+            else if (RepairShopUtil.getUserType().equals("admin")){
 
 
-                HttpUtils.put("person/administrator/"+ RepairShopUtil.loginUserEmail,requestParams, new JsonHttpResponseHandler() {
+                HttpUtils.put("person/administrator/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -227,10 +227,10 @@ public class ProfileFragment extends Fragment {
             /**
              * update technician account
              */
-            else if (RepairShopUtil.userType.equals("technician")){
+            else if (RepairShopUtil.getUserType().equals("technician")){
 
 
-                HttpUtils.put("person/technicians/"+ RepairShopUtil.loginUserEmail,requestParams, new JsonHttpResponseHandler() {
+                HttpUtils.put("person/technicians/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -279,10 +279,10 @@ public class ProfileFragment extends Fragment {
     public void deleteAccount(){
         Log.e("tag2","deleting the account");
         // DELETE CUSTOMER ACCOUNT
-        switch (RepairShopUtil.userType) {
+        switch (RepairShopUtil.getUserType()) {
             case "customer":
 
-                HttpUtils.delete("person/customer/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.delete("person/customer/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -316,7 +316,7 @@ public class ProfileFragment extends Fragment {
             // DELETE TECHNICIAN ACCOUNT
             case "technician":
 
-                HttpUtils.delete("person/technicians/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.delete("person/technicians/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -351,7 +351,7 @@ public class ProfileFragment extends Fragment {
             // DELETE ADMIN ACCOUNT
             case "admin":
 
-                HttpUtils.delete("person/administrator/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.delete("person/administrator/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
