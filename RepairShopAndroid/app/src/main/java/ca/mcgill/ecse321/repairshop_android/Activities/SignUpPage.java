@@ -62,7 +62,7 @@ public class SignUpPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                //RepairShopUtil.refreshErrorMessage(view, R.id.error, error);
+
             }
             @Override
             public void onFailure(int statusCode,
@@ -83,11 +83,14 @@ public class SignUpPage extends AppCompatActivity {
         HttpUtils.get("person/customer/"+ email,new RequestParams(),  new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //refreshErrorMessage();
+
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
                     error += e.getMessage();
+                    Toast.makeText
+                            (SignUpPage.this, "set current customer failed:\n"+ error, Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
@@ -99,7 +102,11 @@ public class SignUpPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                //refreshErrorMessage();
+
+                Toast.makeText
+                        (SignUpPage.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                        .show();
+
             }
             @Override
             public void onFailure(int statusCode,

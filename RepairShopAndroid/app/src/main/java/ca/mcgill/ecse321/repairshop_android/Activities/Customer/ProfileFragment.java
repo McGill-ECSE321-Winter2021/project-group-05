@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -93,7 +92,7 @@ public class ProfileFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAccount(view);
+                updateAccount();
             }
         });
     }
@@ -124,36 +123,42 @@ public class ProfileFragment extends Fragment {
         goToLogin();
     }
 
-    public void updateAccount(View view){
+    public void updateAccount(){
 
         error = "";
 
-        final TextView tvUserName = (TextView) view.findViewById(R.id.editTextUserName);
+        TextView tvUserName = (TextView) this.getView().findViewById(R.id.editTextUserName);
 
-        final TextView tvEmail = (TextView) view.findViewById(R.id.editTextEmailAddress);
+         TextView tvEmail = (TextView) this.getView().findViewById(R.id.editTextEmailAddress);
 
-        final TextView tvPassword = (TextView) view.findViewById(R.id.editTextPassword);
+         TextView tvPassword = (TextView) this.getView().findViewById(R.id.editTextPassword);
 
-        final TextView tvPasswordConfirm = (TextView) view.findViewById(R.id.editTextPasswordConfirm);
+         TextView tvPasswordConfirm = (TextView) this.getView().findViewById(R.id.editTextPasswordConfirm);
 
         /**
          * throw error if the password != confirm password is the same
          */
-        if (tvUserName==null ){
+        if (tvUserName.getText()=="" ){
             Toast.makeText
-                    (getActivity(), "username", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old username", Toast.LENGTH_SHORT)
                     .show();
         }
-        if (tvPassword==null ){
+        else if (tvEmail.getText()==""){
             Toast.makeText
-                    (getActivity(), "pass is null", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old email", Toast.LENGTH_SHORT)
                     .show();
         }
-        if(tvPasswordConfirm ==null ){
+        else if (tvPassword.getText()=="" ){
             Toast.makeText
-                    (getActivity(), "pass confirm", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old password", Toast.LENGTH_SHORT)
                     .show();
         }
+        else if(tvPasswordConfirm.getText()=="" ){
+            Toast.makeText
+                    (getActivity(), "please enter the new/old passwird", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
 
         if (tvPassword==null || tvPasswordConfirm ==null ||
                 tvUserName==null ||tvEmail ==null ){
@@ -186,24 +191,25 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         try {
 
 
                             // set the current user with updated account info
                             RepairShopUtil.setCurrentUser(tvUserName.getText().toString(),tvEmail.getText().toString(), "customer");
+
                             // reset the password field
                             tvPassword.setText("");
                             tvPasswordConfirm.setText("");
                             Toast.makeText
-                                    (getActivity(), "Success : Account has been updated successfully", Toast.LENGTH_SHORT)
+                                    (getActivity(), "Account has been updated successfully", Toast.LENGTH_SHORT)
                                     .show();
 
                         } catch (Exception e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : fail to set the current user because of:\n"+error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Failed to set the current user because of:\n"+error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                     }
@@ -225,16 +231,6 @@ public class ProfileFragment extends Fragment {
                                 (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                 .show();
                     }
-                        //refreshErrorMessage();
-                    }
-                    @Override
-                    public void onFailure(int statusCode,
-                                          Header[] headers,
-                                          String responseString,
-                                          Throwable throwable){
-                        Toast.makeText
-                                (getActivity(), responseString, Toast.LENGTH_SHORT)
-                                .show();
                     }
 
                 });
@@ -284,16 +280,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
-                    }
-                    @Override
-                    public void onFailure(int statusCode,
-                                          Header[] headers,
-                                          String responseString,
-                                          Throwable throwable){
-                        Toast.makeText
-                                (getActivity(), responseString, Toast.LENGTH_SHORT)
-                                .show();
+
                     }
 
                 });
@@ -311,7 +298,7 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         try {
                             // reset the password field
@@ -343,16 +330,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
-                    }
-                    @Override
-                    public void onFailure(int statusCode,
-                                          Header[] headers,
-                                          String responseString,
-                                          Throwable throwable){
-                        Toast.makeText
-                                (getActivity(), responseString, Toast.LENGTH_SHORT)
-                                .show();
+
                     }
 
                 });
@@ -372,7 +350,6 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.delete("person/customer/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -392,16 +369,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
-                    }
-                    @Override
-                    public void onFailure(int statusCode,
-                                          Header[] headers,
-                                          String responseString,
-                                          Throwable throwable){
-                        Toast.makeText
-                                (getActivity(), responseString, Toast.LENGTH_SHORT)
-                                .show();
+
                     }
 
                 });
@@ -415,7 +383,7 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.delete("person/technicians/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -436,16 +404,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
-                    }
-                    @Override
-                    public void onFailure(int statusCode,
-                                          Header[] headers,
-                                          String responseString,
-                                          Throwable throwable){
-                        Toast.makeText
-                                (getActivity(), responseString, Toast.LENGTH_SHORT)
-                                .show();
+
                     }
 
                 });
@@ -459,7 +418,7 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.delete("person/administrator/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -480,16 +439,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
-                    }
-                    @Override
-                    public void onFailure(int statusCode,
-                                          Header[] headers,
-                                          String responseString,
-                                          Throwable throwable){
-                        Toast.makeText
-                                (getActivity(), responseString, Toast.LENGTH_SHORT)
-                                .show();
+
                     }
 
                 });

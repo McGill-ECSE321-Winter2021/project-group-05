@@ -22,7 +22,6 @@ import org.parceler.Parcels;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
-import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    //refreshErrorMessage();
+
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                             .show();
@@ -103,8 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("tag2","success");
                     setCurrentAdmin(tv_email.getText().toString());
-                    Log.d("current email: ",RepairShopUtil.getLoginUserEmail());
-                    Log.d("current username: ",RepairShopUtil.getLoginUserName());
+
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -113,14 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-                        System.out.println("failure");
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
 
-                    //refreshErrorMessage();
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                             .show();
@@ -148,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    //refreshErrorMessage();
+
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                             .show();
@@ -157,11 +153,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else{
-            /*
-            error+="You need to select the role!";
-            refreshErrorMessage();
 
-             */
             Toast.makeText
                     (MainActivity.this, "Please select a role", Toast.LENGTH_SHORT)
                     .show();
@@ -214,18 +206,23 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-
-                    error += errorResponse.get("message").toString();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+errorResponse.get("message").toString(), Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
-                refreshErrorMessage();
+
             }
 
         });
@@ -240,18 +237,24 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email, "admin");
                 } catch (Exception e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-
-                    error += errorResponse.get("message").toString();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+errorResponse.get("message").toString(), Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
-                refreshErrorMessage();
+
+
             }
 
         });
@@ -266,18 +269,22 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"technician");
                 } catch (Exception e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-
-                    error += errorResponse.get("message").toString();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n" + errorResponse.get("message").toString(), Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n" + e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
-                refreshErrorMessage();
             }
 
         });
@@ -306,5 +313,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * black the '<' key
+     */
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        Toast.makeText(MainActivity.this,"please sign in first",Toast.LENGTH_LONG).show();
+        return;
     }
 }

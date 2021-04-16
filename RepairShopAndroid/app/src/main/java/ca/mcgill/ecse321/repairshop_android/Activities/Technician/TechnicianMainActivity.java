@@ -10,17 +10,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
+import cz.msebera.android.httpclient.Header;
 
 public class TechnicianMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,4 +96,7 @@ public class TechnicianMainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
