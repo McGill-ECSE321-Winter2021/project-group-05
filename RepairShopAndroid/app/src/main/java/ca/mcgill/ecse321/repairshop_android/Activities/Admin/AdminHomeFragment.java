@@ -234,7 +234,7 @@ public class AdminHomeFragment extends Fragment {
 
     public void deleteService() {
         System.out.println("TRYING TO DELETE =====================");
-        HttpUtils.delete("/bookableService/" + selectedItemText, new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.delete("/bookableService/" + selectedItemText, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
