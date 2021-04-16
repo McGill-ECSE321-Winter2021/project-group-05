@@ -34,7 +34,9 @@ import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Model.User;
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
-
+/*
+books an appointment
+*/
 public class BookAppointmentFragment extends Fragment {
     private DatePicker datePicker;
     private TimePicker timePicker;
