@@ -5,30 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
-import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
-import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
-import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
-import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
-import cz.msebera.android.httpclient.Header;
 
 public class TechnicianMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
@@ -67,6 +52,7 @@ public class TechnicianMainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_technician_home);
+        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
     }
 
     private void setViews(){
