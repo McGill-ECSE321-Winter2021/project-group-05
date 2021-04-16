@@ -107,6 +107,10 @@ public class CustomerMainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * returns all the services fetch from the data base
+     * @return
+     */
     public static List<String> getAllServices(){
         return allServices;
     }
@@ -133,6 +137,12 @@ public class CustomerMainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * formats all the services fetch from the data base
+     * @param jsonArray
+     * @return
+     * @throws JSONException
+     */
     public static List<String> getServiceNames(JSONArray jsonArray) throws JSONException {
         List<String> services = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -142,6 +152,11 @@ public class CustomerMainActivity extends AppCompatActivity {
         return services;
     }
 
+    /**
+     * converts a string into a date
+     * @param dateString
+     * @return
+     */
     public static Date convertToDate(String dateString){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;

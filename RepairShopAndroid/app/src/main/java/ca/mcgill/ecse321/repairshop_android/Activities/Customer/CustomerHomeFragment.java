@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -25,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,12 +68,19 @@ public class CustomerHomeFragment extends Fragment {
         onLongClickHandler();
     }
 
+    /**
+     * sets the view of the layout
+     * @param views
+     */
     private void setViews(View views){
         calendarView = views.findViewById(R.id.calendarView);
         tvSelectedDate = views.findViewById(R.id.tvSelectedDate);
         events = new ArrayList<>();
     }
 
+    /**
+     * handles onshort click event on the event calendar
+     */
     private void onDayClickHandler(){
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
@@ -88,6 +93,9 @@ public class CustomerHomeFragment extends Fragment {
         });
     }
 
+    /**
+     * handles onLong clicks on the event calendar
+     */
     private void onLongClickHandler(){
         calendarView.setOnDayLongClickListener(new OnDayLongClickListener() {
             @Override
@@ -98,17 +106,26 @@ public class CustomerHomeFragment extends Fragment {
         });
     }
 
+    /**
+     * shows the cancel dialog box
+     * @param appointmentId
+     */
     private void showCancelDialog(int appointmentId){
         FragmentManager fm = getActivity().getSupportFragmentManager();
         CancelAppointmentDialogFragment alertDialog = CancelAppointmentDialogFragment.newInstance("Cancel Appointment", appointmentId); //TODO: FIX ID
         alertDialog.show(fm, "fragment_alert");
     }
 
+    /**
+     * shows the update dialog box
+     * @param appointmentId
+     */
     private void showUpdateDialog(int appointmentId){
         FragmentManager fm = getActivity().getSupportFragmentManager();
         UpdateAppointmentDialogFragment dialogFragment = UpdateAppointmentDialogFragment.newInstance("Update Appointment");
         dialogFragment.show(fm, "fragment_update");
     }
+
     /**
      * Fetches all the appointment of the customer
      */
@@ -139,11 +156,13 @@ public class CustomerHomeFragment extends Fragment {
         });
     }
 
+    /**
+     * populates the event calendar with appointments
+     */
     private void populateViewWithAppointment(){
         if(allAppointments == null){
             return;
         }
-        System.out.println("size = a" + allAppointments.size());
         for(Appointment appointment : allAppointments){
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.SECOND, 0);
@@ -158,7 +177,13 @@ public class CustomerHomeFragment extends Fragment {
         }
     }
 
-
+    /**
+     * returns all the appointments fetched from the database in a formated format
+     * to match the POJO appointment in the client
+     * @param jsonArray
+     * @return
+     * @throws JSONException
+     */
     private static List<Appointment> getAllAppointments(JSONArray jsonArray) throws JSONException {
         List<Appointment> appointments = new ArrayList<Appointment>();
         for(int i = 0; i  < jsonArray.length(); ++i){
@@ -176,13 +201,23 @@ public class CustomerHomeFragment extends Fragment {
         return appointments;
     }
 
+    /**
+     * parses a json object to a date type
+     * @param appointment
+     * @return
+     * @throws JSONException
+     */
     private static Date parseDate(JSONObject appointment) throws JSONException {
         JSONObject timeSlot = appointment.getJSONObject("timeSlot");
         String dateStringFormat = timeSlot.getString("date");
         return CustomerMainActivity.convertToDate(dateStringFormat);
     }
 
-
+    /**
+     * converts a date to a string
+     * @param date
+     * @return
+     */
     private String convertDateToString(Date date){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         String dateTime = dateFormat.format(date);
@@ -190,6 +225,11 @@ public class CustomerHomeFragment extends Fragment {
         return dateTime;
     }
 
+    /**
+     * splits the date into its 3 respective components: MONTH, DAY, YEAR
+     * @param date
+     * @return
+     */
     private int [] formatDate(String date){
         String [] arr = date.split("-");
         int [] ans = new int[3];
@@ -208,6 +248,11 @@ public class CustomerHomeFragment extends Fragment {
         return ans;
     }
 
+    /**
+     * converts a long time to a date in the given format
+     * @param date
+     * @return
+     */
     private String formatLongToDate(long date){
         String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(date));
         return dateString;
