@@ -22,7 +22,6 @@ import org.parceler.Parcels;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
-import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
@@ -54,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Logs a user into his/her respective account
+     * @param v
+     */
     public void login(View v){
 
         error="";
@@ -87,9 +90,18 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    //refreshErrorMessage();
+
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                @Override
+                public void onFailure(int statusCode,
+                                      Header[] headers,
+                                      String responseString,
+                                      Throwable throwable){
+                    Toast.makeText
+                            (MainActivity.this, responseString, Toast.LENGTH_SHORT)
                             .show();
                 }
 
@@ -103,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("tag2","success");
                     setCurrentAdmin(tv_email.getText().toString());
-                    Log.d("current email: ",RepairShopUtil.loginUserEmail);
-                    Log.d("current username: ",RepairShopUtil.loginUserName);
+
                     refreshErrorMessage();
                     tv_email.setText("");
                     tv_password.setText("");
@@ -113,16 +124,23 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     try {
-                        System.out.println("failure");
                         tv_password.setText("");
                         error += errorResponse.get("message").toString();
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
 
-                    //refreshErrorMessage();
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                @Override
+                public void onFailure(int statusCode,
+                                      Header[] headers,
+                                      String responseString,
+                                      Throwable throwable){
+                    Toast.makeText
+                            (MainActivity.this, responseString, Toast.LENGTH_SHORT)
                             .show();
                 }
 
@@ -148,20 +166,25 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         error += e.getMessage();
                     }
-                    //refreshErrorMessage();
+
                     Toast.makeText
                             (MainActivity.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                @Override
+                public void onFailure(int statusCode,
+                                      Header[] headers,
+                                      String responseString,
+                                      Throwable throwable){
+                    Toast.makeText
+                            (MainActivity.this, responseString, Toast.LENGTH_SHORT)
                             .show();
                 }
 
             });
         }
         else{
-            /*
-            error+="You need to select the role!";
-            refreshErrorMessage();
 
-             */
             Toast.makeText
                     (MainActivity.this, "Please select a role", Toast.LENGTH_SHORT)
                     .show();
@@ -214,19 +237,33 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-
-                    error += errorResponse.get("message").toString();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+errorResponse.get("message").toString(), Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
-                refreshErrorMessage();
+
             }
+             @Override
+             public void onFailure(int statusCode,
+                                   Header[] headers,
+                                   String responseString,
+                                   Throwable throwable){
+                 Toast.makeText
+                         (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                         .show();
+             }
 
         });
     }
@@ -240,18 +277,33 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email, "admin");
                 } catch (Exception e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-
-                    error += errorResponse.get("message").toString();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+errorResponse.get("message").toString(), Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
-                refreshErrorMessage();
+
+
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });
@@ -266,33 +318,52 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"technician");
                 } catch (Exception e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n"+e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-
-                    error += errorResponse.get("message").toString();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n" + errorResponse.get("message").toString(), Toast.LENGTH_SHORT)
+                            .show();
                 } catch (JSONException e) {
-                    error += e.getMessage();
+                    Toast.makeText
+                            (MainActivity.this, "failed to set current customer:\n" + e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
-                refreshErrorMessage();
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (MainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });
     }
 
-    // create an action bar button
+    /**
+     * creates an action bar button
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.dark_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle dark button activities
+    /**
+     * handles dark mode button activities
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -306,5 +377,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Block the '<' key
+     */
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(MainActivity.this,"Please sign in first",Toast.LENGTH_LONG).show();
+        return;
     }
 }

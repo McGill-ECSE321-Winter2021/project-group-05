@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -28,6 +29,10 @@ public class SignUpPage extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_page);
     }
 
+    /**
+     * Signs up a new customer account
+     * @param view
+     */
     public void signup(View view){
         final TextView tv_email = (TextView) findViewById(R.id.email);
         final TextView tv_password = (TextView) findViewById(R.id.password);
@@ -61,7 +66,16 @@ public class SignUpPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                //RepairShopUtil.refreshErrorMessage(view, R.id.error, error);
+
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (SignUpPage.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });
@@ -73,11 +87,14 @@ public class SignUpPage extends AppCompatActivity {
         HttpUtils.get("person/customer/"+ email,new RequestParams(),  new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //refreshErrorMessage();
+
                 try {
                     RepairShopUtil.setCurrentUser(response.getString("username"),email,"customer");
                 } catch (Exception e) {
                     error += e.getMessage();
+                    Toast.makeText
+                            (SignUpPage.this, "set current customer failed:\n"+ error, Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
@@ -89,7 +106,20 @@ public class SignUpPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                //refreshErrorMessage();
+
+                Toast.makeText
+                        (SignUpPage.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
+                        .show();
+
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (SignUpPage.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });

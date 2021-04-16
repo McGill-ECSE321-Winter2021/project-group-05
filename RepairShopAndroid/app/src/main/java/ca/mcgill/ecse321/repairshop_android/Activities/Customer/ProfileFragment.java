@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import org.json.JSONObject;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.SignUpPage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -83,8 +83,8 @@ public class ProfileFragment extends Fragment {
 
         TextView tvEmail = (TextView) view.findViewById(R.id.editTextEmailAddress);
 
-        tvUserName.setText(RepairShopUtil.loginUserName);
-        tvEmail.setText(RepairShopUtil.loginUserEmail);
+        tvUserName.setText(RepairShopUtil.getLoginUserName());
+        tvEmail.setText(RepairShopUtil.getLoginUserEmail());
 
     }
 
@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAccount(view);
+                updateAccount();
             }
         });
     }
@@ -120,39 +120,46 @@ public class ProfileFragment extends Fragment {
 
 
     public void logout(){
+        RepairShopUtil.setCurrentUser("", "", "");
         goToLogin();
     }
 
-    public void updateAccount(View view){
+    public void updateAccount(){
 
         error = "";
 
-        final TextView tvUserName = (TextView) view.findViewById(R.id.editTextUserName);
+        TextView tvUserName = (TextView) this.getView().findViewById(R.id.editTextUserName);
 
-        final TextView tvEmail = (TextView) view.findViewById(R.id.editTextEmailAddress);
+         TextView tvEmail = (TextView) this.getView().findViewById(R.id.editTextEmailAddress);
 
-        final TextView tvPassword = (TextView) view.findViewById(R.id.editTextPassword);
+         TextView tvPassword = (TextView) this.getView().findViewById(R.id.editTextPassword);
 
-        final TextView tvPasswordConfirm = (TextView) view.findViewById(R.id.editTextPasswordConfirm);
+         TextView tvPasswordConfirm = (TextView) this.getView().findViewById(R.id.editTextPasswordConfirm);
 
         /**
-         * throw error if the password != confirm password is the same
+         * throw error if the password != confirm password
          */
-        if (tvUserName==null ){
+        if (tvUserName.getText()=="" ){
             Toast.makeText
-                    (getActivity(), "username", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old username", Toast.LENGTH_SHORT)
                     .show();
         }
-        if (tvPassword==null ){
+        else if (tvEmail.getText()==""){
             Toast.makeText
-                    (getActivity(), "pass is null", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old email", Toast.LENGTH_SHORT)
                     .show();
         }
-        if(tvPasswordConfirm ==null ){
+        else if (tvPassword.getText()=="" ){
             Toast.makeText
-                    (getActivity(), "pass confirm", Toast.LENGTH_SHORT)
+                    (getActivity(), "please enter the new/old password", Toast.LENGTH_SHORT)
                     .show();
         }
+        else if(tvPasswordConfirm.getText()=="" ){
+            Toast.makeText
+                    (getActivity(), "please enter the new/old passwird", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
 
         if (tvPassword==null || tvPasswordConfirm ==null ||
                 tvUserName==null ||tvEmail ==null ){
@@ -173,35 +180,37 @@ public class ProfileFragment extends Fragment {
 
             RequestParams requestParams = new RequestParams();
             requestParams.add("username",tvUserName.getText().toString());
-            requestParams.add("oldEmail",RepairShopUtil.loginUserEmail);
+            requestParams.add("oldEmail",RepairShopUtil.getLoginUserEmail());
             requestParams.add("newEmail",tvEmail.getText().toString());
             requestParams.add("password",tvPassword.getText().toString());
             /**
              * update customer account
              */
-            if (RepairShopUtil.userType.equals("customer")){
+            if (RepairShopUtil.getUserType().equals("customer")){
 
-                HttpUtils.put("person/customer/",requestParams, new JsonHttpResponseHandler() {
+                HttpUtils.put("person/customer/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         try {
 
 
                             // set the current user with updated account info
                             RepairShopUtil.setCurrentUser(tvUserName.getText().toString(),tvEmail.getText().toString(), "customer");
+
                             // reset the password field
                             tvPassword.setText("");
                             tvPasswordConfirm.setText("");
                             Toast.makeText
-                                    (getActivity(), "Success : Account has been updated successfully", Toast.LENGTH_SHORT)
+                                    (getActivity(), "Account has been updated successfully", Toast.LENGTH_SHORT)
                                     .show();
 
                         } catch (Exception e) {
                             error += e.getMessage();
                             Toast.makeText
-                                    (getActivity(), "Error : fail to set the current user because of:\n"+error, Toast.LENGTH_SHORT)
+                                    (getActivity(), "Failed to set the current user because of:\n"+error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                     }
@@ -223,8 +232,6 @@ public class ProfileFragment extends Fragment {
                                 (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                 .show();
                     }
-
-                        //refreshErrorMessage();
                     }
 
                 });
@@ -233,10 +240,12 @@ public class ProfileFragment extends Fragment {
             /**
              * update admin account
              */
-            else if (RepairShopUtil.userType.equals("admin")){
+            else if (RepairShopUtil.getUserType().equals("admin")){
 
 
-                HttpUtils.put("person/administrator/",requestParams, new JsonHttpResponseHandler() {
+
+                HttpUtils.put("person/administrator/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         //refreshErrorMessage();
@@ -272,7 +281,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -282,13 +291,15 @@ public class ProfileFragment extends Fragment {
             /**
              * update technician account
              */
-            else if (RepairShopUtil.userType.equals("technician")){
+            else if (RepairShopUtil.getUserType().equals("technician")){
 
 
-                HttpUtils.put("person/technicians/",requestParams, new JsonHttpResponseHandler() {
+
+                HttpUtils.put("person/technicians/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         try {
                             // reset the password field
@@ -320,7 +331,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -334,13 +345,12 @@ public class ProfileFragment extends Fragment {
     public void deleteAccount(){
         Log.e("tag2","deleting the account");
         // DELETE CUSTOMER ACCOUNT
-        switch (RepairShopUtil.userType) {
+        switch (RepairShopUtil.getUserType()) {
             case "customer":
 
-                HttpUtils.delete("person/customer/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.delete("person/customer/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -360,7 +370,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -371,10 +381,10 @@ public class ProfileFragment extends Fragment {
             // DELETE TECHNICIAN ACCOUNT
             case "technician":
 
-                HttpUtils.delete("person/technicians/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.delete("person/technicians/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -395,7 +405,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -406,10 +416,10 @@ public class ProfileFragment extends Fragment {
             // DELETE ADMIN ACCOUNT
             case "admin":
 
-                HttpUtils.delete("person/administrator/" + RepairShopUtil.loginUserEmail, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.delete("person/administrator/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -430,7 +440,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : Couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });

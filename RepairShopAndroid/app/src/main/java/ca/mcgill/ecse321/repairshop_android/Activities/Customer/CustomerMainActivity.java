@@ -6,13 +6,18 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +36,7 @@ import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.Model.Appointment;
 import ca.mcgill.ecse321.repairshop_android.Model.User;
+
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
 
@@ -82,16 +88,22 @@ public class CustomerMainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
     }
 
-    // create an action bar button
+    /**
+     * creates an action bar button
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.dark_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle dark button activities
+    /**
+     * handles dark mode button activities
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -104,6 +116,7 @@ public class CustomerMainActivity extends AppCompatActivity {
             }
 
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -133,6 +146,15 @@ public class CustomerMainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (CustomerMainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
         });
     }

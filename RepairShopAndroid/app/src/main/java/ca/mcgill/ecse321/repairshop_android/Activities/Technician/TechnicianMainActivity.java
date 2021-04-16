@@ -5,19 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.R;
 
 public class TechnicianMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +52,29 @@ public class TechnicianMainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_technician_home);
+        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
     }
 
     private void setViews(){
         bottomNavigationView = findViewById(R.id.bottomNavigation);
     }
 
-    // create an action bar button
+    /**
+     * creates an action bar button
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.dark_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle dark button activities
+    /**
+     * handles dark mode button activities
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -79,6 +87,10 @@ public class TechnicianMainActivity extends AppCompatActivity {
             }
 
         }
+
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
