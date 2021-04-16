@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
+
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
 
@@ -75,9 +80,8 @@ public class CustomerMainActivity extends AppCompatActivity {
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.dark_button, menu);
+        getMenuInflater().inflate(R.menu.logout, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -93,6 +97,12 @@ public class CustomerMainActivity extends AppCompatActivity {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
 
+        }
+
+        if (id == R.id.logout) {
+            RepairShopUtil.setCurrentUser("", "", "");
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
