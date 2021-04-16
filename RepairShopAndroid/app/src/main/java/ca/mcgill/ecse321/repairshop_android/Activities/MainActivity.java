@@ -68,16 +68,14 @@ public class MainActivity extends AppCompatActivity {
 
         // log in as customer
         if (customerCheckBox.isChecked()){
-
             HttpUtils.post("person/customer/login/app",requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     refreshErrorMessage();
                     setCurrentCustomer(tv_email.getText().toString());
+                    goToCustomerHomePage();
                     tv_email.setText("");
                     tv_password.setText("");
-                    goToCustomerHomePage();
-
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -167,7 +165,11 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES CUSTOMER TO RIGHT SCREEN
     private void goToCustomerHomePage(){
+        TextView email = findViewById(R.id.email);
+        TextView password = findViewById(R.id.password);
+        User user = new User(email.getText().toString(), password.getText().toString());
         Intent intent = new Intent(this, CustomerMainActivity.class);
+        intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);
         finish();
     }
@@ -189,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
     //NAVIGATES NEW USERS TO SIGN UP PAGE
     private void goToSignUpPage(){
-        Intent intent = new Intent(this, TechnicianMainActivity.class);
+        Intent intent = new Intent(this, SignUpPage.class);
         startActivity(intent);
     }
 

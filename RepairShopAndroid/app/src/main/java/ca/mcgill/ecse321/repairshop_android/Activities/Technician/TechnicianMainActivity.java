@@ -77,7 +77,6 @@ public class TechnicianMainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dark_button, menu);
-        getMenuInflater().inflate(R.menu.logout, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -95,11 +94,6 @@ public class TechnicianMainActivity extends AppCompatActivity {
 
         }
 
-        if (id == R.id.logout) {
-            RepairShopUtil.setCurrentUser("", "", "");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
         return super.onOptionsItemSelected(item);
     }
 

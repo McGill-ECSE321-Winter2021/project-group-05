@@ -233,12 +233,13 @@ public class AdminHomeFragment extends Fragment {
     }
 
     public void deleteService() {
-        System.out.println("TRYING TO DELETE =====================");
-        HttpUtils.delete("/bookableService/" + selectedItemText, new RequestParams(), new JsonHttpResponseHandler() {
+        System.out.println("TRYING TO DELETE ===================== " + selectedItemText);
+        String serviceToDelete = selectedItemText;
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("name", serviceToDelete);
+        HttpUtils.delete("/bookableService/app", requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-
                 Toast.makeText
                         (getActivity(), "Service successfully deleted", Toast.LENGTH_SHORT)
                         .show();
@@ -246,27 +247,16 @@ public class AdminHomeFragment extends Fragment {
                 //getServices(view);
 
             }
-
             @Override
             public void onFailure(int statusCode,
                                   Header[] headers,
                                   String responseString,
                                   Throwable throwable){
-                super.onFailure(statusCode, headers, responseString, throwable);
-                System.out.println("#################################");
+                Toast.makeText
+                        (getActivity(), responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    System.out.println("-----------------------------------------------");
-                    error += errorResponse.get("message").toString();
-                    System.out.println("inside try : "+error);
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                    System.out.println("catch : "+error);
-                }
 
-            }
         });
     }
 
@@ -290,24 +280,13 @@ public class AdminHomeFragment extends Fragment {
 
             }
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    System.out.println("-----------------------------------------------");
-                    error += errorResponse.get("message").toString();
-                    System.out.println("inside try : "+error);
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                    System.out.println("catch : "+error);
-                }
-
-            }
-            @Override
             public void onFailure(int statusCode,
                                   Header[] headers,
                                   String responseString,
                                   Throwable throwable){
-                super.onFailure(statusCode, headers, responseString, throwable);
-                System.out.println("#################################");
+                Toast.makeText
+                        (getActivity(), responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
         });
     }

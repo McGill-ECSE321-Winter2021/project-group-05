@@ -64,6 +64,15 @@ public class SignUpPage extends AppCompatActivity {
                 }
 
             }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (SignUpPage.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
+            }
 
         });
     }
@@ -98,6 +107,15 @@ public class SignUpPage extends AppCompatActivity {
                         (SignUpPage.this, "Login failed: Please check the password", Toast.LENGTH_SHORT)
                         .show();
 
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (SignUpPage.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });

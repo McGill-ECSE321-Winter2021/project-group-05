@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.MainActivity;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.SignUpPage;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
 import ca.mcgill.ecse321.repairshop_android.R;
@@ -279,7 +280,7 @@ public class ProfileFragment extends Fragment {
                                     (getActivity(), "Error : couldn't update account because of:\n" + error, Toast.LENGTH_SHORT)
                                     .show();
                         }
-                        //refreshErrorMessage();
+
                     }
 
                 });
@@ -297,7 +298,7 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         try {
                             // reset the password field
@@ -383,7 +384,7 @@ public class ProfileFragment extends Fragment {
                 HttpUtils.delete("person/technicians/" + RepairShopUtil.getLoginUserEmail(), new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //refreshErrorMessage();
+
 
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
