@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -119,6 +120,15 @@ public class CustomerMainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+            @Override
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (CustomerMainActivity.this, responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
         });
     }

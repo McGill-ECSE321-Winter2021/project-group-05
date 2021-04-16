@@ -105,16 +105,13 @@ public class ServiceFragment extends Fragment {
 
             }
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    error += errorResponse.get("message").toString();
-                    System.out.println("inside try : "+error);
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                    System.out.println("catch : "+error);
-                }
-                refreshErrorMessage(view);
-
+            public void onFailure(int statusCode,
+                                  Header[] headers,
+                                  String responseString,
+                                  Throwable throwable){
+                Toast.makeText
+                        (getActivity(), responseString, Toast.LENGTH_SHORT)
+                        .show();
             }
 
         });
