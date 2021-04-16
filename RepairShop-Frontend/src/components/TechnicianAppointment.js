@@ -1,7 +1,9 @@
+//technician appt page
 import TechnicianHeader from "./TechnicianHeader";
 import axios from "axios";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -12,6 +14,7 @@ const AXIOS = axios.create({
   headers: { "Access-Control-Allow-Origin": frontendUrl }
 });
 
+//get current technician
 const getCurrentUser = () => {
   const email = localStorage.getItem("savedTechnicianEmail");
   const username = localStorage.getItem("savedTechnicianName");
@@ -48,6 +51,7 @@ export default {
   },
 
   methods: {
+    //get all appointments
     getAllAppointments: async function() {
       const response = await AXIOS.get(
         `/appointmentOfTechnician/${this.currentUser.email}`

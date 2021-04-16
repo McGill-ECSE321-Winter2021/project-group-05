@@ -1,7 +1,9 @@
+//admin appointments view
 import AdminHeader from "./AdminHeader";
 import axios from "axios";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -44,6 +46,7 @@ export default {
   },
 
   methods: {
+    //get all technicians
     getAllTechnicians: async function() {
       const response = await AXIOS.get(`/person/technician/`);
       this.allTechnicians = response.data;
@@ -62,19 +65,23 @@ export default {
           });
       });
     },
+    //get all appts
     getAllAppointments: async function() {
       const response = await AXIOS.get(`/allappointments`);
       this.allAppointments = response.data;
     },
+    //get all time slots
     getAllTimeSlots: async function() {
       const response = await AXIOS.get(`/timeslotAvailable`);
       this.allTimeslots = response.data;
     },
+    //assing a time slot to a technician
     assignTimeslot: async function(timeSlotId, techicianEmail) {
       const response = await AXIOS.post(
         `/assignSlot/${timeSlotId}` + `?` + `email=` + `${techicianEmail}`
       );
     },
+    //assign an appointment
     assignAppointment: async function(appointmentId, technicianEmail) {
       const appointment = await AXIOS.put(
         `/assignAppointment/${appointmentId}` +
@@ -92,6 +99,7 @@ export default {
         })
         .catch(error => {});
     },
+    //get all technician appts
     getAllAppointmentsOfTechnicians: function() {
       this.allTechnicians.forEach(technician => {
         AXIOS.get(`/appointmentOfTechnician/${technician.email}`)

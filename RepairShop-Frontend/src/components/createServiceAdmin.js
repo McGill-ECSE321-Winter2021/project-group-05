@@ -1,9 +1,11 @@
+//create a service
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
 import Vue from 'vue';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
+//configuration
 var config = require("../../config");
 
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -17,6 +19,7 @@ var AXIOS = axios.create({
 
 Vue.use(VueToast);
 
+//service dto
 function BookableServiceDto(name, cost, duration) {
   this.name = name;
   this.cost = cost;
@@ -50,6 +53,7 @@ export default {
     };
   },
 
+//if logged in
   created: function() {
     if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
         this.render = false;
@@ -72,6 +76,7 @@ export default {
   },
 
   methods: {
+    //create service
     createServiceAdmin: function(serviceName, serviceCost, serviceDuration) {
       console.log(serviceName, serviceCost, serviceDuration);
       const bookableServiceDto = new BookableServiceDto(
@@ -99,6 +104,7 @@ export default {
         });
     },
 
+  //get service by name
     getServiceByName: function(serviceName){
         console.log(serviceName);
         AXIOS.get("/bookableService/".concat(serviceName))
@@ -117,6 +123,7 @@ export default {
             });
     },
 
+  // edit service
     editService: function(service, newServiceName, newServiceCost, newServiceDuration){
         console.log(service, newServiceName, newServiceCost, newServiceDuration);
         const editBookableServiceDto = new BookableServiceDto(
@@ -145,6 +152,7 @@ export default {
             });
     },
 
+  //delete service
     deleteService: function(serviceToDelete) {
         console.log(serviceToDelete);
         AXIOS.delete("/bookableService/".concat(serviceToDelete))

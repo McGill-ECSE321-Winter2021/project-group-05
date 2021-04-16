@@ -1,3 +1,4 @@
+//technician account page
 import TechnicianHeader from "./TechnicianHeader";
 import axios from "axios";
 import Router from "../router";
@@ -6,6 +7,7 @@ import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configurations
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -62,6 +64,7 @@ const TechnicianAccountPage = {
   },
 
   methods: {
+    //show updated account info
     showUpdateModal: function() {
       if (this.email === "" || this.email === null) {
         Vue.$toast.error(`Email cannot be empty`, {
@@ -89,6 +92,7 @@ const TechnicianAccountPage = {
       }
       this.showUpdate = true;
     },
+    //update tech account
     updateAccount: function(username, email, password, confirmPassword) {
       if (password == confirmPassword) {
         const technicianDTO = new TechnicianDto(username, email, password);
@@ -115,9 +119,11 @@ const TechnicianAccountPage = {
         });
       }
     },
+    //show deleted account
     showDeleteModal: function() {
       this.showDelete = true;
     },
+    //delete account
     deleteAccount: function(email) {
       AXIOS.delete(`/person/technician/${email}/`)
         .then(response => {
@@ -136,6 +142,7 @@ const TechnicianAccountPage = {
           });
         });
     },
+    //go to login page
     gotoLogin: function() {
       Router.push({
         path: "/",

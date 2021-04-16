@@ -1,3 +1,4 @@
+//customer account page
 import CustomerHeader from "./CustomerHeader";
 import axios from "axios";
 import Router from "../router";
@@ -5,6 +6,7 @@ import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -50,6 +52,7 @@ export default {
     };
   },
 
+  //if logged in
   created: function() {
     if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
         this.render = false;
@@ -64,6 +67,7 @@ export default {
   },
 
   methods: {
+    //get customer
     getCustomer: async function() {
       const response = await AXIOS.get(`/person/customer/${this.email}`);
       this.username = response.data.username;
@@ -75,10 +79,11 @@ export default {
       this.expiry = response.data.expiry;
       console.log(response.data);
     },
+    //show updated account
     showUpdateModal: function() {
       this.showUpdate = true;
     },
-
+     //update account
     updateAccount: function(
       username,
       email,
@@ -126,9 +131,11 @@ export default {
         });
       }
     },
+    //show deleted account
     showDeleteModal: function() {
       this.showDelete = true;
     },
+    //delete account
     deleteAccount: function(email) {
       AXIOS.delete(`/person/customer/${email}/`)
         .then(response => {
@@ -147,6 +154,7 @@ export default {
           });
         });
     },
+    //go to login page
     gotoLogin: function() {
       Router.push({
         path: "/",

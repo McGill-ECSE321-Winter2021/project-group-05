@@ -1,9 +1,11 @@
+//admin account page
 import AdminHeader from "./AdminHeader";
 import axios from "axios";
 import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+//configuration
 var config = require("../../config");
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
@@ -22,7 +24,7 @@ function AdminDto(username, email, password) {
   this.email = email;
   this.password = password;
 }
-
+//admin page
 const AdminAccountPage = {
   name: "AdminAccountPage",
   components: {
@@ -41,7 +43,7 @@ const AdminAccountPage = {
       render: true
     };
   },
-
+//create function
   created: function() {
     this.username = localStorage.getItem("savedAdminName");
     this.email = localStorage.getItem("savedAdminEmail");
@@ -58,6 +60,7 @@ const AdminAccountPage = {
   },
 
   methods: {
+  //show the update
     showUpdateModal: function() {
       if (this.email === "" || this.email === null) {
         Vue.$toast.error(`Email cannot be empty`, {
@@ -85,9 +88,11 @@ const AdminAccountPage = {
       }
       this.showUpdate = true;
     },
+    //show delete
     showDeleteModal: function() {
       this.showDelete = true;
     },
+    //update
     updateAccount: function(username, email, password, confirmPassword) {
       if (this.confirmPassword == confirmPassword) {
         const adminDTO = new AdminDto(username, email, password);
@@ -114,6 +119,7 @@ const AdminAccountPage = {
         });
       }
     },
+    //delete
     deleteAccount: function(email) {
       AXIOS.delete(`/person/administrator/${email}/`)
         .then(response => {
