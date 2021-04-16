@@ -12,6 +12,7 @@ public class Appointment {
     public int MONTH;
     public int DAY;
     public int YEAR;
+    private String customer;
     private String id;
 
     public List<String> getServices() {
@@ -52,5 +53,13 @@ public class Appointment {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setCustomer(String email) {
+        this.customer = email;
+    }
+
+    public String getCustomer() {
+        return this.customer;
     }
 }

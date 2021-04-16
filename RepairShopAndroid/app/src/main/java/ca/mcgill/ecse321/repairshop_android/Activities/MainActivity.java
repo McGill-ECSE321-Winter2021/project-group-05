@@ -18,13 +18,14 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Customer.CustomerMainActivity;
-import ca.mcgill.ecse321.repairshop_android.Activities.Customer.ProfileFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Technician.TechnicianMainActivity;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.RepairShopUtil;
+import ca.mcgill.ecse321.repairshop_android.Model.User;
 import ca.mcgill.ecse321.repairshop_android.R;
 import cz.msebera.android.httpclient.Header;
 

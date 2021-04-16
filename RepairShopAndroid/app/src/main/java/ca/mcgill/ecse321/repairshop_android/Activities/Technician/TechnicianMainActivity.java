@@ -33,7 +33,7 @@ import cz.msebera.android.httpclient.Header;
 public class TechnicianMainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
-    private static List<AppointmentDto> allAppointments;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,85 +98,5 @@ public class TechnicianMainActivity extends AppCompatActivity {
     }
 
 
-    public static List<AppointmentDto> getAllAppointments(){
-        return allAppointments;
-    }
 
-    private void queryAppointments(){
-        RequestParams requestParams = new RequestParams();
-        requestParams.add("email", RepairShopUtil.getLoginUserEmail() );
-
-        HttpUtils.get("appointmentOfTechnician", requestParams, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                try {
-                    allAppointments = fromJsonArray(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Toast.makeText(TechnicianMainActivity.this,"failed to retrieve any appointment for you",Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-    }
-
-    /**
-     * encapsulate all info for an appointment
-     */
-    public static class AppointmentDto{
-        private List<String> services;
-        private String customer;
-        //private TimeSlotDto timeslot;
-
-        public List<String> getServices() {
-            return services;
-        }
-
-        public void setServices(List<String> services) {
-            this.services = services;
-        }
-
-        public String getCustomer() {
-            return customer;
-        }
-
-        public void setCustomer(String customer) {
-            this.customer = customer;
-        }
-
-
-
-
-    }
-
-    public static List<AppointmentDto> fromJsonArray(JSONArray jsonArray) throws JSONException {
-        List<AppointmentDto> appointments = new ArrayList<>();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            List<String> services = new ArrayList<>();
-
-            AppointmentDto appointmentDto = new AppointmentDto();
-
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            // ADD THE CUSTOMER NAME
-            appointmentDto.setCustomer(jsonObject.getJSONObject("customer").getString("email"));
-
-            JSONArray servicesArray = jsonObject.getJSONArray("services");
-            // ADD ALL SERVICES
-            for (int j=0; j< servicesArray.length(); j++){
-
-                services.add(servicesArray.getJSONObject(i).getString("name"));
-
-          }
-
-            appointments.add(appointmentDto);
-        }
-        return appointments;
-    }
 }

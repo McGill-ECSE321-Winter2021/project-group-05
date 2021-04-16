@@ -351,7 +351,6 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-
                         // GO OT THE LOGIN PAGE
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
