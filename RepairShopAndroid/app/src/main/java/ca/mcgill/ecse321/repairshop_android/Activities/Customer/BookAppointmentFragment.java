@@ -154,24 +154,23 @@ public class BookAppointmentFragment extends Fragment {
         requestParams.put("customerEmail", email);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requestParams.put("startTime", LocalTime.of(hour, minute));
+        }else{
+            requestParams.put("startTime", time);
         }
-        requestParams.put("date", java.sql.Date.valueOf(date));
+        requestParams.put("date", date);
         requestParams.put("serviceNames", selectedServices);
 
         System.out.println(email);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            System.out.println(LocalTime.of(hour, minute));
-        }
-        System.out.println(java.sql.Date.valueOf(date));
+        System.out.println(time);
+        System.out.println(date);
         System.out.println(selectedServices);
 
-        HttpUtils.post("/appointment", requestParams, new JsonHttpResponseHandler(){
+        HttpUtils.post("/appointment/app", requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getContext(), "Successfully booked appointment", Toast.LENGTH_SHORT).show();
             }
-
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
