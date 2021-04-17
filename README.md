@@ -109,7 +109,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">25</td>
     <td align="center">35</td>
     <td align="center">20</td>
-    <td align="center">40/td>
+    <td align="center">40</td>
   </tr>
 </table>
 
