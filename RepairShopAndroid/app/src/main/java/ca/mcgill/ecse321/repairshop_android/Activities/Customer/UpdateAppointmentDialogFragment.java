@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +43,11 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static UpdateAppointmentDialogFragment newInstance(String title){
+    public static UpdateAppointmentDialogFragment newInstance(String title, ArrayList<String> services){
         UpdateAppointmentDialogFragment frag = new UpdateAppointmentDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putStringArrayList("services", services);
         frag.setArguments(args);
         return frag;
     }
@@ -83,9 +86,6 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
      * @param view
      */
     private void setViews(View view){
-        datePicker = view.findViewById(R.id.datePicker);
-        timePicker = view.findViewById(R.id.timePicker);
-        btnUpdateAppointment = view.findViewById(R.id.btnUpdateAppointment);
         parentLayout = view.findViewById(R.id.parentLayout);
     }
 
@@ -93,12 +93,15 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
      * populates the dialog with all the services in the system
      */
     private void inflateServiceList(){
-        for(int i = 0; i < CustomerMainActivity.getAllServices().size(); ++i) {
+        ArrayList<String> services = getArguments().getStringArrayList("services");
+
+        for(int i = 0; i < services.size(); ++i) {
             allServices.put(i, CustomerMainActivity.getAllServices().get(i));
-            CheckBox checkBox = new CheckBox(getContext());
+            TextView checkBox = new TextView(getContext());
             checkBox.setText(allServices.get(i));
             checkBox.setId(i);
             checkBox.setGravity(Gravity.CENTER);
+            checkBox.setTextColor(R.color.day_item_background_state_color);
             parentLayout.addView(checkBox);
         }
     }
@@ -117,6 +120,7 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
 
     private void updateAppointment(){
         //TODO: handle update
+        getDialog().dismiss();
 
         RequestParams requestParams = new RequestParams();
         //requestParams.put("id", appointmentId);

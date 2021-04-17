@@ -165,13 +165,12 @@ public class BookAppointmentFragment extends Fragment {
         System.out.println(date);
         System.out.println(selectedServices);
 
-        HttpUtils.post("/appointment", requestParams, new JsonHttpResponseHandler(){
+        HttpUtils.post("/appointment/app", requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getContext(), "Successfully booked appointment", Toast.LENGTH_SHORT).show();
             }
-
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
