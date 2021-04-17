@@ -85,7 +85,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">23.5</td>
     <td align="center">28</td>
     <td align="center">46</td>
-    <td align="center">Sprint 4</td>
+    <td align="center">30</td>
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
