@@ -206,6 +206,55 @@ public class AppointmentController {
     }
 
     /**
+     * create appointment method creates an appointment to a current timeslot for a specific customer with a list of services for the appointment
+     *
+     * @param customerEmail is the email of the customer making an appointment
+     * @param serviceNames is the list of all services desired by customer for this appointment
+     * @param startTime is the start time of the timeslot of the appointment
+     * @param date is the date of the timeslot of the appointment
+     * @return appointment created
+     * @throws AppointmentException
+     */
+
+    @PostMapping(value = {"/appointment/app", "/appointment/app/"})
+    public ResponseEntity<?> createAppointmentapp(@RequestParam(value = "customerEmail") String customerEmail,
+                                               @RequestParam(value = "serviceNames") List<String> serviceNames,
+                                               @RequestParam(value = "startTime") String startTime,
+                                               @RequestParam(value = "date") String date) {
+        try {
+            Customer customer = personService.getCustomer(customerEmail);
+            //CONVERT BOOKABLE SERVICE DTO --> DAO
+            List<BookableService> service = new ArrayList<>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+            Date d = null;
+
+            try {
+                d = sdf.parse("date");
+            } catch (ParseException ex) {
+            }
+            int duration = 0;
+            for (String name : serviceNames) {
+                service.add(repairShopService.getService(name));
+                duration += repairShopService.getService(name).getDuration();
+            }
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            String time = (setEndTimeOfAppointmentBasedOnDuration(startTime.toString(), duration));
+            java.sql.Time endTime = new java.sql.Time(formatter.parse(time).getTime());
+            TimeSlot timeSlot = timeSlotService.createTimeSlot((java.sql.Date) d, Time.valueOf(startTime), endTime);
+            //TimeSlot timeSlot = timeSlotService.getTimeSlot(id)
+
+            Appointment appointment = appointmentService.createAppointment(service, customer, timeSlot);
+
+            return new ResponseEntity<>(RepairShopUtil.convertToDto(appointment), HttpStatus.OK);
+        } catch (AppointmentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (PersonException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    /**
      * get appointment history method returns all appointments for one specific custer
      *
      * @param email is the customer email
