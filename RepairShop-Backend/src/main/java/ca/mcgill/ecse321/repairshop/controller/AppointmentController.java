@@ -203,6 +203,9 @@ public class AppointmentController {
         } catch (ParseException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+        catch (Exception e){
+            return new ResponseEntity<>("horrible happened", HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
