@@ -81,7 +81,10 @@ public class SignUpPage extends AppCompatActivity {
         });
     }
 
-    // UPDATE THE MY ACCOUNT DEFAULT INFORMATION
+    /**
+     * UPDATE THE MY ACCOUNT DEFAULT INFORMATION
+     * @param email
+     */
     private void setCurrentCustomer(final String email){
 
         HttpUtils.get("person/customer/"+ email,new RequestParams(),  new JsonHttpResponseHandler() {
@@ -125,7 +128,9 @@ public class SignUpPage extends AppCompatActivity {
         });
     }
 
-    //NAVIGATES CUSTOMER TO RIGHT SCREEN
+    /**
+     * /NAVIGATES CUSTOMER TO RIGHT SCREEN
+     */
     private void goToCustomerHomePage(){
         Intent intent = new Intent(this, CustomerMainActivity.class);
         startActivity(intent);

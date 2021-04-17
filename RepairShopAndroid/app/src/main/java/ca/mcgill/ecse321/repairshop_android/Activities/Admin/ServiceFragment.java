@@ -48,7 +48,10 @@ public class ServiceFragment extends Fragment {
         setView(view);
     }
 
-
+    /**
+     * sets the view of the service layout
+     * @param view
+     */
     public void setView(View view) {
         createServiceButton = view.findViewById(R.id.CreateServiceButton);
         tv_service_name = (EditText) view.findViewById(R.id.newServiceName);

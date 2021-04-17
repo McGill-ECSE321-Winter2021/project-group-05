@@ -2,14 +2,12 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -64,6 +62,10 @@ public class CancelAppointmentDialogFragment extends DialogFragment {
         return alertDialogBuilder.create();
     }
 
+    /**
+     * Calls the cancel endpoint to cancel an appointment
+     * @param appointmentId
+     */
     private void cancelAppointment(int appointmentId){
         RequestParams requestParams = new RequestParams();
         requestParams.put("id", appointmentId);

@@ -66,6 +66,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * sets the view of the profile fragment
+     * @param view
+     */
     public void setView(View view){
         updateButton = view.findViewById(R.id.updateButton);
         deleteButton = view.findViewById(R.id.deleteButton);
@@ -78,11 +82,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setTextField(View view){
-
         TextView tvUserName = (TextView) view.findViewById(R.id.editTextUserName);
-
         TextView tvEmail = (TextView) view.findViewById(R.id.editTextEmailAddress);
-
         tvUserName.setText(RepairShopUtil.getLoginUserName());
         tvEmail.setText(RepairShopUtil.getLoginUserEmail());
 
@@ -125,15 +126,10 @@ public class ProfileFragment extends Fragment {
     }
 
     public void updateAccount(){
-
         error = "";
-
         TextView tvUserName = (TextView) this.getView().findViewById(R.id.editTextUserName);
-
          TextView tvEmail = (TextView) this.getView().findViewById(R.id.editTextEmailAddress);
-
          TextView tvPassword = (TextView) this.getView().findViewById(R.id.editTextPassword);
-
          TextView tvPasswordConfirm = (TextView) this.getView().findViewById(R.id.editTextPasswordConfirm);
 
         /**
@@ -241,8 +237,6 @@ public class ProfileFragment extends Fragment {
              * update admin account
              */
             else if (RepairShopUtil.getUserType().equals("admin")){
-
-
 
                 HttpUtils.put("person/administrator/"+ RepairShopUtil.getLoginUserEmail(),requestParams, new JsonHttpResponseHandler() {
 
