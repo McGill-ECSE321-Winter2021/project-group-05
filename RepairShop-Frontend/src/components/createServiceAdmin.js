@@ -1,9 +1,9 @@
 //create a service
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
-import Vue from 'vue';
-import VueToast from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 //configuration
 var config = require("../../config");
@@ -14,7 +14,7 @@ var backendUrl =
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 Vue.use(VueToast);
@@ -29,7 +29,7 @@ function BookableServiceDto(name, cost, duration) {
 export default {
   name: "createServiceAdmin",
   components: {
-    AdminHeader
+    AdminHeader,
   },
 
   data() {
@@ -38,7 +38,7 @@ export default {
       bookableService: {
         newService: "",
         newCost: "",
-        newDuration: ""
+        newDuration: "",
       },
       returnedService: "",
       errorCreateService: "",
@@ -49,35 +49,35 @@ export default {
       updatedCost: "",
       updatedDuration: "",
       response: [],
-      render: true
+      render: true,
     };
   },
 
-//if logged in
-  created: function() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-        this.render = false;
-        console.log(this.render);
-    }
-    else {
+  //if logged in
+  created: function () {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
       // Initializing services from backend
       AXIOS.get("/bookableServices")
-        .then(response => {
+        .then((response) => {
           // JSON responses are automatically parsed.
           this.services = response.data;
         })
-        .catch(e => {
+        .catch((e) => {
           this.errorCreateService = e;
           Vue.$toast.error(e.response.data, {
-          duration: 6000});
+            duration: 6000,
+          });
         });
     }
   },
 
   methods: {
     //create service
-    createServiceAdmin: function(serviceName, serviceCost, serviceDuration) {
+    createServiceAdmin: function (serviceName, serviceCost, serviceDuration) {
       console.log(serviceName, serviceCost, serviceDuration);
       const bookableServiceDto = new BookableServiceDto(
         serviceName,
@@ -85,97 +85,109 @@ export default {
         serviceDuration
       );
       AXIOS.post("/bookableService", bookableServiceDto)
-        .then(response => {
+        .then((response) => {
           // JSON responses are automatically parsed.
           this.services.push(response.data);
           this.newService = "";
           this.newCost = "";
           this.newDuration = "";
           this.errorCreateService = "";
-          Vue.$toast.success('Service successfully created', {
-          duration: 6000});
+          Vue.$toast.success("Service successfully created", {
+            duration: 6000,
+          });
         })
-        .catch(e => {
+        .catch((e) => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
           this.errorCreateService = errorMsg;
           Vue.$toast.error(e.response.data, {
-          duration: 6000});
+            duration: 6000,
+          });
         });
     },
 
-  //get service by name
-    getServiceByName: function(serviceName){
-        console.log(serviceName);
-        AXIOS.get("/bookableService/".concat(serviceName))
-            .then(response => {
-                this.returnedService = response.data;
-                this.updatedName = response.data.name;
-                this.updatedCost = response.data.cost;
-                this.updatedDuration = response.data.duration;
-            })
-            .catch(e => {
-               var errorMsg = e.response.data.message;
-               console.log(errorMsg);
-               this.errorCreateService = errorMsg;
-               Vue.$toast.error(e.response.data, {
-               duration: 6000});
-            });
+    //get service by name
+    getServiceByName: function (serviceName) {
+      console.log(serviceName);
+      AXIOS.get("/bookableService/".concat(serviceName))
+        .then((response) => {
+          this.returnedService = response.data;
+          this.updatedName = response.data.name;
+          this.updatedCost = response.data.cost;
+          this.updatedDuration = response.data.duration;
+        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorCreateService = errorMsg;
+          Vue.$toast.error(e.response.data, {
+            duration: 6000,
+          });
+        });
     },
 
-  // edit service
-    editService: function(service, newServiceName, newServiceCost, newServiceDuration){
-        console.log(service, newServiceName, newServiceCost, newServiceDuration);
-        const editBookableServiceDto = new BookableServiceDto(
-          newServiceName,
-          newServiceCost,
-          newServiceDuration
-        );
-        AXIOS.put("bookableService/".concat(service), editBookableServiceDto)
-            .then(response => {
-                this.services.push(response.data);
-                console.log(response.data);
-                for(let i = 0; i < this.services.length; i++) {
-                    if(this.services[i].name.localeCompare(service) === 0){
-                        this.services.splice(i,1);
-                    }
-                }
-                Vue.$toast.success('Service successfully updated', {
-                duration: 6000});
-            })
-            .catch(e => {
-               var errorMsg = e.response.data.message;
-               console.log(errorMsg);
-               this.errorEditService = errorMsg;
-               Vue.$toast.error(e.response.data, {
-               duration: 6000});
-            });
+    // edit service
+    editService: function (
+      service,
+      newServiceName,
+      newServiceCost,
+      newServiceDuration
+    ) {
+      console.log(service, newServiceName, newServiceCost, newServiceDuration);
+      const editBookableServiceDto = new BookableServiceDto(
+        newServiceName,
+        newServiceCost,
+        newServiceDuration
+      );
+      AXIOS.put("bookableService/".concat(service), editBookableServiceDto)
+        .then((response) => {
+          this.services.push(response.data);
+          console.log(response.data);
+          for (let i = 0; i < this.services.length; i++) {
+            if (this.services[i].name.localeCompare(service) === 0) {
+              this.services.splice(i, 1);
+            }
+          }
+          Vue.$toast.success("Service successfully updated", {
+            duration: 6000,
+          });
+        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorEditService = errorMsg;
+          Vue.$toast.error(e.response.data, {
+            duration: 6000,
+          });
+        });
     },
 
-  //delete service
-    deleteService: function(serviceToDelete) {
-        console.log(serviceToDelete);
-        AXIOS.delete("/bookableService/".concat(serviceToDelete))
-            .then(response => {
-                console.log(response.data);
-                for(let i = 0; i < this.services.length; i++) {
-                   if(this.services[i].name.localeCompare(serviceToDelete) === 0){
-                       this.services.splice(i,1);
-                   }
-                }
-                Vue.$toast.success('Service successfully deleted', {
-                duration: 6000});
-                this.updatedName = "";
-                this.updatedCost = "";
-                this.updatedDuration = "";
-            })
-            .catch(e => {
-                var errorMsg = e.response.data.message;
-                console.log(errorMsg);
-                this.errorDeleteService = errorMsg;
-                Vue.$toast.error(e.response.data, {
-                duration: 6000});
-            })
-    }
-  }
+    //delete service
+    deleteService: function (serviceToDelete) {
+      console.log(serviceToDelete);
+      AXIOS.delete("/bookableService/".concat(serviceToDelete))
+        .then((response) => {
+          console.log(response.data);
+          for (let i = 0; i < this.services.length; i++) {
+            if (this.services[i].name.localeCompare(serviceToDelete) === 0) {
+              this.services.splice(i, 1);
+            }
+          }
+          Vue.$toast.success("Service successfully deleted", {
+            duration: 6000,
+          });
+          this.updatedName = "";
+          this.updatedCost = "";
+          this.updatedDuration = "";
+        })
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorDeleteService = errorMsg;
+          Vue.$toast.error(e.response.data, {
+            duration: 6000,
+          });
+        });
+    },
+  },
 };

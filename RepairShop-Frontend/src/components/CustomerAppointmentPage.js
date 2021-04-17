@@ -21,11 +21,11 @@ Vue.use(VueToast);
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //show only upcoming appts
-const filterUpcomingAppointments = appointmentDate => {
+const filterUpcomingAppointments = (appointmentDate) => {
   const currentDate = new Date();
   const currentDayOfMonth = currentDate.getDate();
   const currentMonth = currentDate.getMonth() + 1;
@@ -46,7 +46,7 @@ const filterUpcomingAppointments = appointmentDate => {
   return false;
 };
 //show only past appts
-const filterPastAppointments = appointmentDate => {
+const filterPastAppointments = (appointmentDate) => {
   const currentDate = new Date();
   const currentDayOfMonth = currentDate.getDate();
   const currentMonth = currentDate.getMonth() + 1;
@@ -67,9 +67,9 @@ const filterPastAppointments = appointmentDate => {
   return false;
 };
 
-const customizeAppointment = appointment => {
+const customizeAppointment = (appointment) => {
   const serviceNames = [];
-  appointment.services.forEach(item => {
+  appointment.services.forEach((item) => {
     serviceNames.push(item.name);
   });
   const date = appointment.timeSlot.date;
@@ -79,7 +79,7 @@ const customizeAppointment = appointment => {
     Services: serviceNames,
     date: date,
     startTime: startTime,
-    endTime: endTime
+    endTime: endTime,
   };
 };
 
@@ -90,14 +90,14 @@ const getCurrentUser = () => {
   return {
     email: email,
     username: username,
-    password: password
+    password: password,
   };
 };
 
-const getDateAndTime = time => {
+const getDateAndTime = (time) => {
   return {
     date: time.substring(0, 10),
-    time: time.substring(11, 16)
+    time: time.substring(11, 16),
   };
 };
 
@@ -106,7 +106,7 @@ const CustomerAppointmentPage = {
   name: "CustomerAppointmentPage",
   components: {
     CustomerHeader,
-    VueCtkDateTimePicker
+    VueCtkDateTimePicker,
   },
   data() {
     return {
@@ -132,17 +132,16 @@ const CustomerAppointmentPage = {
       cvv: "",
       expiry: "",
       username: "",
-      render: true
+      render: true,
     };
   },
   //if logged in
   created() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-        this.render = false;
-        console.log(this.render);
-    }
-    else {
-    this.render = true;
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
+      this.render = true;
       this.currentUser = getCurrentUser();
       this.username = this.currentUser.username;
       this.getAllAppointments(this.currentUser.email);
@@ -152,16 +151,16 @@ const CustomerAppointmentPage = {
     }
   },
   methods: {
-  //edit appt
-    editAppointment: function(id) {
+    //edit appt
+    editAppointment: function (id) {
       this.show = true;
     },
     //cancel appt
-    cancelAppointment: function(id) {
+    cancelAppointment: function (id) {
       this.showCancel = true;
     },
     //get card info
-    getCardInfo: async function() {
+    getCardInfo: async function () {
       const response = await AXIOS.get(
         `/person/customer/${this.currentUser.email}`
       );
@@ -169,96 +168,96 @@ const CustomerAppointmentPage = {
       this.cvv = response.data.cvv;
       this.expiry = response.data.expiry;
     },
-  //cancel
-    handleCancel: function(id) {
+    //cancel
+    handleCancel: function (id) {
       AXIOS.delete(`/appointment/${id}`)
-        .then(response => {
+        .then((response) => {
           Vue.$toast.success("Your appointment has been deleted", {
-            duration: 1000
+            duration: 1000,
           });
           this.upcomingAppointments = this.upcomingAppointments.filter(
-            appointment => {
+            (appointment) => {
               return appointment.id !== id;
             }
           );
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
           Vue.$toast.error(error, {
-            duration: 1000
+            duration: 1000,
           });
         });
     },
     //get all appts
-    getAllAppointments: function(email) {
+    getAllAppointments: function (email) {
       AXIOS.get(`/appointment/person/${email}`)
-        .then(response => {
-          response.data.forEach(appointment => {
+        .then((response) => {
+          response.data.forEach((appointment) => {
             this.allAppointments.push(appointment);
             this.getPastAppointments(appointment);
             this.getUpcomingAppointments(appointment);
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
           Vue.$toast.error(error.response.data, {
-            duration: 1000
+            duration: 1000,
           });
         });
     },
     //get upcoming appts
-    getUpcomingAppointments: function(appointment) {
+    getUpcomingAppointments: function (appointment) {
       const bool = filterUpcomingAppointments(appointment.timeSlot.date);
       if (bool) {
         this.upcomingAppointments.push(appointment);
       }
     },
     //get past appts
-    getPastAppointments: function(appointment) {
+    getPastAppointments: function (appointment) {
       const bool = filterPastAppointments(appointment.timeSlot.date);
       if (bool) {
         this.pastAppointments.push(customizeAppointment(appointment));
       }
     },
     //get all time slots
-    getAllTimeSlots: function() {
+    getAllTimeSlots: function () {
       AXIOS.get(`/timeslotAvailable`)
-        .then(response => {
-          response.data.forEach(timeSlot => {
+        .then((response) => {
+          response.data.forEach((timeSlot) => {
             this.allTimeSlots.push(timeSlot);
             const date = timeSlot.date + " " + timeSlot.startTime;
             this.allTimeSlotsDates.push({ id: timeSlot.id, date: date });
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
           Vue.$toast.error(error.response.data, {
-            duration: 1000
+            duration: 1000,
           });
         });
     },
     //get all services
-    getAllServices: function() {
+    getAllServices: function () {
       AXIOS.get(`bookableServices`)
-        .then(response => {
-          response.data.forEach(service => {
+        .then((response) => {
+          response.data.forEach((service) => {
             this.allServicesAvailable.push(service);
           });
-          this.allServicesAvailable.forEach(service => {
+          this.allServicesAvailable.forEach((service) => {
             this.allServiceNames.push(service.name);
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
           Vue.$toast.error(error.response.data, {
-            duration: 1000
+            duration: 1000,
           });
         });
     },
     //edit appts
     handleEdit(id, timeSlotId) {
       let services = "";
-      this.updatedServices.forEach(str => {
+      this.updatedServices.forEach((str) => {
         for (var i = 0; i < str.length; i++) {
           str = str.replace(" ", "+");
         }
@@ -274,7 +273,7 @@ const CustomerAppointmentPage = {
           `serviceNames=` +
           `${services}`
       )
-        .then(response => {
+        .then((response) => {
           //handle success
           for (var i in this.upcomingAppointments) {
             if (this.upcomingAppointments[i].id == id) {
@@ -283,26 +282,26 @@ const CustomerAppointmentPage = {
             }
           }
           Vue.$toast.success("Your appointment has been updated", {
-            duration: 1000
+            duration: 1000,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
 
           Vue.$toast.error("Appointment could not be updated", {
-            duration: 1000
+            duration: 1000,
           });
         });
     },
     //show bill
-    showBillModal: async function() {
+    showBillModal: async function () {
       if (
         (this.date !== null || this.date !== "") &&
         this.updatedServices.length > 0
       ) {
         this.showBill = true;
         let services = "";
-        this.updatedServices.forEach(str => {
+        this.updatedServices.forEach((str) => {
           for (var i = 0; i < str.length; i++) {
             str = str.replace(" ", "+");
           }
@@ -317,15 +316,15 @@ const CustomerAppointmentPage = {
         Vue.$toast.warning(
           "Please select a date and services to book an appointment",
           {
-            duration: 1000
+            duration: 1000,
           }
         );
       }
     },
     //bill
-    handleBillOk: function() {
+    handleBillOk: function () {
       let services = "";
-      this.updatedServices.forEach(str => {
+      this.updatedServices.forEach((str) => {
         for (var i = 0; i < str.length; i++) {
           str = str.replace(" ", "+");
         }
@@ -348,13 +347,13 @@ const CustomerAppointmentPage = {
           `date=` +
           dateAndTime.date
       )
-        .then(response => {
+        .then((response) => {
           this.getUpcomingAppointments(response.data);
           Vue.$toast.success("Appointment has been successfully booked", {
-            duration: 1000
+            duration: 1000,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           Vue.$toast.error(
             "Cannot book appointment at this time, please verify details",
             { duration: 1000 }
@@ -362,11 +361,11 @@ const CustomerAppointmentPage = {
         });
     },
     //return cost
-    getServiceCost: async function(serviceName) {
+    getServiceCost: async function (serviceName) {
       const response = await AXIOS.get(`/bookableService/${serviceName}`);
       return response.data.cost;
-    }
-  }
+    },
+  },
 };
 
 export default CustomerAppointmentPage;

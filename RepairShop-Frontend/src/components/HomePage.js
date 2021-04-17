@@ -11,28 +11,24 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 const HomePage = {
   name: "HomePage",
   components: {
     AuthHeader,
-    WelcomePage
+    WelcomePage,
   },
-  created() {
-
-  },
+  created() {},
   data() {
     return {
-
       pageTitle: "Welcome to RepairShop, your satisfaction is our top concern",
       error: "",
       login: "Login",
       link: "/LoginPage",
-
     };
-  }
+  },
 };
 
 export default HomePage;

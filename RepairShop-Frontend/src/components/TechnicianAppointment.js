@@ -11,7 +11,7 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //get current technician
@@ -22,28 +22,27 @@ const getCurrentUser = () => {
   return {
     email: email,
     username: username,
-    password: password
+    password: password,
   };
 };
 
 export default {
   name: "TechnicianAppointmentPage",
   components: {
-    TechnicianHeader
+    TechnicianHeader,
   },
   data() {
     return {
       allAppointments: [],
       currentUser: {},
-      render: true
+      render: true,
     };
   },
   created() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-        this.render = false;
-        console.log(this.render);
-    }
-    else {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
       this.currentUser = getCurrentUser();
       this.getAllAppointments();
@@ -52,11 +51,11 @@ export default {
 
   methods: {
     //get all appointments
-    getAllAppointments: async function() {
+    getAllAppointments: async function () {
       const response = await AXIOS.get(
         `/appointmentOfTechnician/${this.currentUser.email}`
       );
       this.allAppointments = response.data;
-    }
-  }
+    },
+  },
 };

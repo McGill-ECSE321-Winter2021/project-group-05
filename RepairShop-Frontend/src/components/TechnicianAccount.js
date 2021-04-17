@@ -2,7 +2,6 @@
 import TechnicianHeader from "./TechnicianHeader";
 import axios from "axios";
 import Router from "../router";
-import currentUser from "./LoginPage.js";
 import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
@@ -15,7 +14,7 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 Vue.use(VueToast);
@@ -30,7 +29,7 @@ function TechnicianDto(username, email, password) {
 const TechnicianAccountPage = {
   name: "TechnicianAccountPage",
   components: {
-    TechnicianHeader
+    TechnicianHeader,
   },
 
   data() {
@@ -43,11 +42,11 @@ const TechnicianAccountPage = {
       error: "",
       showDelete: false,
       showUpdate: false,
-      render: true
+      render: true,
     };
   },
 
-  created: function() {
+  created: function () {
     this.username = localStorage.getItem("savedTechnicianName");
     this.email = localStorage.getItem("savedTechnicianEmail");
     this.password = localStorage.getItem("savedTechnicianPassword");
@@ -65,91 +64,91 @@ const TechnicianAccountPage = {
 
   methods: {
     //show updated account info
-    showUpdateModal: function() {
+    showUpdateModal: function () {
       if (this.email === "" || this.email === null) {
         Vue.$toast.error(`Email cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.username === "" || this.username === null) {
         Vue.$toast.error(`Username cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.password === "" || this.confirmPassword === "") {
         Vue.$toast.error(`Username cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.password !== this.confirmPassword) {
         Vue.$toast.error(`Passwords do not match`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       this.showUpdate = true;
     },
     //update tech account
-    updateAccount: function(username, email, password, confirmPassword) {
+    updateAccount: function (username, email, password, confirmPassword) {
       if (password == confirmPassword) {
         const technicianDTO = new TechnicianDto(username, email, password);
         console.log(technicianDTO);
         AXIOS.put(`/person/technician/${email}/`, technicianDTO)
-          .then(response => {
+          .then((response) => {
             this.technicians.push(response.data);
             console.log(response.data);
             Vue.$toast.success("Account credentials successfully updated", {
-              duration: 6000
+              duration: 6000,
             });
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             this.error = e.message;
             Vue.$toast.error(e.response.data, {
-              duration: 6000
+              duration: 6000,
             });
           });
       } else {
         //alert("confirm password doesn't match with the password")
         Vue.$toast.error("Passwords do not match", {
-          duration: 6000
+          duration: 6000,
         });
       }
     },
     //show deleted account
-    showDeleteModal: function() {
+    showDeleteModal: function () {
       this.showDelete = true;
     },
     //delete account
-    deleteAccount: function(email) {
+    deleteAccount: function (email) {
       AXIOS.delete(`/person/technician/${email}/`)
-        .then(response => {
+        .then((response) => {
           this.technicians.pop();
           console.log(response.data);
           this.gotoLogin();
           Vue.$toast.success("Account successfully deleted", {
-            duration: 6000
+            duration: 6000,
           });
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.error = e.message;
           Vue.$toast.error(e.response.data, {
-            duration: 6000
+            duration: 6000,
           });
         });
     },
     //go to login page
-    gotoLogin: function() {
+    gotoLogin: function () {
       Router.push({
         path: "/",
-        name: "LoginPage"
+        name: "LoginPage",
       });
-    }
-  }
+    },
+  },
 };
 
 export default TechnicianAccountPage;

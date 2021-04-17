@@ -13,7 +13,7 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 Vue.use(VueToast);
@@ -29,7 +29,7 @@ function BusinessDto(name, address, phoneNumber, email) {
 const BusinessPage = {
   name: "BusinessPage",
   components: {
-    AdminHeader
+    AdminHeader,
   },
   data() {
     return {
@@ -42,46 +42,44 @@ const BusinessPage = {
       showDelete: false,
       showUpdate: false,
       id: "",
-      render: true
+      render: true,
     };
   },
   //if logged in
   created() {
-
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-          this.render = false;
-          console.log(this.render);
-    }
-    else {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
-        this.id = 1;
-        this.getBusiness(this.id);
+      this.id = 1;
+      this.getBusiness(this.id);
     }
   },
   methods: {
-  //create business
-    createBusiness: function(name, address, phoneNumber, email) {
+    //create business
+    createBusiness: function (name, address, phoneNumber, email) {
       const businessDto = new BusinessDto(name, address, phoneNumber, email);
       AXIOS.put("/business/", {
-        businessDto
+        businessDto,
       })
-        .then(response => {
+        .then((response) => {
           this.business.push(response.data);
           Vue.$toast.success("Business successfully created", {
-            duration: 6000
+            duration: 6000,
           });
         })
-        .catch(e => {
+        .catch((e) => {
           this.error = e.response.data.message;
           Vue.$toast.error(e.response.data, {
-            duration: 6000
+            duration: 6000,
           });
         });
     },
     //get business
-    getBusiness: function(id) {
+    getBusiness: function (id) {
       AXIOS.get(`/business/${id}`)
-        .then(response => {
+        .then((response) => {
           //console.log(response.data);
           this.name = response.data.name;
           this.email = response.data.email;
@@ -89,39 +87,39 @@ const BusinessPage = {
           this.phoneNumber = response.data.phoneNumber;
           this.business.push(response.data);
         })
-        .catch(e => {
+        .catch((e) => {
           this.error = e.response.data.message;
           Vue.$toast.error(e.response.data, {
-            duration: 6000
+            duration: 6000,
           });
         });
     },
     //show new business info
-    showUpdateModal: function() {
+    showUpdateModal: function () {
       this.showUpdate = true;
     },
     //update business info
-    updateBusiness: function(name, address, phoneNumber, email) {
+    updateBusiness: function (name, address, phoneNumber, email) {
       const id = this.business.pop().id;
       const businessDto = new BusinessDto(name, address, phoneNumber, email);
       console.log(businessDto);
       AXIOS.put(`/business/${id}/`, businessDto)
-        .then(response => {
+        .then((response) => {
           this.business.push(response.data);
           console.log(response.data);
           Vue.$toast.success("Business information successfully updated", {
-            duration: 6000
+            duration: 6000,
           });
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.error = e.message;
           Vue.$toast.error(e.response.data, {
-            duration: 6000
+            duration: 6000,
           });
         });
-    }
-  }
+    },
+  },
 };
 
 export default BusinessPage;

@@ -10,29 +10,26 @@ var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 var backendUrl =
   "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
 
-
-export default{
+export default {
   name: "viewServiceCustomer",
   data() {
     return {
-    flag: false
-
+      flag: false,
     };
   },
-  created: function(){
-    setTimeout(this.toggle,5);
+  created: function () {
+    setTimeout(this.toggle, 5);
   },
   methods: {
-  	play: function() {
+    play: function () {
       Router.push({
         path: "/welcome",
-        name: "HomePage"
-      })
+        name: "HomePage",
+      });
     },
 
-    toggle: function() {
-       this.flag = true;
-
-    }
-  }
+    toggle: function () {
+      this.flag = true;
+    },
+  },
 };

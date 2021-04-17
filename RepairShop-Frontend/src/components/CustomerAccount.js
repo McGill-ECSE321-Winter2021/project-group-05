@@ -14,7 +14,7 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 Vue.use(VueToast);
@@ -32,7 +32,7 @@ function CustomerDto(username, email, password, cvv, cardNumber, expiry) {
 export default {
   name: "CustomerAccount",
   components: {
-    CustomerHeader
+    CustomerHeader,
   },
 
   data() {
@@ -48,17 +48,16 @@ export default {
       cvv: "",
       cardNumber: "",
       expiry: "",
-      render: true
+      render: true,
     };
   },
 
   //if logged in
-  created: function() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-        this.render = false;
-        console.log(this.render);
-    }
-    else {
+  created: function () {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
       this.username = localStorage.getItem("savedCustomerName");
       this.email = localStorage.getItem("savedCustomerEmail");
@@ -68,7 +67,7 @@ export default {
 
   methods: {
     //get customer
-    getCustomer: async function() {
+    getCustomer: async function () {
       const response = await AXIOS.get(`/person/customer/${this.email}`);
       this.username = response.data.username;
       this.email = response.data.email;
@@ -80,11 +79,11 @@ export default {
       console.log(response.data);
     },
     //show updated account
-    showUpdateModal: function() {
+    showUpdateModal: function () {
       this.showUpdate = true;
     },
-     //update account
-    updateAccount: function(
+    //update account
+    updateAccount: function (
       username,
       email,
       password,
@@ -105,61 +104,61 @@ export default {
         console.log(customerDTO);
         if (cardNumber.length < 16) {
           Vue.$toast.error("Card Number has to be 16 digits long", {
-            duration: 6000
+            duration: 6000,
           });
           return;
         }
         AXIOS.put(`/person/customer/${email}/`, customerDTO)
-          .then(response => {
+          .then((response) => {
             this.customers.push(response.data);
             console.log(response.data);
             Vue.$toast.success("Account credentials successfully updated", {
-              duration: 6000
+              duration: 6000,
             });
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             this.error = e.message;
             Vue.$toast.error(e.response.data, {
-              duration: 6000
+              duration: 6000,
             });
           });
       } else {
         //alert("confirm password doesn't match with the password")
         Vue.$toast.error("Passwords do not match", {
-          duration: 6000
+          duration: 6000,
         });
       }
     },
     //show deleted account
-    showDeleteModal: function() {
+    showDeleteModal: function () {
       this.showDelete = true;
     },
     //delete account
-    deleteAccount: function(email) {
+    deleteAccount: function (email) {
       AXIOS.delete(`/person/customer/${email}/`)
-        .then(response => {
+        .then((response) => {
           this.customers.pop();
           console.log(response.data);
           this.gotoLogin();
           Vue.$toast.success("Account successfully deleted", {
-            duration: 6000
+            duration: 6000,
           });
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.error = e.message;
           Vue.$toast.error(e.response.data, {
-            duration: 6000
+            duration: 6000,
           });
         });
     },
     //go to login page
-    gotoLogin: function() {
+    gotoLogin: function () {
       Router.push({
         path: "/",
-        name: "LoginPage"
+        name: "LoginPage",
       });
-    }
-  }
+    },
+  },
 };

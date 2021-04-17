@@ -11,14 +11,14 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //FILTER OUT ONLY UPCOMING APPOINTMENTS
 export default {
   name: "AdminAppointmentPage",
   components: {
-    AdminHeader
+    AdminHeader,
   },
   data() {
     return {
@@ -28,15 +28,14 @@ export default {
       allTimeslots: [],
       appointmentId: "",
       technicianEmail: "",
-      render: true
+      render: true,
     };
   },
   created() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
       this.render = false;
       console.log(this.render);
-    }
-    else {
+    } else {
       this.render = true;
       this.getAllTechnicians();
       this.getAllAppointments();
@@ -47,42 +46,42 @@ export default {
 
   methods: {
     //get all technicians
-    getAllTechnicians: async function() {
+    getAllTechnicians: async function () {
       const response = await AXIOS.get(`/person/technician/`);
       this.allTechnicians = response.data;
-      this.allTechnicians.forEach(technician => {
+      this.allTechnicians.forEach((technician) => {
         AXIOS.get(`/appointmentOfTechnician/${technician.email}`)
-          .then(response => {
-            response.data.forEach(appointment => {
+          .then((response) => {
+            response.data.forEach((appointment) => {
               this.appointmentOfTechnicians.push({
                 appointment: appointment,
-                technician: technician
+                technician: technician,
               });
             });
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       });
     },
     //get all appts
-    getAllAppointments: async function() {
+    getAllAppointments: async function () {
       const response = await AXIOS.get(`/allappointments`);
       this.allAppointments = response.data;
     },
     //get all time slots
-    getAllTimeSlots: async function() {
+    getAllTimeSlots: async function () {
       const response = await AXIOS.get(`/timeslotAvailable`);
       this.allTimeslots = response.data;
     },
     //assing a time slot to a technician
-    assignTimeslot: async function(timeSlotId, techicianEmail) {
+    assignTimeslot: async function (timeSlotId, techicianEmail) {
       const response = await AXIOS.post(
         `/assignSlot/${timeSlotId}` + `?` + `email=` + `${techicianEmail}`
       );
     },
     //assign an appointment
-    assignAppointment: async function(appointmentId, technicianEmail) {
+    assignAppointment: async function (appointmentId, technicianEmail) {
       const appointment = await AXIOS.put(
         `/assignAppointment/${appointmentId}` +
           `?` +
@@ -90,31 +89,31 @@ export default {
           `${technicianEmail}`
       );
       AXIOS.get(`/person/technician/${technicianEmail}`)
-        .then(response => {
+        .then((response) => {
           this.appointmentOfTechnicians.push({
             apppointment: appointment.data,
-            technician: response.data
+            technician: response.data,
           });
           console.log(this.appointmentOfTechnicians);
         })
-        .catch(error => {});
+        .catch((error) => {});
     },
     //get all technician appts
-    getAllAppointmentsOfTechnicians: function() {
-      this.allTechnicians.forEach(technician => {
+    getAllAppointmentsOfTechnicians: function () {
+      this.allTechnicians.forEach((technician) => {
         AXIOS.get(`/appointmentOfTechnician/${technician.email}`)
-          .then(response => {
-            response.data.forEach(appointment => {
+          .then((response) => {
+            response.data.forEach((appointment) => {
               this.appointmentOfTechnicians.push({
                 appointment: appointment,
-                technician: technician
+                technician: technician,
               });
             });
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       });
-    }
-  }
+    },
+  },
 };

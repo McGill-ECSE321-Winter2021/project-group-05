@@ -1,12 +1,12 @@
 //time slot page
 
-import AdminHeader from './AdminHeader';
+import AdminHeader from "./AdminHeader";
 import axios from "axios";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 import Vue from "vue";
-import VueCal from 'vue-cal'
-import 'vue-cal/dist/vuecal.css'
+import VueCal from "vue-cal";
+import "vue-cal/dist/vuecal.css";
 
 //configurations
 var config = require("../../config");
@@ -16,15 +16,15 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //get current date and time
-const getDateAndTime = time => {
+const getDateAndTime = (time) => {
   return {
     date: time.substring(0, 10),
     time: time.substring(11, 16),
-    am: time.substring(17)
+    am: time.substring(17),
   };
 };
 
@@ -34,29 +34,26 @@ export default {
   components: {
     AdminHeader,
     VueCtkDateTimePicker,
-    VueCal
+    VueCal,
   },
   created() {
     this.getAllTechnicians();
     this.populateCalendar();
-
   },
-  data(){
-    return{
-      allTechnicians:[],
+  data() {
+    return {
+      allTechnicians: [],
       date: "",
-      technicianEmail:"",
-      timeslot:[],
+      technicianEmail: "",
+      timeslot: [],
       stickySplitLabels: false,
       minCellWidth: 400,
       minSplitWidth: 0,
       splitDays: [],
       events: [],
-      timeslotLength:-1,
-      allTimeSlotOfTechnician:[]
-
-    }
-
+      timeslotLength: -1,
+      allTimeSlotOfTechnician: [],
+    };
   },
   methods: {
     //get all techn
@@ -68,40 +65,35 @@ export default {
           id: tech.id, // changed the id to tech id
           class: tech.email,
           label: tech.email,
-          hide: false
+          hide: false,
         });
-      })
-
+      });
     },
     //create timeslot
     createTimeSlot(startDate, startTime, endingTime) {
-
-      AXIOS.post(`/timeSlot/` +
-        `?` +
-        `date=` +
-        `${startDate}` +
-
-        `&` +
-        `startTime=` +
-        `${startTime}` +
-
-        `&` +
-        `endTime=` +
-        `${endingTime}`
+      AXIOS.post(
+        `/timeSlot/` +
+          `?` +
+          `date=` +
+          `${startDate}` +
+          `&` +
+          `startTime=` +
+          `${startTime}` +
+          `&` +
+          `endTime=` +
+          `${endingTime}`
       )
-        .then(response => {
+        .then((response) => {
           this.timeslot.push(response.data);
           this.timeslotLength++;
-
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           Vue.$toast.error(
             "Cannot create the timeslot at this time, please verify details",
-            {duration: 6000}
+            { duration: 6000 }
           );
         });
-
     },
     //create timeslot and assign
     createTimeSlotAndAssign: async function (technicianEmail) {
@@ -112,9 +104,9 @@ export default {
       let startingHour = startTime.substring(0, 2);
 
       if (dateAndTime.am == "pm") {
-        startingHour = parseInt(startingHour) // change to int
+        startingHour = parseInt(startingHour); // change to int
         startingHour = startingHour + 12; // convert to pm
-        startTime = startingHour.toString() + startTime.substring(2,);
+        startTime = startingHour.toString() + startTime.substring(2);
       }
 
       let endingHour = parseInt(startingHour) + 24;
@@ -123,95 +115,99 @@ export default {
       if (endingHour >= 24) {
         endingHour = 23;
       }
-      const endTime = endingHour.toString() + startTime.substring(2,);
+      const endTime = endingHour.toString() + startTime.substring(2);
       console.log(startDate);
       console.log(startTime);
       console.log(startingHour);
       console.log(endTime);
-      this.createTimeSlot(startDate,startTime,endTime);
-      const tech= await AXIOS.get(`/person/technician/${technicianEmail}/`);
-      const techid = tech.data.id
+      this.createTimeSlot(startDate, startTime, endTime);
+      const tech = await AXIOS.get(`/person/technician/${technicianEmail}/`);
+      const techid = tech.data.id;
       console.log(this.timeslot[this.timeslotLength].id);
-      this.assignTimeslot(this.timeslot[this.timeslotLength].id, technicianEmail,techid, startDate,startTime, endTime);
-
+      this.assignTimeslot(
+        this.timeslot[this.timeslotLength].id,
+        technicianEmail,
+        techid,
+        startDate,
+        startTime,
+        endTime
+      );
     },
     //assign timeslot
-    assignTimeslot: async function (timeSlotId, techicianEmail,technicianId,startDate,startTime,endTime) {
+    assignTimeslot: async function (
+      timeSlotId,
+      techicianEmail,
+      technicianId,
+      startDate,
+      startTime,
+      endTime
+    ) {
       const response = await AXIOS.post(
         `/assignSlot/${timeSlotId}` + `?` + `email=` + `${techicianEmail}`
       )
-        .then(response => {
-
+        .then((response) => {
           console.log(technicianId);
           this.events.push({
-              start:startDate + " "+startTime,
-              end: startDate+ " "+endTime,
-              title:'available',
-              split:technicianId
-            }
-
-          )
-          Vue.$toast.success("TimeSlot has been successfully assigned to the technician ", {
-            duration: 4000
+            start: startDate + " " + startTime,
+            end: startDate + " " + endTime,
+            title: "available",
+            split: technicianId,
           });
+          Vue.$toast.success(
+            "TimeSlot has been successfully assigned to the technician ",
+            {
+              duration: 4000,
+            }
+          );
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           Vue.$toast.error(
             "Cannot assign the timeslot to the technician, please verify details",
-            {duration: 6000}
+            { duration: 6000 }
           );
         });
     },
 
-    currentTechAvaliability: async function(email){
-      const array=[];
-       await AXIOS.get(`/timeSlotOfTechnician/${email}`).then( response =>{
-
-         (response.data).forEach((timeSlot)=>{
-           this.allTimeSlotOfTechnician.push(timeSlot);
-           array.push(timeSlot);
+    currentTechAvaliability: async function (email) {
+      const array = [];
+      await AXIOS.get(`/timeSlotOfTechnician/${email}`).then((response) => {
+        response.data.forEach((timeSlot) => {
+          this.allTimeSlotOfTechnician.push(timeSlot);
+          array.push(timeSlot);
           // console.log(timeSlot);
-       })
-
+        });
       });
-     // console.log("currentTechAvaliability"+allTimeSlotOfTechnician);
+      // console.log("currentTechAvaliability"+allTimeSlotOfTechnician);
 
       console.log(this.allTimeSlotOfTechnician);
       return array;
     },
 
-    populateCalendar: async function(){
-
+    populateCalendar: async function () {
       const response = await AXIOS.get(`/person/technician/`);
       this.allTechnicians = response.data;
 
       console.log(this.allTechnicians);
       this.allTechnicians.forEach((tech) => {
-
-
         const technicianId = tech.id;
-        const array=this.currentTechAvaliability(tech.email);
-       // const array=this.allTimeSlotOfTechnician.get(0);
-       // console.log(array);
-       // console.log(this.allTimeSlotOfTechnician);
-        (Array.from(array)).forEach((availability)=>{
+        const array = this.currentTechAvaliability(tech.email);
+        // const array=this.allTimeSlotOfTechnician.get(0);
+        // console.log(array);
+        // console.log(this.allTimeSlotOfTechnician);
+        Array.from(array).forEach((availability) => {
           console.log(availability);
-          console.log(availability.date + " "+availability.startTime);
+          console.log(availability.date + " " + availability.startTime);
 
-          console.log(availability.date + " "+availability.startTime);
+          console.log(availability.date + " " + availability.startTime);
           this.events.push({
-            start:availability.date + " "+availability.startTime,
-            end: availability.date + " "+availability.endTime,
-            title:'available',
-            split:technicianId
-          })
-        })
-
-      })
-
-    }
-
-  }
-
-}
+            start: availability.date + " " + availability.startTime,
+            end: availability.date + " " + availability.endTime,
+            title: "available",
+            split: technicianId,
+          });
+        });
+      });
+    },
+  },
+};

@@ -9,6 +9,6 @@ Vue.component("date-picker", DatePicker);
 export default {
   components: {
     Calendar,
-    DatePicker
-  }
+    DatePicker,
+  },
 };

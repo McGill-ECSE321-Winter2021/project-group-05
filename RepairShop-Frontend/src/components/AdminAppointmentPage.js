@@ -10,11 +10,11 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //show upcoming appts only
-const filterUpcomingAppointments = appointmentDate => {
+const filterUpcomingAppointments = (appointmentDate) => {
   const currentDate = new Date();
   const currentDayOfMonth = currentDate.getDate();
   const currentMonth = currentDate.getMonth() + 1;
@@ -25,14 +25,6 @@ const filterUpcomingAppointments = appointmentDate => {
   const appointmenntMonth = date.getMonth() + 1;
   const appointmenntYear = date.getFullYear();
 
-  // console.log(currentDayOfMonth);
-  // console.log(currentMonth);
-  // console.log(currentYear);
-  // console.log("--------");
-  // console.log(appointmentDayOfMonth);
-  // console.log(appointmenntMonth);
-  // console.log(appointmenntYear);
-
   return (
     currentDayOfMonth === appointmentDayOfMonth &&
     currentMonth === appointmenntMonth &&
@@ -40,9 +32,9 @@ const filterUpcomingAppointments = appointmentDate => {
   );
 };
 //format the appt
-const formatAppointment = appointment => {
+const formatAppointment = (appointment) => {
   const serviceNames = [];
-  appointment.services.forEach(item => {
+  appointment.services.forEach((item) => {
     serviceNames.push(item.name);
   });
   const date = appointment.timeSlot.date;
@@ -52,14 +44,14 @@ const formatAppointment = appointment => {
     Services: serviceNames,
     date: date,
     startTime: startTime,
-    endTime: endTime
+    endTime: endTime,
   };
 };
 //the page view
 const AdminAppointmentPage = {
   name: "AdminAppointmentPage",
   components: {
-    AdminHeader
+    AdminHeader,
   },
   data() {
     return {
@@ -68,26 +60,25 @@ const AdminAppointmentPage = {
       upcomingAppointments: [],
       pastAppointments: [],
       error: "",
-      render: true
+      render: true,
     };
   },
 
-//if logged in
-  created: function() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-        this.render = false;
-        console.log(this.render);
-    }
-    else {
+  //if logged in
+  created: function () {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
     }
   },
   methods: {
-  //return all appts
-    getAllAppointments: function() {
+    //return all appts
+    getAllAppointments: function () {
       AXIOS.get(`/appointments`)
-        .then(response => {
-          response.data.forEach(appointment => {
+        .then((response) => {
+          response.data.forEach((appointment) => {
             this.allAppointments.push(appointment);
             // TODO: why this one returns the past appointments?
             this.allAppointmentsFormated.push(formatAppointment(appointment));
@@ -95,19 +86,19 @@ const AdminAppointmentPage = {
             this.seperateAppointments();
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
         });
     },
 
-    seperateAppointments: function(appointment) {
+    seperateAppointments: function (appointment) {
       const isInFuture = filterUpcomingAppointments(appointment.timeslot.date);
       if (isInFuture) {
         this.upcomingAppointments.push(appointment);
       } else {
         this.pastAppointments.push(appointment);
       }
-    }
-  }
+    },
+  },
 };
 export default AdminAppointmentPage;

@@ -13,7 +13,7 @@ var backendUrl =
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //creates a person dto
@@ -28,7 +28,7 @@ function createPersonDto(username, password, email, personType) {
 export default {
   name: "AddStaffPage",
   components: {
-    AdminHeader
+    AdminHeader,
   },
   data() {
     return {
@@ -38,23 +38,22 @@ export default {
       confirmPassword: "",
       personType: "",
       show: false,
-      render: true
+      render: true,
     };
   },
 
-//if logged in return true
-  created: function() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-          this.render = false;
-          console.log(this.render);
-    }
-    else {
+  //if logged in return true
+  created: function () {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
     }
   },
   methods: {
-  //create account
-    createAccount: async function(
+    //create account
+    createAccount: async function (
       username,
       email,
       password,
@@ -68,7 +67,7 @@ export default {
       }
     },
     //create technician
-    createTechnician: function(username, password, email, personType) {
+    createTechnician: function (username, password, email, personType) {
       const technicianDto = new createPersonDto(
         username,
         password,
@@ -76,19 +75,19 @@ export default {
         personType
       );
       AXIOS.post(`/person/technician/register`, technicianDto)
-        .then(response => {
+        .then((response) => {
           //success
           Vue.$toast.success(
             `Technician ${this.username} has been successfully created`,
             {
-              duration: 1000
+              duration: 1000,
             }
           );
         })
-        .catch(error => {});
+        .catch((error) => {});
     },
     //create admin
-    createAdmin: function(username, password, email, personType) {
+    createAdmin: function (username, password, email, personType) {
       const adminDto = new createPersonDto(
         username,
         password,
@@ -96,51 +95,51 @@ export default {
         personType
       );
       AXIOS.post(`/person/administrator/register`, adminDto)
-        .then(response => {
+        .then((response) => {
           //success
           Vue.$toast.success(
             `Admin ${this.username} has been successfully created`,
             {
-              duration: 1000
+              duration: 1000,
             }
           );
         })
-        .catch(error => {});
+        .catch((error) => {});
     },
     //show add
-    showAddModal: function() {
+    showAddModal: function () {
       if (this.personType === "" || this.personType === null) {
         //error
         Vue.$toast.error(`User role is required to create a staff`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.email === "" || this.email === null) {
         Vue.$toast.error(`Email cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.username === "" || this.username === null) {
         Vue.$toast.error(`Username cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.password === "" || this.confirmPassword === "") {
         Vue.$toast.error(`Username cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.password !== this.confirmPassword) {
         Vue.$toast.error(`Passwords do not match`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       this.show = true;
-    }
-  }
+    },
+  },
 };

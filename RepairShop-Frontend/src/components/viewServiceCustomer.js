@@ -2,7 +2,6 @@
 import axios from "axios";
 import CustomerHeader from "./CustomerHeader";
 
-
 var config = require("../../config");
 
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -11,7 +10,7 @@ var backendUrl =
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 //creates service dto
@@ -24,7 +23,7 @@ function BookableServiceDto(name, cost, duration) {
 export default {
   name: "viewServiceCustomer",
   components: {
-    CustomerHeader
+    CustomerHeader,
   },
   data() {
     return {
@@ -37,25 +36,24 @@ export default {
       errorCreateService: "",
       returnedService: "",
       response: [],
-      render: true
+      render: true,
     };
   },
 
-  created: function() {
-    if(localStorage.getItem('loggedInEmail').localeCompare("null") === 0){
-        this.render = false;
-        console.log(this.render);
-    }
-    else {
+  created: function () {
+    if (localStorage.getItem("loggedInEmail").localeCompare("null") === 0) {
+      this.render = false;
+      console.log(this.render);
+    } else {
       this.render = true;
       // new added
       // Initializing services from backend
       AXIOS.get("/bookableServices")
-        .then(response => {
+        .then((response) => {
           // JSON responses are automatically parsed.
           this.services = response.data;
         })
-        .catch(e => {
+        .catch((e) => {
           this.errorCreateService = e;
         });
     }
@@ -63,7 +61,7 @@ export default {
 
   methods: {
     //create a service
-    createServiceAdmin: function(serviceName, serviceCost, serviceDuration) {
+    createServiceAdmin: function (serviceName, serviceCost, serviceDuration) {
       console.log(serviceName, serviceCost, serviceDuration);
       const bookableServiceDto = new BookableServiceDto(
         serviceName,
@@ -71,7 +69,7 @@ export default {
         serviceDuration
       );
       AXIOS.post("/bookableService", bookableServiceDto)
-        .then(response => {
+        .then((response) => {
           // JSON responses are automatically parsed.
           this.services.push(response.data);
           this.selectedService = "";
@@ -79,26 +77,25 @@ export default {
           this.selectedDuration = "";
           this.errorCreateService = "";
         })
-        .catch(e => {
+        .catch((e) => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
           this.errorCreateService = errorMsg;
         });
     },
     //get service
-    getServiceByName: function(serviceName){
-    console.log(serviceName);
-    AXIOS.get("/bookableService/".concat(serviceName))
-        .then(response => {
-            this.returnedService = response.data;
-            console.log(returnedService.duration);
-
+    getServiceByName: function (serviceName) {
+      console.log(serviceName);
+      AXIOS.get("/bookableService/".concat(serviceName))
+        .then((response) => {
+          this.returnedService = response.data;
+          console.log(returnedService.duration);
         })
-        .catch(e => {
-           var errorMsg = e.response.data.message;
-           console.log(errorMsg);
-           this.errorCreateService = errorMsg;
+        .catch((e) => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorCreateService = errorMsg;
         });
-    }
-  }
+    },
+  },
 };

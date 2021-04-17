@@ -13,7 +13,7 @@ var backendUrl =
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
 Vue.use(VueToast);
@@ -28,7 +28,7 @@ function AdminDto(username, email, password) {
 const AdminAccountPage = {
   name: "AdminAccountPage",
   components: {
-    AdminHeader
+    AdminHeader,
   },
   data() {
     return {
@@ -40,11 +40,11 @@ const AdminAccountPage = {
       error: "",
       showDelete: false,
       showUpdate: false,
-      render: true
+      render: true,
     };
   },
-//create function
-  created: function() {
+  //create function
+  created: function () {
     this.username = localStorage.getItem("savedAdminName");
     this.email = localStorage.getItem("savedAdminEmail");
     this.password = localStorage.getItem("savedAdminPassword");
@@ -60,84 +60,84 @@ const AdminAccountPage = {
   },
 
   methods: {
-  //show the update
-    showUpdateModal: function() {
+    //show the update
+    showUpdateModal: function () {
       if (this.email === "" || this.email === null) {
         Vue.$toast.error(`Email cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.username === "" || this.username === null) {
         Vue.$toast.error(`Username cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.password === "" || this.confirmPassword === "") {
         Vue.$toast.error(`Username cannot be empty`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       if (this.password !== this.confirmPassword) {
         Vue.$toast.error(`Passwords do not match`, {
-          duration: 2000
+          duration: 2000,
         });
         return;
       }
       this.showUpdate = true;
     },
     //show delete
-    showDeleteModal: function() {
+    showDeleteModal: function () {
       this.showDelete = true;
     },
     //update
-    updateAccount: function(username, email, password, confirmPassword) {
+    updateAccount: function (username, email, password, confirmPassword) {
       if (this.confirmPassword == confirmPassword) {
         const adminDTO = new AdminDto(username, email, password);
         console.log(adminDTO);
         AXIOS.put(`/person/administrator/${email}/`, adminDTO)
-          .then(response => {
+          .then((response) => {
             this.admins.push(response.data);
             console.log(response.data);
             Vue.$toast.success("Account credentials successfully updated", {
-              duration: 6000
+              duration: 6000,
             });
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             this.error = e.message;
             Vue.$toast.error(e.response.data, {
-              duration: 6000
+              duration: 6000,
             });
           });
       } else {
         //alert("confirm password doesn't match with the password");
         Vue.$toast.error("Passwords do not match", {
-          duration: 6000
+          duration: 6000,
         });
       }
     },
     //delete
-    deleteAccount: function(email) {
+    deleteAccount: function (email) {
       AXIOS.delete(`/person/administrator/${email}/`)
-        .then(response => {
+        .then((response) => {
           this.admins.pop();
           console.log(response.data);
           Vue.$toast.success("Account successfully deleted", {
-            duration: 6000
+            duration: 6000,
           });
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.error = e.message;
           Vue.$toast.error(e.response.data, {
-            duration: 6000
+            duration: 6000,
           });
         });
-    }
-  }
+    },
+  },
 };
 
 export default AdminAccountPage;
