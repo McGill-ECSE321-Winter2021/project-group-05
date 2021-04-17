@@ -2,18 +2,21 @@ package ca.mcgill.ecse321.repairshop_android.Activities.Customer;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.Admin.AdminHomeFragment;
 import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import cz.msebera.android.httpclient.Header;
 
@@ -64,18 +67,19 @@ public class CancelAppointmentDialogFragment extends DialogFragment {
     private void cancelAppointment(int appointmentId){
         RequestParams requestParams = new RequestParams();
         requestParams.put("id", appointmentId);
-        HttpUtils.delete("appointment", requestParams, new JsonHttpResponseHandler(){
+        HttpUtils.delete("/appointment", requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getActivity(), "Your appointment was successfully cancel", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getActivity(), "went wrong", Toast.LENGTH_LONG).show();
+                if(statusCode == 200) {
+                    // TODO toast makes problem here
+                }
             }
         });
     }
+
 }

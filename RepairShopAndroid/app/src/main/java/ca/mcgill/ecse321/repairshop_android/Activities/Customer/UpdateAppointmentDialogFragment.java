@@ -16,12 +16,20 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.mcgill.ecse321.repairshop_android.Activities.Utility.HttpUtils;
 import ca.mcgill.ecse321.repairshop_android.R;
+import cz.msebera.android.httpclient.Header;
 
 public class UpdateAppointmentDialogFragment extends DialogFragment {
     private DatePicker datePicker;
@@ -58,10 +66,6 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         setViews(view);
         setTitleOfDialog();
-        inflateServiceList();
-        inflateServiceList();
-        inflateServiceList();
-        inflateServiceList();
         inflateServiceList();
 
     }
@@ -113,5 +117,21 @@ public class UpdateAppointmentDialogFragment extends DialogFragment {
 
     private void updateAppointment(){
         //TODO: handle update
+
+        RequestParams requestParams = new RequestParams();
+        //requestParams.put("id", appointmentId);
+        HttpUtils.delete("appointment", requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(getActivity(), "Your appointment was successfully cancel", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getActivity(), "went wrong", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
