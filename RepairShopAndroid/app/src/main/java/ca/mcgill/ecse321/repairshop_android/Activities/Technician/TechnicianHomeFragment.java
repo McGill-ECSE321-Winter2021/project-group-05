@@ -106,7 +106,7 @@ public class TechnicianHomeFragment extends Fragment {
                     nameServices+=name+", ";
                 }
 
-                appointmentInfo+=month+"/"+day+"/"+year+":\ncustomer: "+app.getCustomer()+"\nservices: "+
+                appointmentInfo = appointmentInfo + month+"/"+day+"/"+year+":\ncustomer: "+app.getCustomer()+"\nservices: "+
                         nameServices+"\n";
             }
         }
