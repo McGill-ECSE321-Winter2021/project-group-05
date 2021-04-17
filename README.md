@@ -77,7 +77,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">23</td>
     <td align="center">30</td>
     <td align="center">7</td>
-    <td align="center">Sprint 4</td>
+    <td align="center">33</td>
   </tr>
   <tr>
     <td align="center">Himel Saha</td>
@@ -93,7 +93,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">18</td>
     <td align="center">22</td>
     <td align="center">30</td>
-    <td align="center">Sprint 4</td>
+    <td align="center">22</td>
   </tr>
   <tr>
     <td align="center">Saikou Ceesay</td>
@@ -101,7 +101,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">24</td>
     <td align="center">35</td>
     <td align="center">40</td>
-    <td align="center">Sprint 4</td>
+    <td align="center">40</td>
   </tr>
   <tr>
     <td align="center">Yichen Wu</td>
@@ -109,7 +109,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">25</td>
     <td align="center">35</td>
     <td align="center">20</td>
-    <td align="center">Sprint 4</td>
+    <td align="center">40/td>
   </tr>
 </table>
 
@@ -357,3 +357,79 @@ The project report for this deliverable can be found [here](https://github.com/M
   </tr>
 </table>
 
+### Deliverable 4
+The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-4-Report).
+<table>
+    <tr>
+    <td align="center"><strong>Name</strong></td>
+    <td align="center"><strong>Contibutions</strong></td>
+    <td align="center"><strong>Hours</strong></td>
+  </tr>
+   </tr>
+   <tr>
+    <td align="center">Florence Yared</td>
+   <td>
+        <ul>
+          <li>Code Quality Assurance</li>
+              <ul>
+                <li>Write comments </li>
+                <li>Fix names of variables/methods </li>
+                <li>Fix code formatting </li>
+                <li>Fix code anti-patterns</li>
+              </ul>
+        </ul>
+    </td>
+    <td align="center">30</td>
+  <tr>
+    <td align="center">Himel Saha</td>
+    <td>
+        <ul>
+          <li>Admin UI</li>
+            <ul>
+                <li>Create Service</li>
+                <li>Edit Service</li>
+                <li>Delete Service</li>
+                <li>App wide Dark mode</li>
+              </ul>
+        </ul>
+    </td>
+    <td align="center">30</td>
+  </tr>
+ <tr>
+    <td align="center">Rakshitha Ravi</td>
+    <td> 
+        <ul>
+          <li>Code documentation</li>
+        </ul></td>
+    <td align="center">22</td>
+  </tr>
+  <tr>
+    <td align="center">Saikou Ceesay</td>
+    <td>
+        <ul>
+          <li>Customer UI
+              <ul>
+                <li>Create Appointment</li>
+                <li>Edit Appointment</li>
+                <li>Delete Appointment</li>
+              </ul>
+        </ul>
+      </td>    
+ <td align="center">40</td>
+  </tr>
+  <tr>
+    <td align="center">Yichen Wu</td>
+    <td>
+        <ul>
+          <li>Documentation</li>
+          <li>SignUp/Login UI</li>
+          <li>User Profile UI</li>
+          <li>Technician UI 
+             <ul>
+               <li>Technician Upcoming Appointments</li>
+             </ul>
+        </ul>
+      </td> 
+    <td align="center">40</td>
+  </tr>
+</table>
