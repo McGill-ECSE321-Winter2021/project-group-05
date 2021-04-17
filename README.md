@@ -85,7 +85,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
     <td align="center">23.5</td>
     <td align="center">28</td>
     <td align="center">46</td>
-    <td align="center">Sprint 4</td>
+    <td align="center">30</td>
   </tr>
  <tr>
     <td align="center">Rakshitha Ravi</td>
@@ -117,7 +117,7 @@ run the folloiwng command in terminal `./gradlew bootrun`
 The project report for this deliverable can be found [here](https://github.com/McGill-ECSE321-Winter2021/project-group-05/wiki/Sprint-1-Project-Report). 
 <table>
     <tr>
-    <td align="center"<strong>>Name</strong></td>
+    <td align="center"<strong>Name</strong></td>
     <td><strong>Contibutions</strong></td>
     <td align="center"><strong>Individual Efforts (hours)</strong></td>
   </tr>
