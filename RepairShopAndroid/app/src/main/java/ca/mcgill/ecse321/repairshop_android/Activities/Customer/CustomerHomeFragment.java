@@ -89,12 +89,11 @@ public class CustomerHomeFragment extends Fragment {
                 Log.d("Tag", clickedDayCalendar.getTime().toString());
                 tvSelectedDate.setText(formatLongToDate(clickedDayCalendar.getTimeInMillis()));
                 String date = formatLongToDate(clickedDayCalendar.getTimeInMillis());
-                int id = getAppointmentId(date);
-                System.out.println(id);
-                if(id == 0){
+                Appointment appointment = getAppointmentId(date);
+                if(appointment == null) {
                     return;
                 }
-                showUpdateDialog(id);
+                showUpdateDialog(Integer.parseInt(appointment.getId()), appointment);
             }
         });
     }
@@ -108,12 +107,11 @@ public class CustomerHomeFragment extends Fragment {
             public void onDayLongClick(EventDay eventDay) {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
                 String date = formatLongToDate(clickedDayCalendar.getTimeInMillis());
-                int id = getAppointmentId(date);
-                System.out.println(id);
-                if(id == 0){
+                Appointment appointment = getAppointmentId(date);
+                if(appointment == null){
                     return;
                 }
-                showCancelDialog(id);
+                showCancelDialog(Integer.parseInt(appointment.getId()));
             }
         });
     }
@@ -132,9 +130,10 @@ public class CustomerHomeFragment extends Fragment {
      * shows the update dialog box
      * @param appointmentId
      */
-    private void showUpdateDialog(int appointmentId){
+    private void showUpdateDialog(int appointmentId, Appointment appointment){
+        ArrayList<String> services = (ArrayList<String>) appointment.getServices();
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        UpdateAppointmentDialogFragment dialogFragment = UpdateAppointmentDialogFragment.newInstance("Update Appointment");
+        UpdateAppointmentDialogFragment dialogFragment = UpdateAppointmentDialogFragment.newInstance("Update Appointment", services);
         dialogFragment.show(fm, "fragment_update");
     }
 
@@ -269,13 +268,18 @@ public class CustomerHomeFragment extends Fragment {
         return dateString;
     }
 
-    private int getAppointmentId(String date){
+    /**
+     * returns the id of the appointment
+     * @param date
+     * @return
+     */
+    private Appointment getAppointmentId(String date){
         for(Appointment appointment : allAppointments){
             String appointmentDate = convertDateToString(appointment.getDate());
             if(date.equals(appointmentDate)){
-                return Integer.parseInt(appointment.getId());
+                return appointment;
             }
         }
-        return 0;
+        return null;
     }
 }
