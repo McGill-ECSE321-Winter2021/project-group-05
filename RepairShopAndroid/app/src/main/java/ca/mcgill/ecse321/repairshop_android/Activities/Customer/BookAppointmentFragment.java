@@ -154,15 +154,15 @@ public class BookAppointmentFragment extends Fragment {
         requestParams.put("customerEmail", email);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requestParams.put("startTime", LocalTime.of(hour, minute));
+        }else{
+            requestParams.put("startTime", time);
         }
-        requestParams.put("date", java.sql.Date.valueOf(date));
+        requestParams.put("date", date);
         requestParams.put("serviceNames", selectedServices);
 
         System.out.println(email);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            System.out.println(LocalTime.of(hour, minute));
-        }
-        System.out.println(java.sql.Date.valueOf(date));
+        System.out.println(time);
+        System.out.println(date);
         System.out.println(selectedServices);
 
         HttpUtils.post("/appointment", requestParams, new JsonHttpResponseHandler(){
