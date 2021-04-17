@@ -229,7 +229,7 @@ public class AppointmentController {
             Date d = null;
 
             try {
-                d = sdf.parse("date");
+                d = sdf.parse(date);
             } catch (ParseException ex) {
             }
             int duration = 0;
